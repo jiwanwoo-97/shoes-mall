@@ -1,0 +1,44 @@
+<html lang="ko" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org/"
+      xmlns:sec="http://www.w3.org/1999/xhtml">
+
+    <header th:fragment="checkHeader">
+        <!-- 모바일 헤더-->
+        <!-- 모바일 헤더-->
+        <div class="m_header">
+            <div class="m_header_content">
+                <div class="m_left">
+                    <img src="/lib/img/h_img/logo/m_hd_left.png" alt="m_left">
+                </div>
+
+                <div class="m_hd_btn">
+                    <a onclick="pop_inspecion()"> 검수기준 </a>
+                </div>
+            </div>
+        </div>
+        <!-- 모바일 헤더 끝-->
+        <div class="m_hidden">
+            <div id="header_top">
+                <ul id="ht_box">
+                    <li class="ht_text"><a href="/notice">고객센터</a></li>
+                    <li class="ht_text"><a href="/my/wish">관심상품</a></li>
+                    <li class="ht_text"><a href="/my">마이페이지</a></li>
+                    <li class="ht_text" sec:authorize="hasRole('ADMIN')"><a href="/pages">관리자</a></li>
+                    <li class="ht_text" sec:authorize="!isAuthenticated()"><a href="/login">로그인</a></li>
+                    <li class="ht_text" sec:authorize="isAuthenticated()"><a href="/logout" onclick="sessionStorage.clear()">로그아웃</a></li>
+                </ul>
+            </div>
+            <div id="header_bottom">
+                <div id="hb_logo_box">
+                    <p id="hb_logo"></p>
+                </div>
+                <ul id="hb_box">
+                    <li class="hb_text"><a href="/social/tredning">STYLE</a></li>
+                    <li class="hb_text"><a href="/search">SHOP</a></li>
+                    <li class="hb_text"><a href="/about">ABOUT</a></li>
+                    <li class="hb_text" id="hb_no_text"><button class="hb_button_img"></button></li>
+                    <li class="hb_text" id="hb_mo_text"><button class="hb_button_img"></button></li>
+                </ul>
+            </div>
+        </div>
+    </header>
+</html>

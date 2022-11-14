@@ -1,0 +1,313 @@
+<html lang="ko" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org/">
+
+<!-- head.html -->
+<div th:replace="include/pjs_head :: head"></div>
+<!-- head.html 끝-->
+<link rel="stylesheet" th:href="@{/lib/css/mypage_profile.css}">
+<body>
+<div class="wrap">
+    <!-- header_title start -->
+    <div th:replace="include/pjs_header_title :: header_title"></div>
+    <!--header_title end-->
+    <!--container 시작-->
+    <div class="container my">
+        <div>
+            <!--snb_area start-->
+            <div th:replace="include/pjs_mypage_snb_mo :: mypage_snb_mo"></div>
+            <!--snb_area end-->
+        </div>
+        <div class="content_area">
+            <div class="my_profile">
+                <div class="content_title border">
+                    <div class="title">
+                        <h3>프로필 정보</h3>
+                        <!---->
+                    </div>
+                    <!---->
+                </div>
+                <!--                        <form method="post" enctype="multipart/form-data" onsubmit="return sendImage()">-->
+                <div class="user_profile">
+                    <div class="profile_thumb">
+                        <img src="" alt="사용자 이미지" class="profile_img">
+                    </div>
+                    <div class="profile_detail">
+                        <strong class="name" id="show_userid_title">name</strong>
+                        <div class="profile_btn_box">
+                            <button class="btn outlinegrey small" id="upImage"> 이미지 변경 </button>
+                            <button class="btn outlinegrey small" id="delImage"> 삭제 </button>
+                        </div>
+                    </div>
+                    <input type="file" hidden="hidden" id="imageFileInput" name="file" accept="image/png, image/jpeg" multiple>
+                </div>
+                <!--                        </form>-->
+                <div class="profile_info">
+                    <div class="profile_group">
+                        <h4 class="group_title">로그인 정보</h4>
+                        <!-- 기존 이메일 -->
+                        <div class="unit" id="unit_email">
+                            <h5 class="title">이메일 주소</h5>
+                            <p class="desc email" id="show_email"></p>
+                            <button type="button" class="btn btn_modify outlinegrey small" id="openEmailBtn"> 변경</button>
+                        </div>
+                        <!-- 이메일 변경 -->
+                        <div class="modify" id="modify_email">
+                            <div id="input_mo_box">
+                                <!--                                    <form method="post" onsubmit="return sendit()">-->
+                                <div class="input_box" id="email_input_box">
+                                    <h6 class="input_title">이메일 주소 변경</h6>
+                                    <div class="input_item">
+                                        <label for="email_input"></label>
+                                        <input type="text" id="email_input" autocomplete="off" class="input_txt" placeholder="">
+                                    </div>
+                                    <p class="input_error" id="email_input_error"></p>
+                                </div>
+                                <div class="modify_btn_box">
+                                    <button type="button" class="btn outlinegrey medium" slot="button" id="closeEmailBtn"> 취소 </button>
+                                    <button type="button" class="btn solid medium disabled" slot="button" id="sendEmailBtn" disabled> 저장 </button>
+                                </div>
+                                <!--                                    </form>-->
+                            </div>
+                        </div>
+                        <!-- 기존 비밀 번호  -->
+                        <div class="unit" id="unit_password">
+                            <h5 class="title">비밀번호</h5>
+                            <p class="desc password">●●●●●●●●●</p>
+                            <button type="button" class="btn btn_modify outlinegrey small" id="openPasswordBtn" > 변경 </button>
+                        </div>
+                        <!-- 비밀번호 변경 -->
+                        <div class="modify" style="display: none;" id="modify_password">
+                            <h5 class="title">비밀번호 변경</h5>
+                            <div class="input_box" id="password_input_box1">
+                                <h6 class="input_title" id="mo_input_title">이전 비밀번호</h6>
+                                <div class="input_item" style="position: relative;">
+                                    <input type="password" id="password_input1" name="beforePassword" placeholder="영문, 숫자, 특수문자 조합 8-16자" autocomplete="off" class="input_txt">
+                                    <button type="button" class="btn solid small disabled" disabled="" slot="button" id="confirmPasswordBtn" style="position:absolute; right: 0; bottom:1.5rem"> 확인 </button>
+                                </div>
+                                <p class="input_error" id="password_input_error1"></p>
+                            </div>
+                            <div class="input_box" id="password_input_box2">
+                                <h6 class="input_title">새 비밀번호</h6>
+                                <div class="input_item">
+                                    <input type="password" id="password_input2" name="afterPassword" placeholder="영문, 숫자, 특수문자 조합 8-16자" autocomplete="off" class="input_txt">
+                                </div>
+                                <p class="input_error" id="password_input_error2"></p>
+                            </div>
+                            <div class="modify_btn_box">
+                                <button type="button" class="btn outlinegrey medium" slot="button" id="closePasswordBtn"> 취소 </button>
+                                <button type="button" class="btn solid medium disabled" disabled slot="button" id="sendPasswordBtn"> 저장 </button>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- 개인정보 -->
+                    <div class="profile_group">
+                        <h4 class="group_title">개인 정보</h4>
+                        <!-- 기존 개인정보 -->
+                        <div class="unit" id="unit_name">
+                            <h5 class="title">이름</h5>
+                            <p class="desc" id="show_userid"></p>
+                            <button type="button" class="btn btn_modify outlinegrey small" id="openNamedBtn"> 변경 </button>
+                        </div>
+                        <!-- 변경할 이름 -->
+                        <div class="modify name" style="display: none;" id="modify_name">
+                            <h5 class="title">이름</h5>
+                            <div class="input_box" id="name_input_box">
+                                <h6 class="input_title">새로운 이름</h6>
+                                <div class="input_item">
+                                    <input type="text" placeholder="고객님의 이름" autocomplete="off" class="input_txt" id="name_input">
+                                </div>
+                                <p class="input_error" id="name_input_error"></p>
+                            </div>
+                            <div class="modify_btn_box">
+                                <button type="button" class="btn outlinegrey medium" slot="button" id="closeNameBtn"> 취소 </button>
+                                <button type="button" class="btn solid medium disabled" disabled slot="button" id="sendNameBtn">저장</button>
+                            </div>
+                        </div>
+                        <!-- 기존 휴대폰 번호 -->
+                        <div class="unit" id="unit_hp">
+                            <h5 class="title">휴대폰 번호</h5>
+                            <p class="desc" id="show_hp"></p>
+                            <button type="button" class="btn btn_modify outlinegrey small" id="openHpBtn"> 변경 </button>
+                        </div>
+                        <!-- 변경할 휴대폰 번호 -->
+                        <div class="modify" style="display: none;" id="modify_hp">
+                            <h5 class="title">휴대폰 번호</h5>
+                            <div class="input_box" id="hp_input_box">
+                                <h6 class="input_title">새 휴대폰 번호</h6>
+                                <div class="input_item">
+                                    <input type="text" placeholder="휴대폰 번호('-'제거 후 입력해주세요.)" autocomplete="off" class="input_txt" id="hp_input">
+                                </div>
+                                <p class="input_error" id="hp_input_error"></p>
+                            </div>
+                            <div class="modify_btn_box">
+                                <button type="button" class="btn outlinegrey medium" slot="button" id="closeHpBtn"> 취소 </button>
+                                <button type="button" class="btn solid medium disabled" disabled slot="button" id="sendHpBtn">저장</button>
+                            </div>
+                        </div>
+                        <!-- 기존 신발 사이즈 -->
+                        <div class="unit">
+                            <h5 class="title">사이즈</h5>
+                            <p class="desc" id="show_shoesize"></p>
+                            <button type="button" class="btn btn_modify outlinegrey small" id="size_layer_open"> 변경 </button>
+                        </div>
+                    </div>
+                </div>
+                <!-- 광고성 정보 수신 -->
+                <div class="profile_group">
+                    <h4 class="group_title">광고성 정보 수신</h4>
+                    <div class="unit to_receive">
+                        <p class="desc">문자 메시지</p>
+                        <div class="radio_txt_box">
+                            <div class="radio_item">
+                                <label for="sms_agree" class="radio_label">
+                                    <input type="radio" id="sms_agree" name="message_radio" value="1" class="ico-radio-inactive icon sprite-icons">
+                                    <span class="label_txt">수신 동의</span>
+                                </label>
+                            </div>
+                            <div class="radio_item">
+                                <label for="sms_disagree" class="radio_label">
+                                    <input type="radio" id="sms_disagree" name="message_radio" value="0" class="ico-radio-inactive icon sprite-icons">
+                                    <span class="label_txt">수신 거부</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="unit to_receive">
+                        <p class="desc">이메일</p>
+                        <div class="radio_txt_box">
+                            <div class="radio_item">
+                                <label for="email_agree" class="radio_label">
+                                    <input type="radio" id="email_agree" name="email_radio" value="1" class="ico-radio-inactive icon sprite-icons">
+                                    <span class="label_txt">수신 동의</span>
+                                </label>
+                            </div>
+                            <div class="radio_item">
+                                <label for="email_disagree" class="radio_label">
+                                    <input type="radio" id="email_disagree" name="email_radio" value="0" class="ico-radio-inactive icon sprite-icons">
+                                    <span class="label_txt">수신 거부</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <a href="/my/withdrawal" class="btn_withdrawal">회원 탈퇴</a>
+            </div>
+            </form>
+        </div>
+    </div>
+    <!--container 끝-->
+</div>
+<!-- wrap 끝 -->
+<!-- 사이즈 선택 layer -->
+<div th:replace="include/size_layer :: size_layer"></div>
+<!--사이즈 선택 layer end-->
+
+<!--footer-->
+<div th:replace="include/pjs_footer :: footer"></div>
+<!--footer end-->
+</body>
+<script>
+    const sessionId = sessionStorage.getItem('userid'); // 세션 가져오기
+
+    // 모바일 헤더 title 변경
+    const contentTitle = document.querySelector('.content_title').querySelector('h3');
+    const headerTitle = document.querySelector('.main_inner').querySelector('h4');
+    headerTitle.innerHTML=contentTitle.innerText;
+
+    // nav 태그에 on 클래스 추가
+    document.querySelector("#profile").className += ' menu_on';
+
+    // data 저장할 변수 선언
+    let email, userid, userpw, hp, hp_hipen, shoesize, agreement, privacyPolicy ,smsAllow , emailAllow, message, image, rank, point, type;
+    let newuserpw=null;
+
+    // axios get data
+    axios.get('/api/customer_detail/'+sessionId, {
+
+    }).then(function (response){
+        email = response.data.data.email;
+        userid = response.data.data.userid;
+        userpw = response.data.data.userpw;
+        hp = response.data.data.hp;
+        hp_hipen = hp.replace(/(^02.{0}|^01.{1}|[0-9]{3})([0-9]+)([0-9]{4})/,"$1-$2-$3");
+        shoesize = response.data.data.shoesize;
+        image = response.data.data.image;
+        agreement = response.data.data.agreement;
+        privacyPolicy = response.data.data.privacyPolicy;
+        smsAllow = response.data.data.smsAllow;
+        emailAllow = response.data.data.emailAllow;
+        message = response.data.data.message;
+        rank = response.data.data.rank;
+        point = response.data.data.point;
+        type = response.data.data.type;
+
+
+        // 데이터 DOM에 입력
+        if(image==null || image==''){
+            document.querySelector('.profile_img').setAttribute('src','/lib/img/blank_profile.4347742.png');
+        }else{
+            document.querySelector('.profile_img').setAttribute("src",image);
+        }
+        document.getElementById('show_email').innerHTML=email;
+        document.getElementById('email_input').setAttribute('placeholder',email);
+        document.getElementById('show_userid').innerHTML=userid;
+        document.getElementById('show_userid_title').innerHTML=userid;
+        document.getElementById('show_hp').innerHTML=hp_hipen;
+        document.getElementById('show_shoesize').innerHTML=shoesize;
+        if(smsAllow==1){
+            document.getElementById('sms_agree').checked = true;
+        }else{
+            document.getElementById('sms_disagree').checked = true;
+        }
+        if(emailAllow==1){
+            document.getElementById('email_agree').checked = true;
+        }else{
+            document.getElementById('email_disagree').checked = true;
+        }
+
+    }).then(function (err){
+
+    });
+
+    // axios 업데이트 함수
+    function update() {
+        console.log(userid);
+
+        axios.request({
+            url: '/api/customer_update',
+            method: 'PATCH',
+            headers: {'X-Requested-With': 'XMLHttpRequest'},
+            params: {
+                ID: sessionId,
+            },
+            data: {
+                firstName: 'string',
+                "data": {
+                    "id": sessionId,
+                    "email": email,
+                    "userid": userid,
+                    "userpw": userpw,
+                    "newuserpw": newuserpw,
+                    "hp": hp,
+                    "shoesize": shoesize,
+                    "agreement": agreement,
+                    "privacyPolicy": privacyPolicy,
+                    "smsAllow": smsAllow,
+                    "emailAllow": emailAllow,
+                    "message":message,
+                    "image": image,
+                    "rank":rank,
+                    "point":point,
+                    "type":type
+                }
+            },
+            responseType: 'json',
+            responseEncoding: 'utf8'
+        }).then(
+            location.reload()
+        )
+    }
+</script>
+<script type="text/javascript" th:src="@{/lib/js/pjs_header_nav.js}"></script>
+<script th:src="@{/lib/js/loginpage_mypage_all.js}" type="text/javascript"></script>
+<script th:src="@{/lib/js/mypage_profile.js}" type="text/javascript"></script>
+</html>

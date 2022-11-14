@@ -1,0 +1,260 @@
+
+/* 프로필 정보 */
+
+.user_profile {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    padding: 5rem 0 3.8rem;
+    border-bottom: .1rem solid #ebebeb;
+    background-color: #fff;
+}
+
+.profile_thumb {
+    -webkit-box-flex: 0;
+    -ms-flex: none;
+    flex: none;
+    overflow: hidden;
+    margin-right: 1.8rem;
+    width: 10rem;
+    height: 10rem;
+    border-radius: 100%;
+}
+.profile_img { width: 10rem; height: auto; }
+
+.profile_detail .name { font-size: 2.4rem; line-height: 3.2rem; letter-spacing: -.012rem; color: #000; }
+
+.profile_btn_box { margin-top: .8rem; }
+
+.profile_btn_box .btn+.btn { margin-left: .8rem; }
+
+.profile_info { padding-top: 3.8rem; max-width: 480px; }
+
+.profile_group:first-of-type { padding-top: 0; }
+
+.profile_group { padding-top: 5.8rem; max-width: 480px; }
+
+.group_title { font-size: 1.8rem; letter-spacing: -.027rem; }
+
+.profile_group .unit { padding: 2.5rem 6rem 1.8rem 0; position: relative; border-bottom: .1rem solid #ebebeb; }
+
+.unit > .title { font-size: 1.3rem; letter-spacing: -.007rem; color: rgba(34,34,34,.5); }
+
+.profile_group > .unit { display: block; }
+
+.unit.to_receive {
+    padding-right: 20rem;
+    padding-bottom: 2rem;
+}
+
+.desc { padding-top: .6rem; font-size: 1.6rem; letter-spacing: -.016rem; }
+
+.desc.email { color: rgba(34,34,34,.5); }
+
+#modify_email { display: none; }
+
+.desc.password { font-size: 5px; letter-spacing: 2px; }
+
+.btn.btn_modify {
+    position: absolute;
+    right: 0;
+    bottom: 1.5rem;
+    padding-top: .1rem;
+    padding-left: 1.1rem;
+    padding-right: 1.2rem;
+}
+
+.btn_box { margin-left: auto; padding-left: 30px; -ms-flex-negative: 0; flex-shrink: 0; }
+
+.btn_box .btn {
+    margin-right: -6px;
+    padding: 0 6px;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    font-size: 14px;
+}
+.basic .btn_bind {
+    margin-top: 12px;
+}
+.outlinegrey {
+    border: 1px solid #d3d3d3;
+    color: rgba(34,34,34,.8);
+}
+.small {
+    padding: 0 1.4rem;
+    height: 3.44rem;
+    line-height: 3.2rem;
+    border-radius: 10px;
+}
+.small, .xsmall {
+    font-size: 1.2rem;
+}
+.btn_bind .btn {
+    padding-left: 11px;
+    padding-right: 12px;
+}
+.btn_bind .btn+.btn {
+    margin-left: 8px;
+}
+.btn {
+    display: inline-block;
+    cursor: pointer;
+    vertical-align: middle;
+    text-align: center;
+}
+.title_box {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+}
+
+.section_title { margin-top: 40px; }
+
+.section_title.order_title .title { padding: 11px 0; font-size: 18px; line-height: 26px; font-weight: 400; }
+
+.section_title .title { padding: 6px 0; font-size: 16px; }
+
+.section_title.order_title .order_number { line-height: 28px; font-weight: 700; }
+
+.modify {
+    padding-top: 2.3rem;
+}
+.modify .title {
+    padding-bottom: 2.2rem;
+    color: #222;
+}
+.main_item .title {
+    float: left;
+    padding: 26px 0 26px 16px;
+    margin-right: 12px;
+    width: 160px;
+    font-size: 14px;
+    line-height: 28px;
+}
+.medium { padding: 0 18px; height: 42px; line-height: 40px; border-radius: 12px; font-size: 14px; }
+
+.radio_txt_box { position: absolute; bottom: 15px; right: 0; }
+
+.radio_txt_box .radio_item { position: relative; margin-top: 0; float: left; }
+
+.radio_txt_box .radio_item+.radio_item { margin-left: 19px; }
+
+.radio_item { position: absolute; top: 50%; right: 0; margin-top: -22px; }
+
+.radio_txt_box [class*=ico-] { float: right; -webkit-appearance: auto;
+    margin-top: 0.5rem; width: 3rem;
+}
+.radio_txt_box .radio_label {
+    overflow: hidden;
+    padding: 0;
+    font-size: 1.4rem;
+    color: rgba(34,34,34,.8);
+}
+.radio_label {
+    padding: 10px 0 10px 10px;
+    display: block;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+}
+.blind, .radio_input, .u_skip {
+    overflow: hidden!important;
+    position: absolute!important;
+    clip: rect(0,0,0,0)!important;
+    width: 1px!important;
+    height: 1px!important;
+    margin: -1px!important;
+}
+.radio_txt_box .label_txt {
+    float: right;
+    margin-top: 2px;
+    margin-right: 4px;
+}
+.btn_withdrawal {
+    margin-top: 55px;
+    padding: 5px 0;
+    display: inline-block;
+    font-size: 13px;
+    color: rgba(34,34,34,.5);
+}
+.btn_withdrawal, .btn_withdrawal:hover {
+    text-decoration: underline;
+}
+
+
+/* 이메일 주소 변경 */
+.input_title{
+    font-size: 1.3rem;
+    line-height: 1.8rem;
+    margin-bottom: 1rem;
+}
+/* 취소 버튼 박스 */
+.modify_btn_box{ text-align: center; }
+
+/* 취소버튼 */
+.modify_btn_box > button{
+    height: 4rem;
+    line-height: 4rem;
+    margin-right: 1rem;
+}
+/* 인증메일 발송 */
+.solid.disabled {
+    background-color: #ebebeb;
+    border:none;
+    color: white;
+    cursor: default;
+}
+.input_box+.modify_btn_box{
+    margin-bottom: 2rem;
+}
+.modify_btn_box + .unit{
+    margin-bottom: 3rem;
+}
+.input_item > input{
+    width: 100%;
+    height: 3rem;
+    border-bottom: 1px solid #ebebeb;
+    margin-bottom: 1rem;
+}
+.input_txt:focus{ border-bottom: #222 2px solid; }
+.input_error{
+    margin: -1rem 0 1rem 0;
+    color: #f15746;
+}
+.has_error .input_title { color: #f15746; }
+
+.has_error .input_txt { border-bottom-color: #ef6253; }
+
+.has_error .input_txt:focus { border-bottom-color: #ef6253;}
+.modify .unit{margin-bottom: 5rem;}
+.modify .title { font-size: 1.5rem}
+
+.phone{border: 1px solid slateblue;}
+
+#click_on{
+    font-weight: bold;
+    border: 1px solid black;
+}
+.layer_container_button{
+    margin: 0 auto;
+}
+.layer_button_center{
+    /* border: 1px solid red; */
+    width: 40rem;
+    height: 45rem;
+    display: flex;
+    flex-wrap: wrap;
+    margin: unset;
+    margin: 0 auto;
+}
+.on{
+    border: 1px solid black;
+    font-weight: bold;
+}

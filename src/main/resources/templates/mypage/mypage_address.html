@@ -1,0 +1,184 @@
+<html lang="ko" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org/">
+
+<!-- head.html -->
+<div th:replace="include/pjs_head :: head"></div>
+<!-- head.html 끝-->
+<link rel="stylesheet" th:href="@{/lib/css/mypage_address.css}">
+<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<body>
+<div class="wrap">
+    <!-- header_title start -->
+    <div th:replace="include/pjs_header_title :: header_title"></div>
+    <!--header_title end-->
+    <div class="container my">
+        <div>
+            <!--snb_area start-->
+            <div th:replace="include/pjs_mypage_snb_mo :: mypage_snb_mo"></div>
+            <!--snb_area end-->
+        </div>
+        <div class="content_area">
+            <div class="my_addressbook">
+                <div class="content_title border">
+                    <div class="title">
+                        <h3>주소록</h3>
+                        <!---->
+                    </div>
+                    <div class="btn_box">
+                        <a href="#" type="button" class="btn btn_add">
+                            <!---->
+                            <span class="btn_txt" id="UpdateOnClick" onclick="addDelivary()">+ 새 배송지 추가</span>
+                        </a>
+                    </div>
+                </div>
+                <div class="my_list">
+                    <div class="basic">
+                        <div class="my_item">
+                            <div class="info_bind">
+                                <!---->
+                                <div class="address_info">
+                                    <div class="name_box">
+                                        <span class="name" id="defaltName"></span>
+                                        <span class="mark">기본 배송지</span>
+                                    </div>
+                                    <p class="phone" id="defaltHp"></p>
+                                    <div class="address_box">
+                                        <span class="zipcode" id="defaltZipcode"></span>
+                                        <span class="address" id="defaltAddress"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="btn_bind">
+                                <span type="button" class="btn outlinegrey small" id="modifyDefalt" value=""> 수정 </span>
+                                <span type="button" class="btn outlinegrey small" id="deleteDefalt" value="" onclick=" DeleteOnClick()"> 삭제 </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="other">
+                        <!--기본주소 목록-->
+                    </div>
+                </div>
+                <!---->
+            </div>
+        </div>
+    </div>
+    <!---->
+    <!--footer-->
+    <div th:replace="include/pjs_footer :: footer"></div>
+    <!--footer end-->
+</div>
+<!---------------------------------------------------- js ---------------------------------------------------->
+
+<!-- 팝업창 -->
+<div class="layer_delivery layer lg" id="popupDiv" style="display: none">
+    <div class="layer_container">
+        <!-- 새 배송지 등록 -->
+        <div class="layer_header">
+            <h2 class="title" id="new_address_title">새 배송지 등록</h2>
+            <h2 class="title" id="edit_address_title">배송지 수정</h2>
+            <img src="/lib/img/nav_close_icon.png" alt="닫기" class="btn_layer_close" id="popCloseBtn" onclick="addDelivary()">
+        </div>
+        <div class="delivery_bind">
+            <!-- 이름 -->
+            <div class="input_box" id="name_input_box">
+                <h4 class="input_title">이름</h4>
+                <input type="text" placeholder="수령인 이름" autocomplete="off" class="input_txt" id="name_input" validateresult="false">
+                <p class="input_error" id="name_input_error"></p>
+            </div>
+            <!-- 휴대폰 번호 -->
+            <div class="input_box" id="hp_input_box">
+                <h4 class="input_title">휴대폰 번호</h4>
+                <input type="text" placeholder="- 없이 입력" autocomplete="off" class="input_txt" id="hp_input" validateresult="false">
+                <p class="input_error" id="hp_input_error"></p>
+            </div>
+            <!-- 우편 번호 -->
+            <div class="input_box">
+                <h4 class="input_title">우편번호</h4>
+                <div class="input_zipcode">
+                    <input type="text" placeholder="우편 번호를 검색하세요" autocomplete="off" class="input_txt" value="" id="zipcode_input" readonly>
+                    <input type="button" value="우편번호" class="btn btn_zipcode outline small outlinegrey" onclick="sample6_execDaumPostcode()">
+                </div>
+            </div>
+            <!-- 주소 -->
+            <div class="input_box">
+                <h4 class="input_title">주소</h4>
+                <input type="text" placeholder="우편 번호 검색 후, 자동입력됩니다." autocomplete="off" class="input_txt" id="address1_input" readonly>
+            </div>
+            <!-- 상세주소 -->
+            <div class="input_box" id="address2_input_box">
+                <h4 class="input_title">상세 주소</h4>
+                <input type="text" placeholder="건물, 아파트, 동/호수 입력" autocomplete="off" class="input_txt" id="address2_input"  validateresult="false">
+                <p class="input_error" id="address2_input_error"></p>
+            </div>
+            <!-- 기본 배송지로 설정 -->
+            <div class="input_button">
+                <input type="checkbox" id="input_button_check" name="delivery_flag">
+                <label for="input_button_check"><span id="button_check_text">기본 배송지로 설정</span></label>
+            </div>
+        </div>
+        <!-- 하단 취소하기 / 저장하기 버튼 -->
+        <div class="bottom_button">
+            <button class="btn solid outlinegrey btn_delete">취소</button>
+            <button class="btn btn_save solid disabled" disabled="disabled">저장하기</button>
+        </div>
+    </div>
+</div>
+<!-- js 마지막 -->
+</body>
+<script>
+    const sessionId = sessionStorage.getItem('userid'); // 세션 가져오기
+
+    // 모바일 헤더 title 변경
+    const contentTitle = document.querySelector('.content_title').querySelector('h3');
+    const headerTitle = document.querySelector('.main_inner').querySelector('h4');
+    headerTitle.innerHTML=contentTitle.innerText;
+
+    // nav 태그에 on 클래스 추가
+    document.querySelector("#address").className += ' menu_on';
+
+
+    // 주소 등록 함수
+    function regist() {
+        const name = document.querySelector('#name_input').value;
+        const hp = document.querySelector('#hp_input').value;
+        const zipcode = document.querySelector('#zipcode_input').value;
+        const detail1 = document.querySelector('#address1_input').value;
+        const detail2 = document.querySelector('#address2_input').value;
+        let input_button_check = document.querySelector('#input_button_check').checked;
+
+        let delivery_flag;
+        if(input_button_check){
+            delivery_flag = 'ON';
+            if($id>0){
+                updateDefaltOff($id);
+            }
+        }else{
+            delivery_flag = "OFF";
+        }
+    }
+
+
+    // 주소 update 함수
+    function update(id){
+        const name = document.querySelector('#name_input').value;
+        const hp = document.querySelector('#hp_input').value;
+        const zipcode = document.querySelector('#zipcode_input').value;
+        const detail1 = document.querySelector('#address1_input').value;
+        const detail2 = document.querySelector('#address2_input').value;
+        const input_button_check = document.querySelector('#input_button_check');
+        let delivery_flag;
+        if(input_button_check.checked == true){
+            delivery_flag = 'ON';
+            if($id>0){
+                updateDefaltOff($id);
+            }
+        }else{
+            delivery_flag = "OFF";
+        }
+
+    }
+
+
+</script><script type="text/javascript" th:src="@{/lib/js/pjs_header_nav.js}"></script>
+<script type="text/javascript" th:src="@{/lib/js/loginpage_mypage_all.js}"></script>
+<script type="text/javascript" th:src="@{/lib/js/mypage_address.js}"></script>
+</html>

@@ -1,0 +1,486 @@
+<html class="no-js" lang="ko"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org/">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KREAM | 한정판 거래의 FLEX</title>
+    <link rel="stylesheet" href="/lib/css/shop_finalOrder_buy.css">
+    <link rel="stylesheet" href="/lib/css/pop.css">
+    <link data-n-head="ssr" rel="icon" type="image/x-icon" href="https://kream.co.kr/favicon.ico">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="http://code.jquery.com/jquery-1.10.2.js"></script>
+</head>
+
+<body id="pop3">
+
+<input type="hidden" id="id" th:value="${id}">
+<input type="hidden" id="size" th:value="${size}">
+<input type="hidden" id="price" th:value="${price}">
+<input type="hidden" id="date" th:value="${date}">
+<input type="hidden" id="checkId" th:value="${checkId}">
+
+<!-- header-->
+<div th:replace="include/checkHeader :: header"></div>
+<div id="fixed"></div>
+
+<!-- header 끝-->
+<div th:replace="include/pop :: pop"></div>
+
+<!-- container buy PC버전 시작-->
+<div class="container_buy">
+    <div class="content">
+        <div class="column_area">
+            <div class="column">
+                <div class="colum_box">
+                    <div class="buy_product">
+                        <div class="product" style="background-color:rgb(246,238,237);">
+                            <!--                            <img src="" alt="컬럼1 사진" class="product_img">-->
+                        </div>
+                        <div class="buy_info">
+                            <div class="model_info">
+                                <strong class="model_number"></strong>
+                                <p class="model_title"></p>
+                                <p class="model_ko"></p>
+                                <p class="size_txt"></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- 우측 컬럼 -->
+            <div class="column">
+                <div class="colum_box">
+                    <div class="buy_immediate">
+                        <div class="column_top">
+                            <div class="price_descion_box">
+                                <div class="instant_group">
+                                    <div class="price_now">
+                                        <p>최종 주문정보</p>
+                                        <dl class="price_now_box">
+                                            <dt class="price_now_title"> 총 결제금액 </dt>
+                                            <dd class="price">
+                                                <span class="unit"></span>
+                                            </dd>
+                                        </dl>
+                                    </div>
+                                    <div class="price_bind">
+                                        <dl class="price_point">
+                                            <dt class="price_point_title">
+                                                <span>구매 희망가</span>
+                                            </dt>
+                                            <dd class="price_text">
+                                                <span class="unit"></span>
+                                            </dd>
+                                        </dl>
+                                        <dl class="price_addtion">
+                                            <dt class="price_title">
+                                                <span>검수비</span>
+                                            </dt>
+                                            <dd class="price_text">무료</dd>
+                                        </dl>
+                                        <dl class="price_addtion">
+                                            <dt class="price_title">
+                                                <span>배송비</span>
+                                            </dt>
+                                            <dd class="price_text">무료 이벤트</dd>
+                                        </dl>
+                                    </div>
+                                    <div class="price_total"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <section class="bid_section">
+                            <div class="section_title">
+                                <h3 class="title_txt">배송 주소</h3>
+                            </div>
+                            <div class="section_content">
+                                <div class="delivery_info">
+                                    <div class="address_info">
+                                        <input type="hidden" id="addressId" value="">
+                                        <div class="name_box">
+                                            <span class="name"></span>
+                                        </div>
+                                        <div class="address_box">
+                                            <span class="zipcode"></span>
+                                            <span class="address"></span>
+                                        </div>
+                                        <p class="phone"></p>
+                                    </div>
+                                    <a onclick="pop_address()" class="btn_edit"> 변경 </a>
+                                </div>
+                            </div>
+                            <div class="section_unit">
+                                <div class="section_title">
+                                    <div class="section_title">
+                                        <h3 class="title_txt">배송 방법</h3>
+                                    </div>
+                                </div>
+                                <div class="section_content">
+                                    <div class="delivery_service">
+                                        <div class="company_wrap">
+                                            <div class="company_ci"><p>택배</p></div>
+                                            <div class="info_text">
+                                                <p class="company">일반 택배</p>
+                                                <p class="sub_text">검수 합격 시 배송됩니다.</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+
+                        <section class="bid_section2">
+                            <div class="section_title">
+                                <h3 class="title_txt">결제 방법</h3>
+                            </div>
+                            <div class="sec_sub_title">
+                                <h3>간편 결제</h3>
+                                <h2>일시불</h2>
+                            </div>
+
+                            <div class="section_content">
+                                <div class="main_card_selected" style="display: none;">
+                                    <a href="#" class="regist_link"> 카드를 등록해주세요 > </a>
+                                </div>
+                                <input type="hidden" id="cardId" value="">
+                                <div class="card_list">
+                                    <div class="main_card clickable selected">
+                                        <div class="clickable_card">
+                                            <!-- 기존 카드 -->
+                                            <div  class="card_info">
+                                                <span  class="card_name" id="pre_card"></span>
+                                                <div class="card_num">
+                                                    <span class="num_bind">
+                                                        <span class="dot">
+                                                            <span class="dot"></span>
+                                                        </span>
+                                                        <span class="hyphen"></span>
+                                                        <span class="dot">
+                                                            <span class="dot">
+                                                            </span>
+                                                        </span>
+                                                        <span class="hyphen"></span>
+                                                        <span class="dot">
+                                                            <span class="dot"></span>
+                                                        </span>
+                                                        <span class="hyphen"></span>
+                                                        <span class="last_num" id="pre_num"></span>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <a class="icon sprite-icons ico-arr-up" >
+                                                <img src="/lib/img/h_img/logo/arrow_down (1).png" width="20px" height="20px" class="down_card" onclick="show_other_card()">
+                                                <img src="/lib/img/h_img/logo/arrow_up.png" width="20px" height="20px" style="display: none;" class="up_card" onclick="hide_other_card()">
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <!-- 카드 변경 -->
+                                    <div class="other_card" style="display: none;">
+                                        <ul class="other_card_list">
+                                            <li class="other_card_item card_on">
+                                                <div class="card_info">
+                                                    <span  class="card_name"></span>
+                                                    <div class="card_num">
+                                                        <span class="num_bind">
+                                                                <span class="dot">
+                                                                    <span class="dot"></span>
+                                                                </span>
+                                                                <span class="hyphen"></span>
+                                                                <span class="dot">
+                                                                    <span class="dot"></span>
+                                                                </span>
+                                                                <span class="hyphen"></span>
+                                                                <span class="dot">
+                                                                    <span class="dot"></span>
+                                                                </span>
+                                                                <span class="hyphen"></span>
+                                                                <span class="last_num"></span>
+                                                        </span>
+                                                        <span class="mark" id="sam_mark">기본 결제</span>
+                                                    </div>
+                                                    <span class="cardcheck">
+                                                         <img src="/lib/img/check_black.png" width="23px" height="23px" id="sam_check">
+                                                    </span>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+
+                                <div class="method_desc">
+                                    <p class="desc_txt">
+                                        구매 입찰은 일시불만 지원하며, 카드사 홈페이지나 맵에서 분할 납부로 변경가능합니다. 단, 카드사별 정책에 따라 분할 납부 변경 시 수수료가 발생할 수 있습니다.
+                                    </p>
+                                </div>
+                            </div>
+                        </section>
+                        <div>
+                            <ul class="check_list">
+                                <li class="check_item">
+                                    <div class="notice_group">
+                                        <p class="notice_maintext">판매자의 판매거부, 배송지연, 미입고 등의 사유가 발생할 경우, 거래가 취소될 수 있습니다.</p>
+                                    </div>
+
+                                    <div class="checkbox_item">
+                                        <!-- check box 체크하는 곳-->
+                                        <input type="checkbox" name="check" id="input0" class="check" style="display: none;" onclick="getCheck()">
+                                        <label for="input0" class="blind"></label>
+                                    </div>
+                                </li>
+                                <li class="check_item">
+                                    <div class="notice_group">
+                                        <p class="notice_maintext">
+                                            구매 입찰의 거래가 체결되면, 단순 변심이나 실수에 의한 취소가 불가능합니다.
+                                        </p>
+                                        <p class="notice_subtext">본 거래는 개인간 거래로 전자상거래법(제17조)에 따른 청약철회(환불,교환)규정이 적용되지 않습니다.</p>
+                                    </div>
+                                    <div class="checkbox_item">
+                                        <!-- check box 체크하는 곳-->
+                                        <input type="checkbox" name="check" id="input1" class="check" style="display: none;" onclick="getCheck()">
+                                        <label for="input1" class="blind"></label>
+                                    </div>
+                                </li>
+                                <li class="check_item">
+                                    <div class="concent">
+                                        <div class="notice_group">
+                                            <p class="notice_maintext" style="font-weight: bold">구매 조건을 모두 확인하였으며, 입찰 진행에 동의합니다.</p>
+                                        </div>
+                                        <div class="checkbox_item">
+                                            <input type="checkbox" name="check" id="input2" class="check" style="display: none;" onclick="getCheck()">
+                                            <label for="input2" class="blind"></label>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="check_item2">
+                                    <div class="notice_group">
+                                        <p class="notice_maintext" style="font-weight: bold">총 결제금액</p>
+                                        <p class="item_price"></p>
+                                    </div>
+                                </li>
+                            </ul>
+                            <div class="buy_check">
+                                <div class="btn_confirm">
+                                    <a onclick="buyFinal()" class="btn_full_solid" disabled> 결제하기</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- footer -->
+<div class="hidden_footer">
+    <div th:replace="include/checkFooter :: footer"></div>
+</div>
+</body>
+<script src="/lib/js/shop_buyfinal.js"></script>
+<script src="/lib/js/pop.js"></script>
+
+<script>
+    const sessionId = sessionStorage.getItem('userid'); // 세션 가져오기
+
+    // 마감 기한 날짜 계산
+    function expiredDate(date){
+        let today = new Date();
+        today.setDate(today.getDate() + Number(date));
+        let year = today.getFullYear();
+        console.log(year);
+        let month = today.getMonth() + 1;
+        let data = today.getDate();
+        let todayStr = `${year}/${month >= 10 ? month : '0' + month}/${data >= 10 ? data : '0' + data}`;
+        return todayStr;
+    }
+
+    $(function (){
+        const productId = $('#id').val();
+        const size = $('#size').val();
+        const price = $('#price').val();
+        const date = $('#date').val();
+        const checkId = $('#checkId').val();
+
+
+                function priceToString(price){
+                    return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+                }
+
+                // 마감 기한
+                if(date==0){
+                    $('.price_total').append("<dl class='price_box'>" +
+                        "<dt class='price_title'> 즉시 판매 </dt>" +
+                        "<dd class='price_empty_price'>"+expiredDate(0)+"</dd></dl>");
+                }else{
+                    $('.price_total').append("<dl class='price_box'>" +
+                        "<dt class='price_title'> 입찰 마감기한 </dt>" +
+                        "<dd class='price_empty_price'>"+date+"일 - "+expiredDate(date)+"까지</dd></dl>");
+                }
+
+                // DOM 에 상품 정보 입력
+                $('.model_number').text(model_num);
+                $('.model_title').text(title);
+                $('.model_ko').text(korName);
+                $('.product').append("<img src='/lib/product/" + origFileName+"' alt='"+korName+"' class='product_img' style='margin-top: 4rem;'> ");
+                $('.size_txt').text(size);
+                $('.unit').text(priceToString(price) + '원');
+                $('.item_price').text(priceToString(price) + '원');
+
+                // 배송지 설정
+                let p_address = $('<ul id="address_ul">');
+                for(let j in response.data.data.productAddressApiResponseList){
+                    let p_name = response.data.data.productAddressApiResponseList[j].name;
+                    let p_hp = response.data.data.productAddressApiResponseList[j].hp;
+                    let phone = p_hp.replace(/(^02.{0}|^01.{1}|[0-9]{3})([0-9]+)([0-9]{4})/,"$1-$2-$3");
+                    let p_zipcode = response.data.data.productAddressApiResponseList[j].zipcode;
+                    let p_add1 = response.data.data.productAddressApiResponseList[j].address1;
+                    let p_add2 = response.data.data.productAddressApiResponseList[j].address2;
+                    let flag = response.data.data.productAddressApiResponseList[j].addressFlag; // ㄱㅣ본 배송지
+                    let addressId = response.data.data.productAddressApiResponseList[j].addressId; // ㄱㅣ본 배송지
+
+                    // dom 요소
+                    let con = $('<li class="address_li" id="ali1">');
+
+                    if(flag == 'ON'){   // 기본 배송지일 경우
+                        document.querySelector('.name').innerHTML = p_name;
+                        document.querySelector('.address').innerHTML = '(' + p_zipcode  + ') ' + p_add1 + p_add2;
+                        document.querySelector('.phone').innerHTML = phone;
+                        document.querySelector('#addressId').value = addressId;
+
+                        con = $('<li class="address_li" id="ali1" value="'+addressId+'">').append(
+                            '<div class="pop_address_head"><div class="pp_head_txt"><div class="basic">' +
+                            '<div class="basic_name">' + p_name +'</div><div class="basic_address"">기본배송지</div></div>' +
+                            '<div class="basic_num">' + phone + '</div>' + '<div class="basic_add">' +'('+ p_zipcode + ')'+ p_add1 + p_add2 + '</div>' +
+                            '<div class="pop_policy_pp" style="float: right; margin-top: -7rem;" ><div class="pp_img_A"></div></div>' +'</div></div></li>'
+                        )
+                    }else{  // 기본배송지 아닐 경우
+                        con = $('<li class="address_li" id="ali1" value="'+addressId+'">').append(
+                            '<div class="pop_address_head"><div class="pp_head_txt"><div class="basic">' +
+                            '<div class="basic_name">' + p_name +'</div></div>' +
+                            '<div class="basic_num">' + phone + '</div>' + '<div class="basic_add">' +'('+ p_zipcode + ')'+ p_add1 + p_add2 + '</div>' +
+                            '<div class="pop_policy_pp" style="float: right; margin-top: -7rem;" ><div class="pp_img_A"  style="display: none;"></div></div>' +'</div></div></li>'
+                        )
+                    }
+                    p_address.append(con);
+                }
+                $('#address_ul').html(p_address);
+
+                // 배송지 리스트 클릭
+                const addressList = document.querySelectorAll('.address_li');
+                for(let i=0; i<addressList.length; i++){
+                    addressList[i].addEventListener('click', function(){
+                        const imgA = this.querySelector('.pp_img_A')
+                        imgA.style.display='block';
+
+                        for(let j=0; j<addressList.length; j++){
+                            if(addressList[i]!=addressList[j]){
+                                const imgB = addressList[j].querySelector('.pp_img_A');
+                                imgB.style.display='none';
+                            }
+                        }
+
+                        // 설정한 배송지 DOM에 전달
+                        let add_name = document.getElementsByClassName('basic_name')[i].innerText;
+                        let add_hp = document.getElementsByClassName('basic_num')[i].innerText;
+                        console.log(add_hp);
+                        let re_hp = add_hp.replace(/-[0-9]{4}-/g, "-****-");
+
+                        console.log(re_hp);
+                        let add_address = document.getElementsByClassName('basic_add')[i].innerText;
+                        let add_addressId = addressList[i].getAttribute('value');
+                        console.log(add_addressId);
+
+                        $('#addressId').val(add_addressId);
+                        $('.name').text(add_name);
+                        $('.phone').text(re_hp);
+                        $('.address').text(add_address);
+
+                        // 팝업 닫기
+                        pop_address_down();
+                    });
+                }
+
+                // 카드 설정
+                let car = $('<ul class="other_card_list" >');
+                for(let i in response.data.data.productCardInfoApiResponses) {
+                    console.log(response.data.data.productCardInfoApiResponses);
+                    let cardId = response.data.data.productCardInfoApiResponses[i].id;
+                    let card_company = response.data.data.productCardInfoApiResponses[i].cardCompany;
+                    let card_num = response.data.data.productCardInfoApiResponses[i].cardNumber;
+                    let result = card_num.slice(-4); // 숫자 뒤에서 4자리
+                    let flag = response.data.data.productCardInfoApiResponses[i].cardFlag;
+
+                    // 카드 리스트 html 입력
+                    let can = $('<li class="other_card_item card_on" value="'+cardId+'">')
+
+                    if(flag == 'ON'){
+                        document.getElementById('pre_card').innerHTML = card_company;
+                        document.getElementById('pre_num').innerHTML = result;
+                        document.getElementById('cardId').value = cardId;
+
+                        can.append(
+                            '<div class="card_info"><span class="card_name">' + card_company + '</span>' +
+                            '<div class="card_num"><span class="num_bind"><span class="dot"><span class="dot"></span></span>' +
+                            '<span class="hyphen"></span><span class="dot">' + '<span class="dot"></span></span>' +
+                            '<span class="hyphen"></span>'+ '<span class="dot"><span class="dot"></span></span>' +
+                            '<span class="hyphen"></span><div class="last_num">' + result + '</div></span>'+
+                            '<div class="mark" id="sam_mark">기본 결제</div></div>' +
+                            '<span class="cardcheck"><img src="/lib/img/check_white.png" width="23px" height="23px" alt="체크" id="sam_check"></span></div></li>'
+                        );
+                    }else{
+                        can.append(
+                            '<div class="card_info"><span class="card_name">' + card_company + '</span>' +
+                            '<div class="card_num"><span class="num_bind"><span class="dot"><span class="dot"></span></span>' +
+                            '<span class="hyphen"></span><span class="dot">' + '<span class="dot"></span></span>' +
+                            '<span class="hyphen"></span>'+ '<span class="dot"><span class="dot"></span></span>' +
+                            '<span class="hyphen"></span><div class="last_num">' + result + '</div></span>'+
+                            '</div>' +
+                            '<span class="cardcheck"><img src="/lib/img/check_white.png" width="23px" height="23px" alt="체크" id="sam_check"></span></div></li>'
+                        );
+                    }
+                    car.append(can);
+                }
+                car.append('</ul>');
+                $('.other_card_list').html(car);
+                $('#sam_check').attr('src', '/lib/img/check_black.png');
+
+
+                const cardList = document.querySelectorAll('.other_card_item');
+
+
+
+    // DB 등록
+    function buyFinal() {
+        const btn_confirm = document.querySelector('.btn_confirm');
+        const productId = $('#id').val();
+        const price = $('#price').val();
+        const size = $('#size').val();
+        let date = $('#date').val();
+        const cardId = $('#cardId').val();
+        const addressId = $('#addressId').val();
+        const checkId = $('#checkId').val();
+        let status1 = '';
+        let status2 = '';
+        let status3 = '';
+        if (date == 0) {
+            status1 = '진행중';
+            status2 = '입고대기';
+            status3 = '일반';
+        } else if (date != 0) {
+            status1 = '구매입찰';
+            status2 = '입찰중';
+            status3 = '구매';
+        }
+
+        console.log(productId+','+price+','+ size+','+date+','+cardId+','+addressId+','+ sessionId);
+        console.log(typeof(period));
+
+
+
+</script>
+
+</html>

@@ -1,0 +1,32 @@
+<html lang="ko" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org/"
+      xmlns:sec="http://www.w3.org/1999/xhtml">
+
+<header th:fragment="head">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/lib/css/hashtag.css">
+
+    <div id="header_top">
+        <ul id="ht_box">
+            <li class="ht_text"><a href="/notice">고객센터</a></li>
+            <li class="ht_text"><a href="/my/wish">관심상품</a></li>
+            <li class="ht_text"><a href="/my">마이페이지</a></li>
+            <li class="ht_text" sec:authorize="!isAuthenticated()"><a href="/login">로그인</a></li>
+            <li class="ht_text" sec:authorize="isAuthenticated()"><a href="/logout" onclick="sessionStorage.clear()">로그아웃</a></li>
+        </ul>
+    </div>
+    <div id="header_bottom">
+        <div id="hb_logo_box">
+            <a href="/"><p id="hb_logo"></p></a>
+        </div>
+        <ul id="hb_box">
+            <li class="hb_text"><a href="/social/trending">STYLE</a></li>
+            <li class="hb_text"><a href="/search">SHOP</a></li>
+            <li class="hb_text"><a href="/about">ABOUT</a></li>
+            <li class="hb_text" id="hb_no_text"><button class="hb_button_img"></button></li>
+            <li class="hb_text" id="hb_mo_text"><button class="hb_button_img"></button></li>
+        </ul>
+    </div>
+</header>
+</html>

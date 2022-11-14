@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KREAM | 한정판 거래의 FLEX</title>
+    <link rel="stylesheet" th:href="@{/lib/css/mypage_withdrawal.css}">
+    <link rel="stylesheet" th:href="@{/lib/css/pjs_header.css}">
+    <script src="http://code.jquery.com/jquery-1.10.2.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <link data-n-head="ssr" rel="icon" type="image/x-icon" href="https://kream.co.kr/favicon.ico">
+</head>
+
+<body>
+<div th:replace="include/pjs_header_title :: header_title"></div>
+<!----------------------------------------------------------->
+<div class="mobile">
+    <div id="mo_move">
+        <img src="/lib/imgmo_left.png" alt="이전버튼" id="mo_left">
+    </div>
+    <div id="header_mo">회원 탈퇴</div>
+    <p id="mo_content">회원탈퇴는 PC에서만 가능합니다.</p>
+</div>
+<!----------------------------------------------------------->
+<div class="page_content">
+    <div id="group2">
+        <h1 class="h1_header">MY PAGE</h1>
+        <ul class="snb_menu">
+            <div class="gg">
+                <li class="menu_item menu_on">쇼핑정보</li>
+                <li class="menu_item gg_font"><a href="/my/buying">구매 내역</a></li>
+                <li class="menu_item gg_font"><a href="/my/selling">판매 내역</a></li>
+                <li class="menu_item gg_font"><a href="/my/wish">관심 상품</a></li>
+                <br>
+            </div>
+        </ul>
+        <ul class="snb_menu">
+            <div class="gg">
+                <li class="menu_item menu_on gg_font">내 정보</li>
+                <li class="menu_item menu_on"><a href="/my/profile">프로필 정보</a></li>
+                <li class="menu_item gg_font"><a href="/my/address">주소록</a></li>
+                <li class="menu_item gg_font"><a href="/my/payment">결제 정보</a></li>
+                <li class="menu_item gg_font"><a href="/my/account">판매 정산 계좌</a></li>
+            </div>
+        </ul>
+    </div>
+    <div class="main2">
+        <h2 class="ddd">회원탈퇴</h2>
+        <p class="content1">회원탈퇴에 앞서 아래 내용을 반드시 확인해 주세요.</p>
+        <div class="board">
+            <div class="table1">
+                <input type="checkbox" id="input03" class="abd" name="check">
+                <div class="label_txt">KREAM을 탈퇴하면 회원 정보 및 서비스 이용 기록이 삭제됩니다.</div>
+                <ul class="terms_list">
+                    <li class="terms_item">내 프로필, 거래내역(구매/판매), 관심상품, 보유상품, STYLE 게시물(게시물/댓글), 미사용 보유 포인트 등 사용자의 모든
+                        정보가
+                        사라지며 재가입 하더라도 복구가 불가능합니다.</li>
+                    <li class="terms_item">탈퇴 14일 이내 재가입할 수 없으며, 탈퇴 후 동일 이메일로 재가입할 수 없습니다.</li>
+                </ul>
+            </div>
+            <div class="table2">
+                <input type="checkbox" id="input03"  class="abd" name="check">
+                <div class="label_txt">관련 법령 및 내부 기준에 따라 별도 보관하는 경우에는 일부 정보가 보관될 수 있습니다.</div>
+                <div class="terms_detail">
+                    <h6 class="terms_subtitle">1. 전자상거래 등 소비자 보호에 관한 법률</h6>
+                    <ul class="terms_list">
+                        <li class="terms_item">계약 또는 청약철회 등에 관한 기록 : 5년 보관</li>
+                        <li class="terms_item">대금결제 및 재화 등의 공급에 관한 기록 : 5년 보관</li>
+                        <li class="terms_item">소비자의 불만 또는 분쟁처리에 관한 기록 : 3년 보관</li>
+                    </ul>
+                </div>
+                <div class="terms_detail">
+                    <h6 class="terms_subtitle">2. 통신비밀보호법</h6>
+                    <ul class="terms_list">
+                        <li class="terms_item">접속 로그 기록: 3개월 보관</li>
+                    </ul>
+                </div>
+                <div class="terms_detail">
+                    <h6 class="terms_subtitle">3. 내부 기준에 따라 별도 보관</h6>
+                    <ul class="terms_list">
+                        <li class="terms_item">부정이용 방지를 위해 이름, 이메일(로그ID), 휴대전화번호, CI/DI: 3년 보관</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="table3">
+                <input type="checkbox" id="input03"  class="abd" name="check">
+                <div class="label_txt">KREAM탈퇴가 제한된 경우에는 아래 내용을 참고하시기 바랍니다.</div>
+                <div class="terms_detail">
+                    <ul class="terms_list">
+                        <li class="terms_item">진행 중인 거래(판매/구매)가 있을 경우 : 해당 거래 종료 후 탈퇴 가능</li>
+                        <li class="terms_item">진행 중인 입찰(판매/구매)가 있을 경우 : 해당 입찰 삭제 후 탈퇴 가능</li>
+                        <li class="terms_item">미납 수수료(착불 발송비/페널티)가 있을 경우: 해당 결제 완료 후 탈퇴 가능</li>
+                        <li class="terms_item">이용 정지 상태인 경우: 이용 정지 해제 후 탈퇴 가능</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="withdrawal_check">
+                <input type="checkbox" id="input11" class="abd" name= "checkall">
+                <div class="label_txt">회원탈퇴 안내를 모두 확인하였으며 탈퇴에 동의합니다.</div>
+            </div>
+            <div class="withdrawal_btn_box">
+                <a href="#" type="button" class="btn outlinegrey medium" id="ok_btn">탈퇴하기</a>
+                <a href="#" type="button" class="btn solid medium"id="cal_btn">취소하기</a>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 푸터 부분 -->
+<footer>
+    <div class="footer_flex_box2">
+        <div id="footer_left_box2">
+            <div class="footer_box_text2" id="fbtext2_left">
+                <div class="fbb2_Btext">이용안내</div>
+                <ul>
+                    <li><a href="/auth_polic">검수기준</a></li>
+                    <li><a href="/faq/policy">이용정책</a></li>
+                    <li><a href="#">패널티 정책</a></li>
+                    <li><a href="#">커뮤니티 가이드라인</a></li>
+                </ul>
+            </div>
+            <div class="footer_box_text2">
+                <div class="fbb2_Btext">고객지원</div>
+                <ul>
+                    <li><a href="/notice">공지사항</a></li>
+                    <li><a href="/about">서비스 소개</a></li>
+                    <li><a href="https://kream.co.kr/showroom">쇼룸 안내</a></li>
+                    <li><a href="https://kream.co.kr/privacy">판매자 방문접수</a></li>
+                </ul>
+            </div>
+        </div>
+        <div id="footer_right_box2">
+            <div class="fbb2_Btext">고객센터 1588-7813</div>
+            <ul>
+                <li>운영시간평일 11:00 - 18:00 (토 ∙ 일, 공휴일 휴무)</li>
+                <li>점심시간평일 13:00 - 14:00</li>
+            </ul>
+            <div id="footer_ask_text">1:1 문의하기는 앱에서만 가능합니다.</div>
+            <div id="footer_ask_box"><a href="/faq">자주 묻는 질문</a></div>
+        </div>
+    </div>
+    <div class="footer_flex_box3">
+        <div id="footer_box3">
+            <div id="footer_box3_1">
+                <ul id="footer_box3_1_text">
+                    <li><a href="#">회사소개</a></li>
+                    <li><a href="#">인재채용</a></li>
+                    <li><a href="#">제휴제안</a></li>
+                    <li><a href="#">이용약관</a></li>
+                    <li id="policy"><a href="https://kream.co.kr/privacy">개인정보처리방침</a></li>
+                </ul>
+                <ul id="sns_img">
+                    <li id="insta_img"><a href="https://www.instagram.com/kream.co.kr/"></a></li>
+                    <li id="facebook_img"><a href="https://www.facebook.com/kreamcokr"></a></li>
+                    <li id="chat_img"><a href="https://pf.kakao.com/_adpxlxb"></a></li>
+                </ul>
+            </div>
+            <div id="footer_box3_2">
+                <ul>
+                    <li>크림 주식회사 · 대표 김창욱</li>
+                    <li>사업자등록번호: 570-88-01618 <a href="#">사업자정보확인</a></li>
+                    <li>통신판매업: 제 2021-성남분당C-0093호</li>
+                </ul>
+                <ul>
+                    <li>사업장소재지: 경기도 성남시 분당구 분당내곡로 117, 8층</li>
+                    <li>개인정보관리책임자: 김미진</li>
+                    <li>호스팅 서비스: 네이버 클라우드 (주)</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="footer_flex_box4">
+        <p id="footer_left_box4">크림(주)는 통신판매 중개자로서 통신판매의 당사자가 아니므로 개별 판매자가 등록한 상품정보에 대해서 책임을 지지 않습니다. 단, 거래과정에서 검수하고
+            보증하는 내용에 대한 책임은 당사에 있습니다.</p>
+        <p id="footer_right_box4">© 2021 KREAM.Corp.</p>
+    </div>
+</footer>
+<!---------------------------------------------------- js ---------------------------------------------------->
+<!-- 팝업 배경 DIV -->
+<div id="popup_mask">
+    <!-- 팝업창 -->
+    <div id="popupDiv">
+        <div class="layer_container">
+            <img src="/lib/img/nav_close_icon.png" alt="닫기" id="popCloseBtn">
+            <div class="layer_header">
+                <h2 class="title">정말 탈퇴하시겠습니까?</h2>
+            </div>
+            <div class="layer_content">
+                <p>탈퇴하기 클릭 시 바로 탈퇴 처리됩니다.</p>
+                <p>탈퇴 후 14일 이내 재가입할 수 없으며,</p>
+                <p>재가입 시 동일 이메일을 사용할 수 없습니다.</p>
+            </div>
+            <div class="withdrawal_btn_box1">
+                <div class="checkbox_item">
+                    <input type="checkbox" name="blind" id="undefined">
+                    <span class="label_txt_withdrawal">KREAM 회원을 탈퇴하겠습니다.</span>
+                </div>
+                <button type="button" class="btn_withdrawal" id="no_btn">탈퇴 안할래요</button>
+                <form action="/logout">
+                    <a href="#" class="link_withdrawal">탈퇴하기</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+<script src="/lib/js/loginpage_mypage_all.js"></script>
+<script src="/lib/js/pjs_header_nav.js"></script>
+
+<script>
+    const sessionId = parseInt(sessionStorage.getItem('userid')); // 세션 가져오기
+
+    // 모바일 헤더 title 변경
+    const contentTitle = document.querySelector('.content_title').querySelector('h3');
+    const headerTitle = document.querySelector('.main_inner').querySelector('h4');
+    headerTitle.innerHTML=contentTitle.innerText;
+
+    // axios 탈퇴
+    function withdreawal(){
+        axios.delete('/api/customer_delete/'+sessionId, {
+
+        }).then(alert('탈퇴되었습니다. 안녕히 가십시오.'),
+            sessionStorage.clear(),
+            window.location.href='/logout'
+        )
+    }
+</script>
+<script type="text/javascript" th:src="@{/lib/js/pjs_header_nav.js}"></script>
+<script type="text/javascript" th:src="@{/lib/js/mypage_withdrawal.js}"></script>
+</html>

@@ -1,0 +1,884 @@
+@import url(//fonts.googleapis.com/earlyaccess/notosanskr.css);
+*{margin:0; padding: 0; list-style:none;}
+@media all and (min-width:768px)
+
+    /* and (max-width:1400px) */{
+    html{
+        font-family: 'Noto Sans KR', sans-serif;
+        font-size: 62.5%;
+
+    }
+    .m_header{
+        display: none;
+    }
+}
+
+
+
+/*================== pc버전 =======================
+*/
+header{
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    background: white;
+    position: fixed;
+    z-index: 9977;
+}
+header #header_top{
+    width: 100%;
+    border-bottom: 1px solid lightgray;
+    float:right;
+}
+header #header_top #ht_box{
+    float:right;
+    list-style: none;
+    margin: 0;
+    display: flex;
+    justify-content: space-between;
+    width: 26.3rem;
+    padding: 0.8rem 4rem;
+}
+header #header_top #ht_box .ht_text{
+    font-family: none;
+    margin-right: 0.1rem;
+}
+header #header_top #ht_box .ht_text a{
+    text-decoration: none;
+    color: black;
+
+    font-size: 1.15rem;
+}
+header #header_bottom{
+    border-bottom: 1px solid lightgray;
+    display: flex;
+    justify-content:space-between;
+    padding: 1.4rem 4rem 1.4rem 2.1rem;
+}
+header #header_bottom #hb_logo_box{
+    height: 100%;
+}
+header #header_bottom #hb_logo_box #hb_logo{
+    margin-left: 1.19rem;
+    width: 13.5rem;
+    height: 3.8rem;
+    background: url(./lib/img/kream_logo.png)no-repeat center/cover;
+    background-size: 12rem;
+}
+header #header_bottom #hb_box{
+    display: flex;
+    list-style: none;
+    width: 27.7rem;
+    margin: 0;
+    padding: 0;
+    align-items: center;
+    justify-content: space-between;
+}
+header #header_bottom #hb_box .hb_text{
+    margin-top: -0.26rem;
+}
+header #header_bottom #hb_box  #hb_mo_text{
+    display: none;
+}
+header #header_bottom #hb_box .hb_text a{
+    text-decoration: none;
+    color: black;
+    font-size: 1.46rem;
+}
+header #header_bottom #hb_box #hb_no_text .hb_button_img{
+    border: none;
+    margin: 0;
+    width: 2.8rem;
+    height: 2.8rem;
+    margin-top: 0.6rem;
+    background: url(./lib/img/search.png) no-repeat center/cover;
+}
+/* header css 끝*/
+
+a{
+    color: rgb(55, 125, 255);
+    font-size: 1.2rem;
+}
+
+.container_buy{
+    border:1px solid rgb(238, 238, 238);
+    background-color: rgb(240, 240, 240);
+    width: 100%;
+    height: 94rem;
+
+}
+
+.container_buy .content{
+    width: 70rem;
+    height: 73.8rem;
+    box-sizing:border-box;
+    margin:4rem auto 20rem auto;
+
+}
+.container_buy .content .buy_before .buy_before_check{
+    position: relative;
+    top:8rem;
+    border:1px solid rgb(201, 201, 201);
+    background-color: white;
+    box-sizing:border-box;
+
+
+}
+.container_buy .content .buy_before .buy_before_check .title_area{
+    display: flex;
+    justify-content: space-between;
+    width: 70rem;
+    height: 12.26rem;
+    box-sizing: border-box;
+    padding: 4rem;
+}
+
+.container_buy .content .buy_before .buy_before_check .title_area .check_title{
+    width: 44rem;
+    height: 4.26rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 3rem;
+}
+
+.container_buy .content .buy_before .buy_before_check .title_area >button{
+    width: 7.8rem;
+    height: 3.4rem;
+    font-size: 0.5rem;
+    background-color: rgb(255, 255, 255);
+    border:rgb(209, 209, 209) solid 0.1rem;
+    border-radius: 1rem;
+}
+
+.container_buy .content .buy_before .buy_info{
+    height: 9.4rem;
+    margin-left: 1.5rem;
+}
+
+.container_buy .content .buy_before .buy_product{
+    display: flex;
+    width: 70rem;
+    height: 12.4rem;
+    font-size: 1.5rem;
+    box-sizing: border-box;
+    padding:0 4rem;
+}
+
+.container_buy .content .buy_before .buy_product .product{
+    width: 10rem;
+    height: 10rem;
+    border-radius: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.container_buy .content .buy_before .model_info .size_select_wrap{
+    margin-top: 1.3rem;
+}
+
+.container_buy .content .buy_before .buy_product .btn_size{
+    width: 8.3rem;
+    height: 4rem;
+    display: flex;
+    align-items: center;
+    background-color: white;
+    border-radius: 1rem;
+    font-weight: bold;
+    font-size:1.5rem;
+    border:rgb(209, 209, 209) solid 0.1rem;
+    justify-content: space-between;
+    padding: 0 1rem;
+}
+
+.container_buy .content .check_list{
+    width: 62rem;
+    height: 46.6rem;
+    box-sizing: border-box;
+    margin: 0 4rem 1.2rem 4rem;
+    border-top: 0.2rem solid black;
+}
+
+.container_buy .content .check_list .check_item{
+    display: flex;
+    align-items: center;
+    box-sizing: border-box;
+    justify-content: space-between;
+    border-bottom: 0.1rem solid rgb(207, 207, 207);
+    padding: 1.6rem 0;
+}
+
+.container_buy .content .check_list .check_item .notice_group{
+    margin-right: 2rem;
+    width: 89%;
+}
+
+.container_buy .content .check_list .check_item .notice_group .notice_maintext{
+    font-size:1.5rem;
+}
+.container_buy .content .check_list .check_item .notice_group .notice_subtext{
+    color:rgb(177, 177, 177);
+    font-size:1.35rem;
+}
+
+.container_buy .content .check_list .check_item .notice_group .view_data{
+    margin-top: 1rem;
+}
+.container_buy .content .buy_before_check .btn_confirm{
+    width: 70rem;
+    height: 9.2rem;
+    box-sizing: border-box;
+    padding: 0 4rem 4rem 4rem;
+}
+
+.container_buy .content .buy_before_check .btn_confirm >a{
+    display: inline-flex;
+    width: 62rem;
+    height: 5.2rem;
+    color:white;
+    font-size:2rem;
+    text-decoration:none;
+    border-radius: 1rem;
+    background-color: rgb(241, 241, 241);
+    align-items: center;
+    justify-content: center;
+}
+
+/************푸터************/
+footer .footer_flex_box{
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 20.02rem;
+    /* display: flex; */
+    display: none;
+}
+footer .footer_flex_box a{
+    text-decoration: none;
+}
+
+/* footer .footer_flex_box #footer_left_box{
+    width: 50%;
+    height: 100%;
+    background: url(./lib/img/footer/footer_left.png) no-repeat center/cover ;
+    background-position: right;
+    background-color: rgb(86, 86, 86);
+    background-size: 35rem;
+}
+footer .footer_flex_box #footer_right_box{
+    width: 50%;
+    height: 100%;
+    background: url(./lib/img/footer/footer_right.png) no-repeat center/cover ;
+    background-position: right;
+    background-color: rgb(59, 58, 60);
+    background-size: 35rem;
+} */
+
+
+
+
+/*========== layer content ============= */
+
+.layer_container{
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    display: none;
+    top:0;
+    left:0;
+    background:white;
+    z-index: 9999;
+    background: rgba(0,0,0,0.4);
+}
+
+.layer_content{
+
+    background: white;
+    position: absolute;
+    border:1px solid black;
+    width: 44rem;
+    height: 52.8rem;
+    border-radius: 20px;
+    top:50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+}
+.layer_top{
+    width: 100%;
+    height: 5rem;
+
+    display: flex;
+    margin-top: 2rem;
+
+}
+.close .close_btn{
+    margin-left: 39rem;
+    width: 2.4rem;
+    height: 2.4rem;
+
+    /* margin-left: 10rem; */
+}
+
+
+/* .layer_container{
+    display: block;
+} */
+.layer_header{
+
+    position:absolute;
+
+    width: 24rem;
+    height: 5rem;
+    left: 10rem;
+    margin: 0 auto;
+
+
+}
+.ly_title{
+    font-size: 2rem;
+}
+.ly_sub_title{
+    font-weight: lighter;
+    font-size: 1.2rem;
+    color:rgb(179, 179, 179);
+}
+
+.layer_header{
+
+    text-align: center;
+}
+
+.suggest_list{
+
+    padding: 0 3.2rem;
+
+}
+.suggest_list .interest_list{
+    margin-top: 2rem;
+    width: 100%;
+    height: 40rem;
+
+}
+.suggest_list .sg_item{
+    width: 100%;
+    display: flex;
+
+}
+
+.checkbox_item img{
+    width:  3rem;
+    height: 3rem;
+}
+
+.sg_item .sg_info{
+    width: 100%;
+    margin-top: 1rem;
+    margin-left: 0.7rem;
+
+    line-height: 0.7rem;
+
+}
+.sg_info .model_title{
+    font-weight: bold;
+    font-size:1.2rem;
+}
+.sg_info .sub_info{
+    color:rgb(196, 196, 196);
+}
+
+.sg_img .img_data{
+    width: 7rem;
+    height: 7rem;
+}
+
+.interest_list{
+    margin-top: 1rem;
+    width: 100%;
+    height: 28.8rem;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+
+}
+
+.sg_info{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 11rem;
+    height: 4.3rem;
+    border: 1px solid rgb(201, 201, 201);
+    border-radius: 10px;
+    line-height: 1.4rem;
+}
+.sg_info .pro_size{
+    font-size: 1.3rem;
+    font-weight: bold;
+
+}
+.sg_info .pro_price{
+    color: red;
+}
+
+.interest_box_btn{
+    text-align: center;
+    width: 16rem;
+    height: 5.5rem;
+    border-radius: 10px;
+    border:1px rgb(223, 223, 223) solid;
+    line-height: 0.1rem;
+    margin-left: 1rem;
+    margin-top: 1rem;
+}
+.interest_box_btn .info_txt{
+    font-size: 1.5rem;
+}
+
+.interest_box_btn .sec_marking2{
+    margin-top: -0.4rem;
+    width: 16px;
+    height: 16px;
+}
+
+.layer_btn{
+    width: 100%;
+    text-align : center;
+    margin-top: 3rem;
+}
+.layer_btn .check_btn{
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2rem;
+    width: 12rem;
+    height: 4.2rem;
+    border:1px solid black;
+    border-radius: 13px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+footer .footer_flex_box .footer_box_text{
+    color: white;
+    width: 93%;
+    margin: 0 auto;
+    margin-top: 4rem;
+}
+#footer_left_box .fb_text_2{
+    -webkit-text-stroke-width: 0.035rem;
+    -webkit-text-stroke-color: rgb(86, 86, 86);
+}
+#footer_right_box .fb_text_2{
+    -webkit-text-stroke-width: 0.035rem;
+    -webkit-text-stroke-color: rgb(59, 58, 60);
+}
+footer .footer_flex_box .footer_box_text .fb_text_1{
+    font-size: 1.3rem;
+    font-weight: bold;
+}
+footer .footer_flex_box .footer_box_text .fb_text_2{
+    font-size: 1.6rem;
+    font-weight: bold;
+}
+footer .footer_flex_box .footer_box_text .fb_text_3{
+    text-align: center;
+    font-size: 1.24rem;
+    width: 8.3rem;
+    padding: 0.55rem 0;
+    border:  1px solid rgb(255, 255, 255);
+    border-radius: 7px;
+}
+
+footer .footer_flex_box2{
+    margin: 0 auto;
+    padding: 0;
+    width: 96%;
+    display: flex;
+    justify-content: space-between;
+    height: 25.65rem;
+    border-bottom: 1px solid lightgray;
+}
+footer .footer_flex_box2 #footer_left_box2{
+    display: flex;
+    margin-top: 5.1rem;
+}
+footer .footer_flex_box2 #footer_left_box2 #fbtext2_left{
+    margin-right: 11.2rem;
+}
+footer .footer_flex_box2 #footer_left_box2 ul{
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+footer .footer_flex_box2 .fbb2_Btext{
+    font-size: 1.6rem;
+    font-weight: bold;
+}
+footer .footer_flex_box2 #footer_left_box2 li{
+    margin: 1.4rem 0;
+}
+footer .footer_flex_box2 #footer_left_box2 a{
+    text-decoration: none;
+    color: gray;
+    font-size: 1.4rem;
+}
+footer .footer_flex_box2 #footer_right_box2{
+    margin-top: 5.1rem;
+}
+footer .footer_flex_box2 #footer_right_box2 ul{
+    list-style: none;
+    margin: 0.8rem 0;
+    padding: 0;
+}
+footer .footer_flex_box2 #footer_right_box2 li{
+    font-size: 1.27rem;
+    margin: 0.5rem 0;
+    color: gray;
+}
+footer .footer_flex_box2 #footer_right_box2 #footer_ask_text{
+    font-size: 1.27rem;
+}
+footer .footer_flex_box2 #footer_right_box2 #footer_ask_box{
+    background-color: black;
+    text-align: center;
+    width: 10.8rem;
+    padding: 0.95rem 0;
+    margin-top: 1.6rem;
+}
+footer .footer_flex_box2 #footer_right_box2 a{
+    text-decoration: none;
+    color: white;
+    font-size: 1.18rem;
+}
+
+footer .footer_flex_box3{
+    margin: 0 auto;
+    padding: 0;
+    width: 96%;
+    display: flex;
+    justify-content: space-between;
+}
+footer .footer_flex_box3 a{
+    text-decoration: none;
+}
+footer .footer_flex_box3 ul{
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+footer .footer_flex_box3 #footer_box3{
+    width: 99.85%;
+    margin: 0 auto;
+}
+footer .footer_flex_box3 #footer_box3 #footer_box3_1{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+footer .footer_flex_box3 #footer_box3_1_text{
+    margin-top: 2.9rem;
+    display: flex;
+}
+footer .footer_flex_box3 #footer_box3_1_text li{
+    font-size: 1.4rem;
+    margin-right: 1.96rem;
+}
+footer .footer_flex_box3 #footer_box3_1_text a{
+    color: black;
+}
+footer .footer_flex_box3 #footer_box3_1_text #policy{
+    font-weight: bold;
+}
+footer .footer_flex_box3 #sns_img{
+    margin-top: 2.9rem;
+    display: flex;
+    justify-content: space-between;
+    width: 11.5rem;
+}
+footer .footer_flex_box3 #sns_img li{
+    width: 2.35rem;
+    height: 2.35rem;
+}
+footer .footer_flex_box3 #sns_img #insta_img{
+    background: url(./lib/img/sns/insta_img.png)no-repeat center/cover;
+}
+footer .footer_flex_box3 #sns_img #facebook_img{
+    background: url(./lib/img/sns/facebook_img.png)no-repeat center/cover;
+}
+footer .footer_flex_box3 #sns_img #chat_img{
+    background: url(./lib/img/sns/chat_img.png)no-repeat center/cover;
+}
+footer .footer_flex_box3 #footer_box3_2{
+    margin-top: 1.7rem;
+    margin-bottom: 1.2rem;
+}
+footer .footer_flex_box3 #footer_box3_2 ul{
+    display: flex;
+}
+footer .footer_flex_box3 #footer_box3_2 ul li{
+    font-size: 1.27rem;
+    color:gray;
+    margin-right: 1.77rem;
+}
+footer .footer_flex_box3 #footer_box3_2 ul li a{
+    text-decoration: underline;
+    color: gray;
+}
+
+footer .footer_flex_box4{
+    margin: 0 auto;
+    margin-bottom: 2.9rem;
+    padding: 0;
+    width: 96%;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    height: 5rem;
+    color: gray;
+    font-size: 1.18rem;
+}
+footer .footer_flex_box4 #footer_left_box4{
+    width: 63rem;
+}
+footer #sns_and_button #footer_button{
+    display: none;
+}
+
+/*탑버튼*/
+footer .footer_flex_box #top_button_box{
+    position: fixed;
+    bottom: 2.4rem;
+    right: 2.4rem;
+    width: 4.5rem;
+    height: 4.5rem;
+    padding-top: 0.4rem;
+    border: 0;
+    border-radius: 35px;
+    -webkit-box-shadow: 0 0.2rem 0.8rem 0 rgb(0 0 0 / 10%);
+    box-shadow: 0 0.2rem 0.8rem 0 rgb(0 0 0 / 10%);
+    background-color: #fff;
+    z-index: 1000;
+}
+footer .footer_flex_box #top_button{
+    bottom: 2.4rem;
+    right: 2.4rem;
+    width: 4.5rem;
+    height: 4.5rem;
+    padding-top: 0.4rem;
+    border: 0;
+    border-radius: 35px;
+    background: url(./lib/img/top_img.png)no-repeat center/cover;
+    background-size: 1.3rem;
+}
+
+
+
+/* 모바일 버전 */
+@media all and (max-width:767px) {
+    html{
+        font-family: 'Noto Sans KR', sans-serif;
+        font-size: 50%;
+    }
+    body{
+        width: 100%;
+        margin: 0;
+        padding: 0;
+    }
+    footer{
+        display: none;
+    }
+    /* header{
+        display: none;
+    } */
+    /* 모바일 헤더 */
+    body #fixed {
+        width: 100%;
+        height: 5rem;
+    }
+    .m_hidden{
+        display: none;
+    }
+
+    .m_header{
+        display: block;
+    }
+
+    .m_header_content{
+        display: flex;
+        font-weight: bold;
+        width:100% ;
+        height: 6rem;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .m_left >img{
+        width: 2.4rem;
+        height: 2.4rem;
+        margin-left: 2rem;
+
+    }
+
+    .m_title{
+        position: relative;
+        top: -1rem;
+        left:1.7rem;
+        width: 30rem;
+        font-size: 2.7rem;
+        text-align: center;
+    }
+    .m_hd_btn{
+        display: flex;
+        justify-content: center;
+        margin-right: 2rem;
+    }
+    .m_hd_btn >button{
+        width: 9rem;
+        height: 4.2rem;
+        border-radius: 10px;
+        border: 1px solid rgb(201, 201, 201);
+        background-color: white;
+        font-size: 1.3rem;
+    }
+    /*=====헤더 끝===*/
+    body #fixed {
+        width: 100%;
+        height: 5rem;
+    }
+
+    body .container_buy {
+        width: 60rem;
+        height: 70rem;
+        border:none;
+    }
+    body .container_buy .content {
+        width: 60rem;
+
+        box-sizing: border-box;
+        margin: 0 auto 20rem auto;
+
+    }
+    /*
+    body .container_buy .content {
+        width: 100%;
+        height: 73.8rem;
+        box-sizing: border-box;
+        margin: 4rem auto 20rem;
+    }
+    */
+    body .buy_before{
+        width: 60rem;
+        border:none;
+    }
+    body .container_buy .content .buy_before{
+        border:none;
+    }
+    body .container_buy .content .buy_before .buy_before_check .title_area {
+        display: flex;
+        justify-content: space-between;
+        width: 60rem;
+        height: 12.26rem;
+        box-sizing: border-box;
+        padding: 4rem;
+    }
+
+
+    body .container_buy .content .buy_before_check .btn_confirm {
+        width: 60rem;
+        height: 9.2rem;
+        box-sizing: border-box;
+        padding-top: 2rem;
+
+
+    }
+    body .container_buy .content .buy_before_check .btn_confirm >a{
+        width: 52rem;
+
+    }
+
+    body .container_buy .content .buy_before .buy_before_check {
+        top: unset;
+        border:none;
+    }
+    body .container_buy .content .buy_before .buy_product {
+        display: flex;
+        width: 100%;
+        height: 12.4rem;
+        font-size: 1.5rem;
+        box-sizing: border-box;
+        padding: 0 4rem;
+
+    }
+
+    body .container_buy .content .buy_before .buy_product .product {
+        width: 11rem;
+        height: 11rem;
+
+    }
+
+    body .container_buy .content .list_box{
+        margin: 2rem auto;
+    }
+    body .container_buy .content .check_list .check_item {
+        width: 50rem;
+        display: flex;
+        align-items: center;
+        box-sizing: border-box;
+        justify-content: space-between;
+        border-bottom: 0.1rem solid rgb(207, 207, 207);
+        margin: 0 auto;
+
+    }
+
+
+    .btn_confirm{
+        margin-top: 5rem;
+    }
+
+    body .container_buy .content .check_list{
+        width: 60rem;
+        height: 46.6rem;
+        box-sizing: border-box;
+        margin: 0 0 1.2rem 0;
+        border-top: 8px solid rgb(235, 235, 235);
+    }
+
+    body .container_buy .content .list_box{
+        width: 60rem;
+        margin-top: 2rem;
+
+    }
+
+
+}

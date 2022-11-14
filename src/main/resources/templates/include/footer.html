@@ -1,0 +1,112 @@
+<html lang="ko" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org/">
+
+<!-- footer -->
+<footer th:fragment="footer">
+    <div class="footer_flex_box">
+        <div id="footer_left_box">
+            <a href="/about">
+                <div class="footer_box_text">
+                    <div class="fb_text_1">SERVICE GUIDE</div>
+                    <div class="fb_text_2">
+                        <P>KREAM은 처음이지?<br>서비스 소개를 확인해보세요.</p>
+                    </div>
+                    <div class="fb_text_3">서비스 안내</div>
+                </div>
+            </a>
+        </div>
+        <div id="footer_right_box" class="app_QR_click" onclick="pop()">
+            <a class="frb">
+                <div class="footer_box_text">
+                    <div class="fb_text_1">DOWNLOAD THE APP</div>
+                    <div class="fb_text_2">
+                        <P>KREAM 앱을 설치하여<br>한정판 스니커즈를 FLEX 하세요!</p>
+                    </div>
+                    <div class="fb_text_3">앱 설치하기</div>
+                </div>
+            </a>
+        </div>
+        <a href="#fixed">
+            <div id="top_button_box">
+                <button id="top_button"></button>
+            </div>
+        </a>
+    </div>
+
+    <div class="footer_flex_box2">
+        <div id="footer_left_box2">
+            <div class="footer_box_text2" id="fbtext2_left">
+                <div class="fbb2_Btext">이용안내</div>
+                <ul>
+                    <li><a onclick="pop_inspecion()">검수기준</a></li>
+                    <li><a onclick="pop_policy()">이용정책</a></li>
+                    <li><a onclick="pop_penalty()">패널티 정책</a></li>
+                    <li><a onclick="pop_commu()">커뮤니티 가이드라인</a></li>
+                </ul>
+            </div>
+            <div class="footer_box_text2">
+                <div class="fbb2_Btext">고객지원</div>
+                <ul>
+                    <li><a href="/notice">공지사항</a></li>
+                    <li><a href="/about">서비스 소개</a></li>
+                    <li><a href="https://www.kream.co.kr/showroom">쇼룸 안내</a></li>
+                    <li><a href="https://www.kream.co.kr/about/seller_reception">판매자 방문접수</a></li>
+                </ul>
+            </div>
+        </div>
+        <div id="footer_right_box2">
+            <div class="fbb2_Btext">고객센터 1588-7813</div>
+            <ul>
+                <li>운영시간평일 11:00 - 18:00 (토 ∙ 일, 공휴일 휴무)</li>
+                <li>점심시간평일 13:00 - 14:00</li>
+            </ul>
+            <div id="footer_ask_text">1:1 문의하기는 앱에서만 가능합니다.</div>
+            <div id="footer_ask_box"><a href="/faq">자주 묻는 질문</a></div>
+        </div>
+    </div>
+    <div class="footer_flex_box3">
+        <div id="footer_box3">
+            <div id="footer_box3_1">
+                <ul id="footer_box3_1_text">
+                    <li><a href="https://www.kreamcorp.com/">회사소개</a></li>
+                    <li><a href="https://recruit.kreamcorp.com/kream/recruitMain">인재채용</a></li>
+                    <li class="no_moblie">
+                        <a href="https://www.kreamcorp.com/view/contact.html">제휴제안</a>
+                    </li>
+                    <li>
+                        <a href="https://www.kream.co.kr/agreement">이용약관</a>
+                    </li>
+                    <li id="policy">
+                        <a href="https://www.kream.co.kr/privacy">개인정보처리방침</a>
+                    </li>
+                </ul>
+                <ul id="sns_and_button">
+                    <ul id="sns_img">
+                        <li id="insta_img">
+                            <a href="https://www.instagram.com/kream.co.kr/"></a>
+                        </li>
+                        <li id="facebook_img"><a href="https://www.facebook.com/kreamcokr"></a></li>
+                        <li id="chat_img"><a href="https://pf.kakao.com/_adpxlxb"></a></li>
+                    </ul>
+                    <li id="footer_button" onclick="business_info()">사업자정보 <div class="up_down_img"></div></li>
+                </ul>
+            </div>
+            <div id="footer_box3_2" class="business_info">
+                <ul>
+                    <li>크림 주식회사 · 대표 김창욱</li>
+                    <li>사업자등록번호: 570-88-01618 <a href="#">사업자정보확인</a></li>
+                    <li>통신판매업: 제 2021-성남분당C-0093호</li>
+                </ul>
+                <ul>
+                    <li>사업장소재지: 경기도 성남시 분당구 분당내곡로 117, 8층</li>
+                    <li>개인정보관리책임자: 김미진</li>
+                    <li>호스팅 서비스: 네이버 클라우드 (주)</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="footer_flex_box4">
+        <p id="footer_left_box4">크림(주)는 통신판매 중개자로서 통신판매의 당사자가 아니므로 개별 판매자가 등록한 상품정보에 대해서 책임을 지지 않습니다. 단, 거래과정에서 검수하고
+            보증하는 내용에 대한 책임은 당사에 있습니다.</p>
+        <p id="footer_right_box4">© 2021 KREAM.Corp.</p>
+    </div>
+</footer>

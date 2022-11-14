@@ -1,0 +1,642 @@
+<html class="no-js" lang="ko"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org/">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SHOP</title>
+    <link data-n-head="ssr" rel="icon" type="image/x-icon" href="https://kream.co.kr/favicon.ico">
+
+    <link rel="stylesheet" href="/lib/css/pop.css">
+    <link rel="stylesheet" href="/lib/css/shop_selling.css">
+
+
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+            integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+            crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+</head>
+
+<script>
+
+    function buynow() {
+        const buyafter = document.querySelector('#buyafter');
+        const buynow = document.querySelector('#buynow');
+        const bid_section = document.querySelector('#bid_section');
+        const btn_save = document.querySelector('#btn_confirm');
+        const btn_save2 = document.querySelector('#btn_confirm2');
+        buyafter.style.display = 'none';
+        buynow.style.display = 'block';
+        bid_section.style.display = 'none';
+        btn_save.style.display = 'none';
+        btn_save2.style.display = 'block';
+        btn_save2.className = 'btn full solid false';
+        btn_save2.disabled = false;
+    }
+    function buyafter() {
+        const buyafter = document.querySelector('#buyafter');
+        const buynow = document.querySelector('#buynow');
+        const bid_section = document.querySelector('#bid_section');
+        const btn_save = document.querySelector('#btn_confirm');
+        const btn_save2 = document.querySelector('#btn_confirm2');
+        buyafter.style.display = 'block';
+        buynow.style.display = 'none';
+        bid_section.style.display = 'block';
+        btn_save2.style.display = 'none';
+        btn_save.style.display = 'block';
+        btn_save.className = 'btn full solid false disabled';
+        btn_save.disabled = true;
+
+    }
+
+    $(function () {
+        const id = $('#id').val();
+        const size = $('#size').val();
+        axios.get('/api/pro_sell_info/'+id+"/"+size)
+            .then(function (response) {
+                console.log(response);
+                let pur_price = response.data.data.purchasePrice;
+                let sal_price = response.data.data.salesPrice;
+                let size_txt = response.data.data.size;
+                let model_number = response.data.data.modelNumber;
+                let model_title = response.data.data.name;
+                let model_ko = response.data.data.korName;
+                let origFileName = response.data.data.origFileName;
+                let purchaseId = response.data.data.purchaseId;
+                $('#purchaseId').val(purchaseId);
+                if(pur_price == null){
+                    $('#sal_price').text("-");
+                    $('#part1_buynow').append("<a class='item_link'>즉시 판매</a>");
+
+                }else{
+                    let pur_price_append = pur_price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+                    $('#sal_price').text(pur_price_append+"원");
+                    $('.price_empty_price').append(pur_price_append+"원");
+                    $('.sal_now_price').append(pur_price_append+"원");
+                    $('#part1_buynow').append("<a href='#' class='item_link' onclick='buynow()'>즉시 판매</a>");
+                }
+                if(sal_price == null){
+                    $('#max_amount').text("-");
+                }else{
+                    let sal_price_append = sal_price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+                    $('#max_amount').text(sal_price_append+"원");
+                }
+
+                $('#productImg').append("<img src='/lib/product/"+origFileName+"' alt='selling 이미지' class='product_img'>");
+                $('.model_number').append(model_number);
+                $('.model_title').append(model_title);
+                $('.model_ko').append(model_ko);
+                $('.size_txt').append(size_txt);
+
+                $('.reset_price').on('click', function (){
+                    $('.input_amount').val("");
+                    $('#total_price').text("-");
+                });
+
+            }).catch(function (err) {
+            console.log(err);
+        });
+    });
+    const customer_id = sessionStorage.getItem( "userid");
+    function btnConfirm(){
+        const split_date = $('.is_active').text();
+        const date = split_date.split('일');
+        const price_replace = $('.input_amount').val();
+        const price = price_replace.replaceAll(',','');
+        const btnConfirm = document.querySelector('#btn_confirm');
+        if(btnConfirm.disabled == false){
+            location.href='/kream/sellfinal/'+$('#id').val()+'/'+$('#size').val()+'/'+price+'/'+date[0]+'/'+0; return false;
+        }
+    }
+    function btnConfirm2(){
+        const btnConfirm2 = document.querySelector('#btn_confirm2');
+        const price_replace = $('.price_empty_price').text();
+        const price_split = price_replace.replaceAll(',','');
+        const price = price_split.split('원');
+        if(btnConfirm2.disabled == false){
+            location.href='/kream/sellfinal/'+$('#id').val()+'/'+$('#size').val()+'/'+price[0]+'/'+0+'/'+$('#purchaseId').val(); return false;
+        }
+    }
+
+</script>
+<body id="selling">
+<input type="hidden" id="id" th:value="${id}">
+<input type="hidden" id="size" th:value="${size}">
+<input type="hidden" id="purchaseId">
+<!-- head.html -->
+<div th:replace="include/header :: head"></div>
+<!-- head.html 끝-->
+
+<div id="fixed"></div>
+<div th:replace="include/pop :: pop"></div>
+<!-- header 끝-->
+
+
+<!-- 모바일 오른쪽 -->
+<div class="navigation_wrap close">
+    <div class="navigation">
+        <div class="navigation_inner">
+            <ul class="nav_list">
+                <li class="nav_item">
+                    <a href="/social/trending" class="nav_link">STYLE</a>
+                </li>
+                <li class="nav_item">
+                    <a href="/user/lhg_shop_search.html" class="nav_link">SHOP</a>
+                </li>
+                <li class="nav_item">
+                    <a href="/faq" class="nav_link">자주 묻는 질문 </a>
+                </li>
+                <li class="nav_item">
+                    <a href="/notice" class="nav_link">공지사항 </a>
+                </li>
+                <li class="nav_item" sec:authorize="!isAuthenticated()">
+                    <a href="/login" class="nav_link">로그인</a>
+                </li>
+                <li class="nav_item" sec:authorize="isAuthenticated()">
+                    <a href="/logout" class="nav_link" onclick="sessionStorage.clear()">로그아웃</a>
+                </li>
+                <!---->
+            </ul>
+            <!---->
+            <div class="nav_download">
+                <p class="download_txt">KREAM 앱 설치 후 사용해 보세요!</p>
+                <div class="btn_appdown">
+                    <a href="#" type="button" class="btn outline medium">
+                        앱 다운로드
+                    </a>
+                </div>
+            </div>
+        </div>
+        <button type="button" class="btn_nav_close">
+            <img src="/lib/img/pop_close.png" class="ico-close icon sprite-icons">
+        </button>
+    </div>
+</div>
+<!--검색창-->
+<div class="layer_search lg" style="display: none;">
+    <div class="search_container">
+        <div class="search_wrap">
+            <div class="search_area" value="">
+                <div class="search">
+                    <img src="/lib/img/search_gray_icon.png" class="ico-search-gray icon sprite-icons">
+                    <input type="text" placeholder="브랜드명, 모델명, 모델번호 등" title="검색창"
+                           class="input_search show_placeholder_on_focus">
+                    <button class="btn_search_delete" style="display: none;">
+                        <img src="/lib/img/text_area_delete_icon.png"
+                             class="ico-delete-circle icon sprite-icons">
+                    </button>
+                </div>
+            </div>
+            <button class="btn_close">취소</button>
+        </div>
+    </div>
+    <div class="recent_wrap">
+        <div class="recent_area">
+            <div class="recent_box">
+                <strong class="recent_title">최근 검색어</strong>
+                <button class="btn_delete">
+                    <img src="/lib/img/delete_circle_icon.png" class="ico-delete-circle icon sprite-icons">
+                </button>
+                <ul class="search_list">
+                    <li><a href="#" class="search_item"> DJ0950-112 </a></li>
+                    <li><a href="#" class="search_item"> 사카 </a></li>
+                    <li><a href="#" class="search_item"> 사카이 </a></li>
+                    <li><a href="#" class="search_item"> 덩크 </a></li>
+                    <li><a href="#" class="search_item"> 조던 </a></li>
+                </ul>
+            </div>
+            <ul class="brand_list lg">
+                <li class="brand_item" style="background-color: rgb(246, 238, 237);">
+                    <a class="brand_box">
+                        <img src="/lib/img/p_1c64737691684299b32884e7d890983c.png" alt="Jordan 1"
+                             class="brand_img">
+                        <p class="brand_name">Jordan 1</p>
+                    </a>
+                </li>
+                <li class="brand_item" style="background-color: rgb(235, 240, 245);">
+                    <a class="brand_box">
+                        <img src="/lib/img/a_462abc0cfd92429eae5f1e7677742261.png" alt="Dunk" class="brand_img">
+                        <p class="brand_name">Dunk</p>
+                    </a>
+                </li>
+                <li class="brand_item" style="background-color: rgb(235, 240, 245);">
+                    <a class="brand_box">
+                        <img src="/lib/img/p_1077af921fe1436ab78ec3f07b7dae79.png" alt="스캇" class="brand_img">
+                        <p class="brand_name">스캇</p>
+                    </a>
+                </li>
+                <li class="brand_item" style="background-color: rgb(244, 244, 244);">
+                    <a class="brand_box">
+                        <img src="/lib/img/a_5e37181489d44d1a80650eef3edb9296.png" alt="톰브라운" class="brand_img">
+                        <p class="brand_name">톰브라운</p>
+                    </a>
+                </li>
+                <li class="brand_item" style="background-color: rgb(244, 244, 244);">
+                    <a class="brand_box">
+                        <img src="/lib/img/p_4f213a0866354fa39e72f459f3374589.png" alt="지갑" class="brand_img">
+                        <p class="brand_name">지갑</p>
+                    </a>
+                </li>
+                <li class="brand_item" style="background-color: rgb(244, 244, 244);">
+                    <a class="brand_box">
+                        <img src="/lib/img/a_5fb25d6231d3414d9c8b5261d7d87897.png" alt="레고" class="brand_img">
+                        <p class="brand_name">레고</p>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="suggest_wrap" style="display: none;">
+        <div class="suggest_area">
+            <div class="suggest_title_area">
+                <p class="suggest_title">나이키</p>
+            </div>
+            <div class="suggest_list lg">
+                <div class="suggest_item">
+                    <a href="/products/39449" class="suggest_link">
+                        <div class="suggest_thumb">
+                            <img src="https://kream-phinf.pstatic.net/MjAyMTA4MTNfMTc4/MDAxNjI4ODE2OTU1NTEy.-ssaZSoxOvq9N6D9dNAstXpjp170UsMhxJA5syAkGC0g.JdDM7mkjhdXXkRpsTtCq7tZyA2u3r5Pm8zWFE8Oe75Mg.PNG/a_5d5dab542fae4ea9bfd2078c2d07a9f2.png"
+                                 alt="나이키 x 사카이 x 프라그먼트 LD와플 라이트 스모크 그레이" class="thumb_img">
+                        </div>
+                        <div class="suggest_info">
+                            <p class="model_title">Nike x Sacai x Fragment LDWaffle Light Smoke Grey</p>
+                            <p class="model_sub_info">나이키 x 사카이 x 프라그먼트 LD와플 라이트 스모크 그레이</p>
+                        </div>
+                    </a>
+                </div>
+                <div class="suggest_item">
+                    <a href="/products/39448" class="suggest_link">
+                        <div class="suggest_thumb"><img
+                                src="https://kream-phinf.pstatic.net/MjAyMTA4MTNfMjI5/MDAxNjI4ODE2OTQyMjg4.Pr5xVktBScvuEXRctGLADuB8TJZk_ExyPagNS0Fp1i4g.Y-zakijeWyh8d9hgiIZD29bc9fWfQs_axWQ2Xj_t638g.PNG/a_8a2b9c780c234fcdbce3a2bac42f9cf4.png"
+                                alt="나이키 x 사카이 x 프라그먼트 LD와플 블랙큰드 블루" class="thumb_img">
+                        </div>
+                        <div class="suggest_info">
+                            <p class="model_title">Nike x Sacai x Fragment LDWaffle Blackened Blue</p>
+                            <p class="model_sub_info">나이키 x 사카이 x 프라그먼트 LD와플 블랙큰드 블루</p>
+                        </div>
+                    </a>
+                </div>
+                <div class="suggest_item">
+                    <a href="/products/28029" class="suggest_link">
+                        <div class="suggest_thumb">
+                            <img src="https://kream-phinf.pstatic.net/MjAyMTA3MjhfMjIg/MDAxNjI3NDQxMDA1NjE5.HOgIYywGZaaBJDqUzx2OnX9HAxoOWPvuWHqUn_LZGcgg.VYIuOfA5_GgjBGRowv6dmQuAOPtUvmAxbGpOyUCOCtYg.PNG/p_9d8ed1a74d2540ab9842e63363607bf4.png"
+                                 alt="나이키 덩크 로우 레트로 블랙" class="thumb_img"></div>
+                        <div class="suggest_info">
+                            <p class="model_title">Nike Dunk Low Retro Black</p>
+                            <p class="model_sub_info">나이키 덩크 로우 레트로 블랙</p>
+                        </div>
+                    </a>
+                </div>
+                <div class="suggest_item">
+                    <a href="/products/38844" class="suggest_link">
+                        <div class="suggest_thumb">
+                            <img src="https://kream-phinf.pstatic.net/MjAyMTA4MDZfMjY0/MDAxNjI4MjM5NTA1MjU1.9FfkTXbxZFWKxDMdPayVFlD0GIyNT-mFVIQ7zZW3SPcg.c03UoCFjKXtP4XtNMgBdrmTOIQlqxrePk4JScV4GUHEg.PNG/p_8001cbaf0db042bda09fea320ee328b4.png"
+                                 alt="나이키 덩크 로우 SE 서울" class="thumb_img">
+                        </div>
+                        <div class="suggest_info">
+                            <p class="model_title">Nike Dunk Low SE Seoul</p>
+                            <p class="model_sub_info">나이키 덩크 로우 SE 서울</p>
+                        </div>
+                    </a>
+                </div>
+                <div class="suggest_item">
+                    <a href="/products/28030" class="suggest_link">
+                        <div class="suggest_thumb">
+                            <img src="https://kream-phinf.pstatic.net/MjAyMTA3MjhfMjcz/MDAxNjI3NDQxMDI4OTQz.FUajQFp09YVc_uLkwLnhQslwbgiRxTm-LTxQgi5IJNcg.erY1xk-3dvoOCW8r65BCusQYco2d6ln7BSBpD2Yld9Ug.PNG/p_0ec4e132925345f48fa832f2283cf454.png"
+                                 alt="(W) 나이키 덩크 로우 블랙" class="thumb_img">
+                        </div>
+                        <div class="suggest_info">
+                            <p class="model_title">(W) Nike Dunk Low Black</p>
+                            <p class="model_sub_info">(W) 나이키 덩크 로우 블랙</p>
+                        </div>
+                    </a>
+                </div>
+                <div class="suggest_item">
+                    <a href="/products/39121" class="suggest_link">
+                        <div class="suggest_thumb">
+                            <img src="https://kream-phinf.pstatic.net/MjAyMTA4MDlfMTQg/MDAxNjI4NDg5NTIwNDY2.Mn68jNQyl_usVByHwgVtvG3PP3QWZUrzx1Pl3hTGpvUg.i-iyK8TlNzo_c7wF-OKDjXPvDzRd4yqtjk6V1n96tSAg.PNG/a_afc5d9ecafec4e8c8d89d50a3236d2a5.png"
+                                 alt="나이키 x 언디핏 에어포스 1 로우 SP 5 온 잇" class="thumb_img">
+                        </div>
+                        <div class="suggest_info">
+                            <p class="model_title">Nike x Undefeated Air Force 1 Low SP 5 On It</p>
+                            <p class="model_sub_info">나이키 x 언디핏 에어포스 1 로우 SP 5 온 잇</p>
+                        </div>
+                    </a>
+                </div>
+                <div class="suggest_item">
+                    <a href="/products/39142" class="suggest_link">
+                        <div class="suggest_thumb">
+                            <img src="https://kream-phinf.pstatic.net/MjAyMTA4MTBfODIg/MDAxNjI4NTc3NzY4NjQ1.iuyr8BiuWbO-DBet19oNev2VNF_OkstoNOznd1TmdlIg.mtu9Iw_SlAoUiGE-rLb1xBTYQP3T255z15tsVBYwlIIg.PNG/a_cb40b0132d8343c0894a2b8999a35e85.png"
+                                 alt="나이키 x 오프화이트 덩크 로우 더 50 - 로트 18" class="thumb_img">
+                        </div>
+                        <div class="suggest_info">
+                            <p class="model_title">Nike x Off-White Dunk Low The 50 - Lot 18</p>
+                            <p class="model_sub_info">나이키 x 오프화이트 덩크 로우 더 50 - 로트 18</p>
+                        </div>
+                    </a>
+                </div>
+                <div class="suggest_item">
+                    <a href="/products/39170" class="suggest_link">
+                        <div class="suggest_thumb">
+                            <img src="https://kream-phinf.pstatic.net/MjAyMTA4MThfMTQy/MDAxNjI5MjY4NzY2ODk5.kjFtjtEy6TZ8FoPHj7P45V2Z-dw8OPgIs44mXjkU2v8g.S33cKzKXskwi8cZZChvtQrdGWVxRVvLAouyP6gZl324g.PNG/a_b79da82e8bb44d5bad1f51bc77862c06.png"
+                                 alt="나이키 x 오프화이트 덩크 로우 더 50 - 로트 46" class="thumb_img">
+                        </div>
+                        <div class="suggest_info">
+                            <p class="model_title">Nike x Off-White Dunk Low The 50 - Lot 46</p>
+                            <p class="model_sub_info">나이키 x 오프화이트 덩크 로우 더 50 - 로트 46</p>
+                        </div>
+                    </a>
+                </div>
+                <div class="suggest_item">
+                    <a href="/products/25620" class="suggest_link">
+                        <div class="suggest_thumb">
+                            <img src="https://kream-phinf.pstatic.net/MjAyMDExMThfMjU2/MDAxNjA1NjkxMzExMTYz.leAiiIeRzdnBC6STAjmeqVlM0lokrpyt7EbsaWUtnnIg.hPz7sqovLq6tPmB6zs8PnR1q8UYkTl8YJiWGKm79cj0g.PNG/p_477d8861bbbd43e8aad3ee5d76c3df76.png"
+                                 alt="나이키 x 피스마이너스원 에어포스 1 로우 파라노이즈 2.0" class="thumb_img">
+                        </div>
+                        <div class="suggest_info">
+                            <p class="model_title">Nike x Peaceminusone Air Force 1 Low Para-Noise 2.0</p>
+                            <p class="model_sub_info">나이키 x 피스마이너스원 에어포스 1 로우 파라노이즈 2.0</p>
+                        </div>
+                    </a>
+                </div>
+                <div class="suggest_item">
+                    <a href="/products/33799" class="suggest_link">
+                        <div class="suggest_thumb">
+                            <img src="https://kream-phinf.pstatic.net/MjAyMTA0MjNfMTM3/MDAxNjE5MTY4MjI4OTM4.sAToRDxrfFw9deS1_iWzKI7brDmtN1R9WqkimU81XSsg.Th25GokaQPcn0EdT5AvGYrafEbVkRr5P4BWCqXpImIQg.PNG/p_e6013157f46b40fbbbd81efa0cb3bc89.png"
+                                 alt="나이키 덩크 로우 레트로 유니버시티 블루" class="thumb_img">
+                        </div>
+                        <div class="suggest_info">
+                            <p class="model_title">Nike Dunk Low Retro University Blue</p>
+                            <p class="model_sub_info">나이키 덩크 로우 레트로 유니버시티 블루</p>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            <a href="#" class="more_link">
+                <span class="more_text">7155</span>
+                <img src="/lib/img/size_select_arrow_icon.png" class="ico-arr-right icon sprite-icons">
+            </a>
+            <div class="result_nodata" style="display: none;">
+                <p class="nodata_main">검색하신 결과가 없습니다.</p>
+                <p class="nodata_sub">상품 등록 요청은 앱 <span class="emphasis">1:1 문의하기</span> 로 요청해주세요.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<!-- 포인트팝업-->
+<div id="pointusepop" class="hide">
+    <div class="layer lg layer_alert" style="">
+        <div class="layer_container">
+            <div class="layer_header">
+                <h2 class="title">포인트 자동 사용</h2>
+            </div>
+            <div class="layer_content">
+                <div class="alert_box">
+                    <p class="alert_desc">포인트는 거래 체결 시점에 최대 포인트로
+                        <br>
+                        자동 사용 됩니다.
+                    </p>
+                </div>
+                <div class="layer_btn">
+                    <button type="button" onclick="closePopup()" class="btn outlinegrey medium"> 취소</button>
+
+                    <button type="button" class="btn solid medium usepoint" onclick="usepoint()"> 계속 진행</button>
+                </div>
+            </div>
+            <a href="#" class="btn_layer_close"></a>
+        </div>
+    </div>
+</div>
+
+<div id="pointinfopop" class="hide">
+    <div class="layer_point layer lg" style="">
+        <div class="layer_container">
+            <div class="layer_header">
+                <h2 class="title">이용안내</h2>
+            </div>
+            <div class="layer_content">
+                <div class="usable_wrap">
+                    <div class="usable_point">
+                        <h3 class="title">사용 가능한 포인트</h3>
+                        <p class="point_box">
+                            <span class="point">0</span>
+                            <span class="unit">P</span>
+                        </p>
+                        <div class="point_info">
+                            <p class="info_item">이번달 소멸 예정 포인트 0P</p>
+                            <p class="info_item"> 포인트 유효기간은 적립일로부터 최대 1년까지이며, 유형에 따라 달라질 수 있습니다. </p>
+                        </div>
+                    </div>
+                    <ul class="usable_list">
+                        <li class="usable_item"> 1,000P 이상부터 구매금액 제한 없이 사용하실 수 있습니다.</li>
+                        <li class="usable_item"> 입찰 삭제, 거래 취소 시 사용한 포인트는 환불됩니다.</li>
+                        <li class="usable_item"> 먼저 적립된 포인트부터 순서대로 사용되며, 사용하지 않으실 경우 유효기간이 지나면 자동 소멸됩니다.</li>
+                        <li class="usable_item"> 유효기간이 지난 후 환불받은 포인트는 다시 사용하실 수 없습니다.</li>
+                    </ul>
+                </div>
+                <div class="layer_btn">
+                    <a href="#" type="button" onclick="closeinfoPopup()" class="btn outline medium"> 확인 </a>
+                </div>
+            </div>
+            <a href="#" class="btn_layer_close">
+
+            </a>
+        </div>
+    </div>
+</div>
+<!-- container buy PC버전 시작-->
+<div class="container_buy">
+    <div class="content">
+        <div class="column_area" style="">
+            <div class="column ">
+                <div class="colum_box">
+                    <div class="buy_product">
+                        <div class="product" style="background-color:rgb(246,238,237);" id="productImg"></div>
+                        <div class="buy_info">
+                            <div class="model_info">
+                                <strong class="model_number"></strong>
+                                <p class="model_title"></p>
+                                <p class="model_ko"></p>
+                                <p class="size_txt"></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="column ">
+                <div class="colum_box">
+                    <div class="buy_immediate">
+                        <div class="column_top">
+                            <div class="price_descion_box">
+                                <ul class="price_list">
+                                    <li class="list_item">
+                                        <p class="title">즉시 구매가</p>
+                                        <span class="price" id="max_amount"></span>
+                                    </li>
+                                    <div style="font-size: 3rem;font-weight: lighter; color:rgb(218, 218, 218);">|
+                                    </div>
+                                    <li class="list_item">
+                                        <p class="title">즉시 판매가</p>
+                                        <span class="price" id="sal_price"></span>
+                                    </li>
+                                </ul>
+
+
+                                <div class="instant_group part1" id="buyafter">
+                                    <div class="tab_area">
+                                        <ul class="tab_list">
+                                            <li class="item_on1 reset_price">
+                                                <a href="#" class="item_link" onclick="buyafter()">판매 입찰</a>
+                                            </li>
+                                            <li class="item_on toplus" id="part1_buynow"></li>
+                                        </ul>
+                                    </div>
+
+                                    <span class="price_warning"
+                                          style="display: none;"><p>3만원 부터 천원단위로 입력하세요.</p></span>
+                                    <div class="price_now">
+                                        <dl class="price_now_box">
+                                            <dt class="price_now_title"> 판매 희망가</dt>
+                                            <dd class="price">
+                                                <input type="text" onkeypress="checkInputNum();" required
+                                                       placeholder="희망가 입력" class="input_amount"><span
+                                                    class="unit">원</span>
+                                            </dd>
+                                        </dl>
+                                    </div>
+
+
+                                    <div class="price_bind">
+
+                                        <dl class="price_addtion">
+                                            <dt class="price_title">
+                                                <span>검수비</span>
+                                            </dt>
+                                            <dd class="price_text">무료</dd>
+                                        </dl>
+                                        <dl class="price_addtion">
+                                            <dt class="price_title">
+                                                <span>판매 수수료</span>
+                                            </dt>
+                                            <dd class="price_text">무료 이벤트</dd>
+                                        </dl>
+                                        <dl class="price_addtion">
+                                            <dt class="price_title">
+                                                <span>배송비</span>
+                                            </dt>
+                                            <dd class="price_text">선불판매자부담</dd>
+                                        </dl>
+                                    </div>
+                                    <div class="price_total">
+                                        <dl class="price_box">
+                                            <dt class="price_title">총 결제 금액</dt>
+                                            <dd class="total_price"
+                                                id="total_price">-
+                                            </dd>
+                                        </dl>
+                                    </div>
+                                </div>
+
+                                <div class="instant_group part2" id="buynow">
+                                    <div class="tab_area part1">
+                                        <ul class="tab_list">
+                                            <li class="item_on reset_price">
+                                                <a href="#" class="item_link" onclick="buyafter()">판매 입찰</a>
+                                            </li>
+                                            <li class="item_on1 toplus">
+                                                <a href="#" class="item_link"
+                                                   onclick="buynow()">즉시 판매</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+
+                                    <div class="price_now">
+                                        <dl class="price_now_box">
+                                            <dt class="price_now_title"> 즉시 판매가</dt>
+                                            <dd class="price">
+                                                <span class="unit sal_now_price"></span>
+                                            </dd>
+                                        </dl>
+                                    </div>
+                                    <div class="price_bind">
+
+                                        <dl class="price_addtion">
+                                            <dt class="price_title">
+                                                <span>검수비</span>
+                                            </dt>
+                                            <dd class="price_text">무료</dd>
+                                        </dl>
+                                        <dl class="price_addtion">
+                                            <dt class="price_title">
+                                                <span>판매 수수료</span>
+                                            </dt>
+                                            <dd class="price_text">무료 이벤트</dd>
+                                        </dl>
+                                        <dl class="price_addtion">
+                                            <dt class="price_title">
+                                                <span>배송비</span>
+                                            </dt>
+                                            <dd class="price_text">선불판매자부담</dd>
+                                        </dl>
+                                    </div>
+                                    <div class="price_total">
+                                        <dl class="price_box">
+                                            <dt class="price_title">총 결제 금액(예상)</dt>
+                                            <dd class="price_empty_price"></dd>
+                                        </dl>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <section class="bid_section deadline1" id="bid_section" style="display: block;">
+                            <div class="section_title">
+                                <h3 class="title_txt">입찰 마감기한</h3>
+                            </div>
+                            <div class="section_content">
+                                <div class="bid_deadline">
+                                    <p class="deadline_txt"></p>
+                                    <div class="deadline_tab">
+                                        <a href="#" class="btn_outline deadline"></a>
+                                        <a href="#" class="btn_outline deadline"></a>
+                                        <a href="#" class="btn_outline deadline"></a>
+                                        <a href="#" class="btn_outline is_active deadline"></a>
+                                        <a href="#" class="btn_outline deadline"></a></div>
+                                </div>
+                            </div>
+                        </section>
+
+                        <div class="buy_check">
+                            <div class="btn_confirm">
+                                <button onclick="btnConfirm()" type="button" id="btn_confirm"
+                                        class="btn full solid false disabled" disabled> 판매 입찰 계속
+                                </button>
+                                <button onclick="btnConfirm2()" type="button" id="btn_confirm2"
+                                        class="btn full solid false disabled" disabled style="display: none"> 즉시 판매 계속
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- footer -->
+<div th:replace="include/checkFooter :: footer"></div>
+<!-- footer 끝 -->
+<script src="/lib/js/loginpage_mypage_all.js"></script>
+<script src="http://code.jquery.com/jquery-1.10.2.js"></script>
+<script src="/lib/js/shop_selling.js"></script>
+<script src="/lib/js/pop.js"></script>
+
+</body>
+
+</html>

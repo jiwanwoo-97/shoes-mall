@@ -1,0 +1,488 @@
+@import url(//fonts.googleapis.com/earlyaccess/notosanskr.css);
+
+li, ul { list-style: none; padding: 0;}
+
+a { color: inherit }
+
+h4 {
+    font-size: 2rem;
+    margin: 0;
+    margin-top: .7rem;
+}
+
+body{
+    margin: 0;
+}
+
+@media all and (min-width:768px) {
+    html{
+        font-family: 'Noto Sans KR', sans-serif;
+        font-size: 62.5%;
+    }
+}
+
+/*공통*/
+.page_content{
+    display: flex;
+    margin: 7rem auto 0 auto;
+    justify-content: center;
+    max-width: 1280px;
+}
+.aaa{
+    margin-left: 4rem;
+    margin-top : 3rem;
+    font-size: 3rem;
+    color: #000;
+}
+
+#group2{
+    width: 30rem;
+    position: relative;
+}
+
+.h1_header{
+    margin-left: 4rem;
+    padding-bottom: 1rem;
+    font-size: 3.2rem;
+    color: #000;
+}
+.gg{margin-top: -1rem; line-height: 2.4rem; margin-left: -1rem;}
+.gg_font > a{color: rgba(34,34,34,.5); font-weight: 300;}
+
+.menu_item{
+    list-style: none;
+    font-size: 1.6rem;
+    margin-top: 0.3rem;
+    margin-left: 5rem;
+    font-weight: bold;
+}
+.menu_on > a{
+    font-size: 1.5rem;
+    font-weight:500;
+    color: #000 !important;
+}
+.snb_menu > .menu_item{color: rgba(34,34,34,.5);}
+
+
+#bbb ,#ccc{
+    padding-left: 4rem;
+}
+#bbb >  li {
+    /* font-size: #222; */
+    list-style: none;
+    font-size: 1.5rem;
+    margin-top: 1rem;
+    /* margin-left: 12rem; */
+    margin-bottom: 0.7rem;
+}
+
+#ccc > li{
+    /* font-size: #222; */
+    list-style: none;
+    font-size: 1.5rem;
+    /* margin-top: 1rem; */
+    /* margin-left: 12rem; */
+    margin-bottom: 0.7rem;
+}
+.list1 , .list5{
+    font-weight: bold;
+}
+.list2, .list3 ,.list4 ,.list6 ,.list7, .list8 ,.list9{
+    color: rgb(180, 180, 180);
+    font-weight: lighter;
+}
+/*회원 탈퇴*/
+.ddd{
+    font-size: 2.5rem;
+    font-weight: 600;
+    padding-bottom: 1.7rem;
+
+}
+
+.main2{
+    margin-top: 2rem;
+    padding: 0 4rem 0 4rem;
+
+}
+.main2 > .content1{
+    font-size: 1.6rem;
+    font-weight: 700;
+    margin-top: 1rem;
+}
+
+.board{
+    margin-top: 2rem;
+    height: 82rem;
+    border: 1px solid rgb(192, 190, 190);
+
+}
+.abd{
+    margin-left: 2rem;
+    margin-top: 1rem;
+    width: 2rem;
+    height: 2rem;
+}
+.label_txt{
+    font-size: 1.7rem;
+    font-weight: 700;
+    margin-left: 6rem;
+    margin-top: -2.4rem;
+}
+.terms_item{
+    list-style-type: disc;
+}
+.terms_list{
+    padding: unset;
+    padding-left: 2rem;
+}
+.terms_list > .terms_item{
+    font-size: 1.5rem;
+    width: 90%;
+    margin-top: 2rem;
+    margin-left: 4rem;
+    margin-bottom: 2rem;
+}
+.terms_subtitle{
+    font-size: 1.6rem;
+    font-weight: 600;
+    margin: 3rem 0 2rem 4rem;
+}
+.withdrawal_check{
+    padding-top: 2rem;
+    padding-bottom: 4rem;
+}
+
+/*탈퇴하기 취소하기 버튼*/
+.withdrawal_btn_box{
+    text-align: center;
+}
+.withdrawal_btn_box .btn{
+    width: 12rem;
+}
+.withdrawal_btn_box .btn+.btn{
+    margin-left: 1rem;
+}
+.outlinegrey{
+    border: 1px solid #d3d3d3;
+    color: rgba(34,34,34,.8);
+}
+
+.medium{
+    padding: 0 1rem;
+    height: 3.9rem;
+    line-height: 4rem;
+    border-radius: 12px;
+    font-size: 1.5rem;
+}
+.btn{
+    display: inline-block;
+    cursor: pointer;
+    vertical-align: middle;
+    text-align: center;
+    background-color: #fff;
+}
+a, a:active, a:focus, a:hover{
+    text-decoration: none;
+}
+.solid{
+    background-color: #222;
+    color: #fff;
+}
+
+
+
+/* 푸터 */
+/************푸터************/
+footer{
+    position: relative;
+    margin-top: 30rem;
+}
+
+footer .footer_flex_box2{
+    border-top: 1px solid lightgray;
+    margin: 0 auto;
+    padding: 0;
+    width: 96%;
+    display: flex;
+    justify-content: space-between;
+    height: 25.65rem;
+    border-bottom: 1px solid lightgray;
+}
+footer .footer_flex_box2 #footer_left_box2{
+    display: flex;
+    margin-top: 5.1rem;
+}
+footer .footer_flex_box2 #footer_left_box2 #fbtext2_left{
+    margin-right: 11.2rem;
+}
+footer .footer_flex_box2 #footer_left_box2 ul{
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+footer .footer_flex_box2 .fbb2_Btext{
+    font-size: 1.6rem;
+    font-weight: bold;
+}
+footer .footer_flex_box2 #footer_left_box2 li{
+    margin: 1.4rem 0;
+}
+footer .footer_flex_box2 #footer_left_box2 a{
+    text-decoration: none;
+    color: gray;
+    font-size: 1.4rem;
+}
+footer .footer_flex_box2 #footer_right_box2{
+    margin-top: 5.1rem;
+}
+footer .footer_flex_box2 #footer_right_box2 ul{
+    list-style: none;
+    margin: 0.8rem 0;
+    padding: 0;
+}
+footer .footer_flex_box2 #footer_right_box2 li{
+    font-size: 1.27rem;
+    margin: 0.5rem 0;
+    color: gray;
+}
+footer .footer_flex_box2 #footer_right_box2 #footer_ask_text{
+    font-size: 1.27rem;
+}
+footer .footer_flex_box2 #footer_right_box2 #footer_ask_box{
+    background-color: black;
+    text-align: center;
+    width: 10.8rem;
+    padding: 0.95rem 0;
+    margin-top: 1.6rem;
+}
+footer .footer_flex_box2 #footer_right_box2 a{
+    text-decoration: none;
+    color: white;
+    font-size: 1.18rem;
+}
+
+footer .footer_flex_box3{
+    margin: 0 auto;
+    padding: 0;
+    width: 96%;
+    display: flex;
+    justify-content: space-between;
+}
+footer .footer_flex_box3 a{
+    text-decoration: none;
+}
+footer .footer_flex_box3 ul{
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+footer .footer_flex_box3 #footer_box3{
+    width: 99.85%;
+    margin: 0 auto;
+}
+footer .footer_flex_box3 #footer_box3 #footer_box3_1{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+footer .footer_flex_box3 #footer_box3_1_text{
+    margin-top: 2.9rem;
+    display: flex;
+}
+footer .footer_flex_box3 #footer_box3_1_text li{
+    font-size: 1.4rem;
+    margin-right: 1.96rem;
+}
+footer .footer_flex_box3 #footer_box3_1_text a{
+    color: black;
+}
+footer .footer_flex_box3 #footer_box3_1_text #policy{
+    font-weight: bold;
+}
+footer .footer_flex_box3 #sns_img{
+    margin-top: 2.9rem;
+    display: flex;
+    justify-content: space-between;
+    width: 11.5rem;
+}
+footer .footer_flex_box3 #sns_img li{
+    width: 2.35rem;
+    height: 2.35rem;
+}
+footer .footer_flex_box3 #footer_box3_2{
+    margin-top: 1.7rem;
+    margin-bottom: 1.2rem;
+}
+footer .footer_flex_box3 #footer_box3_2 ul{
+    display: flex;
+}
+
+footer .footer_flex_box3 #footer_box3_2 ul li{
+    font-size: 1.27rem;
+    color:gray;
+    margin-right: 1.77rem;
+}
+
+footer .footer_flex_box3 #footer_box3_2 ul li a{
+    text-decoration: underline;
+    color: gray;
+}
+
+footer .footer_flex_box4{
+    margin: 0 auto;
+    margin-bottom: 2.9rem;
+    padding: 0;
+    width: 96%;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    height: 5rem;
+    color: gray;
+    font-size: 1.18rem;
+}
+footer .footer_flex_box4 #footer_left_box4{
+    width: 63rem;
+}
+
+@media all and (max-width:767px) {
+    html{
+        font-family: 'Noto Sans KR', sans-serif;
+        font-size: 50%;
+    }
+
+    /* #mo_left{position: relative; float: left; top: -9rem; left: 3rem; width: 3rem; height: 3rem;}  */
+    #mo_left{
+        width: 3rem; height: 3rem;
+        position: relative;
+        top:-5rem;
+    }
+    header, .aaa, #bbb, #ccc, .main2, footer{display: none;}
+
+    .mobile > #header_mo{
+        border-bottom: 1px solid lightgray;
+        width: 100%;
+        height: 7rem;
+        position: fixed;
+        font-size: 2.6rem;
+        font-weight: 700;
+        text-align: center;
+        top: 1rem;
+
+    }
+    #mo_content{
+        font-size: 2rem;
+        color: rgba(34,34,34,.5);
+        line-height: 2rem;
+        text-align: center;
+        padding: 8rem 0;
+    }
+
+    .page_content{
+        display: none;
+    }
+    #popupDiv{
+        transform: translate(0%, 0%);}
+}
+
+
+
+/********************************js*****************************************/
+/* 팝업 배경 css */
+#popup_mask {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0px;
+    left: 0px;
+    display: none;
+    background-color: rgba(34,34,34,.5);
+    z-index: 9999;
+}
+
+/* 팝업창 css */
+#popupDiv{
+    top : 50%;
+    position: absolute;
+    background-color: #fff;
+    border-radius: 1.6rem;
+    /* border: 1px solid black; */
+    box-shadow: 0 0.4rem 1rem 0 rgb(0 0 0/ 10%);
+    width: 35rem;
+    display: none;
+    left:50%;
+    transform: translate(-50%, -50%);
+    /*팝업창 위치 조절 */
+
+}
+/* 팝업창 내용 */
+.layer_container{
+    align-items: center;
+    margin-bottom: 4rem;
+}
+/* 오른쪽 상단 x */
+#popCloseBtn{
+    position: absolute;
+    margin-top: -1rem;
+    width: 19px;
+    top: 20px;
+    right: 10px;
+}
+/* 정말 탈퇴하시겠습니까? */
+.layer_header{
+    width: 30rem;
+    margin: 3rem auto;
+}
+.layer_header .title{margin: 0 auto; font-size: 2rem;text-align: center;}
+
+.layer_content > p{
+    margin: 0;
+    line-height: 1.9rem;
+    font-size: 1.4rem;
+    color: rgba(34,34,34,.8);
+    text-align: center;
+}
+
+.withdrawal_btn_box1{
+    text-align: center;
+    padding-top: 2.4rem !important;
+}
+.checkbox_item{
+    position: relative; font-size:0;
+}
+input{
+    border: 0; resize: none; background-color: rgba(0,0,0,0);
+    width: 2rem; height: 2rem;
+}
+.label_txt_withdrawal{
+    font-size: 1.3rem;
+    color: rgba(34,34,34,.5);
+    line-height: 3rem;
+    vertical-align: top;
+}
+.withdrawal_btn_box .btn{width: 12rem;}
+/* 탈퇴안할래요 */
+.btn_withdrawal{
+    background-color: #222;
+    color: #fff;
+    padding: 0 1.8rem;
+    height: 4.2rem;
+    line-height: 4rem;
+    font-size: 1.4rem;
+    display: inline-block;
+    cursor: pointer;
+    vertical-align: center;
+    border-radius: 1.2rem;
+    outline: none;
+    margin-top: 1rem;
+}
+/* 탈퇴하기 */
+.link_withdrawal{
+    font-size: 1.3rem;
+    color: rgba(34,34,34,.5);
+    display: block;
+    margin-top: 0.8rem;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+/********************************js*****************************************/

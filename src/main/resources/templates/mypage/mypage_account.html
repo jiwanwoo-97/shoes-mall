@@ -1,0 +1,121 @@
+<html lang="ko" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org/">
+
+<!-- head.html -->
+<div th:replace="include/pjs_head :: head"></div>
+<!-- head.html 끝-->
+
+<body>
+<div id="__nuxt">
+    <!---->
+    <div id="__layout">
+        <div class="wrap win_os">
+            <!---->
+            <div class="wrap_inner">
+                <!-- header_title start -->
+                <div th:replace="include/pjs_header_title :: header_title"></div>
+                <!--header_title end-->
+                <!-- container -->
+                <div class="container my lg">
+                    <div>
+                        <!--snb_area start-->
+                        <div th:replace="include/pjs_mypage_snb_mo :: mypage_snb_mo"></div>
+                        <!--snb_area end-->
+                    </div>
+                    <div class="content_area">
+                        <div class="my_account">
+                            <div class="content_title">
+                                <div class="title">
+                                    <h3>정산 계좌 등록</h3>
+                                    <!---->
+                                </div>
+                                <!---->
+                            </div>
+                            <div class="content_registration">
+                                <div class="account_registration">
+                                    <div class="input_logistics_companies input_box">
+                                        <h3 class="input_title">은행명</h3>
+                                        <div class="input_item">
+                                            <div class="bank_option open">
+                                                <label class="selected_txt" id="selected_txt">
+                                                    <span>은행 선택</span>
+                                                    <img class="ico-arr-down-gray icon sprite-icons" src="/lib/img/select_icon.png" alt="셀렉트아이콘">
+                                                </label>
+                                                <select id="bank_select" name="bank">
+                                                    <option value="국민은행"> 국민은행 </option>
+                                                    <option value="신한은행"> 신한은행 </option>
+                                                    <option value="우리은행"> 우리은행 </option>
+                                                    <option value="하나은행"> 하나은행 </option>
+                                                    <option value="기업은행"> 기업은행 </option>
+                                                    <option value="농협은행"> 농협은행 </option>
+                                                    <option value="SC은행"> SC은행 </option>
+                                                    <option value="한국씨티은행"> 한국씨티은행 </option>
+                                                    <option value="우체국"> 우체국 </option>
+                                                    <option value="농협은행"> 농협은행 </option>
+                                                    <option value="산업은행"> 산업은행 </option>
+                                                    <option value="부산은행"> 부산은행 </option>
+                                                    <option value="카카오뱅크"> 카카오뱅크 </option>
+                                                    <option value="대구은행"> 대구은행 </option>
+                                                    <option value="케이뱅크"> 케이뱅크 </option>
+                                                    <option value="광주은행"> 광주은행 </option>
+                                                    <option value="제주은행"> 제주은행 </option>
+                                                    <option value="수협중앙회"> 수협중앙회 </option>
+                                                    <option value="전북은행"> 전북은행 </option>
+                                                    <option value="지역농축협"> 지역농축협 </option>
+                                                    <option value="경남은행"> 경남은행 </option>
+                                                    <option value="새마을금고연합회"> 새마을금고연합회 </option>
+                                                    <option value="신협"> 신협 </option>
+                                                </select>
+                                            </div>
+                                            <!---->
+                                        </div>
+                                    </div>
+                                    <div class="input_box" id="account_input_box">
+                                        <h3 class="input_title">계좌번호</h3>
+                                        <div class="input_item">
+                                            <input type="text" placeholder="'-' 없이 입력하세요" autocomplete="off" class="input_txt text_fill" id="account_input" name="account_number">
+                                        </div>
+                                        <p class="input_error" id="account_input_error"></p>
+                                    </div>
+                                    <div class="input_box" id="name_input_box">
+                                        <h3 class="input_title">예금주</h3>
+                                        <div class="input_item">
+                                            <input type="text" placeholder="예금주명을 정확히 입력하세요." autocomplete="off" class="input_txt text_fill" id="name_input" name="name">
+                                        </div>
+                                        <p class="input_error" id="name_input_error"></p>
+                                    </div>
+                                </div>
+                                <div class="registration_btn_box">
+                                    <a disabled="disabled" type="button" class="btn btn_save solid medium disabled"> 저장하기 </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <!---->
+                </div>
+                <!--footer-->
+                <div th:replace="include/pjs_footer :: footer"></div>
+                <!--footer end-->
+                <!----><!----><!----><!---->
+            </div>
+            <!---->
+        </div>
+    </div>
+</div>
+<script>
+    // 모바일 헤더 title 변경
+    const contentTitle = document.querySelector('.content_title').querySelector('h3');
+    const headerTitle = document.querySelector('.main_inner').querySelector('h4');
+    headerTitle.innerHTML=contentTitle.innerText;
+
+    // nav 태그에 on 클래스 추가
+    document.querySelector("#account").className += ' menu_on';
+
+    const sessionId = parseInt(sessionStorage.getItem('userid')); // 세션 가져오기
+</script>
+<script type="text/javascript" th:src="@{/lib/js/pjs_header_nav.js}"></script>
+<script th:src="@{/lib/js/loginpage_mypage_all.js}"></script>
+<script th:src="@{/lib/js/mypage_account.js}"></script>
+</body>
+</html>

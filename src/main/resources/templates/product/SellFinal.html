@@ -1,0 +1,567 @@
+<html class="no-js" lang="ko"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org/">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KREAM | 한정판 거래의 FLEX</title>
+    <link rel="stylesheet" href="/lib/css/shop_sellfinal_address.css">
+    <link rel="stylesheet" href="/lib/css/ljs_shop_finalOrder_sell.css">
+    <link rel="stylesheet" href="/lib/css/pop.css">
+    <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+    <link data-n-head="ssr" rel="icon" type="image/x-icon" href="https://kream.co.kr/favicon.ico">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+            integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+            crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+</head>
+<script>
+    let address_count = 0;
+    let bank_count = 0;
+    $(function () {
+        const sessionId = sessionStorage.getItem('userid');
+        const productId = $('#productId').val();
+        const size = $('#size').val();
+        const price = $('#price').val();
+        const date = $('#date').val();
+        const checkId = $('#checkId').val();
+        axios.get('/api/pro_sellfinal/'+productId+"/"+sessionId+"/"+size+"/"+price+"/"+date+"/"+checkId)
+            .then(function (response) {
+                console.log(response);
+                let size_txt = response.data.data.size;
+                let model_number = response.data.data.modelNumber;
+                let model_title = response.data.data.name;
+                let model_ko = response.data.data.korName;
+                let accountName = response.data.data.accountName;
+                let accountId = response.data.data.accountId;
+                let bank = response.data.data.bank;
+                let accountNumber = response.data.data.accountNumber;
+                let originFileName = response.data.data.originFileName;
+                let addressList = response.data.data.productAddressApiResponseList[0];
+                let productAddress = response.data.data.productAddressApiResponseList;
+
+                if(addressList!=undefined){
+                    address_count = 1;
+                    $('.address_info').after("<a onclick='pop_sell_address()' class='btn_edit'> 변경 </a>");
+                    for(let i in productAddress){
+                        if(productAddress[i].addressFlag == "ON"){
+                            let addressId = productAddress[i].addressId;
+                            let name = productAddress[i].name;
+                            let zipcode = productAddress[i].zipcode;
+                            let address1 = productAddress[i].address1;
+                            let address2 = productAddress[i].address2;
+                            let addressZip = "<span class='zipcode'>("+zipcode+") </span><span class='address'>"+address1+" "+address2+"</span>"
+                            let hp = productAddress[i].hp;
+                            let hp_replace = hp.replace(/(^02.{0}|^01.{1}|[0-9]{3})([0-9]+)([0-9]{4})/,"$1-$2-$3");
+                            $('.address_info').append("<div class='name_box'><span class='name'>"+name+"</span>" +
+                                "</div><div class='address_box'>"+addressZip+"</div><p class='phone'>"+hp_replace+"</p>");
+                            $('#address_ul_sell').append("<input type='hidden' class='accountId_OFF' value='"+addressId+"'><li class='address_li_sell'><div class='pop_address_head'><div class='pp_head_txt'>" +
+                                "<div class='basic'><div class='address_name'>"+name+"</div>" +
+                                "<div class='basic_address' style='display: block'>기본배송지</div></div>" +
+                                "<div class='address_hp'>"+hp_replace+"</div><div class='address_address'>("+zipcode+") "+address1+" "+address2+"</div></div>" +
+                                "<div class='pop_policy_pp'><div class='pp_img_sell'  style='display: block'></div>" +
+                                "</div></div></li>")
+                            $('#addressId').val(addressId);
+                        }
+                    }
+                    for(let i in productAddress){
+                        if(productAddress[i].addressFlag == "OFF"){
+                            let addressId = productAddress[i].addressId;
+                            let name = productAddress[i].name;
+                            let zipcode = productAddress[i].zipcode;
+                            let address1 = productAddress[i].address1;
+                            let address2 = productAddress[i].address2;
+                            let hp = productAddress[i].hp;
+                            let hp_replace = hp.replace(/(^02.{0}|^01.{1}|[0-9]{3})([0-9]+)([0-9]{4})/,"$1-$2-$3");
+                            $('#address_ul_sell').append("<input type='hidden' class='accountId_OFF' value='"+addressId+"'><li class='address_li_sell'><div class='pop_address_head'><div class='pp_head_txt'>" +
+                                "<div class='basic'><div class='address_name'>"+name+"</div></div>" +
+                                "<div class='address_hp'>"+hp_replace+"</div><div class='address_address'>("+zipcode+") "+address1+" "+address2+"</div></div>" +
+                                "<div class='pop_policy_pp'><div class='pp_img_sell'  style='display: none'></div>" +
+                                "</div></div></li>")
+                        }
+                    }
+                }else if(addressList==undefined){
+                    address_count = 0;
+                    $('.address_info').after("<a onclick='addDelivary()' class='btn_edit'> 등록 </a>");
+                    $('.address_info').append("<div class='no_address'>등록된 주소가 없습니다. 주소 등록을 진행해주세요!</div>");
+                }
+
+                let price_append = price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+                $('.price_append').append(price_append);
+
+                $('#productImg').append("<img src='/lib/product/"+originFileName+"' alt='sellfinal 이미지' class='product_img'>");
+                $('.model_number').append(model_number);
+                $('.model_title').append(model_title);
+                $('.model_ko').append(model_ko);
+                $('.size_txt').append(size_txt);
+
+                if(bank==null){
+                    bank_count = 0;
+                    $('.section_address').append("<div class='account_info'><div class='no_account'>등록된 계좌가 없습니다. 계좌 등록을 진행해주세요!</div></div>" +
+                        "<a onclick='addAccount()' class='btn_edit'> 등록 </a>");
+                }else if(bank!=null){
+                    bank_count = 1;
+                    $('#accountId').val(accountId);
+                    $('.section_address').append(
+                        "<div class='account_info'><div class='account_box'><span class='accountName' style='font-size:1.4rem'>"+accountName+"</span><br><span class='bank'>("+bank+
+                        ") </span><span class='accountNumber'> "+accountNumber+"</span></div></div>"
+                    );
+                }
+
+                let today = new Date();
+                let data = $('#date').val();
+                today.setDate(today.getDate() + parseInt(data));
+                let year = today.getFullYear();
+                let month = today.getMonth() + 1;
+                let date2 = today.getDate();
+                let todayStr = `${year}/${month >= 10 ? month : '0' + month}/${date2 >= 10 ? date2 : '0' + date2}`;
+
+                if(date==0){
+                    $('.price_total').append("<dl class='price_box'>" +
+                        "<dt class='price_title'> 즉시 판매 </dt>" +
+                        "<dd class='price_empty_price'>"+todayStr+"</dd></dl>");
+                }else{
+                    $('.price_total').append("<dl class='price_box'>" +
+                        "<dt class='price_title'> 입찰 마감기한 </dt>" +
+                        "<dd class='price_empty_price'>"+date+"일 - "+todayStr+"까지</dd></dl>");
+                }
+
+                const addressList_sell = document.querySelectorAll('.address_li_sell');
+                const address_name = document.querySelectorAll('.address_name');
+                const address_hp = document.querySelectorAll('.address_hp');
+                const address_address = document.querySelectorAll('.address_address');
+                const accountId_OFF = document.querySelectorAll('.accountId_OFF');
+
+                for(let i=0; i<addressList_sell.length; i++){
+                    addressList_sell[i].addEventListener('click', function(){
+                        const imgA = this.querySelector('.pp_img_sell')
+                        imgA.style.display='block';
+                        $('.name').text('');
+                        $('.address_box').text('');
+                        $('.phone').text('');
+                        $('.name').append(address_name[i].textContent);
+                        $('.address_box').append("<span>"+address_address[i].textContent+"</span>");
+                        $('.phone').append(address_hp[i].textContent);
+                        $('#addressId').val(accountId_OFF[i].value);
+                        console.log(accountId_OFF[i].value)
+                        for(let j=0; j<addressList_sell.length; j++){
+                            if(addressList_sell[i]!=addressList_sell[j]){
+                                const imgB = addressList_sell[j].querySelector('.pp_img_sell');
+                                imgB.style.display='none';
+                            }
+                        }
+
+                        pop_sell_address_down();
+                    });
+                }
+            }).catch(function (err) {
+            console.log(err);
+        });
+    });
+
+    function getCheckSell(){
+        const query = 'input[name=check]:checked';
+        const selectedElements = document.querySelectorAll(query);
+        const cnt = selectedElements.length;
+        if(cnt == 4&&bank_count!=0&&address_count!=0){
+            $(".btn_confirm").css("background-color", "black");
+            $(".btn_confirm").prop("disabled", false);
+        }else{
+            $(".btn_confirm").css("background-color", "rgb(214,214,214)");
+            $(".btn_confirm").prop("disabled", true);
+        }
+    }
+
+    function sellFinal(){
+        const btn_confirm = document.querySelector('.btn_confirm');
+        const productId = $('#productId').val();
+        const price = $('#price').val();
+        const size = $('#size').val();
+        let date = $('#date').val();
+        const accountId = $('#accountId').val();
+        const addressId = $('#addressId').val();
+        const checkId = $('#checkId').val();
+        let status1 = '';
+        let status2 = '';
+        let status3 = '';
+        if(date == 0){
+            status1 ='진행중';
+            status2 = '발송요청';
+            status3 = '일반';
+        }else if(date != 0){
+            status1 ='판매입찰';
+            status2 = '입찰중';
+            status3 = '판매';
+        }
+
+        if(btn_confirm.disabled == false){
+            axios.request({
+                method: "POST",
+                url: "/api/sales_register",
+                headers: {'Content-type': 'application/json'},
+                data: {
+                    data:{
+                        status1: status1,
+                        status2: status2,
+                        status3: status3,
+                        sizeType: size,
+                        period: date,
+                        price: price,
+                        purchaseId: checkId,
+                        accountId: accountId,
+                        addressId: addressId,
+                        productId: productId,
+                        customerId: sessionId
+                    }
+                }
+            }).then(
+                alert('완료되었습니다.')
+            )
+
+            location.href='/kream/sellfinish/'+productId+"/"+price+"/"+date; return false;
+
+        }else if(btn_confirm.disabled == true){
+            alert("모든 항목을 입력/체크 해주세요")
+        }
+    }
+</script>
+<body id="pop3">
+<input type="hidden" id="productId" th:value="${productId}">
+<input type="hidden" id="size" th:value="${size}">
+<input type="hidden" id="price" th:value="${price}">
+<input type="hidden" id="date" th:value="${date}">
+<input type="hidden" id="checkId" th:value="${checkId}">
+<input type="hidden" id="accountId">
+<input type="hidden" id="addressId">
+<!-- header-->
+<div th:replace="include/checkHeader :: header"></div>
+<div id="fixed"></div>
+<!-- header 끝-->
+<div th:replace="include/pop :: pop"></div>
+
+<!-- container buy PC버전 시작-->
+<div class="container_buy">
+    <div class="content">
+        <div class="column_area">
+            <div class="column">
+                <div class="colum_box">
+                    <div class="buy_product">
+                        <div class="product" style="background-color:rgb(246,238,237);" id="productImg"></div>
+                        <div class="buy_info">
+                            <div class="model_info">
+                                <strong class="model_number"></strong>
+                                <p class="model_title"></p>
+                                <p class="model_ko"></p>
+                                <p class="size_txt"></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 우측 컬럼 -->
+            <div class="column">
+                <div class="colum_box">
+                    <div class="buy_immediate">
+                        <div class="column_top">
+                            <div class="price_descion_box">
+                                <div class="instant_group">
+                                    <div class="price_now">
+                                        <p>최종 주문정보</p>
+                                        <dl class="price_now_box">
+                                            <dt class="price_now_title"> 총 정산금액 </dt>
+                                            <dd class="price">
+                                                <span class="unit"><span class="price_append" style="color:#41b979"></span>원 </span>
+                                            </dd>
+                                        </dl>
+                                    </div>
+                                    <div class="price_bind">
+                                        <dl class="price_point">
+                                            <dt class="price_point_title">
+                                                <span>판매 희망가</span>
+                                            </dt>
+                                            <dd class="price_text">
+                                                <span class="unit"><span class="price_append"></span>원 </span>
+                                            </dd>
+                                        </dl>
+                                        <dl class="price_addtion">
+                                            <dt class="price_title">
+                                                <span>검수비</span>
+                                            </dt>
+                                            <dd class="price_text">무료</dd>
+                                        </dl>
+                                        <dl class="price_addtion">
+                                            <dt class="price_title">
+                                                <span>판매 수수료</span>
+                                            </dt>
+                                            <dd class="price_text">무료 이벤트</dd>
+                                        </dl>
+                                        <dl class="price_addtion">
+                                            <dt class="price_title">
+                                                <span>배송비</span>
+                                            </dt>
+                                            <dd class="price_text">선불 · 판매자 부담</dd>
+                                        </dl>
+                                    </div>
+                                    <div class="price_total">
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <section class="bid_section">
+                            <div class="section_title">
+                                <h3 class="title_txt">반송 주소</h3>
+                            </div>
+                            <div class="section_content">
+                                <div class="delivery_info">
+                                    <div class="address_info">
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="section_unit">
+                                <div class="section_title">
+                                    <div class="section_title">
+                                        <h3 class="title_txt">발송 방법</h3>
+                                    </div>
+                                </div>
+                                <div class="section_content">
+                                    <div class="delivery_service">
+                                        <div class="company_wrap">
+                                            <div class="company_ci"><p>택배</p></div>
+                                            <div class="info_text">
+                                                <p class="company">택배 발송 <span>선불</span></p>
+                                                <p class="sub_text">착불 발송 시 정산금에서 차감됩니다.</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+
+                        <section class="bid_section2">
+                            <div class="section_title">
+                                <h3 class="title_txt">판매 정산 계좌</h3>
+                            </div>
+                            <div class="section_content">
+                                <div class="section_address"></div>
+                            </div>
+                        </section>
+                        <div>
+                            <ul class="check_list">
+                                <li class="check_item">
+                                    <div class="notice_group">
+                                        <p class="notice_maintext">거래가 체결되면 일요일 · 공휴일을 제외하고 48시간 내에 KREAM으로 발송을 완료한 후, 발송 정보를 정확히 입력해야 합니다.</p>
+                                        <p class="notice_subtext">착불 배송 시 판매 금액에서 차감 정산하며, 미정산 시 별도 고지없이 해당 금액을 결제 시도할 수 있습니다.</p>
+                                    </div>
+
+                                    <div class="checkbox_item">
+                                        <!-- check box 체크하는 곳-->
+                                        <input type="checkbox" name="check" id="input0" class="check" style="display: none;" onclick="getCheckSell()">
+                                        <label for="input0" class="blind"></label>
+                                    </div>
+                                </li>
+                                <li class="check_item">
+                                    <div class="notice_group">
+                                        <p class="notice_maintext">
+                                            송장 번호 미기재·오입력 시 입고가 진행되지 않으며, 발송 후 5일(일요일·공휴일 제외) 내 미도착은 허위 정보 입력으로 간주하여 미입고 페널티를 부과합니다.
+                                        </p>
+                                    </div>
+                                    <div class="checkbox_item">
+                                        <!-- check box 체크하는 곳-->
+                                        <input type="checkbox" name="check" id="input1" class="check" style="display: none;" onclick="getCheckSell()">
+                                        <label for="input1" class="blind"></label>
+                                    </div>
+                                </li>
+                                <li class="check_item">
+                                    <div class="notice_group">
+                                        <p class="notice_maintext">검수 기준과 페널티 및 이용 정책을 다시 한번 확인하였습니다.</p>
+                                        <p class="notice_subtext">이용정책 위반 시, 판매 금액의 최대 15.0%의 페널티가 부과됩니다. 페널티 회피 시 이후 거래가 제한되며 별도 고지없이 해당 금액을 결제 시도할 수 있습니다.</p>
+                                    </div>
+                                    <div class="checkbox_item">
+                                        <!-- check box 체크하는 곳-->
+                                        <input type="checkbox" name="check" id="input2" class="check" style="display: none;" onclick="getCheckSell()">
+                                        <label for="input2" class="blind"></label>
+                                    </div>
+                                </li>
+                                <li class="check_item">
+                                    <div class="concent">
+                                        <div class="notice_group">
+                                            <p class="notice_maintext" style="font-weight: bold">판매 조건을 모두 확인하였으며, 입찰 진행에 동의합니다.</p>
+                                        </div>
+                                        <div class="checkbox_item">
+                                            <input type="checkbox" name="check" id="input3" class="check" style="display: none;" onclick="getCheckSell()">
+                                            <label for="input3" class="blind"></label>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="check_item2">
+                                    <div class="notice_group">
+                                        <p class="notice_maintext" style="font-weight: bold">총 정산금액</p>
+                                        <p class="item_price"><span class="price_append" style="color:#41b979"></span>원</p>
+                                    </div>
+                                </li>
+                            </ul>
+                            <div class="buy_check">
+                                <div class="btn_confirm">
+                                    <a onclick="sellFinal()" type="button" class="btn_full_solid" disabled> 결제하기</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- footer -->
+<div class="hidden_footer">
+    <div th:replace="include/checkFooter :: footer"></div>
+</div>
+
+<div id="pop_address" class="footer_pop sell_address">
+    <div id="address_back" class="footer_pop_back">
+        <div class="pop_close" onclick="pop_sell_address_down()"></div>
+        <div id="address_center" class="footer_pop_center">
+            <div id="address_top_box" class="pop_top_text">주소록</div>
+            <div id="address_text_box" class="pop_text_box">
+                <ul id="address_ul_sell"></ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 팝업창 -->
+<div class="layer_delivery layer lg" id="popupDiv" style="display: none">
+    <div class="layer_container">
+        <!-- 새 배송지 등록 -->
+        <div class="layer_header">
+            <h2 class="title" id="new_address_title">새 배송지 등록</h2>
+            <h2 class="title" id="edit_address_title">배송지 수정</h2>
+            <img src="/lib/img/nav_close_icon.png" alt="닫기" class="btn_layer_close" id="popCloseBtn">
+        </div>
+        <div class="delivery_bind">
+            <!-- 이름 -->
+            <div class="input_box" id="name_input_box">
+                <h4 class="input_title">이름</h4>
+                <input type="text" placeholder="수령인 이름" autocomplete="off" class="input_txt" id="name_input" validateresult="false">
+                <p class="input_error" id="name_input_error"></p>
+            </div>
+            <!-- 휴대폰 번호 -->
+            <div class="input_box" id="hp_input_box">
+                <h4 class="input_title">휴대폰 번호</h4>
+                <input type="text" placeholder="- 없이 입력" autocomplete="off" class="input_txt" id="hp_input" validateresult="false">
+                <p class="input_error" id="hp_input_error"></p>
+            </div>
+            <!-- 우편 번호 -->
+            <div class="input_box">
+                <h4 class="input_title">우편번호</h4>
+                <div class="input_zipcode">
+                    <input type="text" placeholder="우편 번호를 검색하세요" autocomplete="off" class="input_txt" value="" id="zipcode_input" readonly>
+                    <input type="button" value="우편번호" class="btn btn_zipcode outline small outlinegrey" onclick="sample6_execDaumPostcode()">
+                </div>
+            </div>
+            <!-- 주소 -->
+            <div class="input_box">
+                <h4 class="input_title">주소</h4>
+                <input type="text" placeholder="우편 번호 검색 후, 자동입력됩니다." autocomplete="off" class="input_txt" id="address1_input" readonly>
+            </div>
+            <!-- 상세주소 -->
+            <div class="input_box" id="address2_input_box">
+                <h4 class="input_title">상세 주소</h4>
+                <input type="text" placeholder="건물, 아파트, 동/호수 입력" autocomplete="off" class="input_txt" id="address2_input"  validateresult="false">
+                <p class="input_error" id="address2_input_error"></p>
+            </div>
+            <!-- 기본 배송지로 설정 -->
+            <div class="input_button">
+                <input type="checkbox" id="input_button_check" name="delivery_flag">
+                <label for="input_button_check"><span id="button_check_text">기본 배송지로 설정</span></label>
+            </div>
+        </div>
+        <!-- 하단 취소하기 / 저장하기 버튼 -->
+        <div class="bottom_button">
+            <button class="btn outlinegrey btn_delete">취소</button>
+            <button class="btn btn_save solid disabled" disabled="disabled">저장하기</button>
+        </div>
+    </div>
+</div>
+
+<!--계좌등록팝업-->
+<div class="layer_delivery layer lg popAcc" id="popAccount" style="display: none">
+    <div class="layer_container">
+        <!-- 새 배송지 등록 -->
+        <div class="layer_header">
+            <h2 class="title" id="new_account_title">정산 계좌 등록</h2>
+            <img src="/lib/img/nav_close_icon.png" alt="닫기" class="btn_layer_close" id="popCloseAccount">
+        </div>
+        <div class="delivery_bind">
+            <div class="account_registration">
+                <div class="input_logistics_companies input_box">
+                    <h3 class="input_title">은행명</h3>
+                    <div class="input_item">
+                        <div class="bank_option open">
+                            <label class="selected_txt" id="selected_txt">
+                                <span>은행 선택</span>
+                                <img class="ico-arr-down-gray icon sprite-icons" src="/lib/img/select_icon.png" alt="셀렉트아이콘">
+                            </label>
+                            <select id="bank_select" name="bank">
+                                <option value="국민은행"> 국민은행 </option>
+                                <option value="신한은행"> 신한은행 </option>
+                                <option value="우리은행"> 우리은행 </option>
+                                <option value="하나은행"> 하나은행 </option>
+                                <option value="기업은행"> 기업은행 </option>
+                                <option value="농협은행"> 농협은행 </option>
+                                <option value="SC은행"> SC은행 </option>
+                                <option value="한국씨티은행"> 한국씨티은행 </option>
+                                <option value="우체국"> 우체국 </option>
+                                <option value="농협은행"> 농협은행 </option>
+                                <option value="산업은행"> 산업은행 </option>
+                                <option value="부산은행"> 부산은행 </option>
+                                <option value="카카오뱅크"> 카카오뱅크 </option>
+                                <option value="대구은행"> 대구은행 </option>
+                                <option value="케이뱅크"> 케이뱅크 </option>
+                                <option value="광주은행"> 광주은행 </option>
+                                <option value="제주은행"> 제주은행 </option>
+                                <option value="수협중앙회"> 수협중앙회 </option>
+                                <option value="전북은행"> 전북은행 </option>
+                                <option value="지역농축협"> 지역농축협 </option>
+                                <option value="경남은행"> 경남은행 </option>
+                                <option value="새마을금고연합회"> 새마을금고연합회 </option>
+                                <option value="신협"> 신협 </option>
+                            </select>
+                        </div>
+                        <!---->
+                    </div>
+                </div>
+                <div class="input_box" id="account_input_box">
+                    <h3 class="input_title">계좌번호</h3>
+                    <div class="input_item">
+                        <input type="text" placeholder="'-' 없이 입력하세요" autocomplete="off" class="input_txt text_fill" id="account_input" name="account_number">
+                    </div>
+                    <p class="input_error" id="account_input_error"></p>
+                </div>
+                <div class="input_box" id="name_input_box2">
+                    <h3 class="input_title">예금주</h3>
+                    <div class="input_item">
+                        <input type="text" placeholder="예금주명을 정확히 입력하세요." autocomplete="off" class="input_txt text_fill" id="name_input2" name="name">
+                    </div>
+                    <p class="input_error" id="name_input_error2"></p>
+                </div>
+            </div>
+        </div>
+        <!-- 하단 취소하기 / 저장하기 버튼 -->
+        <div class="bottom_button">
+            <button class="btn outlinegrey btn_delete_Acc">취소</button>
+            <button class="btn btn_save_Acc solid disabled" disabled="disabled">저장하기</button>
+        </div>
+    </div>
+</div>
+<script src="/lib/js/shop_sellfinal_address.js"></script>
+<script src="/lib/js/pop.js"></script>
+</body>
+
+</html>

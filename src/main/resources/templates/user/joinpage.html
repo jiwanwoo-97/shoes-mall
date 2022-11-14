@@ -1,0 +1,145 @@
+<html lang="ko" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org/"
+      xmlns:sec="http://www.w3.org/1999/xhtml">
+
+<!-- head.html -->
+<div th:replace="include/pjs_head :: head"></div>
+<!-- head.html 끝-->
+
+
+<body>
+<div id="__nuxt">
+    <!---->
+    <div id="__layout">
+        <div class="wrap win_os">
+            <!---->
+            <div class="wrap_inner">
+                <!--header_nav start-->
+                <div th:replace="include/pjs_header_nav :: header_nav"></div>
+                <!--header end-->
+                <!-- container -->
+                <div class="container join">
+                    <!-- 회원가입 영역 -->
+                    <div class="content lg">
+                        <div class="join_area">
+                            <h2 class="join_title">회원가입</h2>
+                            <div class="input_box" id="email_input_box">
+                                <h3 class="input_title ess">이메일 주소</h3>
+                                <div class="input_item">
+                                    <input type="text" placeholder="예) kream@kream.co.kr" autocomplete="off" class="input_txt in_essValue" id="email_input" name="email" >
+                                </div>
+                                <p class="input_error" id="email_input_error">  </p>
+                            </div>
+                            <!---->
+                            <div class="input_box has_button" id="password_input_box">
+                                <h3 class="input_title ess">비밀번호</h3>
+                                <div class="input_item">
+                                    <input type="password" placeholder="영문, 숫자, 특수문자 조합 8-16자" autocomplete="off" class="input_txt in_essValue" id="password_input" name="password" >
+                                </div>
+                                <p class="input_error" id="password_input_error"></p>
+                            </div>
+                            <div class="input_box" id="tell_input_box">
+                                <h3 class="input_title ess">휴대폰 번호</h3>
+                                <div class="input_item">
+                                    <input type="text" placeholder="휴대폰 번호('-'제거 후 입력해주세요.)" autocomplete="off" class="input_txt in_essValue" id="tell_input" name="hp" >
+                                </div>
+                                <p class="input_error" id="tell_input_error"></p>
+                            </div>
+                            <div class="input_box">
+                                <h3 class="input_title">스니커즈 사이즈 (선택)</h3>
+                                <div class="input_item">
+                                    <label id="size_layer_open">
+                                        <input type="text" placeholder="선택하세요" disabled="disabled" autocomplete="off" class="input_txt hover" name="shoesize" id="input_shoesize">
+                                        <button type="button" class="btn btn_size_select">
+                                            <img src="/lib/img/size_select_arrow_icon.png" class="ico-arr-right icon sprite-icons">
+                                        </button>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="join_terms">
+                                <div class="terms_box">
+                                    <div class="check_main">
+                                        <div class="checkbox_item">
+                                            <input id="in_group1" type="checkbox" class="blind">
+                                            <label for="in_group1" class="check_label group_check_1">
+                                                <img src="/lib/img/checkbox_unchecked.png" class="icon sprite-icons ico-check-active">
+                                                </img>
+                                                <span class="label_txt">[필수] 만14세 이상이며 모두 동의합니다.</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="check_sub">
+                                        <div class="checkbox_item">
+                                            <input id="in_agreement" type="checkbox" name="agreement" class="blind in_essValue" >
+                                            <label for="in_agreement" class="check_label">
+                                                <img src="/lib/img/checkbox_unchecked.png" class="icon sprite-icons ico-check-active">
+                                                <span class="label_txt">이용약관</span>
+                                            </label>
+                                        </div>
+                                        <div class="checkbox_item">
+                                            <input id="in_privacy" type="checkbox" name="privacy_policy" class="blind in_essValue" >
+                                            <label for="in_privacy" class="check_label">
+                                                <img src="/lib/img/checkbox_unchecked.png" class="icon sprite-icons ico-check-active">
+                                                <span class="label_txt">개인정보처리방침</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="terms_box">
+                                    <div class="check_main">
+                                        <div class="checkbox_item">
+                                            <input id="in_group_2" type="checkbox" class="blind">
+                                            <label for="in_group_2" class="check_label">
+                                                <img src="/lib/img/checkbox_unchecked.png" class="icon sprite-icons ico-check-inactive" >
+                                                <span class="label_txt">[선택] 광고성 정보 수신에 모두 동의합니다.</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="check_sub">
+                                        <div class="checkbox_item">
+                                            <input id="in_allow_app" type="checkbox" name="allow_app" class="blind">
+                                            <label for="in_allow_app" class="check_label">
+                                                <img src="/lib/img/checkbox_unchecked.png" class="icon sprite-icons ico-check-inactive">
+                                                <span class="label_txt">앱 푸시</span>
+                                            </label>
+                                        </div>
+                                        <div class="checkbox_item">
+                                            <input id="in_allow_sms" type="checkbox" name="allow_sms" class="blind">
+                                            <label for="in_allow_sms" class="check_label">
+                                                <img src="/lib/img/checkbox_unchecked.png" class="icon sprite-icons ico-check-inactive">
+                                                <span class="label_txt">문자 메시지</span>
+                                            </label>
+                                        </div>
+                                        <div class="checkbox_item">
+                                            <input id="in_allow_email" type="checkbox" name="allow_email" class="blind">
+                                            <label for="in_allow_email" class="check_label">
+                                                <img src="/lib/img/checkbox_unchecked.png" class="icon sprite-icons ico-check-inactive">
+                                                <span class="label_txt">이메일</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <button type="submit" id="btn_submitSignIn" disabled="disabled" class="btn btn_join full solid disabled" onclick="sendit()"> 가입하기 </button>
+                        </div>
+                        <!--사이즈 선택 layer-->
+                        <div th:replace="include/size_layer :: size_layer"></div>
+                        <!--사이즈 선택 layer end-->
+                    </div>
+                    <!-- banner -->
+                    <div th:replace="include/pjs_banner :: banner"></div>
+                    <!--banner end-->
+                    <!--footer strart-->
+                    <div th:replace="include/pjs_footer :: footer"></div>
+                    <!--footer end-->
+                    <!----><!----><!----><!---->
+                </div>
+            </div>
+            <!---->
+        </div>
+    </div>
+</div>
+<script type="text/javascript" th:src="@{/lib/js/pjs_header_nav.js}"></script>
+<script type="text/javascript" th:src="@{/lib/js/loginpage_mypage_all.js}"></script>
+<script type="text/javascript" th:src="@{/lib/js/join.js}"></script>
+</body>
+</html>

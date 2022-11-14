@@ -1,0 +1,1487 @@
+<html class="no-js" lang="ko" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org/"
+      xmlns:sec="http://www.w3.org/1999/xhtml">
+
+<head>
+    <title>KRAEM | 한정판 거래의 FLEX</title>
+    <link data-n-head="ssr" rel="icon" type="image/x-icon" href="https://kream.co.kr/favicon.ico">
+    <!-- jquery cdn -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+            integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <!--axios cdn -->
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.5.1/css/swiper.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.5.1/js/swiper.min.js"></script>
+
+
+    <link rel="stylesheet" href="/lib/css/ljs_product.css">
+    <link rel="stylesheet" href="/lib/css/pjs_header.css">
+    <link rel="stylesheet" href="/lib/css/pop.css">
+</head>
+
+
+<body id="shop_product">
+
+<input type="hidden" id="id" >
+<input type="hidden" id="size" ><!-- head.html -->
+<div th:replace="include/header:: header"></div>
+<!-- head.html 끝-->
+<div th:replace="include/pop :: pop"></div>
+
+<!-- 모바일 오른쪽 -->
+<div class="navigation_wrap close">
+    <div class="navigation">
+        <div class="navigation_inner">
+            <ul class="nav_list">
+                <li class="nav_item">
+                    <a href="/style" class="nav_link">
+                        STYLE
+                    </a>
+                </li>
+                <li class="nav_item">
+                    <a href="/search" class="nav_link">
+                        SHOP
+                    </a>
+                </li>
+                <li class="nav_item">
+                    <a href="/faq" class="nav_link">
+                        자주 묻는 질문
+                    </a>
+                </li>
+                <li class="nav_item">
+                    <a href="/notice" class="nav_link">
+                        공지사항
+                    </a>
+                </li>
+                <li class="nav_item" sec:authorize="!isAuthenticated()"><a href="/login" class="nav_link"> 로그인 </a></li>
+                <li class="nav_item" sec:authorize="isAuthenticated()"><a href="/logout" class="nav_link" onclick="sessionStorage.clear()"> 로그아웃 </a>
+                </li>
+            </ul>
+            <!---->
+            <div class="nav_download">
+                <p class="download_txt">KREAM 앱 설치 후 사용해 보세요!</p>
+                <div class="btn_appdown">
+                    <a href="https://play.google.com/store/apps/details?id=com.fstudio.kream" type="button"
+                       class="btn outline medium">
+                        앱 다운로드
+                    </a>
+                </div>
+            </div>
+        </div>
+        <button type="button" class="btn_nav_close">
+            <img src="/lib/img/pop_close.png" class="ico-close icon sprite-icons">
+        </button>
+    </div>
+</div>
+<!--검색창-->
+<div class="layer_search lg" style="display: none;">
+    <div class="search_container">
+        <div class="search_wrap">
+            <div class="search_area" value="">
+                <div class="search">
+                    <img src="/lib/img/search_gray_icon.png" class="ico-search-gray icon sprite-icons">
+                    <input type="text" placeholder="브랜드명, 모델명, 모델번호 등" title="검색창"
+                           class="input_search show_placeholder_on_focus">
+                    <button class="btn_search_delete" style="display: none;">
+                        <img src="/lib/img/text_area_delete_icon.png"
+                             class="ico-delete-circle icon sprite-icons">
+                    </button>
+                </div>
+            </div>
+            <button class="btn_close">취소</button>
+        </div>
+    </div>
+    <div class="recent_wrap">
+        <div class="recent_area">
+            <div class="recent_box">
+                <strong class="recent_title">최근 검색어</strong>
+                <button class="btn_delete">
+                    <img src="/lib/img/delete_circle_icon.png" class="ico-delete-circle icon sprite-icons">
+                </button>
+                <ul class="search_list">
+                    <li><a href="https://www.kream.co.kr/search?keyword=DJ0950-112&sort=popular&per_page=40"
+                           class="search_item"> DJ0950-112 </a></li>
+                    <li><a href="https://www.kream.co.kr/search?keyword=%EC%82%AC%EC%B9%B4" class="search_item"> 사카 </a>
+                    </li>
+                    <li><a href="https://www.kream.co.kr/search?keyword=%EC%82%AC%EC%B9%B4%EC%9D%B4"
+                           class="search_item"> 사카이 </a></li>
+                    <li><a href="https://www.kream.co.kr/search?keyword=Dunk&sort=popular&per_page=40"
+                           class="search_item"> 덩크 </a></li>
+                    <li><a href="https://www.kream.co.kr/search?keyword=Jordan%201" class="search_item"> 조던 </a></li>
+                </ul>
+            </div>
+            <ul class="brand_list lg">
+                <li class="brand_item" style="background-color: rgb(246, 238, 237);">
+                    <a class="brand_box">
+                        <img src="/lib/img/p_1c64737691684299b32884e7d890983c.png" alt="Jordan 1"
+                             class="brand_img">
+                        <p class="brand_name">Jordan 1</p>
+                    </a>
+                </li>
+                <li class="brand_item" style="background-color: rgb(235, 240, 245);">
+                    <a class="brand_box">
+                        <img src="/lib/img/a_462abc0cfd92429eae5f1e7677742261.png" alt="Dunk" class="brand_img">
+                        <p class="brand_name">Dunk</p>
+                    </a>
+                </li>
+                <li class="brand_item" style="background-color: rgb(235, 240, 245);">
+                    <a class="brand_box">
+                        <img src="/lib/img/p_1077af921fe1436ab78ec3f07b7dae79.png" alt="스캇" class="brand_img">
+                        <p class="brand_name">스캇</p>
+                    </a>
+                </li>
+                <li class="brand_item" style="background-color: rgb(244, 244, 244);">
+                    <a class="brand_box">
+                        <img src="/lib/img/a_5e37181489d44d1a80650eef3edb9296.png" alt="톰브라운" class="brand_img">
+                        <p class="brand_name">톰브라운</p>
+                    </a>
+                </li>
+                <li class="brand_item" style="background-color: rgb(244, 244, 244);">
+                    <a class="brand_box">
+                        <img src="/lib/img/p_4f213a0866354fa39e72f459f3374589.png" alt="지갑" class="brand_img">
+                        <p class="brand_name">지갑</p>
+                    </a>
+                </li>
+                <li class="brand_item" style="background-color: rgb(244, 244, 244);">
+                    <a class="brand_box">
+                        <img src="/lib/img/a_5fb25d6231d3414d9c8b5261d7d87897.png" alt="레고" class="brand_img">
+                        <p class="brand_name">레고</p>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="suggest_wrap" style="display: none;">
+        <div class="suggest_area">
+            <div class="suggest_title_area">
+                <p class="suggest_title">나이키</p>
+            </div>
+            <div class="suggest_list lg">
+                <div class="suggest_item">
+                    <a href="/products/39449" class="suggest_link">
+                        <div class="suggest_thumb">
+                            <img src="https://kream-phinf.pstatic.net/MjAyMTA4MTNfMTc4/MDAxNjI4ODE2OTU1NTEy.-ssaZSoxOvq9N6D9dNAstXpjp170UsMhxJA5syAkGC0g.JdDM7mkjhdXXkRpsTtCq7tZyA2u3r5Pm8zWFE8Oe75Mg.PNG/a_5d5dab542fae4ea9bfd2078c2d07a9f2.png"
+                                 alt="나이키 x 사카이 x 프라그먼트 LD와플 라이트 스모크 그레이" class="thumb_img">
+                        </div>
+                        <div class="suggest_info">
+                            <p class="model_title">Nike x Sacai x Fragment LDWaffle Light Smoke Grey</p>
+                            <p class="model_sub_info">나이키 x 사카이 x 프라그먼트 LD와플 라이트 스모크 그레이</p>
+                        </div>
+                    </a>
+                </div>
+                <div class="suggest_item">
+                    <a href="/products/39448" class="suggest_link">
+                        <div class="suggest_thumb"><img
+                                src="https://kream-phinf.pstatic.net/MjAyMTA4MTNfMjI5/MDAxNjI4ODE2OTQyMjg4.Pr5xVktBScvuEXRctGLADuB8TJZk_ExyPagNS0Fp1i4g.Y-zakijeWyh8d9hgiIZD29bc9fWfQs_axWQ2Xj_t638g.PNG/a_8a2b9c780c234fcdbce3a2bac42f9cf4.png"
+                                alt="나이키 x 사카이 x 프라그먼트 LD와플 블랙큰드 블루" class="thumb_img">
+                        </div>
+                        <div class="suggest_info">
+                            <p class="model_title">Nike x Sacai x Fragment LDWaffle Blackened Blue</p>
+                            <p class="model_sub_info">나이키 x 사카이 x 프라그먼트 LD와플 블랙큰드 블루</p>
+                        </div>
+                    </a>
+                </div>
+                <div class="suggest_item">
+                    <a href="/products/28029" class="suggest_link">
+                        <div class="suggest_thumb">
+                            <img src="https://kream-phinf.pstatic.net/MjAyMTA3MjhfMjIg/MDAxNjI3NDQxMDA1NjE5.HOgIYywGZaaBJDqUzx2OnX9HAxoOWPvuWHqUn_LZGcgg.VYIuOfA5_GgjBGRowv6dmQuAOPtUvmAxbGpOyUCOCtYg.PNG/p_9d8ed1a74d2540ab9842e63363607bf4.png"
+                                 alt="나이키 덩크 로우 레트로 블랙" class="thumb_img"></div>
+                        <div class="suggest_info">
+                            <p class="model_title">Nike Dunk Low Retro Black</p>
+                            <p class="model_sub_info">나이키 덩크 로우 레트로 블랙</p>
+                        </div>
+                    </a>
+                </div>
+                <div class="suggest_item">
+                    <a href="/products/38844" class="suggest_link">
+                        <div class="suggest_thumb">
+                            <img src="https://kream-phinf.pstatic.net/MjAyMTA4MDZfMjY0/MDAxNjI4MjM5NTA1MjU1.9FfkTXbxZFWKxDMdPayVFlD0GIyNT-mFVIQ7zZW3SPcg.c03UoCFjKXtP4XtNMgBdrmTOIQlqxrePk4JScV4GUHEg.PNG/p_8001cbaf0db042bda09fea320ee328b4.png"
+                                 alt="나이키 덩크 로우 SE 서울" class="thumb_img">
+                        </div>
+                        <div class="suggest_info">
+                            <p class="model_title">Nike Dunk Low SE Seoul</p>
+                            <p class="model_sub_info">나이키 덩크 로우 SE 서울</p>
+                        </div>
+                    </a>
+                </div>
+                <div class="suggest_item">
+                    <a href="/products/28030" class="suggest_link">
+                        <div class="suggest_thumb">
+                            <img src="https://kream-phinf.pstatic.net/MjAyMTA3MjhfMjcz/MDAxNjI3NDQxMDI4OTQz.FUajQFp09YVc_uLkwLnhQslwbgiRxTm-LTxQgi5IJNcg.erY1xk-3dvoOCW8r65BCusQYco2d6ln7BSBpD2Yld9Ug.PNG/p_0ec4e132925345f48fa832f2283cf454.png"
+                                 alt="(W) 나이키 덩크 로우 블랙" class="thumb_img">
+                        </div>
+                        <div class="suggest_info">
+                            <p class="model_title">(W) Nike Dunk Low Black</p>
+                            <p class="model_sub_info">(W) 나이키 덩크 로우 블랙</p>
+                        </div>
+                    </a>
+                </div>
+                <div class="suggest_item">
+                    <a href="/products/39121" class="suggest_link">
+                        <div class="suggest_thumb">
+                            <img src="https://kream-phinf.pstatic.net/MjAyMTA4MDlfMTQg/MDAxNjI4NDg5NTIwNDY2.Mn68jNQyl_usVByHwgVtvG3PP3QWZUrzx1Pl3hTGpvUg.i-iyK8TlNzo_c7wF-OKDjXPvDzRd4yqtjk6V1n96tSAg.PNG/a_afc5d9ecafec4e8c8d89d50a3236d2a5.png"
+                                 alt="나이키 x 언디핏 에어포스 1 로우 SP 5 온 잇" class="thumb_img">
+                        </div>
+                        <div class="suggest_info">
+                            <p class="model_title">Nike x Undefeated Air Force 1 Low SP 5 On It</p>
+                            <p class="model_sub_info">나이키 x 언디핏 에어포스 1 로우 SP 5 온 잇</p>
+                        </div>
+                    </a>
+                </div>
+                <div class="suggest_item">
+                    <a href="/products/39142" class="suggest_link">
+                        <div class="suggest_thumb">
+                            <img src="https://kream-phinf.pstatic.net/MjAyMTA4MTBfODIg/MDAxNjI4NTc3NzY4NjQ1.iuyr8BiuWbO-DBet19oNev2VNF_OkstoNOznd1TmdlIg.mtu9Iw_SlAoUiGE-rLb1xBTYQP3T255z15tsVBYwlIIg.PNG/a_cb40b0132d8343c0894a2b8999a35e85.png"
+                                 alt="나이키 x 오프화이트 덩크 로우 더 50 - 로트 18" class="thumb_img">
+                        </div>
+                        <div class="suggest_info">
+                            <p class="model_title">Nike x Off-White Dunk Low The 50 - Lot 18</p>
+                            <p class="model_sub_info">나이키 x 오프화이트 덩크 로우 더 50 - 로트 18</p>
+                        </div>
+                    </a>
+                </div>
+                <div class="suggest_item">
+                    <a href="/products/39170" class="suggest_link">
+                        <div class="suggest_thumb">
+                            <img src="https://kream-phinf.pstatic.net/MjAyMTA4MThfMTQy/MDAxNjI5MjY4NzY2ODk5.kjFtjtEy6TZ8FoPHj7P45V2Z-dw8OPgIs44mXjkU2v8g.S33cKzKXskwi8cZZChvtQrdGWVxRVvLAouyP6gZl324g.PNG/a_b79da82e8bb44d5bad1f51bc77862c06.png"
+                                 alt="나이키 x 오프화이트 덩크 로우 더 50 - 로트 46" class="thumb_img">
+                        </div>
+                        <div class="suggest_info">
+                            <p class="model_title">Nike x Off-White Dunk Low The 50 - Lot 46</p>
+                            <p class="model_sub_info">나이키 x 오프화이트 덩크 로우 더 50 - 로트 46</p>
+                        </div>
+                    </a>
+                </div>
+                <div class="suggest_item">
+                    <a href="/products/25620" class="suggest_link">
+                        <div class="suggest_thumb">
+                            <img src="https://kream-phinf.pstatic.net/MjAyMDExMThfMjU2/MDAxNjA1NjkxMzExMTYz.leAiiIeRzdnBC6STAjmeqVlM0lokrpyt7EbsaWUtnnIg.hPz7sqovLq6tPmB6zs8PnR1q8UYkTl8YJiWGKm79cj0g.PNG/p_477d8861bbbd43e8aad3ee5d76c3df76.png"
+                                 alt="나이키 x 피스마이너스원 에어포스 1 로우 파라노이즈 2.0" class="thumb_img">
+                        </div>
+                        <div class="suggest_info">
+                            <p class="model_title">Nike x Peaceminusone Air Force 1 Low Para-Noise 2.0</p>
+                            <p class="model_sub_info">나이키 x 피스마이너스원 에어포스 1 로우 파라노이즈 2.0</p>
+                        </div>
+                    </a>
+                </div>
+                <div class="suggest_item">
+                    <a href="/products/33799" class="suggest_link">
+                        <div class="suggest_thumb">
+                            <img src="https://kream-phinf.pstatic.net/MjAyMTA0MjNfMTM3/MDAxNjE5MTY4MjI4OTM4.sAToRDxrfFw9deS1_iWzKI7brDmtN1R9WqkimU81XSsg.Th25GokaQPcn0EdT5AvGYrafEbVkRr5P4BWCqXpImIQg.PNG/p_e6013157f46b40fbbbd81efa0cb3bc89.png"
+                                 alt="나이키 덩크 로우 레트로 유니버시티 블루" class="thumb_img">
+                        </div>
+                        <div class="suggest_info">
+                            <p class="model_title">Nike Dunk Low Retro University Blue</p>
+                            <p class="model_sub_info">나이키 덩크 로우 레트로 유니버시티 블루</p>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            <a href="#" class="more_link">
+                <span class="more_text">7155</span>
+                <img src="/lib/img/size_select_arrow_icon.png" class="ico-arr-right icon sprite-icons">
+            </a>
+            <div class="result_nodata" style="display: none;">
+                <p class="nodata_main">검색하신 결과가 없습니다.</p>
+                <p class="nodata_sub">상품 등록 요청은 앱 <span class="emphasis">1:1 문의하기</span> 로 요청해주세요.</p>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container" id="container mo">
+    <!-- 컨텐츠시작-->
+    <div class="contents mo">
+        <div class="column_area">
+            <div class="column_bind mo">
+                <div class="column is_fixed">
+                    <div class="column_box1">
+                        <!-- 롤링 박스 시작 -->
+                        <!-- 상품 롤링 버튼 끝 -->
+                        <!-- 클래스명은 변경하면 안 됨 -->
+                        <div class="swiper-container">
+                            <div class="swiper-wrapper">
+                                <!-- 롤링 사진 들어가는 박스 -->
+                            </div>
+                            <!-- 네비게이션 화살표 버튼 -->
+                            <div class="swiper-button-next"></div><!-- 다음 버튼 (오른쪽에 있는 버튼) -->
+                            <div class="swiper-button-prev"></div><!-- 이전 버튼 -->
+                            <!-- 페이징 버튼-->
+                            <div class="swiper-pagination"></div>
+                        </div>
+                        <div class="banner_method">
+                            <a href="#" class="method_link">
+                                <div class="backimg"></div>
+                                <div class="method_box">
+                                    <p class="method_title">KREAM 구매 방법</p>
+                                    <p class="method_text">구매 프로세스를 확인 후 구매해주세요.</p>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <!-- 우측컨텐츠-->
+                <!-- 좌측 컨텐츠시작-->
+                <div class="column not_fixed">
+                    <div class="column_box2">
+                        <div class="column_top">
+                            <div class="detail_main_title lg hasbtn">
+                                <div class="main_title_box">
+                                    <div class="forflex">
+                                        <div class="for1">
+                                            <a href="#" class="brand12"></a>
+                                            <div class="title" id="name"></div>
+                                        </div>
+                                        <div class="for2">
+
+                                        </div>
+                                    </div>
+                                    <p class="sub_title" id="korName"></p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="detail_size ">
+                            <div class="title">
+                                <span class="title_txt">사이즈</span>
+                            </div>
+                            <div class="size">
+                                <div class="btn_size">
+                                    <div class="btn_text" onclick="everysizePop()">
+                                        <div class="all_size_box">
+                                            <div class="all_size">모든사이즈</div>
+                                            <div class="all_size_img_box">
+                                                <img src="/lib/img/select_icon.png" alt="select_down"
+                                                     class="btn_rowDown">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="detail_price lg">
+                            <div class="title"><span class="title_txt">최근 거래가</span></div>
+                            <div class="price">
+                                <div class="amount">
+                                    <div class="price_box">
+                                        <span class="num" id="latelyPrice"></span>
+                                        <span class="won">원</span>
+                                    </div>
+                                </div>
+                                <div class="fluctuation increase"></div>
+                            </div>
+                        </div>
+                        <div class="division_btn_box division_md1" >
+                            <a href="#" class="btn_division buy" onclick="go_to_buy()">
+                                <div class="title">구매</div>
+                                <div class="price priceClass"><span class="amount"><div class="num quick" id="sellnowprice"></div>
+                                    <span class="won quick">원</span></span><span class="desc quick">즉시 구매가</span>
+                                </div>
+                            </a>
+                            <a href="#" class="btn_division sell" onclick="go_to_sell()">
+                                <div class="title">판매</div>
+                                <div class="price priceClass"><span class="amount"><div class="num quick" id="buynowprice"></div>
+                                    <span class="won quick">원</span></span><span class="desc quick">즉시 판매가</span>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="confirm_wrap">
+                            <h3 class="confirm_title">구매 전 꼭 확인해주세요!</h3>
+                            <div class="confirm_content">
+                                <ul class="dropdown_list">
+                                    <li class="delivery_li">
+                                        <div class="dropdown">
+                                            <div class="dropdown_head">
+                                                <div class="titlee line">배송 기간 안내<img
+                                                        src="/lib/img/select_down_arrow_icon.png" alt="select_down"
+                                                        class="title_img"></div>
+                                                <div class="title_content" style="display: none">
+                                                    <p>KREAM은 최대한 빠르게 모든 상품을 배송하기 위해 노력하고 있습니다. 배송 시간은 판매자가 검수를 위하여
+                                                        상품을 검수센터로 보내는 속도에 따라 차이가 있습니다.</p>
+                                                    <p>
+                                                        - 거래가 체결된 시점부터 48시간(일요일•공휴일 제외) 내에 판매자가 상품을 발송해야 하며, 통상적으로
+                                                        발송 후 1-2일 내에 KREAM 검수센터에 도착합니다.
+                                                    </p>
+                                                    <p id="ppp">
+                                                        - 검수센터에 도착한 상품은 입고 완료 후 3영업일 이내에 검수를 진행합니다. 검수 합격시 배송을
+                                                        준비합니다.
+                                                    <p>
+                                                        * 상품 종류 및 상태에 따라 검수 소요 시간은 상이할 수 있으며, 구매의사 확인에 해당할 경우 구매자와
+                                                        상담 진행으로 인해 지연이 발생할 수 있습니다.
+                                                    </p>
+                                                    </p>
+                                                    <p>
+                                                        - 검수센터 출고는 매 영업일에 진행하고 있으며, 출고 마감시간은 오후 5시입니다. 출고 마감시간 이후 검수
+                                                        완료건은 운송장번호는 입력되지만 다음 영업일에 출고됩니다.
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            <div class="dropdown_content"></div>
+                                        </div>
+                                    </li>
+                                    <li class="delivery_li">
+                                        <div class="dropdown">
+                                            <div class="dropdown_head">
+                                                <div class="titlee line">검수 안내<img
+                                                        src="/lib/img/select_down_arrow_icon.png" alt="select_down"
+                                                        class="title_img"></div>
+                                                <div class="title_content" style="display: none">
+                                                    <p>판매자의 상품이 검수센터에 도착하면 전담 검수팀이 철저한 분석과 검사로 정가품 확인을 진행합니다.</p>
+                                                    <p>
+                                                        - 검수센터에서는 정가품 여부를 확인하기 위하여, 지속적으로 데이터를 쌓고 분석하여 기록하고 있습니다.
+                                                    </p>
+                                                    <p>
+                                                        - 업계 전문가로 구성된 검수팀은 박스와 상품의 라벨에서 바느질, 접착, 소재 등 모든 것을 검수합니다.
+                                                    </p>
+                                                    <p>
+                                                        검수 결과는 불합격•검수 보류•합격의 세가지 상태로 결과가 변경됩니다. 검수기준 보기
+                                                    </p>
+                                                    <p>
+                                                        * 검수 합격: KREAM 검수택(Tag)이 부착되어 배송을 준비함
+
+                                                        * 검수 보류: 앱에서 사진으로 상품의 상태 확인 및 구매 여부를 선택. (24시간 이후 자동 검수 합격)
+
+                                                        * 검수 불합격: 즉시 거래가 취소되고 구매하신 금액을 환불 처리함.(환불 수단은 결제 수단과 동일)
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            <div class="dropdown_content"></div>
+                                        </div>
+                                    </li>
+                                    <li class="delivery_li">
+                                        <div class="dropdown">
+                                            <div class="dropdown_head">
+                                                <div class="titlee line">구매 환불/취소/교환 안내<img
+                                                        src="/lib/img/select_down_arrow_icon.png" alt="select_down"
+                                                        class="title_img">
+                                                </div>
+                                            </div>
+                                            <div class="title_content" style="display: none">
+                                                <p>KREAM은 익명 거래를 기반으로 판매자가 판매하는 상품을 구매자가 실시간으로 구매하여 거래를 체결합니다.</p>
+                                                <p>
+                                                    - 단순 변심이나 실수에 의한 취소/교환/반품이 불가능합니다. 상품을 원하지 않으시는 경우 언제든지 KREAM에서
+                                                    재판매를 하실 수 있습니다.
+                                                </p>
+                                                <p>
+                                                    - 상품 수령 후, 이상이 있는 경우 KREAM 고객센터로 문의해주시기 바랍니다.
+                                                </p>
+                                            </div>
+                                            <div class="dropdown_content"></div>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="detail_wrap">
+                            <div>
+                            </div>
+                            <div>
+                                <h3 class="detail_title">입찰내역</h3>
+                                <div class="wrap_bids">
+                                    <div class="tab_area">
+                                        <ul role="tablist" class="tab_list">
+                                            <li role="tab" aria-selected="true" aria-controls="panel1"
+                                                class="item items">
+                                                <a class="item_link">판매 입찰</a>
+                                            </li>
+                                            <li role="tab" aria-selected="false" aria-controls="panel2"
+                                                class="item items items_1">
+                                                <a class="item_link">구매 입찰</a>
+                                            </li>
+                                        </ul>
+                                        <div id="panel1" role="tabpanel" class="tab_content show" span="asks">
+                                            <div class="table_wrap dis">
+                                                <table class="forsalelist">
+                                                    <caption>
+                                                        <span class="blind">데이터 테이블</span>
+                                                    </caption>
+                                                    <colgroup>
+                                                        <col style="width: 29.76%;">
+                                                        <col style="width: 36.52%;">
+                                                        <col style="width: 33.72%;">
+                                                    </colgroup>
+                                                    <thead>
+                                                    <tr>
+                                                        <th class="table_th"> 사이즈</th>
+                                                        <th class="table_th align_right"> 판매 희망가</th>
+                                                        <th class="table_th align_right"> 수량</th>
+                                                    </tr>
+                                                    </thead>
+                                                </table>
+                                            </div>
+                                        </div>
+                                        <div id="panel" role="tabpanel" class="tab_content" span="bids">
+                                            <div class="table_wrap table_wrap_on dis">
+                                                <table class="forbuylist">
+                                                    <caption>
+                                                        <span class="blind">데이터 테이블</span>
+                                                    </caption>
+                                                    <colgroup>
+                                                        <col style="width: 29.76%;">
+                                                        <col style="width: 36.52%;">
+                                                        <col style="width: 33.72%;">
+                                                    </colgroup>
+                                                    <thead>
+                                                    <tr>
+                                                        <th class="table_th"> 사이즈</th>
+                                                        <th class="table_th align_right"> 구매 희망가</th>
+                                                        <th class="table_th align_right"> 수량</th>
+                                                    </tr>
+                                                    </thead>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <p class="btn outlinegrey full medium" onclick="comment_up()"> 입찰 내역 더보기</p>
+                                </div>
+                            </div>
+                            <div class="fornone">
+                                <div>
+                                    <h3 class="detail_title info_title">상품 정보</h3>
+                                    <div class="detail_product_wrap">
+                                        <di class="detail_product">
+                                            <dt class="product_title">브랜드</dt>
+                                            <dd class="product_info" id="brand"></dd>
+                                        </di>
+                                        <di class="detail_product">
+                                            <dt class="product_title">모델번호</dt>
+                                            <dd class="product_info" id="modelNumber"></dd>
+                                        </di>
+                                        <di class="detail_product">
+                                            <dt class="product_title">출시일</dt>
+                                            <dd class="product_info" id="release"></dd>
+                                        </di>
+                                        <di class="detail_product">
+                                            <dt class="product_title">발매가</dt>
+                                            <dd class="product_info" id="releasePrice"></dd>
+                                        </di>
+                                    </div>
+                                </div>
+                                <p class="meditaion_notice_product"> 크림(주)는 통신판매 중개자로서 통신판매의 당사자가 아닙니다. 본 상품은 개별판매자가
+                                    등록한 상품으로 상품, 상품정보, 거래에 관한 의무와 책임은 각 판매자에게 있습니다. 단, 거래과정에서 검수하고 보증하는 내용에 대한 책임은
+                                    크림(주)에 있습니다. </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="qqqq"></div>
+            </div>
+        </div>
+        <!--두번째 컨텐츠-->
+        <div class="process_buy_sell mo">
+            <h2 class="process_title"><span>KREAM 구매 방식을</span> <span> 꼭 확인해주세요!</span></h2>
+            <div>
+                <div class=" process_list">
+                    <div class="procedure first">
+                        <div class="blind"><strong>구매자</strong>
+                            <p>원하는 상품과 사이즈 검색 후 선택</p><strong>판매자</strong>
+                            <p>판매할 상품 등록</p>
+                        </div>
+                    </div>
+                    <div class="procedure_arrow"><span class="blind">다음</span></div>
+                    <div class="procedure second">
+                        <div class="blind"><strong>KREAM 거래
+                            체결</strong>
+                            <p>구매자와 판매자가 원하는 가격이 일치하면 거래 체결</p>
+                        </div>
+                    </div>
+                    <div class="procedure_arrow"><span class="blind">다음</span></div>
+                    <div class="procedure third">
+                        <div class="blind"><strong>구매자</strong>
+                            <p>등록된 카드로 자동 결제</p><strong>판매자</strong>
+                            <p>검수센터로 상품 48시간 내외 발송</p>
+                        </div>
+                    </div>
+                    <div class="procedure_arrow"><span class="blind">다음</span></div>
+                    <div class="procedure fourth">
+                        <div class="blind"><strong>KREAM 검수센터</strong>
+                            <p>전문 검수팀 철저한 검수</p>
+                            <p>*정품 아닌 경우 3배 보상</p>
+                            </divclass=>
+                        </div>
+                    </div>
+                    <div class="procedure_arrow"><span class="blind">다음</span></div>
+                    <div class="procedure fifth">
+                        <div class="blind"><strong>구매자</strong>
+                            <p>구매자에게 상품 배송 완료!</p><strong>판매자</strong>
+                            <p>판매자에게 정산 완료!</p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <!--스타일 레이어 시작-->
+            <div class="feed_area">
+                <h2 class="feed_title">
+                    <span class="title">스타일</span>
+                    <span class="num" id="style_len"></span>
+                </h2>
+                <div class="social_feeds">
+
+                </div>
+                <div class="more_feeds">
+
+                </div>
+
+
+            </div>
+        </div>
+        <!--스타일 레이어 끝-->
+        <div class="other_products1">
+            <h3 class="more_title">
+                <span class="owner" id="collection"></span>
+                <span class="title_txt">의 다른상품</span>
+                <a href="/search" class="btn_more">
+                    <span class="btn_txt">더보기</span>
+                </a>
+            </h3>
+            <div class="other_products">
+                <div class="product_list"></div>
+            </div>
+        </div>
+    </div>
+    <div class="detail_wrap on_bottom">
+        <h3 class="detail_title info_title mo"> 상품 정보 </h3>
+        <div class="detail_product_wrap">
+            <dl class="detail_product">
+                <dt class="product_title"> 브랜드</dt>
+                <dd class="product_info" id="brand_mo"></dd>
+            </dl>
+            <dl class="detail_product">
+                <dt class="product_title"> 모델번호</dt>
+                <dd class="product_info" id="modelNumber_mo"></dd>
+            </dl>
+            <dl class="detail_product">
+                <dt class="product_title"> 대표색상</dt>
+                <dd class="product_info" id="color_mo"></dd>
+            </dl>
+            <dl class="detail_product">
+                <dt class="product_title"> 출시일</dt>
+                <dd class="product_info" id="release_mo"></dd>
+            </dl>
+            <dl class="detail_product">
+                <dt class="product_title"> 발매가</dt>
+                <dd class="product_info" id="releasePrice_mo"></dd>
+            </dl>
+        </div>
+        <p class="meditaion_notice_product"> 크림(주)는 통신판매 중개자로서 통신판매의 당사자가 아닙니다. 본 상품은 개별판매자가 등록한 상품으로 상품, 상품정보, 거래에
+            관한 의무와 책임은 각 판매자에게 있습니다. 단, 거래과정에서 검수하고 보증하는 내용에 대한 책임은 크림(주)에 있습니다. </p>
+    </div>
+    <div class="floating_price mo">
+        <div class="product_info">
+            <div class="thumb" style="background-color: rgb(246, 238, 237);">
+                <img src="https://kream-phinf.pstatic.net/MjAyMTA3MzBfNTYg/MDAxNjI3NjI3OTg5ODM5.p-9pRcc3cQ_eaTl7UZdCmPJz8Astbjg2N6_HkEhLrHsg.ekjxXxJ-kcnoaZC6gCQH_-KBCUJORPTRC791UZ_C3ukg.PNG/p_e1ef5e002eda49adb7f5d0c8a41f798d.png"
+                     alt="Jordan 1 x Travis Scott x Fragment Retro Low OG SP Military Blue" class="thumb_img">
+            </div>
+            <p class="title" id="name_mo"></p>
+            <div class="size">
+                <a href="#" class="btn_size">
+                    <span class="btn_text btn_text1">모든 사이즈</span>
+                </a>
+            </div>
+        </div>
+        <div class="division_btn_box mo division_md2">
+            <a href="#" class="btn_division buy">
+                <strong class="title">구매</strong>
+                <div class="price">
+                        <span class="amount">
+                            <em class="num quick" id="buynowprice_mo"></em>
+                            <span class="won quick">원</span>
+                        </span>
+                    <span class="desc quick">즉시 구매가</span>
+                </div>
+            </a>
+            <a href="#" class="btn_division sell">
+                <strong class="title">판매</strong>
+                <div class="price">
+                        <span class="amount">
+                            <em class="num quick" id="sellnowprice_mo"></em>
+                            <span class="won quick">원</span>
+                        </span>
+                    <span class="desc quick">즉시 판매가</span>
+                </div>
+            </a>
+        </div>
+    </div>
+</div>
+<!-- 시세 팝업-->
+<div class="layer_container" style="display: none">
+    <div class="layer_content">
+        <div class="layer_header">
+            <h2 class="title">시세</h2>
+            <p class="sell_class" onclick="sell_down()">
+                <img src="/lib/img/nav_close_icon.png" alt="" class="lay_close">
+            </p>
+        </div>
+        <div class="layer_box">
+            <div class="pop_buy_product">
+                <div class="buy_info">
+                    <div class="model_info">
+                        <!--                        <strong class="model_number"></strong>-->
+                        <p class="model_title" id="namepop"></p>
+                        <p class="model_ko" id="korNamepop" style="color:rgb(170, 170, 170)"></p>
+
+                        <div class="size_select_wrap">
+                            <div class="sz_select">
+                                <label class="selected_txt" id="selected_txt">
+                                    <span id="selected_size" onclick="checking(this)">사이즈 선택</span>
+                                    <img src="/lib/img/select_icon.png" class="sz_sel_img">
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="pop_tab_area">
+            <ul role="tablist" class="pop_tab_list">
+                <li role="tab" aria-selected="true" aria-controls="panel_1" class="p_item">
+                    <a href="#" class="item_linkp ">최근 거래</a></li>
+                <li role="tab" aria-selected="false" aria-controls="panel2" class="p_item">
+                    <a href="#" class="item_linkp">판매 입찰</a></li>
+                <li role="tab" aria-selected="false" aria-controls="panel3" class="p_item">
+                    <a href="#" class="item_linkp">구매 입찰</a></li>
+            </ul>
+            <!--            -->
+            <div id="panel_1" role="tabpanel" class="tab_content_show" span="sales">
+                <div class="price_table">
+                    <div class="market_price_table table1">
+                        <div class="price_head">
+                            <div class="head_box">
+                                <div class="head_sort">
+                                    <a href="#" class="sort_link sort">
+                                        <div class="sort_txt">사이즈
+                                            <img src="/lib/img/direction0.png" alt="" class="sort_img">
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="head_sort">
+                                    <a href="#" class="sort_link sort">
+                                        <div class="sort_txt">거래가
+                                            <img src="/lib/img/direction0.png" alt="" class="sort_img">
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="head_sort is_active descending">
+                                    <a href="#" class="sort_link sort">
+                                        <div class="sort_txt">거래일
+                                            <img src="/lib/img/direction0.png" alt="" class="sort_img">
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!--            -->
+            <div id="panel2" role="tabpanel" class="tab_content" span="asks">
+                <div class="price_table">
+                    <div class="market_price_table table2">
+                        <div class="price_head">
+                            <div class="head_box">
+                                <div class="head_sort">
+                                    <a href="#" class="sort_link sort">
+                                        <div class="sort_txt">사이즈
+                                            <img src="/lib/img/direction0.png" alt=""class="sort_img">
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="head_sort">
+                                    <a href="#" class="sort_link sort">
+                                        <div class="sort_txt">판매 희망가
+                                            <img src="/lib/img/direction0.png" alt="" class="sort_img">
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="head_sort is_active descending">
+                                    <a href="#" class="sort_link sort">
+                                        <div class="sort_txt">수량
+                                            <img src="/lib/img/direction0.png" alt="" class="sort_img">
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="empty_content lg" style="display: none;">
+                        <div class="empty_bg"><span class="blind">빈 데이터 이미지</span>
+                        </div>
+                        <p class="empty_text">판매 희망가가 아직 없습니다</p>
+                    </div>
+                </div>
+            </div>
+            <div id="panel3" role="tabpanel" class="tab_content" span="bids">
+                <div class="price_table">
+                    <div class="market_price_table table3">
+                        <div class="price_head">
+                            <div class="head_box">
+                                <div class="head_sort">
+                                    <a href="#" class="sort_link sort">
+                                        <div class="sort_txt">사이즈
+                                            <img src="/lib/img/direction0.png" alt="" class="sort_img">
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="head_sort">
+                                    <a href="#" class="sort_link sort">
+                                        <div class="sort_txt">구매 희망가
+                                            <img src="/lib/img/direction0.png" alt="" class="sort_img">
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="head_sort is_active descending">
+                                    <a href="#" class="sort_link sort">
+                                        <div class="sort_txt">수량
+                                            <img src="/lib/img/direction0.png" alt="" class="sort_img">
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="empty_content lg" style="display: none;">
+                        <div class="empty_bg"><span class="blind">빈 데이터 이미지</span>
+                        </div>
+                        <p class="empty_text">구매 희망가가 아직 없습니다</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="layer_container" style="display: none">
+    <div class="layer_content v2">
+        <div class="layer_header">
+            <h2 class="ly_title" style="margin: 0 auto">관심 상품 추가</h2>
+        </div>
+        <div class="sg_item">
+
+        </div>
+        <div class="suggest_list" id="fav_id">
+            <!--사이즈 목록-->
+            <div class="interest_list_box">
+                <div class="interest_list"></div>
+            </div>
+
+            <div class="layer_btn">
+                <a href="#" class="check_btn" onclick="comment_down()"> 확인 </a>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+<div class="layer2 lg layer_detail_size_select2 select_only_size" style="display:none;">
+    <div class="layer_container2">
+        <div class="layer_header2">
+            <div class="title">
+                <div class="all_size_container">
+                    <div class="popup_size">사이즈</div>
+                    <div class="ad_popup_size" onclick="size_popup_delete()">
+                        <img src="/lib/img/nav_close_icon.png" alt="popup_delete" class="all_size_img">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="layer_content">
+            <div class="select_area2 lg" showlayer="true" optiontitle="사이즈">
+                <ul class="select_list2">
+                    <li class="select_item2 active">
+                        <button role="button" aria-selected="true" class="select_link buy">
+                            <div class="link_inner">
+                                <span class="size">모든 사이즈</span>
+                                <span class="price1 avgNum"></span>
+                            </div>
+                        </button>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- footer 시작 -->
+<div th:replace="include/checkFooter :: footer"></div>
+</body>
+<script src="/lib/js/ljs_product.js"></script>
+<script src="/lib/js/pop.js"></script>
+
+<script>
+
+    let proSize = [];
+
+    const customerId = sessionStorage.getItem('userid'); // 세션 가져오기
+    $(function () {
+        const id = $('#id').val();
+        console.log(id);
+
+        axios.all([axios.get('/api/pro_detail/' + id)])
+            .then(function (response) {
+
+                console.log(response);
+                const brand = response[0].data.data.brand;
+                const collection = response[0].data.data.collection;
+                const name = response[0].data.data.name;
+                const korName = response[0].data.data.korName;
+                const release = response[0].data.data.release;
+                const releasePrice = response[0].data.data.releasePrice;
+
+                const img = response[0].data.data.productImgApiResponseList[0].originFileName;
+                const color = response[0].data.data.color;
+                const modelNumber = response[0].data.data.modelNumber;
+
+                $('.brand12').text(brand);
+                $('#brand').text(brand);
+
+                $('#brand_mo').text(brand);
+                $('#collection').text(collection);
+                $('#collection_mo').text(collection);
+
+                $('#name').text(name);
+                $('#name_mo').text(name);
+
+                $('#namepop').text(name);
+                $('#korName').text(korName);
+                $('#korNamepop').text(korName);
+                $('#release').text(release);
+                $('#release_mo').text(release);
+
+                $('#releasePrice').text(releasePrice);
+                $('#releasePrice_mo').text(releasePrice);
+
+                $('#img').text(img);
+                $('#color').text(color);
+                $('#color_mo').text(color);
+
+                $('#modelNumber').text(modelNumber);
+                $('#modelNumber_mo').text(modelNumber);
+
+
+                let $img = response[0].data.data.img;
+                let $brand = response[0].data.data.brand;
+
+                $('.aximg').append("<img src='" + $img + "' alt='" + $brand + "' >");
+
+
+                let $pro_id = response[0].data.data.id;
+                let $sec_mark = $('<img src="/lib/img/sec_mark.jpg" value="' + $pro_id + '" class="img_wish sec_marking btn_wish ">')
+                $('.for2').append($sec_mark);
+
+                if (response[0].data.data.productPurchaseSizeApiResponseList.length != 0) {
+                    buynowprice = response[0].data.data.productPurchaseSizeApiResponseList[0].price;
+                    $('#buynowprice').text(buynowprice);
+                    $('#buynowprice_mo').text(buynowprice);
+                    let $price_body2 = $(' <div class="price_body">');
+                    for (let purFor = 0; purFor < response[0].data.data.productPurchaseSizeApiResponseList.length; purFor++) {
+                        let $buysize = response[0].data.data.productPurchaseSizeApiResponseList[purFor].size;
+                        let $buyprice = response[0].data.data.productPurchaseSizeApiResponseList[purFor].price;
+                        let $buycnt = response[0].data.data.productPurchaseSizeApiResponseList[purFor].cnt;
+                        let $buylist = $('<div class="body_list">').append(
+                            '<div class="list_txt">' + $buysize + '</div>' +
+                            ' <div class="list_txt">' + $buyprice + '원</div>' +
+                            '<div class="list_txt is_active">' + $buycnt + '</div></div>'
+                        )
+                        $($price_body2).append($buylist);
+                    }
+                    $($price_body2).append('</div>');
+                    $('.table2').append($price_body2);
+
+                    /*구매내역리스트*/
+                    let forbuy = $(' <tbody class="buylist">');
+                    for (let i = 0; i < response[0].data.data.productPurchaseSizeApiResponseList.length; i++) {
+                        if (i < 6) {
+                            let $buysize = response[0].data.data.productPurchaseSizeApiResponseList[i].size;
+                            let $buyprice = response[0].data.data.productPurchaseSizeApiResponseList[i].price;
+                            let $buycnt = response[0].data.data.productPurchaseSizeApiResponseList[i].cnt;
+                            let buy = $('<tr>').append(
+                                '<td class="table_td">' + $buysize + '</td>' +
+                                '<td class="table_td align_right">' + $buyprice + '원' + '</td>' +
+                                '<td class="table_td align_right">' + $buycnt + '</td>' +
+                                '</tr>'
+                            );
+                            forbuy.append(buy);
+                        }
+                    }
+                    forbuy.append('</tbody>');
+                    $('.forbuylist').append(forbuy);
+                } else {
+                    $('#buynowprice').text('-  ');
+                    $('#buynowprice_mo').text('-  ');
+                }
+
+
+                if (response[0].data.data.productSalesSizeApiResponseList.length != 0) {
+                    sellnowprice = response[0].data.data.productSalesSizeApiResponseList[0].price;
+                    $('#sellnowprice').text(sellnowprice);
+                    $('#sellnowprice_mo').text(sellnowprice);
+                    let price_body3 = $(' <div class="price_body">');
+                    for (let salFor = 0; salFor < response[0].data.data.productSalesSizeApiResponseList.length; salFor++) {
+                        let $salesize = response[0].data.data.productSalesSizeApiResponseList[salFor].size;
+                        let $saleprice = response[0].data.data.productSalesSizeApiResponseList[salFor].price;
+                        let $sellcnt = response[0].data.data.productSalesSizeApiResponseList[salFor].cnt;
+                        let $selllist = $('<div class="body_list">').append(
+                            '<div class="list_txt">' + $salesize + '</div>' +
+                            ' <div class="list_txt">' + $saleprice + '원</div>' +
+                            '<div class="list_txt is_active">' + $sellcnt + '</div></div>'
+                        )
+                        $(price_body3).append($selllist);
+                    }
+                    $(price_body3).append('</div>');
+                    $('.table3').append(price_body3);
+
+                    /*입찰내역리스트*/
+                    let forsale = $(' <tbody class="salelist">');
+                    for (let i = 0; i < response[0].data.data.productSalesSizeApiResponseList.length; i++) {
+                        if (i < 6) {
+                            let $salesize = response[0].data.data.productSalesSizeApiResponseList[i].size;
+                            let $saleprice = response[0].data.data.productSalesSizeApiResponseList[i].price;
+                            let $salecnt = response[0].data.data.productSalesSizeApiResponseList[i].cnt;
+
+                            let sale = $('<tr>').append(
+                                '<td class="table_td">' + $salesize + '</td>' +
+                                '<td class="table_td align_right">' + $saleprice + '원' + '</td>' +
+                                '<td class="table_td align_right">' + $salecnt + '</td>' +
+                                '</tr>'
+                            );
+                            forsale.append(sale);
+                        }
+                    }
+                    $('.forsalelist').append(forsale);
+                } else {
+                    $('#sellnowprice').text('-');
+                    $('#sellnowprice_mo').text('-');
+                }
+
+                /*style */
+                if (response[0].data.data.productStyleTagApiResponseList.length != 0) {
+                    let box = $('<div id="Box">');
+                    let style_len = response[0].data.data.productStyleTagApiResponseList.length;
+                    if (style_len > 0 && style_len < 9) {
+                        for (let i = 0; i < style_len; i++) {
+                            if(i==8){break}
+                            let tag;// 해시태그
+                            let userid = response[0].data.data.productStyleTagApiResponseList[i].userId; // 유저아이디
+                            let hit = response[0].data.data.productStyleTagApiResponseList[i].hit; // 좋아요
+                            let cnt = response[0].data.data.productStyleTagApiResponseList[i].replyCnt; // 댓글갯수
+                            let styleimg = response[0].data.data.productStyleTagApiResponseList[i].styleImg; // 이미지
+                            let stylecnt = response[0].data.data.productStyleTagApiResponseList[i].imgCnt; // 이미지 사진 갯수
+                            let userimg = response[0].data.data.productStyleTagApiResponseList[i].userImg; // 유저 이미지
+                            let content = response[0].data.data.productStyleTagApiResponseList[i].content; // 내용
+                            let styleId = response[0].data.data.productStyleTagApiResponseList[i].styleId;
+                            if(userimg == null){
+                                userimg = '/lib/img/blank_profile.4347742.png';
+                            }
+                            tag = "";
+                            for (let j in response[0].data.data.productStyleTagApiResponseList.productHashtagApiResponseList) {
+                                tag += response[0].data.data.productStyleTagApiResponseList.productHashtagApiResponseList[j].tagName;
+                            }
+                            // 아래 데이터 삽입
+                            let can = $('<div class="card_box">').append(
+                                '<div class="img_count"><span class="count">' + '+' + stylecnt + '</span></div><a href="/social/popular"><div class="imgbox"><img src="/lib/styleImg/' + styleimg + '" alt="으아" class="img">' + '</div>' +
+                                '<div class="userbox"><img src="' + userimg + '" alt="계정" class="userimg">' +
+                                '<p class="userid">' + userid + '</p></div>' +
+                                '<p class="textbox"><p class="text">' + content + '#' + tag + '</p></p></a>' +
+                                '<div class="likebox">' + ' <div href="#" class="likelink"><img src="/lib/img/smile.png" alt="좋아요" class="like_img" onclick="sendit(' + styleId + ')">' +
+                                '<p class="hit" id="' + styleId + '">' + hit + '</p></div>' + '<a href="/social/popular" class="likelink">' + '<img src="/lib/img/7148750_chat_message_bubble_talk_conversation_icon.png" alt="" class="comment">' +
+                                '<p>' + cnt + '</p></a></div>'
+                            )
+                            box.append(can);
+
+                            $('.social_feeds').html(box);
+                        }
+
+                    } else if (style_len > 8) {
+                        for (let i = 0; i < style_len; i++) {
+                            console.log("프로덕트아이디와 일치하는 스타일이 있음")
+                            let tag;// 해시태그
+
+                            let userid = response[0].data.data.productStyleTagApiResponseList[i].userId; // 유저아이디
+                            let hit = response[0].data.data.productStyleTagApiResponseList[i].hit; // 좋아요
+                            let cnt = response[0].data.data.productStyleTagApiResponseList[i].replyCnt; // 댓글갯수
+                            let styleimg = response[0].data.data.productStyleTagApiResponseList[i].styleImg; // 이미지
+                            let stylecnt = response[0].data.data.productStyleTagApiResponseList[i].imgCnt; // 이미지 사진 갯수
+                            let userimg = response[0].data.data.productStyleTagApiResponseList[i].userImg; // 유저 이미지
+                            let content = response[0].data.data.productStyleTagApiResponseList[i].content; // 내용
+                            let styleId = response[0].data.data.productStyleTagApiResponseList[i].styleId;
+                            console.log(styleId);
+                            if(userimg == null){
+                                userimg = '/lib/img/blank_profile.4347742.png';
+                            }
+                            tag = "";
+                            for (let j in response[0].data.data.productStyleTagApiResponseList.productHashtagApiResponseList) {
+                                tag += response[0].data.data.productStyleTagApiResponseList.productHashtagApiResponseList[j].tagName;
+                            }
+                            // 아래 데이터 삽입
+                            let can = $('<div class="card_box">').append(
+                                '<div class="img_count"><span class="count">' + '+' + stylecnt + '</span></div><a href="/social/popular"><div class="imgbox"><img src="/lib/styleImg/' + styleimg + '" alt="으아" class="img">' + '</div>' +
+                                '<div class="userbox"><img src="' + userimg + '" alt="계정" class="userimg">' +
+                                '<p class="userid">' + userid + '</p></div>' +
+                                '<p class="textbox"><p class="text">' + content + '#' + tag + '</p></p></a>' +
+                                '<div class="likebox">' + ' <div href="#" class="likelink"><img src="/lib/img/smile.png" alt="좋아요" class="like_img" onclick="sendit(' + styleId + ')">' +
+                                '<p class="hit" id="' + styleId + '">' + hit + '</p></div>' + '<a href="/social/popular" class="likelink">' + '<img src="/lib/img/7148750_chat_message_bubble_talk_conversation_icon.png" alt="" class="comment">' +
+                                '<p>' + cnt + '</p></a></div>'
+                            )
+                            box.append(can);
+
+                            $('.social_feeds').html(box);
+
+                            for (let x = 8; x < style_len; x++) {
+                                let hide = document.querySelectorAll('.card_box').item(x);
+                                $(hide).hide();
+                            }
+                        }
+                        let btn = $('<div class="more_btn_box">').append(
+                            '<button type="button" id="btn_more" class="btn outlinegrey medium"> 더보기 </button>' +
+                            '</div>'
+                        )
+                        $('.social_feeds').after(btn);
+                    }
+                    $('#style_len').text(style_len)
+                } else {
+                    let box = $('<h4 class="no_style" style="text-align: center; font-size: 13px;" >Style에서 상품 태그를 등록하여 사진을 올리세요</h4>')
+                    $('.social_feeds').html(box);
+                }
+
+                if (response[0].data.data.productTopTransactionApiResponseList.length > 1) {
+                    let $lateprice0 = response[0].data.data.productTopTransactionApiResponseList[0].price;
+                    let $lateprice1 = response[0].data.data.productTopTransactionApiResponseList[1].price;
+                    let $latelyprice = $lateprice0 - $lateprice1;
+                    let $iflate = null;
+                    if ($latelyprice < 0) {
+                        $iflate = " - ";
+                    } else {
+                        $iflate = "  + ";
+                    }
+                    ;
+                    let $per = ($lateprice0 / $lateprice1);
+                    let lateper = $('<p id="latelyPrice2">').append(
+                        ' ' + $latelyprice + '원 (' + $iflate + $per.toFixed(0.1) + '%)'
+                    );
+                    $(lateper).append('</p>');
+                    $('#latelyPrice').text($lateprice0);
+                    $('#latelyPrice2').text($latelyprice);
+                    $('.fluctuation').append(lateper);
+                } else if (response[0].data.data.productTopTransactionApiResponseList.length == 1) {
+                    let $lateprice0 = response[0].data.data.productTopTransactionApiResponseList[0].price;
+                    $('#latelyPrice').text($lateprice0);
+                    let lateper = $('<p id="latelyPrice2">').append(
+                        ' ' + $lateprice0 + '원 ( - )'
+                    );
+                    $(lateper).append('</p>');
+                    $('#latelyPrice2').text($lateprice0);
+                } else {
+                    $('#latelyPrice').text('- ');
+                    $('#latelyPrice2').text('- ');
+                }
+
+                //구매완료팝업
+                if (response[0].data.data.productTransactionApiResponseList.length != 0) {
+                    let $price_body1 = $(' <div class="price_body">');
+                    for (let i = 0; i < response[0].data.data.productTransactionApiResponseList.length; i++) {
+                        let $buysize = response[0].data.data.productTransactionApiResponseList[i].sizeType;
+                        let $buyprice = response[0].data.data.productTransactionApiResponseList[i].price;
+                        let $buydate = response[0].data.data.productTransactionApiResponseList[i].regdate.substring(2, 9);
+                        let $buylist = $('<div class="body_list">').append(
+                            '<div class="list_txt">' + $buysize + '</div>' +
+                            ' <div class="list_txt">' + $buyprice + '원</div>' +
+                            '<div class="list_txt is_active">' + $buydate + '</div></div>'
+                        )
+                        $($price_body1).append($buylist);
+                    }
+                    $($price_body1).append('</div>');
+                    $('.table1').append($price_body1);
+                }
+
+                if (response[0].data.data.productCollectionApiResponseList.length != 0) {
+                    let haspopimg = false;
+                    for (let i = 0; i < response[0].data.data.productCollectionApiResponseList.length; i++) {
+                        if (response[0].data.data.productCollectionApiResponseList[i].id == id && haspopimg == false) {
+                            let $popimg = response[0].data.data.productImgApiResponseList[0].originFileName;
+                            let $pop_pro = $('<div class="pop_product" style="background-color: rgb(235, 240, 245);">').append(
+                                '<img src="/lib/product/' + $popimg + '" class="pop_product_img"></div>'
+                            )
+                            haspopimg = true;
+                            $('.pop_buy_product').prepend($pop_pro);
+                        }
+                    }
+                }
+
+                if (response[0].data.data.productSizeApiResponseList.length != 0) {
+                    let $pro_size_len = response[0].data.data.productSizeApiResponseList.length;
+                    let $sumPrice = 0;
+                    let $nullcnt = 0;
+                    for (let i = 0; i < $pro_size_len; i++) {
+                        if (response[0].data.data.productSizeApiResponseList[i].cnt != null) {
+                            $sumPrice += response[0].data.data.productSizeApiResponseList[i].cnt;
+                            $nullcnt = $nullcnt + 1;
+                        }
+                    }
+                    let $avgPrice = 0;
+                    let avgPrice = 0;
+                    if ($sumPrice != 0 || $nullcnt != 0) {
+                        $avgPrice = $sumPrice / $nullcnt;
+                        avgPrice = Math.ceil($avgPrice);
+                    } else {
+                        avgPrice = '정보없음'
+                    }
+
+
+                    $('.avgNum').text(avgPrice);
+                    for (let j = 0; j < $pro_size_len; j++) {
+                        let $prosize = response[0].data.data.productSizeApiResponseList[j].size;
+                        let $proprice = response[0].data.data.productSizeApiResponseList[j].cnt;
+                        let pro_price = $proprice;
+                        if ($proprice == null) {
+                            pro_price = '정보없음';
+                        }
+                        let itemsizehead = $('<li  class="select_item2">').append(
+                            '<button  role="button"class="select_link buy">' +
+                            '<div  class="link_inner">' +
+                            '<p class="size">' + $prosize + '</p>' +
+                            '<p class="price1">' + pro_price + '</p>' +
+                            '</div>' +
+                            '</button>'
+                        );
+                        $('.select_list2').append(itemsizehead)
+                    }
+                }
+
+                $('.select_item2').on('click', function () {
+                    $(this).css('border', '1px solid black');
+                    $(this).siblings().css('border', '1px solid rgb(201, 201, 201)');
+                    const val = $(this).find('.size').text();
+                    $('.all_size').text(val);
+                });
+                $('.select_item2').on('click', function () {
+                    $(this).css('border', '1px solid black');
+                    $(this).siblings().css('border', '1px solid rgb(201, 201, 201)');
+                    const val = $(this).find('.size').text();
+                    $('.all_size').text(val);
+
+                    const popdown = document.getElementsByClassName('layer_container2')[0];
+                    popdown.style.display = "none";
+
+                    const background = document.getElementsByClassName('layer2')[0];
+                    background.style.display = "none";
+
+                    const body = document.querySelector('body');
+                    body.style.overflow = 'unset';
+                });
+
+                /*프로덕트 이미지*/
+                let proimgres = response[0].data.data.productImgApiResponseList.length;
+                console.log(proimgres)//==3
+
+                let swip_img = '';
+                for (i = 0; i < proimgres; i++) { //length - 1 개 만큼 돌아가게
+
+                    let proimg = response[0].data.data.productImgApiResponseList[i].originFileName; //o
+                    console.log(proimg);
+
+                    swip_img += '<div class="swiper-slide"><img src="/lib/product/' + proimg + '"></div>';
+
+                    console.log(swip_img);
+                }
+                $('.swiper-wrapper').append(swip_img);
+
+                if (response[0].data.data.productCollectionApiResponseList.length != 0) {
+                    let $maxcheck = 0;
+                    for (let i = 0; i < response[0].data.data.productCollectionApiResponseList.length; i++) {
+                        if ($maxcheck <= 3) {
+                            let $proId = response[0].data.data.productCollectionApiResponseList[i].id;
+                            if ($proId == id) {
+                                continue;
+                            }
+                            let $proName = response[0].data.data.productCollectionApiResponseList[i].name;
+                            let $proBrand = response[0].data.data.productCollectionApiResponseList[i].brand;
+                            let $proReleasePrice = response[0].data.data.productCollectionApiResponseList[i].price;
+                            let $proImg = response[0].data.data.productCollectionApiResponseList[i].oringinFileName;
+                            let price = $proReleasePrice;
+                            if ($proReleasePrice == null) {
+                                price = ' - ';
+                            } else {
+                                price = priceToString($proReleasePrice);
+                            }
+
+                            function priceToString($proReleasePrice) {
+                                return $proReleasePrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+                            }
+
+                            let pro_item = $(' <div class="product_item">');
+                            let iteminnner = $('<a class="item_inner" href="/product/' + $proId + '">');
+
+                            let iteminner1 = $('<div class="product" style="background-color: rgb(246,238,237);">').append(
+                                '<img src="/lib/product/' + $proImg + ' " class="product_img"></div>'
+                            );
+                            let iteminner2 = $('<div class="info_box">').append(
+                                '<div class="brand">' +
+                                '<p class="brand-text without-wish" style="font-size: 1.5rem;">' + $proBrand + '</p>' +
+                                '<p class="name">' + $proName + '</p>' +
+                                '<div class="price">' +
+                                '<div class="amount lg"><em class="num">' + price + '</em>' +
+                                '<span class="won lg">' + '원</span></div>' +
+                                '<div class="desc">' +
+                                '<p>즉시 구매가</p>' +
+                                '</div>' +
+                                '</div></div>'
+                            );
+                            $(iteminnner).append(iteminner1);
+                            $(iteminnner).append(iteminner2);
+                            $(iteminnner).append('</a>');
+                            $(pro_item).append(iteminnner);
+                            $('.product_list').append(pro_item);
+
+                            $maxcheck += 1;
+                        }
+                    }
+                }
+                console.log(response[0].data.data.productCollectionApiResponseList.length);
+                if (response[0].data.data.productCollectionApiResponseList.length == 1) {
+                    $('.product_list').append('<div class="social_feeds" style="padding:5rem; border-bottom:0.2rem solid #d3d3d3; margin:4rem"><h4 class="no_style" style="text-align: center; font-size: 13px;">다른 상품이 없습니다.</h4></div>');
+                }
+
+                //팝업사이즈
+                if (response[0].data.data.productSizeApiResponseList.length != 0) {
+                    let $size_poplen = response[0].data.data.productSizeApiResponseList.length;
+
+                    let size_pop = $('<select name="pop_size" id="select_jsy">');
+                    let everysize = $(' <option value="모든사이즈" selected>모든사이즈</option>')
+                    size_pop.append(everysize);
+
+                    for (i = 0; i < $size_poplen; i++) { //length - 1 개 만큼 돌아가
+                        let $prosize = response[0].data.data.productSizeApiResponseList[i].size;
+                        let addsize = $('<option class="choice" value="' + $prosize + '">' + $prosize + '</option>');
+                        size_pop.append(addsize);
+                    }
+                    size_pop.append('</select>');
+                    $('.model_ko').after(size_pop);
+                }
+
+                $('#btn_more').click(function () {
+                    if (response[0].data.data.productStyleTagApiResponseList.length > 8) {
+                        for (let y = 8; y < response[0].data.data.productStyleTagApiResponseList.length; y++) {
+                            let show = document.querySelectorAll('.card_box').item(y);
+                            $(show).show();
+                            $(this).parent(".more_btn_box").css('display', 'none'); //버튼 안보이게
+                        }
+                    }
+                });
+
+                $(document).on('click', '.like_btn', function shows_id() {
+                    let index = $(".like_btn").index(this);
+                    let styleId2 = response[0].data.data.productStyleTagApiResponseList[index].styleId;
+                    console.log(styleId2)
+                })
+
+                /*여기 안에서 작업 해라*/
+                $(document).ready(function () {
+                    $('#select_jsy').on('change', function () {
+                        console.log(this.value)
+                        $('#selected_size').text('')
+                        $('#selected_size').text(this.value);
+                    })
+                })
+
+
+                new Swiper('.swiper-container', {
+                    loop: false,
+                    loopAdditionalSlides: 1,
+                    pagination: { // 페이징 설정
+                        el: '.swiper-pagination',
+                        clickable: true, // 페이징을 클릭하면 해당 영역으로 이동, 필요시 지정해 줘야 기능 작동
+                    },
+                    navigation: { // 네비게이션 설정
+                        nextEl: '.swiper-button-next', // 다음 버튼 클래스명
+                        prevEl: '.swiper-button-prev', // 이번 버튼 클래스명
+                    },
+
+                }).catch(function (err) {
+                    console.log(err);
+                })
+            });
+
+        function sendit(styleId) {
+            let likeNum = document.getElementById(styleId);
+            if (customerId == null) {
+                location.href = '/login';
+            } else {
+                axios.get('/api/styleLike_like/' + customerId + "/" + styleId, {}).then(function (response) {
+                    console.log(response)
+                    let like = response.data;
+                    likeNum.innerText = '';
+                    likeNum.append(like);
+                });
+            }
+        }
+
+
+        $(document).on('click', '.like_img', function () {
+            /*$(".check_box").index(this); 몇번쨰 클래스인지 가져옴 // .index는 함수이름*/
+            let index = $(".like_img").index(this);
+            let like = document.getElementsByClassName('like_img');
+            let likeCheck = like.item(index).getAttribute('src');
+            if (customerId != null) {    // 로그인 되어있을 경우에만 바꿔줌
+                if (likeCheck == '/lib/img/smile.png') {
+                    like.item(index).setAttribute('src', '/lib/img/heart.png');
+                } else if (likeCheck == '/lib/img/heart.png') {
+                    like.item(index).setAttribute('src', '/lib/img/smile.png');
+                }
+            } else {
+                location.href = '/login';
+            }
+        });
+
+    })
+    function go_to_sell() {
+        let all_Size = $('.all_size').text()
+        if (all_Size != "모든 사이즈") {
+            console.log("btn_disabled -> true")
+            $(".btn").prop("disabled", false);
+        } else {
+            console.log("btn_disabled -> false")
+
+            $(".btn").prop("disabled", true);
+        }
+        if (sessionStorage.getItem('userid') != null) {
+            const btn = document.querySelector('.btn');
+            if (btn.disabled == false) {
+                location.href = '/kream/sellcheck/' + $('#id').val() + '/' + $('.all_size').text();
+                return false;
+            } else if (btn.disabled == true) {
+                alert("사이즈를 체크해주세요")
+            }
+        } else {
+            location.href = '/login';
+        }
+    }
+
+    function go_to_buy() {
+
+        let all_Size = $('.all_size').text()
+
+        if (all_Size != "모든 사이즈") {
+            console.log("btn_disabled -> true")
+            $(".btn").prop("disabled", false);
+        } else {
+            console.log("btn_disabled -> false")
+
+            $(".btn").prop("disabled", true);
+        }
+        if (sessionStorage.getItem('userid') != null) {
+            const btn = document.querySelector('.btn');
+            if (btn.disabled == false) {
+                location.href = '/kream/buycheck/' + $('#id').val() + '/' + $('.all_size').text();
+                return false;
+            } else if (btn.disabled == true) {
+                alert("사이즈를 체크해주세요")
+            }
+        } else {
+            location.href = '/login';
+        }
+    }
+</script>
+</html>

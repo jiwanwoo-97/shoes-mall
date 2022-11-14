@@ -1,0 +1,994 @@
+@import url(//fonts.googleapis.com/earlyaccess/notosanskr.css);
+
+.notosanskr * {
+    font-family: 'Noto Sans KR', sans-serif;
+}
+html {
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 62.5%;}
+.footer_pop{
+    overflow-y: hidden;
+    display: none;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    z-index: 10000;
+    background: rgba(0, 0, 0, 0.404);
+    align-items: center;
+
+    word-break:keep-all;
+}
+.pop_Btxt{
+    font-size: 2rem;
+    font-weight: bold;
+    margin: 0;
+    margin-bottom: 0.99rem;
+}
+.footer_pop .footer_pop_back{
+    margin: 0 auto;
+    width: 58rem;
+    height: 62rem;
+    background: white;
+    border-radius: 15px;
+}
+.footer_pop .footer_pop_center{
+    margin: 0 auto;
+    width: 100%;
+    margin-top: 1.3rem;
+}
+.footer_pop .pop_top_text{
+    width: 100%;
+    height: 1.7rem;
+    margin-top: 1.6rem;
+    text-align: center;
+    font-size: 1.91rem;
+    font-weight: bold;
+}
+.footer_pop .pop_text_box{
+    width: 88.8%;
+    height: 53rem;
+    overflow-y: scroll;
+    padding: 0 3.27rem;
+    margin-top: 2.6rem;
+}
+.footer_pop .pop_close{
+    position: relative;
+    top: 2rem;
+    right: 2.4rem;
+    float: right;
+    width: 1.7rem;
+    height: 1.7rem;
+    background: url(/pop_close.png) no-repeat center/cover;
+}
+.footer_pop .pop_edit_text{
+    font-size: 1.47rem;
+    line-height: 2.4rem;
+}
+/***************************************************************/
+
+
+.pop_edit_text span {
+    color: rgb(54, 145, 230);
+    text-decoration: underline;
+}
+.penalty_box {
+    margin-top: 4.4rem;
+}
+.penalty_flex {
+    width: 100%;
+    border-top: 1px solid lightgray;
+    display: flex;
+}
+/**/
+.penalty_flex .penatly_left_box{
+    font-size: 1.5rem;
+    width: 22rem;
+    line-height: 1.8rem;
+    padding: 1rem 0;
+    padding-left: 1.5rem;
+    display: flex;
+    align-items: center;
+}
+
+.penalty_flex .penatly_right_box{
+    display: flex;
+    align-items: center;
+    font-size: 1.35rem;
+    color: red;
+    margin-left: 3.1rem;
+}
+#lh1, #lh2 {
+    line-height: 2.2rem;
+    margin: 0rem 0;
+}
+.penalty_Stxt {
+    font-size: 1.48rem;
+    line-height: 2.4rem;
+}
+.penalty_Stxt span{
+    position: relative;
+    top: 0.4rem;
+}
+.penalty_box .penalty_Btxt_un {
+    font-size: 1.48rem;
+    padding: 0;
+    margin: 0;
+    margin-top: -1.2rem;
+}
+.penalty_box .penalty_middle {
+    font-size: 1.7rem;
+    margin: 2rem 0 1.2rem;
+    padding: 0;
+}
+#last_penalty{
+    margin-bottom: 2.8rem;
+}
+/***************************************************************/
+#pop_commu .commu_Btxt{
+    margin-top: 4.4rem;
+}
+#pop_commu .commu_ul{
+    margin: 0;
+    padding: 0;
+    margin-top: 2rem;
+}
+.commu_ul li{
+    font-size: 1.47rem;
+    margin-left: 1.5rem;
+}
+.style_none li{
+    margin-left: 0;
+}
+#pop_commu .commu_ul li::marker{
+    font-size: 1rem;
+}
+.style_none{
+    list-style: none;
+}
+.li_Btxt{
+    font-weight: bold;
+}
+.commu_flex_div{
+    display: flex;
+    width: 100%;
+    align-items: center;
+    border-top: 1px solid lightgray;
+}
+.commu_flex_div p{
+    word-break:break-all;
+    width: 40%;
+    font-size: 1.47rem;
+    padding: 0;
+    margin: 1.25rem 0;
+    margin-left: 2rem;
+}
+.cfd_top{
+    margin-top: 3rem;
+}
+.commu_flex_div .cfd_2{
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+#commu_footer{
+    margin-top: 5rem;
+    margin-bottom: 5rem;
+}
+#commu_footer span{
+    color: rgb(54, 145, 230);
+    text-decoration: underline;
+}
+/**********************************************/
+
+#policy_ul{
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+#pop_policy .penatly_left_box{
+    font-size: 1.44rem;
+}
+.pop_policy_body{display: none;}
+.pop_policy_head{
+    width: 100%;
+    border-bottom: 1px solid lightgray;
+    padding: 2.4rem 0 2.3rem;
+    font-size: 1.6rem;
+    display: flex;
+    justify-content: space-between;
+}
+.pp_img{
+    margin-right: 1rem;
+    width: 3.2rem;
+    height: 3.2rem;
+    background: url(/pop/policy_down.png)no-repeat center/cover;
+}
+.pop_policy_body{
+    background: rgb(249, 249, 249);
+    padding: 2.9rem 3.3rem;
+    border-bottom: 1px solid lightgray;
+}
+#pop_policy .penalty_flex .penatly_left_box{
+    width: 45%;
+    line-height: 1.8rem;
+    padding-left: 1.5rem;
+    display: flex;
+    align-items: center;
+}
+#pop_policy .penalty_flex p{
+    word-break:break-all;
+    width: 45%;
+    font-size: 1.41rem;
+    padding: 0;
+    margin: 1.25rem 0;
+    margin-left: 2.2rem;
+}
+.penalty_flex{
+    background: rgb(251, 251, 251);
+}
+#li2 .pop_Btxt{
+    margin-bottom: 0;
+}
+.polict_li .policy_middle{
+    margin-bottom: 0.15rem;
+    padding: 0;
+}
+.middle_un{
+    font-size: 1.47rem;
+    margin: 0.2rem 0;
+    padding: 0;
+}
+.middle_un span{
+    font-size: 1.3rem;
+}
+
+
+
+#li3 .pop_edit_text span{
+    color: black;
+    text-decoration: none;
+    margin-right: 0.8rem;
+}
+
+#li3 .pop_Btxt{
+    margin-top: 4rem;
+}
+#li4 .pop_Btxt{
+    margin-top: 2rem;
+}
+#li4 .penalty_flex .penatly_left_box{
+    width: 50%;
+    margin: 1.5rem 0;
+}
+#li4 .penalty_flex .penatly_right_box{
+    color: black;
+    font-size: 1.44rem;
+    margin: 0.2rem 0;
+}
+#li5_text{
+    margin-top: 2.4rem;
+}
+#li5_text .middle_un span{
+    font-size: 1.4rem;
+    margin-right: 0.8rem;
+}
+
+#li6 .pop_Btxt{
+    margin-top: 4.4rem;
+}
+#li6 .pop_edit_text{
+    padding: 0;
+    margin-top: 2.2rem;
+}
+#li6 .pop_edit_text li{
+    font-size: 1.47rem;
+    margin-left: 1.5rem;
+    list-style:disc;
+}
+#li6 ul li::marker{
+    font-size: 1rem;
+}
+#li6 #style_none li{
+    list-style: none;
+    margin-left: 0;
+}
+
+#li7 .pop_Btxt{
+    margin-top: 4.4rem;
+    margin-bottom: 2rem;
+}
+
+#li7 span{
+    color: rgb(54, 145, 230);
+    text-decoration: underline;
+}
+
+#li7 .li7_bold{
+    color: black;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+
+#li8 .pop_Btxt{
+    margin-top: 4.4rem;
+    margin-bottom: 2rem;
+}
+#li8 .li8_middle{
+    font-size: 1.46rem;
+    margin: 0.2rem 0;
+    padding: 0;
+    font-weight: bold;
+}
+#li8 .li8_middle span{
+    font-size: 1.35rem;
+}
+#li8  .li8_middle_un{
+    margin-top: 2.5rem;
+}
+#li8 .li8_middle2{
+    font-size: 1.75rem;
+    margin: 4rem 0 0;
+    padding: 0;
+    font-weight: bold;
+}
+
+#li9 span{
+    color: black;
+    text-decoration: none;
+    font-weight: bold;
+}
+#li9 .middle_un span{
+    font-size: 0.1rem;
+}
+#li9 .li9_middle2{
+    font-size: 1.7rem;
+    margin: 4rem 0 0;
+    padding: 0;
+    font-weight: bold;
+}
+.pop_edit_text span {
+    color: rgb(54, 145, 230);
+    text-decoration: underline;
+}
+
+/********************************************************************/
+
+
+
+#pop_inspecion p{
+    margin: 0;
+    padding: 0;
+}
+
+#pop_inspecion .category_list{
+    width: 100%;
+    padding: 0px 0 5.7rem 0;
+    border-bottom: 1px solid rgb(235, 235, 235);
+}
+.category{
+    padding: 0.05rem 1.8rem;
+    margin-right: 0.9rem;
+    border-radius: 20px;
+}
+
+#pop_inspecion .update{
+    margin-top: 1.9rem;
+    font-size: 1.4rem;
+}
+#pop_inspecion .date{
+    line-height: 1.5rem;
+    font-size: 1.4rem;
+}
+#pop_inspecion .description{
+    margin-top: 1.6rem;
+    font-size: 1.45rem;
+    line-height: 1.8rem;
+    font-weight: inherit;
+}
+.description_list{
+    padding-left: 2rem;
+}
+.description_list .list_item{
+    list-style-type: disc;
+    font-size: 1.45rem;
+    color: rgba(34,34,34,.6);
+}
+.list_item {
+    list-style: none;
+}
+
+.list_item::marker{
+    font-size: 1rem;
+}
+#pop_inspecion .title_check{
+    margin-top: 4.3rem;
+    margin-bottom: 1rem;
+    font-size: 2rem;
+    font-weight: bold;
+}
+.check_list, .list_item{
+    margin: 0;
+    padding: 0;
+}
+#pop_inspecion .btn_check{
+    font-size: 1.45rem;
+    margin-bottom: 1.45rem;
+    margin-top: 1rem;
+    font-weight: 450;
+}
+#pop_inspecion .table_wrap table{
+    width: 100%;
+    border-top: 1px solid rgb(235, 235, 235);
+    border-collapse: collapse;
+    border-spacing: 0;
+    table-layout: fixed;
+    word-break: break-word;
+    word-wrap: break-word;
+    margin-bottom: 1rem;
+}
+#pop_inspecion table thead th{
+    font-size: 1.14rem;
+    text-align: center;
+    background-color: hsla(0,0%,92.2%,.2);
+    color: rgba(34, 34, 34, 0.671);
+    line-height: 1.2rem;
+    padding: 0.5rem 0 0.6rem;
+}
+#pop_inspecion table th{
+    font-weight: 400;
+}
+#pop_inspecion table .text_info_warning{
+    color:#f15746;
+    font-size: 1rem;
+}
+
+#pop_inspecion table td [class*=text]{
+    display: block;
+    margin-top: 0.05rem;
+    font-size: 0.4rem;
+    line-height: 1.4rem;
+}
+#pop_inspecion table tbody td, table tbody th{
+    height: 3.5rem;
+    padding: 0.7rem 0;
+    border-top: 1px solid rgb(235, 235, 235);
+    border-bottom: 1px solid #f2f2f2;
+    font-size: 1.25rem;
+    font-weight: 400;
+    line-height: 1rem;
+}
+
+#pop_inspecion table thead {
+    text-align: center;
+}
+#pop_inspecion table tbody td{
+    text-align: center;
+}
+
+#pop_inspecion table th .etc{
+    margin-top: 0.3rem;
+    font-size: 1.25rem;
+    line-height: 1.4rem;
+    color: rgba(34,34,34,.5);
+}
+#pop_inspecion .more_info_list{ padding: 0;}
+#pop_inspecion .more_info_list .more_list_item{
+    color: rgba(34,34,34,.5);
+    font-size: 1.22rem;
+    line-height:1.7rem;
+}
+#pop_inspecion .more_list_item{list-style: none;}
+#pop_inspecion .more_info_list .more_list_exception{
+    line-height: 1.5rem;
+    margin: 0%;
+}
+
+#pop_inspecion .add_check{
+    margin-top: 2rem;
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+}
+#pop_inspecion .description1, .etc_desc{
+    font-size: 1.3rem;
+    font-weight: 400;
+    line-height: 2rem;
+    margin-bottom: 1rem;
+
+}
+#pop_inspecion .etc_desc{line-height: 1.5rem; color: rgba(34,34,34,.6);}
+#pop_inspecion .description2{
+    font-size: 1.3rem;
+    font-weight: 400;
+}
+.pop_clicked{
+    border:1px solid black;
+    background: #222;
+    color: #fff;
+    font-weight: 700;
+}
+.pop_page_clicked{
+    color: black;
+    font-weight: bold;
+}
+.cfd_top {
+    margin-top: 3rem;
+}
+.commu_flex_div {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    border-top: 1px solid lightgray;
+}
+.commu_flex_div p {
+    word-break: break-all;
+    width: 40%;
+    font-size: 1.47rem;
+    padding: 0;
+    margin: 1.25rem 0;
+    margin-left: 2rem;
+}
+/*********************************************/
+@media screen and (max-width:767px){
+    html{
+        font-family: 'Noto Sans KR', sans-serif;
+        font-size: 50%;
+    }
+
+
+    /***************************************************/
+
+    .footer_pop{
+        overflow-y: hidden;
+        display: none;
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        height: 104%;
+        position: fixed;
+        margin-top: -10rem;
+        padding-top: 12.32rem;
+        z-index: 10000;
+        background: rgba(0, 0, 0, 0.404);
+        align-items:flex-end;
+        word-break:keep-all;
+    }
+    .pop_Btxt{
+        font-size: 2.5rem;
+        font-weight: bold;
+        margin: 0;
+        margin-bottom: 1.1rem;
+    }
+    body .footer_pop .footer_pop_back{
+        margin: 0 auto;
+        width: 100%;
+        height: 100%;
+        background: white;
+        border-radius: 15px 15px 0 0;
+    }
+    .footer_pop .footer_pop_center{
+        width: 100%;
+        margin-top: 1.3rem;
+    }
+    .footer_pop .pop_top_text{
+        width: 100%;
+        height: 1.7rem;
+        margin-top: 2rem;
+        text-align: center;
+        font-size: 2.28rem;
+        font-weight: bold;
+    }
+
+    .footer_pop .pop_text_box{
+        margin: 0;
+        width:calc(100% - 6.54rem);
+        height: 78vh;
+        overflow-y: scroll;
+        padding: 0 3.27rem;
+        margin-top: 3.68rem;
+    }
+    .footer_pop .pop_close{
+        position: relative;
+        top: 2.7rem;
+        right: 2.8rem;
+        float: right;
+        width: 2rem;
+        height: 2rem;
+        background: url(/pop_close.png) no-repeat center/cover;
+    }
+    .footer_pop .pop_edit_text{
+        font-size: 1.75rem;
+        line-height: 2.9rem;
+    }
+    /***************************************************************/
+    .pop_edit_text span{
+        color: rgb(54, 145, 230);
+        text-decoration: underline;
+    }
+    .penalty_box{
+        margin-top: 5.5rem;
+    }
+    .p_box1{
+        margin-top: 6.4rem;
+    }
+    .pop_Btxt2{
+        margin-top: 6.2rem;
+    }
+    .penalty_flex {
+        width: 100%;
+        border-top: 1px solid lightgray;
+        display: flex;
+    }
+    .penalty_flex .penatly_left_box{
+        font-size: 1.8rem;
+        width: 22rem;
+        line-height: 2.3rem;
+        display: flex;
+        align-items: center;
+        padding: 0.7rem 0 0.7rem 2rem;
+    }
+    .penalty_flex .penatly_right_box{
+        display: flex;
+        align-items: center;
+        font-size: 1.72rem;
+        color: red;
+        margin-left: 3.1rem;
+    }
+    #lh1, #lh2{
+        line-height: 2.8rem;
+        margin: 0rem 0;
+    }
+    .penalty_Stxt{
+        margin-top: -0.3rem;
+        font-size: 1.8rem;
+        line-height: 3rem;
+    }
+    .penalty_Stxt span{
+        position: relative;
+        top: 0.4rem;
+    }
+    .penalty_box .penalty_Btxt_un{
+        font-size: 1.8rem;
+        padding: 0;
+        margin: 0;
+        margin-top: -1.2rem;
+        line-height: 2.9rem;
+    }
+    .penalty_box .penalty_middle{
+        font-size: 2.1rem;
+        margin: 3.3rem 0 1.4rem;
+        padding: 0;
+    }
+    #last_penalty{
+        margin-bottom: 2.8rem;
+    }
+
+    /************************************************************/
+    #pop_commu .commu_Btxt{
+        margin-top: 5.5rem;
+    }
+    #pop_commu .commu_ul{
+        margin: 0;
+        padding: 0;
+        margin-top: 2.7rem;
+    }
+    #commu_edit_text{
+        line-height: 3rem;
+    }
+    .commu_ul li{
+        font-size: 1.8rem;
+        margin-left: 1.5rem;
+        line-height: 3rem;
+    }
+    .style_none li{
+        margin-left: 0;
+    }
+    #pop_commu .commu_ul li::marker{
+        font-size: 1rem;
+    }
+    .style_none{
+        list-style: none;
+    }
+    .style_none li{
+        line-height: 3.12rem;
+    }
+    .li_Btxt{
+        margin-top: 2.8rem;
+        font-weight: bold;
+    }
+    .commu_flex_div{
+        display: flex;
+        width: 100%;
+        align-items: center;
+        border-top: 1px solid lightgray;
+    }
+    .commu_flex_div p{
+        word-break:break-all;
+        width: 40%;
+        font-size: 1.8rem;
+        padding: 0;
+        margin: 0;
+        margin-left: 2rem;
+    }
+    .cfd_top{
+        margin-top: 4.84rem;
+    }
+    .commu_flex_div .cfd_2{
+        margin-top: 0.4rem;
+        margin-bottom: 0.4rem;
+    }
+    .commu_flex_div .cfd_1{
+        margin: 1.685rem 0;
+    }
+    #commu_footer{
+        margin-top: 7rem;
+        margin-bottom: 7rem;
+    }
+    #commu_footer span{
+        color: rgb(54, 145, 230);
+        text-decoration: underline;
+    }
+
+
+    #policy_ul{
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+    .pop_policy_head{
+        width: 100%;
+        border-bottom: 1px solid lightgray;
+        padding: 3.2rem 0 2.37rem;
+        font-size: 2rem;
+        display: flex;
+        justify-content: space-between;
+    }
+    .pp_img{
+        margin-right: 1rem;
+        width: 4.2rem;
+        height: 4.2rem;
+        background: url(/pop/policy_down.png)no-repeat center/cover;
+    }
+    .penalty_Stxt {
+        margin-top: -0.3rem;
+        font-size: 1.8rem;
+        line-height: 3rem;
+    }
+    .penalty_flex .penatly_right_box {
+        display: flex;
+        align-items: center;
+        font-size: 1.72rem;
+        color: red;
+        margin-left: 3.1rem;
+    }
+    .pop_policy_body{
+        background: rgb(249, 249, 249);
+        padding: 2.3rem 2.7rem;
+        border-bottom: 1px solid lightgray;
+    }
+    #pop_policy .penalty_flex .penatly_left_box{
+        padding: 0.7rem 0 0.7rem 1.8rem;
+        width: 45%;
+        line-height: 2.4rem;
+
+    }
+
+
+    #pop_policy .penalty_flex p{
+        word-break:break-all;
+        width: 45%;
+        font-size: 1.41rem;
+        padding: 0;
+        margin: 1.25rem 0;
+        margin-left: 2.2rem;
+    }
+    .penalty_flex, .commu_flex_div{
+        background: rgb(251, 251, 251);
+    }
+    #policy_ul .pop_Btxt{
+        font-size: 2.55rem;
+    }
+    #policy_ul .penatly_left_box{
+        font-size: 1.8rem;
+    }
+    .cfd_top {
+        margin-top: 4.84rem;
+    }
+    .commu_flex_div p {
+        word-break: break-all;
+        width: 40%;
+        font-size: 1.8rem;
+        padding: 0;
+        margin: 0;
+        margin-left: 2rem;
+    }
+    .commu_flex_div {
+        display: flex;
+        width: 100%;
+        align-items: center;
+        border-top: 1px solid lightgray;
+    }
+    .penalty_box .penalty_Btxt_un {
+        font-size: 1.8rem;
+        padding: 0;
+        margin: 0;
+        margin-top: -1.2rem;
+        line-height: 2.9rem;
+    }
+    .penalty_box .penalty_middle {
+        font-size: 2.1rem;
+        margin: 3.3rem 0 1.4rem;
+        padding: 0;
+    }
+    #policy_ul .polict_li .penatly_right_box{
+        font-size: 1.7rem;
+    }
+    #li1 .pop_edit_text{
+        line-height: 3.1rem;
+    }
+    #li1 .pop_Btxt{
+        margin-top: 5.7rem;
+    }
+    #li2 .pop_edit_text{
+        line-height: 3.1rem;
+    }
+    #li2 .pop_Btxt{
+        margin-bottom: 0;
+        margin-top: 5.7rem;
+    }
+    .polict_li .policy_middle{
+        margin-top: 3rem;
+        margin-bottom: 0rem;
+        padding: 0;
+    }
+    .middle_un{
+        font-size: 1.78rem;
+        margin: 0.4rem 0;
+        padding: 0;
+    }
+    .middle_un span{
+        font-size: 1.75rem;
+    }
+
+    #li3 .pop_edit_text{
+        line-height: 3rem;
+    }
+    #li3 .pop_edit_text span{
+        color: black;
+        text-decoration: none;
+        margin-right: 0.8rem;
+    }
+
+    #li3 .pop_Btxt{
+        margin-top: 5.7rem;
+        margin-bottom: 1.3rem;
+    }
+    #li3 .penalty_flex .penatly_left_box{
+        font-size: 1.8rem;
+        margin: 1.1rem 0;
+    }
+    #li4 .pop_Btxt{
+        margin-top: 3.2rem;
+        margin-bottom: 1.21rem;
+    }
+    #li4 .penalty_flex .penatly_left_box{
+        width: 53%;
+        margin: 1.5rem 0;
+        font-size: 1.8rem;
+    }
+    #li4 .penalty_flex .penatly_right_box{
+        color: black;
+        width: 41%;
+        font-size: 1.75rem;
+        margin: 0.1rem 0;
+    }
+    #li5_text{
+        margin-top: 2.4rem;
+    }
+    #li5_text .middle_un span{
+        font-size: 1.4rem;
+        margin-right: 0.8rem;
+    }
+    #li6 .pop_policy_body{
+        padding: 0.2rem 2.7rem 2.5rem;
+    }
+    #li6 .pop_Btxt{
+        margin-top: 5.5rem;
+        margin-bottom: 2.6rem;
+    }
+    #li6 .pop_edit_text{
+        padding: 0;
+        margin-top: 2.2rem;
+        line-height: 3rem;
+    }
+    #li6 .pop_edit_text li{
+        font-size: 1.8rem;
+        margin-left: 1.5rem;
+        list-style:disc;
+    }
+    #li6 ul li::marker{
+        font-size: 1rem;
+    }
+    #li6 #style_none li{
+        list-style: none;
+        margin-left: 0;
+    }
+    #li6 .commu_flex_div {
+        display: flex;
+        justify-content: space-around;
+    }
+    #li6 .commu_flex_div p{
+        width: 43%;
+        margin: 0.5rem 0;
+    }
+    #li6 .cfd_top p{
+        margin: 1.7rem 0;
+    }
+    #li7 .pop_edit_text{
+        line-height: 3rem;
+    }
+    #li7 .pop_Btxt{
+        margin-top: 5.8rem;
+        margin-bottom: 2.6rem;
+    }
+
+    #li7 span{
+        color: rgb(54, 145, 230);
+        text-decoration: underline;
+    }
+
+    #li7 .li7_bold{
+        color: black;
+        text-decoration: none;
+        font-weight: bold;
+    }
+
+    #li8 .pop_edit_text{
+        line-height: 3rem;
+    }
+    #li8 .pop_Btxt{
+        margin-top: 5.8rem;
+    }
+    #li8 .li8_middle{
+        font-size: 1.75rem;
+        margin: 3rem 0 0.2rem;
+        padding: 0;
+        font-weight: bold;
+    }
+    #li8 .li8_middle span{
+        font-size: 1.65rem;
+    }
+    #li8  .li8_middle_un{
+        margin-top: 3.5rem;
+    }
+    #li8 .li8_middle2{
+        font-size: 1.75rem;
+        margin: 4rem 0 0;
+        padding: 0;
+        font-weight: bold;
+    }
+    #li9 .pop_edit_text{
+        line-height: 3rem;
+    }
+    #li9 span{
+        color: black;
+        text-decoration: none;
+        font-weight: bold;
+    }
+    #li9 .li9_middle2{
+        font-size: 2.1rem;
+        margin: 6rem 0 0;
+        padding: 0;
+        font-weight: bold;
+    }
+
+    .category{
+        padding: 0.3rem 1.8rem 0.2rem;
+    }
+
+    #pop_inspecion .category_list{
+        padding: 0px 0 6.3rem 0;
+    }
+
+}

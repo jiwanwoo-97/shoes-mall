@@ -1,0 +1,286 @@
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
+<div th:fragment="pop">
+    <script>
+        $(function(){
+            axios.get('/api/board_list/이용정책',{
+            }).then(function (response){
+                for(let i in response.data.data){
+                    let content = response.data.data[i].content;
+                    let title = response.data.data[i].title;
+                    $('.policy_pop_append').append(
+                        "<li class='polict_li'>" +
+                        "<div class='pop_policy_head'>" +
+                        "<div class='pp_head_txt'>"+title+"</div>" +
+                        "<div class='pp_img'></div></div>" +
+                        "<div class='pop_policy_body' style='display: none;'>"+content+"</div>" +
+                        "</li>"
+                    )
+                }
+                for(let i in response.data.data){
+                    let faq_title = response.data.data[i].title;
+                    let faq_content = response.data.data[i].content;
+                    if (faq_title=='커뮤니티 가이드라인'){
+                        $('.commu_pop_append').append(faq_content);
+                    }
+                    if (faq_title=='페널티 정책'){
+                        $('.penal_pop_append').append(faq_content);
+                    }
+                }
+
+// 체크 박스 선택
+                const checkboxAll = document.querySelectorAll('.polict_li');
+// 하나만 선택
+                for (let i = 0; i < checkboxAll.length; i++) {
+                    checkboxAll[i].addEventListener('click',function(){
+                        if(this.querySelector('.pop_policy_body').style.display=='none'){
+                            this.querySelector('.pop_policy_body').style.display='block';
+                            this.querySelector('.pp_img').style.background='url(/lib/img/pop/policy_up.png)no-repeat center/cover';
+                            for(let j=0; j<checkboxAll.length; j++){
+                                if(checkboxAll[j]!=checkboxAll[i]){
+                                    checkboxAll[j].querySelector('.pop_policy_body').style.display='none';
+                                    checkboxAll[j].querySelector('.pp_img').style.background='url(/lib/img/pop/policy_down.png)no-repeat center/cover';
+                                }
+                            }
+                        } else{
+                            this.querySelector('.pop_policy_body').style.display='none';
+                            this.querySelector('.pp_img').style.background='url(/lib/img/pop/policy_down.png)no-repeat center/cover';
+                        }
+
+                    });
+                }
+            })
+            axios.get('/api/board_list/스니커즈',{
+            }).then(function (response){
+                let content = response.data.data[0].content;
+                $(".auth_pop").append(content);
+            })
+            axios.get('/api/board_list/라이프',{
+            }).then(function (response){
+                let content = response.data.data[0].content;
+                $(".life_pop").append(content);
+            });
+            axios.get('/api/board_list/테크',{
+            }).then(function (response){
+                let content = response.data.data[0].content;
+                $(".ele_pop").append(content);
+            });
+            axios.get('/api/board_list/패션잡화',{
+            }).then(function (response){
+                let content = response.data.data[0].content;
+                $(".acc_pop").append(content);
+            });
+            axios.get('/api/board_list/의류',{
+            }).then(function (response){
+                let content = response.data.data[0].content;
+                $(".str_pop").append(content);
+            });
+        });
+
+    </script>
+
+    <div id="pop_size" class="footer_pop p_size">
+        <div id="size_back" class="footer_pop_back">
+            <div class="pop_close" onclick="pop_down()"></div>
+            <div id="size_center" class="footer_pop_center">
+                <div id="size_top_box" class="pop_top_text">
+                    <p>사이즈 선택</p>
+                    <p class="pop_top_stext">즉시 구매가(원)</p>
+                </div>
+                <div id="size_text_box" class="pop_size_box">
+                    <div class="size_list_box">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="pop_size2" class="footer_pop p_size2">
+        <div id="size2_back" class="footer_pop_back">
+            <div class="pop_close" onclick="pop_down()"></div>
+            <div id="size2_center" class="footer_pop_center">
+                <div id="size2_top_box" class="pop_top_text">
+                    <p>사이즈 선택</p>
+                    <p class="pop_top_stext">즉시 판매가(원)</p>
+                </div>
+                <div id="size2_text_box" class="pop_size_box">
+                    <div class="size_list_box">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--검색창-->
+    <div class="layer_search lg" id="hb_no_text" style="display: none;">
+        <div class="search_container">
+            <div class="search_wrap">
+                <div class="search_area" value="">
+                    <div class="search">
+                        <img src="/lib/img/search_gray_icon.png" class="ico-search-gray icon sprite-icons"></img>
+                        <input type="text" placeholder="브랜드명, 모델명, 모델번호 등" title="검색창" class="input_search show_placeholder_on_focus">
+                        <button class="btn_search_delete" style="display: none;">
+                            <img src="/lib/img/text_area_delete_icon.png" class="ico-delete-circle icon sprite-icons">
+                        </button>
+                    </div>
+                </div>
+                <button class="btn_close">취소</button>
+            </div>
+        </div>
+        <div class="recent_wrap">
+            <div class="recent_area">
+                <div class="recent_box">
+                    <strong class="recent_title">최근 검색어</strong>
+                    <button class="btn_delete">
+                        <img src="/lib/img/delete_circle_icon.png" class="ico-delete-circle icon sprite-icons">
+                    </button>
+                    <ul class="search_list">
+                        <!--검색기록-->
+                    </ul>
+                </div>
+                <ul class="brand_list lg">
+                    <li class="brand_item" style="background-color: rgb(246, 238, 237);">
+                        <a class="brand_box">
+                            <img src="/lib/img/p_1c64737691684299b32884e7d890983c.png" alt="Jordan 1" class="brand_img">
+                            <p class="brand_name">Jordan 1</p>
+                        </a>
+                    </li>
+                    <li class="brand_item" style="background-color: rgb(235, 240, 245);">
+                        <a class="brand_box">
+                            <img src="/lib/img/a_462abc0cfd92429eae5f1e7677742261.png" alt="Dunk" class="brand_img">
+                            <p class="brand_name">Dunk</p>
+                        </a>
+                    </li>
+                    <li class="brand_item" style="background-color: rgb(235, 240, 245);">
+                        <a class="brand_box">
+                            <img src="/lib/img/p_1077af921fe1436ab78ec3f07b7dae79.png" alt="스캇" class="brand_img">
+                            <p class="brand_name">스캇</p>
+                        </a>
+                    </li>
+                    <li class="brand_item" style="background-color: rgb(244, 244, 244);">
+                        <a class="brand_box">
+                            <img src="/lib/img/a_5e37181489d44d1a80650eef3edb9296.png" alt="톰브라운" class="brand_img">
+                            <p class="brand_name">톰브라운</p>
+                        </a>
+                    </li>
+                    <li class="brand_item" style="background-color: rgb(244, 244, 244);">
+                        <a class="brand_box">
+                            <img src="/lib/img/p_4f213a0866354fa39e72f459f3374589.png" alt="지갑" class="brand_img">
+                            <p class="brand_name">지갑</p>
+                        </a>
+                    </li>
+                    <li class="brand_item" style="background-color: rgb(244, 244, 244);">
+                        <a class="brand_box">
+                            <img src="/lib/img/a_5fb25d6231d3414d9c8b5261d7d87897.png" alt="레고" class="brand_img">
+                            <p class="brand_name">레고</p>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="suggest_wrap" style="display: none;">
+            <div class="suggest_area">
+                <!--검색결과-->
+            </div>
+        </div>
+    </div>
+    <div id="pop_address" class="footer_pop Paddress">
+        <div id="address_back" class="footer_pop_back">
+            <div class="pop_close" onclick="pop_down()"></div>
+            <div id="address_center" class="footer_pop_center">
+                <div id="address_top_box" class="pop_top_text">주소록</div>
+                <div id="address_text_box" class="pop_text_box">
+                    <ul id="address_ul">
+                        <li class="address_li" id="ali1">
+                            <div class="pop_address_head">
+                                <div class="pp_head_txt">
+                                    <div class="basic">
+                                        <div>김사과</div>
+                                        <div class="basic_address" style="display: block">기본배송지</div>
+                                    </div>
+                                    <div>010-1111-1111</div>
+                                    <div>(06372)서울 강남구 밤고개로 206 (자곡동, 더그린관)</div>
+                                </div>
+                                <div class="pop_policy_pp">
+                                    <div class="pp_img_A"  style="display: block"></div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="address_li" id="ali2">
+                            <div class="pop_address_head">
+                                <div class="pp_head_txt">
+                                    <div class="basic">
+                                        <div>감사과</div>
+                                        <div class="basic_address" style="display: none">기본배송지</div>
+                                    </div>
+                                    <div>010-2222-1111</div>
+                                    <div>(06372)서울 강남구 밤고개로 206 (자곡동, 더그린관)</div>
+                                </div>
+                                <div class="pop_policy_pp">
+                                    <div class="pp_img_A" style="display: none"></div>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="pop_penalty" class="footer_pop penalty">
+        <div id="penalty_back" class="footer_pop_back">
+            <div class="pop_close" onclick="pop_down()"></div>
+            <div id="penalty_center" class="footer_pop_center">
+                <div id="penalty_top_box" class="pop_top_text">페널티 정책</div>
+                <div id="penalty_text_box" class="pop_text_box penal_pop_append"></div>
+            </div>
+        </div>
+    </div>
+    <div id="pop_commu" class="footer_pop commu">
+        <div id="commu_back" class="footer_pop_back">
+            <div class="pop_close" onclick="pop_down()"></div>
+            <div id="commu_center" class="footer_pop_center">
+                <div id="commu_top_box" class="pop_top_text">커뮤니티 가이드라인</div>
+                <div id="commu_text_box" class="pop_text_box commu_pop_append"></div>
+            </div>
+        </div>
+    </div>
+    <div id="pop_policy" class="footer_pop policy">
+        <div id="policy_back" class="footer_pop_back">
+            <div class="pop_close" onclick="pop_down()"></div>
+            <div id="policy_center" class="footer_pop_center">
+                <div id="policy_top_box" class="pop_top_text">이용정책</div>
+                <div id="policy_text_box" class="pop_text_box">
+                    <ul id="policy_ul" class="policy_pop_append"></ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="pop_inspecion" class="footer_pop inspecion">
+        <div id="inspecion_back" class="footer_pop_back">
+            <div class="pop_close" onclick="pop_down()"></div>
+            <div id="inspecion_center" class="footer_pop_center">
+                <div id="inspecion_top_box" class="pop_top_text">검수기준</div>
+                <div id="inspecion_text_box" class="pop_text_box">
+                    <div class="category_list_pop">
+                        <div class="category_list_items">
+                            <button type="button" style="background: black; color: rgb(255, 255, 255); border: 1px solid black;" class="category category_on" id="auth_polic">스니커즈</button>
+                            <button type="button" style="background: white; color: rgb(161, 161, 161); border: 1px solid lightgray;" class="category" id="streetwear">의류</button>
+                            <button type="button" style="background: white; color: rgb(161, 161, 161); border: 1px solid lightgray;" class="category" id="accessories">패션 잡화</button>
+                            <button type="button" style="background: white; color: rgb(161, 161, 161); border: 1px solid lightgray;" class="category" id="electronics">테크</button>
+                            <button type="button" style="background: white; color: rgb(161, 161, 161); border: 1px solid lightgray;" class="category" id="life">라이프</button>
+                        </div>
+                    </div>
+                    <div class="inspecion_text auth_pop"></div>
+                    <div class="inspecion_text str_pop" style="display: none"></div>
+                    <div class="inspecion_text acc_pop" style="display: none"></div>
+                    <div class="inspecion_text ele_pop" style="display: none"></div>
+                    <div class="inspecion_text life_pop" style="display: none"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</div>
+</html>

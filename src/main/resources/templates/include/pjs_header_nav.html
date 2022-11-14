@@ -1,0 +1,158 @@
+<html lang="ko" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org/"
+      xmlns:sec="http://www.w3.org/1999/xhtml">
+
+<div class="header lg" th:fragment="header_nav">
+    <div>
+        <div class="header_top">
+            <div class="top_inner">
+                <ul class="top_list">
+                    <li class="top_item"><a href="/notice" class="top_link"> 고객센터 </a></li>
+                    <li class="top_item"><a href="/my/wish" class="top_link"> 관심상품 </a></li>
+                    <li class="top_item"><a href="/my" class="top_link" > 마이페이지 </a></li>
+                    <li class="top_item" sec:authorize="hasRole('ADMIN')"><a href="/pages" class="top_link">관리자</a></li>
+                    <li class="top_item" sec:authorize="!isAuthenticated()"><a href="/login" class="top_link"> 로그인 </a></li>
+                    <li class="top_item" sec:authorize="isAuthenticated()"><a href="/logout" class="top_link" onclick="sessionStorage.clear()"> 로그아웃 </a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="header_main">
+        <div class="main_inner">
+            <h1>
+                <a href="/" class="logo">
+                    <img src="/lib/img/kream_logo.png" alt="크림 로고">
+                </a>
+            </h1>
+            <div class="gnb_area">
+                <nav class="gnb">
+                    <ul class="gnb_list">
+                        <li class="gnb_item"><a href="/social/trending" class="gnb_link"> STYLE </a></li>
+                        <li class="gnb_item"><a href="/search" class="gnb_link"> SHOP </a></li>
+                        <li class="gnb_item"><a href="/about" target="_blank" class="gnb_link"> ABOUT </a></li>
+                    </ul>
+                </nav>
+                <div class="search_btn_box">
+                    <a class="btn_search">
+                        <img src="/lib/img/search.png" alt="searchicon" class="nav-search icon sprite-icons">
+                    </a>
+                </div>
+            </div>
+            <!--모바일 nav_btn-->
+            <div class="nav_btn_box">
+                <button type="button" class="btn_search">
+                    <img src="/lib/img/search.png" class="ico-search icon sprite-icons">
+                </button>
+                <button type="button" class="btn_menu">
+                    <img src="/lib/img/menubar_togle.png" class="ico-menu icon sprite-icons">
+                </button>
+            </div>
+            <!--모바일 navigation-->
+            <div class="navigation_wrap close">
+                <div class="navigation">
+                    <div class="navigation_inner">
+                        <ul class="nav_list">
+                            <li class="nav_item"><a href="/style" class="nav_link"> STYLE </a></li>
+                            <li class="nav_item"><a href="/shop" class="nav_link"> SHOP </a></li>
+                            <li class="nav_item"><a href="/fap" class="nav_link"> 자주 묻는 질문 </a></li>
+                            <li class="nav_item"><a href="/notice" class="nav_link"> 공지사항 </a></li>
+                            <li class="nav_item"><a href="/my" class="nav_link">마이페이지</a></li>
+                            <li class="nav_item" sec:authorize="hasRole('ADMIN')">
+                                <a href="/pages" class="nav_link">관리자</a>
+                            </li>
+                            <li class="nav_item" sec:authorize="!isAuthenticated()">
+                                <a href="/login" class="nav_link">로그인</a>
+                            </li>
+                            <li class="nav_item" sec:authorize="isAuthenticated()">
+                                <a href="/login" class="nav_link" onclick="sessionStorage.clear()">로그아웃</a>
+                            </li>
+                        </ul>
+                        <!---->
+                        <div class="nav_download">
+                            <p class="download_txt">KREAM 앱 설치 후 사용해 보세요!</p>
+                            <div class="btn_appdown">
+                                <a type="button" class="btn outline medium"> 앱 다운로드 </a>
+                            </div>
+                        </div>
+                    </div>
+                    <button type="button" class="btn_nav_close">
+                        <img src="/lib/img/nav_close_icon.png" class="ico-close icon sprite-icons">
+                    </button>
+                </div>
+            </div>
+            <!--검색창-->
+            <div class="layer_search lg" style="display: none;">
+                <div class="search_container">
+                    <div class="search_wrap">
+                        <div class="search_area" value="">
+                            <div class="search">
+                                <img src="/lib/img/search_gray_icon.png" class="ico-search-gray icon sprite-icons">
+                                <input type="text" placeholder="브랜드명, 모델명, 모델번호 등" title="검색창" class="input_search show_placeholder_on_focus">
+                                <button class="btn_search_delete" style="display: none;">
+                                    <img src="/lib/img/text_area_delete_icon.png" class="ico-delete-circle icon sprite-icons">
+                                </button>
+                            </div>
+                        </div>
+                        <button class="btn_close">취소</button>
+                    </div>
+                </div>
+                <div class="recent_wrap">
+                    <div class="recent_area">
+                        <div class="recent_box">
+                            <strong class="recent_title">최근 검색어</strong>
+                            <button class="btn_delete">
+                                <img src="/lib/img/delete_circle_icon.png" class="ico-delete-circle icon sprite-icons">
+                            </button>
+                            <ul class="search_list">
+                                <!--검색기록-->
+                            </ul>
+                        </div>
+                        <ul class="brand_list lg">
+                            <li class="brand_item" style="background-color: rgb(246, 238, 237);">
+                                <a class="brand_box">
+                                    <img src="/lib/img/p_1c64737691684299b32884e7d890983c.png" alt="Jordan 1" class="brand_img">
+                                    <p class="brand_name">Jordan 1</p>
+                                </a>
+                            </li>
+                            <li class="brand_item" style="background-color: rgb(235, 240, 245);">
+                                <a class="brand_box">
+                                    <img src="/lib/img/a_462abc0cfd92429eae5f1e7677742261.png" alt="Dunk" class="brand_img">
+                                    <p class="brand_name">Dunk</p>
+                                </a>
+                            </li>
+                            <li class="brand_item" style="background-color: rgb(235, 240, 245);">
+                                <a class="brand_box">
+                                    <img src="/lib/img/p_1077af921fe1436ab78ec3f07b7dae79.png" alt="스캇" class="brand_img">
+                                    <p class="brand_name">스캇</p>
+                                </a>
+                            </li>
+                            <li class="brand_item" style="background-color: rgb(244, 244, 244);">
+                                <a class="brand_box">
+                                    <img src="/lib/img/a_5e37181489d44d1a80650eef3edb9296.png" alt="톰브라운" class="brand_img">
+                                    <p class="brand_name">톰브라운</p>
+                                </a>
+                            </li>
+                            <li class="brand_item" style="background-color: rgb(244, 244, 244);">
+                                <a class="brand_box">
+                                    <img src="/lib/img/p_4f213a0866354fa39e72f459f3374589.png" alt="지갑" class="brand_img">
+                                    <p class="brand_name">지갑</p>
+                                </a>
+                            </li>
+                            <li class="brand_item" style="background-color: rgb(244, 244, 244);">
+                                <a class="brand_box">
+                                    <img src="/lib/img/a_5fb25d6231d3414d9c8b5261d7d87897.png" alt="레고" class="brand_img">
+                                    <p class="brand_name">레고</p>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="suggest_wrap" style="display: none;">
+                    <div class="suggest_area">
+                        <!--검색결과-->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</html>

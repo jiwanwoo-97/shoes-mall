@@ -1,0 +1,1551 @@
+<html lang="ko" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org/"
+      xmlns:sec="http://www.w3.org/1999/xhtml">
+
+<head>
+    <link data-n-head="ssr" rel="icon" type="image/x-icon" href="https://kream.co.kr/favicon.ico">
+    <title>SHOP</title>
+
+    <!-- jquery cdn -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+            integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <!--axios cdn -->
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <link rel="stylesheet" href="./lib/css/shop_search.css">
+</head>
+<script src="/js/search.js"></script>
+
+
+<!--<script>-->
+<!--    /* 콘텐츠 쇼잉*/-->
+<!--    $(function () {-->
+<!--        axios.get('/api/pro_list', {}).then(function (response) {-->
+<!--            console.log(response);-->
+<!--            let pro_con = $(' <div class="sec_flex_box">');-->
+<!--            for (let i in response.data.data) {-->
+
+<!--                let $proName = response.data.data[i].name;-->
+<!--                let $proReleasePrice = response.data.data[i].releasePrice;-->
+<!--                let $proImg = response.data.data[i].img;-->
+
+<!--                function priceToString($proReleasePrice){-->
+<!--                    return $proReleasePrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');-->
+<!--                }-->
+<!--                // <a th:href="@{'/user/edit/' + ${id}}"> <button>수정</button> </a>-->
+<!--                //-->
+<!--                let con = $('<div class="sec_img_box">').append(-->
+<!--                    '<a th:href="@{\'/pages/Product/\' + ${id}}" class="sec_img_a"<button></button>' +-->
+<!--                    '<div class="sec_img" id="sec2_img1" style="background: url(' + $proImg + ') no-repeat center/cover;"><p class="sec_imgClass" id="sec2_imgClass1"></p></div>' +-->
+<!--                    '<div class="sec_brand_box"> <div class="sec_brand_line"> </div>' +-->
+<!--                    '<div class="sec_brand_text">' + $proName + '</div>' +-->
+<!--                    '<div class="sec_price">' +-->
+<!--                    '<div class="sec_num">' + priceToString($proReleasePrice) + '</div><div class="sec_won">원</div></div><div class="sec_price_text">즉시 구매가</div>' +-->
+<!--                    '</a>' +-->
+
+
+<!--                    '<div class="sec_mark_box"><a href="#" class="a_mark"><div class="sec_marking"></div></a></div> </div>'-->
+<!--                )-->
+<!--                pro_con.append(con);-->
+
+<!--            }-->
+<!--            pro_con.append('</div>');-->
+
+<!--            $('.search_result_list').html(pro_con);-->
+<!--        }).catch(function (err) {-->
+<!--            console.log(err);-->
+<!--        })-->
+<!--    });-->
+<!--</script>-->
+
+
+<body>
+
+<!-- head.html -->
+<div th:replace="include/header :: head"></div>
+<!-- head.html 끝-->
+
+
+<div id="fixed"></div>
+<!-- header 끝-->
+
+
+<!-- 모바일 오른쪽 -->
+<div class="navigation_wrap close">
+    <div class="navigation">
+        <div class="navigation_inner">
+            <ul class="nav_list">
+                <li class="nav_item">
+                    <a href="/social/trending" class="nav_link" >
+                        STYLE
+                    </a>
+                </li>
+                <li class="nav_item">
+                    <a href="/kream/search" class="nav_link" >
+                        SHOP
+                    </a>
+                </li>
+                <li class="nav_item">
+                    <a href="/faq" class="nav_link">
+                        자주 묻는 질문
+                    </a>
+                </li>
+                <li class="nav_item">
+                    <a href="/notice" class="nav_link">
+                        공지사항
+                    </a>
+                </li>
+                <li class="nav_item">
+                    <a href="/my" class="nav_link">마이페이지</a>
+                </li>
+                <li class="nav_item" sec:authorize="hasRole('ADMIN')">
+                    <a href="/pages" class="nav_link">관리자</a>
+                </li>
+                <li class="nav_item" sec:authorize="!isAuthenticated()">
+                    <a href="/login" class="nav_link">로그인</a>
+                </li>
+                <li class="nav_item" sec:authorize="isAuthenticated()">
+                    <a href="/login" class="nav_link" onclick="sessionStorage.clear()">로그아웃</a>
+                </li>
+                <!---->
+            </ul>
+            <!---->
+            <div class="nav_download">
+                <p class="download_txt">KREAM 앱 설치 후 사용해 보세요!</p>
+                <div class="btn_appdown">
+                    <a href="#" type="button" class="btn outline medium">
+                        앱 다운로드
+                    </a>
+                </div>
+            </div>
+        </div>
+        <button type="button" class="btn_nav_close">
+            <img src="/lib/img/pop_close.png" class="ico-close icon sprite-icons">
+        </button>
+    </div>
+</div>
+<!--검색창-->
+<div class="layer_search lg" style="display: none;">
+    <div class="search_container">
+        <div class="search_wrap">
+            <div class="search_area" value="">
+                <div class="search">
+                    <img src="/lib/img/search_gray_icon.png" class="ico-search-gray icon sprite-icons">
+                    <input type="text" placeholder="브랜드명, 모델명, 모델번호 등" title="검색창"
+                           class="input_search show_placeholder_on_focus">
+                    <button class="btn_search_delete" style="display: none;">
+                        <img src="/lib/img/text_area_delete_icon.png" class="ico-delete-circle icon sprite-icons">
+                    </button>
+                </div>
+            </div>
+            <button class="btn_close">취소</button>
+        </div>
+    </div>
+    <div class="recent_wrap">
+        <div class="recent_area">
+            <div class="recent_box">
+                <strong class="recent_title">최근 검색어</strong>
+                <button class="btn_delete">
+                    <img src="/lib/img/delete_circle_icon.png" class="ico-delete-circle icon sprite-icons">
+                </button>
+                <ul class="search_list">
+                    <li><a href="#" class="search_item"> DJ0950-112 </a></li>
+                    <li><a href="#" class="search_item"> 사카 </a></li>
+                    <li><a href="#" class="search_item"> 사카이 </a></li>
+                    <li><a href="#" class="search_item"> 덩크 </a></li>
+                    <li><a href="#" class="search_item"> 조던 </a></li>
+                </ul>
+            </div>
+            <ul class="brand_list lg">
+                <li class="brand_item" style="background-color: rgb(246, 238, 237);">
+                    <a class="brand_box">
+                        <img src="/lib/img/p_1c64737691684299b32884e7d890983c.png" alt="Jordan 1"
+                             class="brand_img">
+                        <p class="brand_name">Jordan 1</p>
+                    </a>
+                </li>
+                <li class="brand_item" style="background-color: rgb(235, 240, 245);">
+                    <a class="brand_box">
+                        <img src="/lib/img/a_462abc0cfd92429eae5f1e7677742261.png" alt="Dunk" class="brand_img">
+                        <p class="brand_name">Dunk</p>
+                    </a>
+                </li>
+                <li class="brand_item" style="background-color: rgb(235, 240, 245);">
+                    <a class="brand_box">
+                        <img src="/lib/img/p_1077af921fe1436ab78ec3f07b7dae79.png" alt="스캇" class="brand_img">
+                        <p class="brand_name">스캇</p>
+                    </a>
+                </li>
+                <li class="brand_item" style="background-color: rgb(244, 244, 244);">
+                    <a class="brand_box">
+                        <img src="/lib/img/a_5e37181489d44d1a80650eef3edb9296.png" alt="톰브라운" class="brand_img">
+                        <p class="brand_name">톰브라운</p>
+                    </a>
+                </li>
+                <li class="brand_item" style="background-color: rgb(244, 244, 244);">
+                    <a class="brand_box">
+                        <img src="/lib/img/p_4f213a0866354fa39e72f459f3374589.png" alt="지갑" class="brand_img">
+                        <p class="brand_name">지갑</p>
+                    </a>
+                </li>
+                <li class="brand_item" style="background-color: rgb(244, 244, 244);">
+                    <a class="brand_box">
+                        <img src="/lib/img/a_5fb25d6231d3414d9c8b5261d7d87897.png" alt="레고" class="brand_img">
+                        <p class="brand_name">레고</p>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="suggest_wrap" style="display: none;">
+        <div class="suggest_area">
+            <div class="suggest_title_area">
+                <p class="suggest_title">나이키</p>
+            </div>
+            <div class="suggest_list lg">
+                <div class="suggest_item">
+                    <a href="/products/39449" class="suggest_link">
+                        <div class="suggest_thumb">
+                            <img src="https://kream-phinf.pstatic.net/MjAyMTA4MTNfMTc4/MDAxNjI4ODE2OTU1NTEy.-ssaZSoxOvq9N6D9dNAstXpjp170UsMhxJA5syAkGC0g.JdDM7mkjhdXXkRpsTtCq7tZyA2u3r5Pm8zWFE8Oe75Mg.PNG/a_5d5dab542fae4ea9bfd2078c2d07a9f2.png"
+                                 alt="나이키 x 사카이 x 프라그먼트 LD와플 라이트 스모크 그레이" class="thumb_img">
+                        </div>
+                        <div class="suggest_info">
+                            <p class="model_title">Nike x Sacai x Fragment LDWaffle Light Smoke Grey</p>
+                            <p class="model_sub_info">나이키 x 사카이 x 프라그먼트 LD와플 라이트 스모크 그레이</p>
+                        </div>
+                    </a>
+                </div>
+                <div class="suggest_item">
+                    <a href="/products/39448" class="suggest_link">
+                        <div class="suggest_thumb"><img
+                                src="https://kream-phinf.pstatic.net/MjAyMTA4MTNfMjI5/MDAxNjI4ODE2OTQyMjg4.Pr5xVktBScvuEXRctGLADuB8TJZk_ExyPagNS0Fp1i4g.Y-zakijeWyh8d9hgiIZD29bc9fWfQs_axWQ2Xj_t638g.PNG/a_8a2b9c780c234fcdbce3a2bac42f9cf4.png"
+                                alt="나이키 x 사카이 x 프라그먼트 LD와플 블랙큰드 블루" class="thumb_img">
+                        </div>
+                        <div class="suggest_info">
+                            <p class="model_title">Nike x Sacai x Fragment LDWaffle Blackened Blue</p>
+                            <p class="model_sub_info">나이키 x 사카이 x 프라그먼트 LD와플 블랙큰드 블루</p>
+                        </div>
+                    </a>
+                </div>
+                <div class="suggest_item">
+                    <a href="/products/28029" class="suggest_link">
+                        <div class="suggest_thumb">
+                            <img src="https://kream-phinf.pstatic.net/MjAyMTA3MjhfMjIg/MDAxNjI3NDQxMDA1NjE5.HOgIYywGZaaBJDqUzx2OnX9HAxoOWPvuWHqUn_LZGcgg.VYIuOfA5_GgjBGRowv6dmQuAOPtUvmAxbGpOyUCOCtYg.PNG/p_9d8ed1a74d2540ab9842e63363607bf4.png"
+                                 alt="나이키 덩크 로우 레트로 블랙" class="thumb_img">
+                        </div>
+                        <div class="suggest_info">
+                            <p class="model_title">Nike Dunk Low Retro Black</p>
+                            <p class="model_sub_info">나이키 덩크 로우 레트로 블랙</p>
+                        </div>
+                    </a>
+                </div>
+                <div class="suggest_item">
+                    <a href="/products/38844" class="suggest_link">
+                        <div class="suggest_thumb">
+                            <img src="https://kream-phinf.pstatic.net/MjAyMTA4MDZfMjY0/MDAxNjI4MjM5NTA1MjU1.9FfkTXbxZFWKxDMdPayVFlD0GIyNT-mFVIQ7zZW3SPcg.c03UoCFjKXtP4XtNMgBdrmTOIQlqxrePk4JScV4GUHEg.PNG/p_8001cbaf0db042bda09fea320ee328b4.png"
+                                 alt="나이키 덩크 로우 SE 서울" class="thumb_img">
+                        </div>
+                        <div class="suggest_info">
+                            <p class="model_title">Nike Dunk Low SE Seoul</p>
+                            <p class="model_sub_info">나이키 덩크 로우 SE 서울</p>
+                        </div>
+                    </a>
+                </div>
+                <div class="suggest_item">
+                    <a href="/products/28030" class="suggest_link">
+                        <div class="suggest_thumb">
+                            <img src="https://kream-phinf.pstatic.net/MjAyMTA3MjhfMjcz/MDAxNjI3NDQxMDI4OTQz.FUajQFp09YVc_uLkwLnhQslwbgiRxTm-LTxQgi5IJNcg.erY1xk-3dvoOCW8r65BCusQYco2d6ln7BSBpD2Yld9Ug.PNG/p_0ec4e132925345f48fa832f2283cf454.png"
+                                 alt="(W) 나이키 덩크 로우 블랙" class="thumb_img">
+                        </div>
+                        <div class="suggest_info">
+                            <p class="model_title">(W) Nike Dunk Low Black</p>
+                            <p class="model_sub_info">(W) 나이키 덩크 로우 블랙</p>
+                        </div>
+                    </a>
+                </div>
+                <div class="suggest_item">
+                    <a href="/products/39121" class="suggest_link">
+                        <div class="suggest_thumb">
+                            <img src="https://kream-phinf.pstatic.net/MjAyMTA4MDlfMTQg/MDAxNjI4NDg5NTIwNDY2.Mn68jNQyl_usVByHwgVtvG3PP3QWZUrzx1Pl3hTGpvUg.i-iyK8TlNzo_c7wF-OKDjXPvDzRd4yqtjk6V1n96tSAg.PNG/a_afc5d9ecafec4e8c8d89d50a3236d2a5.png"
+                                 alt="나이키 x 언디핏 에어포스 1 로우 SP 5 온 잇" class="thumb_img">
+                        </div>
+                        <div class="suggest_info">
+                            <p class="model_title">Nike x Undefeated Air Force 1 Low SP 5 On It</p>
+                            <p class="model_sub_info">나이키 x 언디핏 에어포스 1 로우 SP 5 온 잇</p>
+                        </div>
+                    </a>
+                </div>
+                <div class="suggest_item">
+                    <a href="/products/39142" class="suggest_link">
+                        <div class="suggest_thumb">
+                            <img src="https://kream-phinf.pstatic.net/MjAyMTA4MTBfODIg/MDAxNjI4NTc3NzY4NjQ1.iuyr8BiuWbO-DBet19oNev2VNF_OkstoNOznd1TmdlIg.mtu9Iw_SlAoUiGE-rLb1xBTYQP3T255z15tsVBYwlIIg.PNG/a_cb40b0132d8343c0894a2b8999a35e85.png"
+                                 alt="나이키 x 오프화이트 덩크 로우 더 50 - 로트 18" class="thumb_img">
+                        </div>
+                        <div class="suggest_info">
+                            <p class="model_title">Nike x Off-White Dunk Low The 50 - Lot 18</p>
+                            <p class="model_sub_info">나이키 x 오프화이트 덩크 로우 더 50 - 로트 18</p>
+                        </div>
+                    </a>
+                </div>
+                <div class="suggest_item">
+                    <a href="/products/39170" class="suggest_link">
+                        <div class="suggest_thumb">
+                            <img src="https://kream-phinf.pstatic.net/MjAyMTA4MThfMTQy/MDAxNjI5MjY4NzY2ODk5.kjFtjtEy6TZ8FoPHj7P45V2Z-dw8OPgIs44mXjkU2v8g.S33cKzKXskwi8cZZChvtQrdGWVxRVvLAouyP6gZl324g.PNG/a_b79da82e8bb44d5bad1f51bc77862c06.png"
+                                 alt="나이키 x 오프화이트 덩크 로우 더 50 - 로트 46" class="thumb_img">
+                        </div>
+                        <div class="suggest_info">
+                            <p class="model_title">Nike x Off-White Dunk Low The 50 - Lot 46</p>
+                            <p class="model_sub_info">나이키 x 오프화이트 덩크 로우 더 50 - 로트 46</p>
+                        </div>
+                    </a>
+                </div>
+                <div class="suggest_item">
+                    <a href="/products/25620" class="suggest_link">
+                        <div class="suggest_thumb">
+                            <img src="https://kream-phinf.pstatic.net/MjAyMDExMThfMjU2/MDAxNjA1NjkxMzExMTYz.leAiiIeRzdnBC6STAjmeqVlM0lokrpyt7EbsaWUtnnIg.hPz7sqovLq6tPmB6zs8PnR1q8UYkTl8YJiWGKm79cj0g.PNG/p_477d8861bbbd43e8aad3ee5d76c3df76.png"
+                                 alt="나이키 x 피스마이너스원 에어포스 1 로우 파라노이즈 2.0" class="thumb_img">
+                        </div>
+                        <div class="suggest_info">
+                            <p class="model_title">Nike x Peaceminusone Air Force 1 Low Para-Noise 2.0</p>
+                            <p class="model_sub_info">나이키 x 피스마이너스원 에어포스 1 로우 파라노이즈 2.0</p>
+                        </div>
+                    </a>
+                </div>
+                <div class="suggest_item">
+                    <a href="/products/33799" class="suggest_link">
+                        <div class="suggest_thumb">
+                            <img src="https://kream-phinf.pstatic.net/MjAyMTA0MjNfMTM3/MDAxNjE5MTY4MjI4OTM4.sAToRDxrfFw9deS1_iWzKI7brDmtN1R9WqkimU81XSsg.Th25GokaQPcn0EdT5AvGYrafEbVkRr5P4BWCqXpImIQg.PNG/p_e6013157f46b40fbbbd81efa0cb3bc89.png"
+                                 alt="나이키 덩크 로우 레트로 유니버시티 블루" class="thumb_img">
+                        </div>
+                        <div class="suggest_info">
+                            <p class="model_title">Nike Dunk Low Retro University Blue</p>
+                            <p class="model_sub_info">나이키 덩크 로우 레트로 유니버시티 블루</p>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            <a href="#" class="more_link">
+                <span class="more_text">7155</span>
+                <img src="/lib/img/size_select_arrow_icon.png" class="ico-arr-right icon sprite-icons">
+            </a>
+            <div class="result_nodata" style="display: none;">
+                <p class="nodata_main">검색하신 결과가 없습니다.</p>
+                <p class="nodata_sub">상품 등록 요청은 앱 <span class="emphasis">1:1 문의하기</span> 로 요청해주세요.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div id="qf_box">
+    <div class="hb_fixed_box">
+        <div class="search_title">
+            <h2 class="title_txt">SHOP</h2>
+        </div>
+        <div id="fixed2"></div>
+        <div class="quick_filter">
+            <div class="filter_box">
+                <a href="" class="btn_quick_filter">
+                    <img src="/lib/img/h_img/logo/search_logo.png" alt="" style="width: 20px; height: 20px;">
+                </a>
+                <a href="" class="btn_quick_filter">럭셔리</a>
+                <div class="divide" style="font-size: 3rem;font-weight: lighter; color:rgb(218, 218, 218);">|</div>
+                <a href="" class="btn_quick_filter">스니커즈</a>
+                <a href="" class="btn_quick_filter">의류</a>
+                <a href="" class="btn_quick_filter">패션 잡화</a>
+                <a href="" class="btn_quick_filter">라이프</a>
+                <a href="" class="btn_quick_filter">테크</a>
+            </div>
+        </div>
+        <div id="fixed3"></div>
+    </div>
+</div>
+<div class="container_search_md">
+    <!-- container -->
+
+
+    <!-- search-top 시작 -->
+    <div class="search_top">
+        <div class="top_box">
+            <ul class="search_list">
+                <li class="brand_item">
+                    <a class="brand_box">
+                        <p class="brand_name">
+                            <img src="/lib/img/h_img/brand_box_img/jd1.png" alt="Jordan1" class="brand_img">Jordan1
+                        </p>
+                    </a>
+                </li>
+                <li class="brand_item">
+                    <a class="brand_box">
+                        <p class="brand_name">
+                            <img src="/lib/img/h_img/brand_box_img/dunk.png" alt="Dunk" class="brand_img">Dunk</p>
+                    </a>
+                </li>
+                <li class="brand_item">
+                    <a class="brand_box">
+                        <p class="brand_name">
+                            <img src="/lib/img/h_img/brand_box_img/skat.png" alt="스캇"class="brand_img">
+                            스캇</p>
+                    </a>
+                </li>
+                <li class="brand_item">
+                    <a class="brand_box">
+                        <p class="brand_name">
+                            <img src="/lib/img/h_img/brand_box_img/tombrown.png" alt="톰브라운"
+                                 class="brand_img">톰브라운</p>
+                    </a>
+                </li>
+                <li class="brand_item">
+                    <a class="brand_box">
+                        <p class="brand_name">
+                            <img src="/lib/img/h_img/brand_box_img/wallet.png" alt="지갑" class="brand_img">지갑</p>
+                    </a></li>
+                <li class="brand_item">
+                    <a class="brand_box">
+                        <p class="brand_name">
+                            <img src="/lib/img/h_img/brand_box_img/lego.png" alt="레고" class="brand_img">
+                            레고 </p>
+                    </a>
+                </li>
+                <li class="brand_item">
+                    <a class="brand_box">
+                        <p class="brand_name">
+                            <img src="/lib/img/h_img/brand_box_img/iab_studio.png" alt="IAB Studio" class="brand_img">IAB Studio</p>
+                    </a></li>
+                <li class="brand_item">
+                    <a class="brand_box">
+                        <p class="brand_name">
+                            <img src="/lib/img/h_img/brand_box_img/ps5.png" alt="PS5" class="brand_img">
+                            PS5</p>
+                    </a></li>
+                <li class="brand_item">
+                    <a class="brand_box">
+                        <p class="brand_name">
+                            <img src="/lib/img/h_img/brand_box_img/stoneisland.png" alt="스톤 아일랜드"
+                                 class="brand_img">스톤 아일랜드</p>
+                    </a></li>
+                <li class="brand_item">
+                    <a class="brand_box">
+                        <p class="brand_name">
+                            <img src="/lib/img/h_img/brand_box_img/star_bucks.png" alt="스타벅스"
+                                 class="brand_img">스타벅스</p>
+                    </a></li>
+            </ul>
+
+        </div>
+
+
+        <!-- top box sneakers-->
+        <div class="top_box">
+            <ul class="search_list">
+                <li class="brand_item">
+                    <a class="brand_box">
+                        <p class="brand_name">
+                            <img src="/lib/img/h_img/search_img/sneakers/sneakers (1).png" alt="Jordan1"
+                                 class="brand_img">Dunk</p>
+                    </a>
+                </li>
+                <li class="brand_item">
+                    <a class="brand_box">
+                        <p class="brand_name">
+                            <img src="/lib/img/h_img/search_img/sneakers/sneakers (2).png" alt="Dunk" class="brand_img">스캇
+                        </p>
+                    </a>
+                </li>
+                <li class="brand_item">
+                    <a class="brand_box">
+                        <p class="brand_name">
+                            <img src="/lib/img/h_img/search_img/sneakers/sneakers (3).png" alt="스캇" class="brand_img">사카이
+                        </p>
+                    </a>
+                </li>
+                <li class="brand_item">
+                    <a class="brand_box">
+                        <p class="brand_name">
+                            <img src="/lib/img/h_img/search_img/sneakers/sneakers (4).png" alt="톰브라운"
+                                 class="brand_img">Jordan1</p>
+                    </a></li>
+                <li class="brand_item"><a class="brand_box">
+                    <p class="brand_name"><img src="/lib/img/h_img/search_img/sneakers/sneakers (5).png" alt="지갑"
+                                               class="brand_img">엠부쉬</p>
+                </a></li>
+                <li class="brand_item"><a class="brand_box">
+                    <p class="brand_name"><img src="/lib/img/h_img/search_img/sneakers/sneakers (6).png" alt="레고"
+                                               class="brand_img">
+                        뉴발란스</p>
+                </a></li>
+                <li class="brand_item"><a class="brand_box">
+                    <p class="brand_name"><img src="/lib/img/h_img/search_img/sneakers/sneakers (7).png"
+                                               alt="IAB Studio" class="brand_img">마르지엘라</p>
+                </a></li>
+                <li class="brand_item"><a class="brand_box">
+                    <p class="brand_name"><img src="/lib/img/h_img/search_img/sneakers/sneakers (8).png" alt="PS5"
+                                               class="brand_img">
+                        야스히로</p>
+                </a></li>
+                <li class="brand_item"><a class="brand_box">
+                    <p class="brand_name"><img src="/lib/img/h_img/search_img/sneakers/sneakers (9).png" alt="스톤 아일랜드"
+                                               class="brand_img">YEEZY</p>
+                </a></li>
+                <li class="brand_item"><a class="brand_box">
+                    <p class="brand_name"><img src="/lib/img/h_img/search_img/sneakers/sneakers (10).png" alt="스타벅스"
+                                               class="brand_img">맥퀸</p>
+                </a></li>
+            </ul>
+
+        </div>
+
+        <!-- top box cloth-->
+        <div class="top_box">
+            <ul class="search_list">
+                <li class="brand_item"><a class="brand_box">
+                    <p class="brand_name"><img src="/lib/img/h_img/search_img/cloth/cloth (1).png" alt="Jordan1"
+                                               class="brand_img">Essentials</p>
+                </a></li>
+                <li class="brand_item"><a class="brand_box">
+                    <p class="brand_name"><img src="/lib/img/h_img/search_img/cloth/cloth (2).png" alt="Dunk"
+                                               class="brand_img">스톤아일렌드</p>
+                </a></li>
+                <li class="brand_item"><a class="brand_box">
+                    <p class="brand_name"><img src="/lib/img/h_img/search_img/cloth/cloth (3).png" alt="스캇"
+                                               class="brand_img">
+                        IAB Studio</p>
+                </a></li>
+                <li class="brand_item"><a class="brand_box">
+                    <p class="brand_name"><img src="/lib/img/h_img/search_img/cloth/cloth (4).png" alt="톰브라운"
+                                               class="brand_img">Stussy</p>
+                </a></li>
+                <li class="brand_item"><a class="brand_box">
+                    <p class="brand_name"><img src="/lib/img/h_img/search_img/cloth/cloth (5).png" alt="지갑"
+                                               class="brand_img">AMI</p>
+                </a></li>
+                <li class="brand_item"><a class="brand_box">
+                    <p class="brand_name"><img src="/lib/img/h_img/search_img/cloth/cloth (6).png" alt="레고"
+                                               class="brand_img">
+                        Supreme</p>
+                </a></li>
+                <li class="brand_item"><a class="brand_box">
+                    <p class="brand_name"><img src="/lib/img/h_img/search_img/cloth/cloth (7).png" alt="IAB Studio"
+                                               class="brand_img">Palace</p>
+                </a></li>
+                <li class="brand_item"><a class="brand_box">
+                    <p class="brand_name"><img src="/lib/img/h_img/search_img/cloth/cloth (8).png" alt="PS5"
+                                               class="brand_img">
+                        나투시</p>
+                </a></li>
+                <li class="brand_item"><a class="brand_box">
+                    <p class="brand_name"><img src="/lib/img/h_img/search_img/cloth/cloth (9).png" alt="스톤 아일랜드"
+                                               class="brand_img">메종 키츠네</p>
+                </a></li>
+                <li class="brand_item"><a class="brand_box">
+                    <p class="brand_name"><img src="/lib/img/h_img/search_img/cloth/cloth (10).png" alt="스타벅스"
+                                               class="brand_img">꼼데가르송</p>
+                </a></li>
+            </ul>
+
+        </div>
+
+
+        <!-- top box fashion-->
+        <div class="top_box">
+            <ul class="search_list">
+                <li class="brand_item"><a class="brand_box">
+                    <p class="brand_name"><img src="/lib/img/h_img/search_img/fashion/fashion (1).png" alt="Jordan1"
+                                               class="brand_img">지갑</p>
+                </a></li>
+                <li class="brand_item"><a class="brand_box">
+                    <p class="brand_name"><img src="/lib/img/h_img/search_img/fashion/fashion (2).png" alt="Dunk"
+                                               class="brand_img">Cap</p>
+                </a></li>
+                <li class="brand_item"><a class="brand_box">
+                    <p class="brand_name"><img src="/lib/img/h_img/search_img/fashion/fashion (3).png" alt="스캇"
+                                               class="brand_img">
+                        백팩</p>
+                </a></li>
+                <li class="brand_item"><a class="brand_box">
+                    <p class="brand_name"><img src="/lib/img/h_img/search_img/fashion/fashion (4).png" alt="톰브라운"
+                                               class="brand_img">버킷햇</p>
+                </a></li>
+                <li class="brand_item"><a class="brand_box">
+                    <p class="brand_name"><img src="/lib/img/h_img/search_img/fashion/fashion (5).png" alt="지갑"
+                                               class="brand_img">키체인</p>
+                </a></li>
+                <li class="brand_item"><a class="brand_box">
+                    <p class="brand_name"><img src="/lib/img/h_img/search_img/fashion/fashion (6).png" alt="레고"
+                                               class="brand_img">
+                        Stussy</p>
+                </a></li>
+                <li class="brand_item"><a class="brand_box">
+                    <p class="brand_name"><img src="/lib/img/h_img/search_img/fashion/fashion (7).png" alt="IAB Studio"
+                                               class="brand_img">더플백</p>
+                </a></li>
+                <li class="brand_item"><a class="brand_box">
+                    <p class="brand_name"><img src="/lib/img/h_img/search_img/fashion/fashion (8).png" alt="PS5"
+                                               class="brand_img">
+                        Socks</p>
+                </a></li>
+                <li class="brand_item"><a class="brand_box">
+                    <p class="brand_name"><img src="/lib/img/h_img/search_img/fashion/fashion (9).png" alt="스톤 아일랜드"
+                                               class="brand_img">토트백</p>
+                </a></li>
+                <li class="brand_item"><a class="brand_box">
+                    <p class="brand_name"><img src="/lib/img/h_img/search_img/fashion/fashion (10).png" alt="스타벅스"
+                                               class="brand_img">선글라스</p>
+                </a></li>
+            </ul>
+
+        </div>
+
+
+        <!-- top box life-->
+
+
+        <div class="top_box">
+            <ul class="search_list">
+                <li class="brand_item"><a class="brand_box">
+                    <p class="brand_name"><img src="/lib/img/h_img/search_img/life/life (1).png" alt="Jordan1"
+                                               class="brand_img">레고</p>
+                </a></li>
+                <li class="brand_item"><a class="brand_box">
+                    <p class="brand_name"><img src="/lib/img/h_img/search_img/life/life (2).png" alt="Dunk"
+                                               class="brand_img">Helinox</p>
+                </a></li>
+                <li class="brand_item"><a class="brand_box">
+                    <p class="brand_name"><img src="/lib/img/h_img/search_img/life/life (3).png" alt="스캇"
+                                               class="brand_img">
+                        베어브릭</p>
+                </a></li>
+                <li class="brand_item"><a class="brand_box">
+                    <p class="brand_name"><img src="/lib/img/h_img/search_img/life/life (4).png" alt="톰브라운"
+                                               class="brand_img">Supreme</p>
+                </a></li>
+                <li class="brand_item"><a class="brand_box">
+                    <p class="brand_name"><img src="/lib/img/h_img/search_img/life/life (5).png" alt="지갑"
+                                               class="brand_img">스타벅스</p>
+                </a></li>
+                <li class="brand_item"><a class="brand_box">
+                    <p class="brand_name"><img src="/lib/img/h_img/search_img/life/life (6).png" alt="레고"
+                                               class="brand_img">
+                        Towel</p>
+                </a></li>
+                <li class="brand_item"><a class="brand_box">
+                    <p class="brand_name"><img src="/lib/img/h_img/search_img/life/life (7).png" alt="IAB Studio"
+                                               class="brand_img">Bottle</p>
+                </a></li>
+                <li class="brand_item"><a class="brand_box">
+                    <p class="brand_name"><img src="/lib/img/h_img/search_img/life/life (8).png" alt="PS5"
+                                               class="brand_img">
+                        팔라스</p>
+                </a></li>
+                <li class="brand_item"><a class="brand_box">
+                    <p class="brand_name"><img src="/lib/img/h_img/search_img/life/life (9).png" alt="스톤 아일랜드"
+                                               class="brand_img">Off-White</p>
+                </a></li>
+                <li class="brand_item"><a class="brand_box">
+                    <p class="brand_name"><img src="/lib/img/h_img/search_img/life/life (10).png" alt="스타벅스"
+                                               class="brand_img">Basketball</p>
+                </a></li>
+            </ul>
+
+        </div>
+
+
+        <!-- top box tech-->
+
+        <div class="top_box">
+            <ul class="search_list">
+                <li class="brand_item"><a class="brand_box">
+                    <p class="brand_name"><img src="/lib/img/h_img/search_img/tech/tech (1).png" alt="Jordan1"
+                                               class="brand_img">갤럭시Z</p>
+                </a></li>
+                <li class="brand_item"><a class="brand_box">
+                    <p class="brand_name"><img src="/lib/img/h_img/search_img/tech/tech (2).png" alt="Dunk"
+                                               class="brand_img">PS5</p>
+                </a></li>
+                <li class="brand_item"><a class="brand_box">
+                    <p class="brand_name"><img src="/lib/img/h_img/search_img/tech/tech (3).png" alt="스캇"
+                                               class="brand_img">
+                        NVIDIA</p>
+                </a></li>
+                <li class="brand_item"><a class="brand_box">
+                    <p class="brand_name"><img src="/lib/img/h_img/search_img/tech/tech (4).png" alt="톰브라운"
+                                               class="brand_img">슈프림</p>
+                </a></li>
+                <li class="brand_item"><a class="brand_box">
+                    <p class="brand_name"><img src="/lib/img/h_img/search_img/tech/tech (5).png" alt="지갑"
+                                               class="brand_img">Airpods</p>
+                </a></li>
+                <li class="brand_item"><a class="brand_box">
+                    <p class="brand_name"><img src="/lib/img/h_img/search_img/tech/tech (6).png" alt="레고"
+                                               class="brand_img">
+                        레고 </p>
+                </a></li>
+                <li class="brand_item"><a class="brand_box">
+                    <p class="brand_name"><img src="/lib/img/h_img/search_img/tech/tech (7).png" alt="IAB Studio"
+                                               class="brand_img">닌텐도</p>
+                </a></li>
+                <li class="brand_item"><a class="brand_box">
+                    <p class="brand_name"><img src="/lib/img/h_img/search_img/tech/tech (8).png" alt="PS5"
+                                               class="brand_img">
+                        XBOX</p>
+                </a></li>
+                <li class="brand_item"><a class="brand_box">
+                    <p class="brand_name"><img src="/lib/img/h_img/search_img/tech/tech (9).png" alt="스톤 아일랜드"
+                                               class="brand_img">폰 케이스</p>
+                </a></li>
+                <li class="brand_item"><a class="brand_box">
+                    <p class="brand_name"><img src="/lib/img/h_img/search_img/tech/tech (10).png" alt="스타벅스"
+                                               class="brand_img">AMD</p>
+                </a></li>
+            </ul>
+
+        </div>
+
+    </div>
+
+    <!-- search-top 끝 -->
+
+    <div class="content">
+        <!-- 사이드바 -->
+        <div class="search_filter">
+            <div class="filter_status">
+                <div class="status_box"><span class="status_txt" style="font-weight: bold;">필터</span></div>
+                <a href="#a" class="st_clear" style="color:rgb(158, 158, 158)">모두 삭제</a>
+            </div>
+            <!-- 사이드바 1번 항목 -->
+            <div class="filter_list">
+                <div class="filter_title">
+                    <div class="title_box">
+                        <span class="main_title">카테고리</span>
+                        <span class="placeholder">모든 카테고리</span>
+                    </div>
+
+                    <div class="ico_box">
+                        <img class="side_btn" src="/lib/img/h_img/logo/side_btn1.PNG" alt="">
+                    </div>
+                </div>
+                <div class="filter_menu">
+                    <ul class="menu_list">
+                        <li class="menu">
+                            <a href="#" class="menu_link">
+                                    <span class="link_txt">
+                                        <img src="/lib/img/h_img/logo/check_box.png" alt="체크박스 이미지" class="check_box"
+                                             name="ch_box">
+                                        스니커즈
+                                    </span>
+                            </a>
+                        </li>
+
+                        <li class="menu">
+                            <a href="#" class="menu_link">
+                                    <span class="link_txt">
+                                        <img src="/lib/img/h_img/logo/check_box.png" alt="체크박스 이미지" name="ch_box"
+                                             class="check_box">
+                                        의류
+                                    </span>
+                            </a>
+                        </li>
+                        <li class="menu">
+                            <a href="#" class="menu_link">
+                                    <span class="link_txt">
+                                        <img src="/lib/img/h_img/logo/check_box.png" alt="체크박스 이미지" class="check_box">
+                                        패션 잡화
+                                    </span>
+                            </a>
+                        </li>
+                        <li class="menu">
+                            <a href="#" class="menu_link">
+                                    <span class="link_txt">
+                                        <img src="/lib/img/h_img/logo/check_box.png" alt="체크박스 이미지" class="check_box">테크
+                                    </span>
+                            </a>
+                        </li>
+                        <li class="menu">
+                            <a href="#" class="menu_link">
+                                    <span class="link_txt">
+                                        <img src="/lib/img/h_img/logo/check_box.png" alt="체크박스 이미지" class="check_box"> 라이프
+                                    </span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <!-- 사이드바 2번 항목 -->
+            <div class="filter_list">
+                <div class="filter_title">
+                    <div class="title_box">
+                        <span class="main_title">브랜드</span>
+                        <span class="placeholder">모든 브랜드</span>
+                    </div>
+
+                    <div class="ico_box">
+                        <img class="side_btn" src="/lib/img/h_img/logo/side_btn1.PNG" alt="">
+                    </div>
+
+
+                </div>
+                <div class="filter_menu">
+                    <ul class="menu_list">
+                        <li class="menu">
+                            <a href="#" class="menu_link">
+                                    <span class="link_txt">
+                                        <img src="/lib/img/h_img/logo/check_box.png" alt="체크박스 이미지" class="check_box">
+                                        Acne Studios</span>
+                            </a>
+                        </li>
+                        <li class="menu">
+                            <a href="#" class="menu_link">
+                                    <span class="link_txt"><img src="/lib/img/h_img/logo/check_box.png" alt="체크박스 이미지"
+                                                                class="check_box">
+                                        Adidas</span>
+                            </a>
+                        </li>
+                        <li class="menu">
+                            <a href="#" class="menu_link">
+                                    <span class="link_txt">
+                                        <img src="/lib/img/h_img/logo/check_box.png" alt="체크박스 이미지" class="check_box">
+                                        Alexander McQueen</span>
+                            </a>
+                        </li>
+                        <li class="menu">
+                            <a href="#" class="menu_link">
+                                    <span class="link_txt">
+                                        <img src="/lib/img/h_img/logo/check_box.png" alt="체크박스 이미지" class="check_box">AMI</span>
+                            </a>
+                        </li>
+                        <li class="menu">
+                            <a href="#" class="menu_link">
+                                    <span class="link_txt">
+                                        <img src="/lib/img/h_img/logo/check_box.png" alt="체크박스 이미지"
+                                             class="check_box">
+                                        Anti Social Social Club</span>
+                            </a>
+                        </li>
+                        <li class="menu">
+                            <a href="#" class="menu_link">
+                                    <span class="link_txt">
+                                        <img src="/lib/img/h_img/logo/check_box.png" alt="체크박스 이미지" class="check_box">
+                                        Acne Studios</span>
+                            </a>
+                        </li>
+                        <li class="menu">
+                            <a href="#" class="menu_link">
+                                    <span class="link_txt">
+                                        <img src="/lib/img/h_img/logo/check_box.png" alt="체크박스 이미지"
+                                             class="check_box">
+                                        Asics</span>
+                            </a>
+                        </li>
+                        <li class="menu">
+                            <a href="#" class="menu_link">
+                                    <span class="link_txt">
+                                        <img src="/lib/img/h_img/logo/check_box.png" alt="체크박스 이미지"
+                                             class="check_box">
+                                        Axel Arigato</span>
+                            </a>
+                        </li>
+                        <li class="menu">
+                            <a href="#" class="menu_link">
+                                    <span class="link_txt">
+                                        <img src="/lib/img/h_img/logo/check_box.png" alt="체크박스 이미지"
+                                             class="check_box">
+                                        Balenciaga</span>
+                            </a>
+                        </li>
+                        <li class="menu">
+                            <a href="#" class="menu_link">
+                                    <span class="link_txt">
+                                        <img src="/lib/img/h_img/logo/check_box.png" alt="체크박스 이미지"
+                                             class="check_box">
+                                        BAPE</span>
+                            </a>
+                        </li>
+                        <li class="menu">
+                            <a href="#" class="menu_link">
+                                    <span class="link_txt">
+                                        <img src="/lib/img/h_img/logo/check_box.png" alt="체크박스 이미지"
+                                             class="check_box">
+                                        Bottega Veneta</span>
+                            </a>
+                        </li>
+                        <li class="menu">
+                            <a href="#" class="menu_link">
+                                    <span class="link_txt">
+                                        <img src="/lib/img/h_img/logo/check_box.png" alt="체크박스 이미지"
+                                             class="check_box">
+                                        Burberry</span>
+                            </a>
+                        </li>
+                        <li class="menu">
+                            <a href="#" class="menu_link">
+                                    <span class="link_txt">
+                                        <img src="/lib/img/h_img/logo/check_box.png" alt="체크박스 이미지"
+                                             class="check_box">
+                                        Casetify</span>
+                            </a>
+                        </li>
+                        <li class="menu">
+                            <a href="#" class="menu_link">
+                                    <span class="link_txt">
+                                        <img src="/lib/img/h_img/logo/check_box.png" alt="체크박스 이미지"
+                                             class="check_box">
+                                        Caline</span>
+                            </a>
+                        </li>
+                        <li class="menu">
+                            <a href="#" class="menu_link">
+                                    <span class="link_txt">
+                                        <img src="/lib/img/h_img/logo/check_box.png" alt="체크박스 이미지"
+                                             class="check_box">
+                                        Chanel</span>
+                            </a>
+                        </li>
+                        <li class="menu">
+                            <a href="#" class="menu_link">
+                                    <span class="link_txt">
+                                        <img src="/lib/img/h_img/logo/check_box.png" alt="체크박스 이미지"
+                                             class="check_box">
+                                        Clarks</span>
+                            </a>
+                        </li>
+                        <li class="menu">
+                            <a href="#" class="menu_link">
+                                    <span class="link_txt">
+                                        <img src="/lib/img/h_img/logo/check_box.png" alt="체크박스 이미지"
+                                             class="check_box">
+                                        Common Projects</span>
+                            </a>
+                        </li>
+                        <li class="menu">
+                            <a href="#" class="menu_link">
+                                    <span class="link_txt">
+                                        <img src="/lib/img/h_img/logo/check_box.png" alt="체크박스 이미지"
+                                             class="check_box">
+                                        Converse</span>
+                            </a>
+                        </li>
+                        <li class="menu">
+                            <a href="#" class="menu_link">
+                                    <span class="link_txt">
+                                        <img src="/lib/img/h_img/logo/check_box.png" alt="체크박스 이미지"
+                                             class="check_box">
+                                        Cros</span>
+                            </a></li>
+                        <li class="menu">
+                            <a href="#" class="menu_link">
+                                    <span class="link_txt">
+                                        <img src="/lib/img/h_img/logo/check_box.png" alt="체크박스 이미지"
+                                             class="check_box">
+                                        Dior</span>
+                            </a>
+                        </li>
+
+                    </ul>
+                </div>
+            </div>
+
+
+            <!-- 사이드바 3번 항목 -->
+            <div class="filter_list">
+                <div class="filter_title">
+                    <div class="title_box">
+                        <span class="main_title">성별</span>
+                        <span class="placeholder">모든 성별</span>
+                    </div>
+
+                    <div class="ico_box">
+                        <img class="side_btn" src="/lib/img/h_img/logo/side_btn1.PNG" alt="">
+                    </div>
+
+                </div>
+                <div class="filter_menu">
+                    <ul class="menu_list">
+                        <li class="menu">
+                            <a href="#" class="menu_link">
+                                <img src="/lib/img/h_img/logo/check_box.png" alt="체크박스 이미지" class="check_box">
+                                <span class="link_txt">남성</span>
+                            </a>
+                        </li>
+                        <li class="menu">
+                            <a href="#" class="menu_link">
+                                <img src="/lib/img/h_img/logo/check_box.png" alt="체크박스 이미지" class="check_box">
+                                <span class="link_txt">여성</span>
+                            </a>
+                        </li>
+                        <li class="menu">
+                            <a href="#" class="menu_link">
+                                <img src="/lib/img/h_img/logo/check_box.png" alt="체크박스 이미지" class="check_box">
+                                <span class="link_txt">키즈</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <!-- 사이드바 4번 항목 -->
+            <div class="filter_list">
+                <div class="filter_title">
+                    <div class="title_box">
+                        <span class="main_title">컬렉션</span>
+                        <span class="placeholder">모든 컬렉션</span>
+                    </div>
+
+                    <div class="ico_box">
+                        <img class="side_btn" src="/lib/img/h_img/logo/side_btn1.PNG" alt="">
+                    </div>
+
+                </div>
+                <div class="filter_menu">
+                    <ul class="menu_list">
+                        <li class="menu">
+                            <a href="#" class="menu_link">
+                                <img src="/lib/img/h_img/logo/check_box.png" alt="체크박스 이미지" class="check_box">
+                                <span class="link_txt">Jordan 1</span>
+                            </a>
+                        </li>
+                        <li class="menu">
+                            <a href="#" class="menu_link">
+                                <img src="/lib/img/h_img/logo/check_box.png" alt="체크박스 이미지" class="check_box">
+                                <span class="link_txt">Jordan 3</span>
+                            </a>
+                        </li>
+                        <li class="menu">
+                            <a href="#" class="menu_link">
+                                <img src="/lib/img/h_img/logo/check_box.png" alt="체크박스 이미지" class="check_box">
+                                <span class="link_txt">Jordan 4</span>
+                            </a>
+                        </li>
+                        <li class="menu">
+                            <a href="#" class="menu_link">
+                                <img src="/lib/img/h_img/logo/check_box.png" alt="체크박스 이미지" class="check_box">
+                                <span class="link_txt">Jordan 5</span>
+                            </a>
+                        </li>
+                        <li class="menu">
+                            <a href="#" class="menu_link">
+                                <img src="/lib/img/h_img/logo/check_box.png" alt="체크박스 이미지" class="check_box">
+                                <span class="link_txt">Jordan 6</span>
+                            </a>
+                        </li>
+                        <li class="menu">
+                            <a href="#" class="menu_link">
+                                <img src="/lib/img/h_img/logo/check_box.png" alt="체크박스 이미지" class="check_box">
+                                <span class="link_txt">Jordan 11</span>
+                            </a>
+                        </li>
+                        <li class="menu">
+                            <a href="#" class="menu_link">
+                                <img src="/lib/img/h_img/logo/check_box.png" alt="체크박스 이미지" class="check_box">
+                                <span class="link_txt">Jordan 13</span>
+                            </a>
+                        </li>
+                        <li class="menu">
+                            <a href="#" class="menu_link">
+                                <img src="/lib/img/h_img/logo/check_box.png" alt="체크박스 이미지" class="check_box">
+                                <span class="link_txt">Nike Dunk</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- 사이드바 5번 항목 -->
+            <div class="filter_list">
+                <div class="filter_title">
+                    <div class="title_box">
+                        <span class="main_title">스니커즈</span>
+                        <span class="placeholder">모든 사이즈</span>
+                    </div>
+
+                    <div class="ico_box">
+                        <img class="side_btn" src="/lib/img/h_img/logo/side_btn1.PNG" alt="">
+                    </div>
+
+                </div>
+                <div class="filter_menu_size">
+                    <ul class="menu_list_size">
+                        <li class="menu_size">
+                            <a href="#" class="menu_link_size">
+                                <span class="link_txt_size">215</span>
+                            </a>
+                        </li>
+                        <li class="menu_size">
+                            <a href="#" class="menu_link_size">
+                                <span class="link_txt_size">220</span>
+                            </a>
+                        </li>
+                        <li class="menu_size">
+                            <a href="#" class="menu_link_size">
+                                <span class="link_txt_size">225</span>
+                            </a>
+                        </li>
+                        <li class="menu_size">
+                            <a href="#" class="menu_link_size">
+                                <span class="link_txt_size">230</span>
+                            </a>
+                        </li>
+                        <li class="menu_size">
+                            <a href="#" class="menu_link_size">
+                                <span class="link_txt_size">235</span>
+                            </a>
+                        </li>
+                        <li class="menu_size">
+                            <a href="#" class="menu_link_size">
+                                <span class="link_txt_size">240</span>
+                            </a>
+                        </li>
+                        <li class="menu_size">
+                            <a href="#" class="menu_link_size">
+                                <span class="link_txt_size">245</span>
+                            </a>
+                        </li>
+                        <li class="menu_size">
+                            <a href="#" class="menu_link_size">
+                                <span class="link_txt_size">250</span>
+                            </a>
+                        </li>
+                        <li class="menu_size">
+                            <a href="#" class="menu_link_size">
+                                <span class="link_txt_size">255</span>
+                            </a>
+                        </li>
+                        <li class="menu_size">
+                            <a href="#" class="menu_link_size">
+                                <span class="link_txt_size">260</span>
+                            </a>
+                        </li>
+                        <li class="menu_size">
+                            <a href="#" class="menu_link_size">
+                                <span class="link_txt_size">265</span>
+                            </a>
+                        </li>
+                        <li class="menu_size">
+                            <a href="#" class="menu_link_size">
+                                <span class="link_txt_size">270</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- 사이드바 6번 항목 -->
+            <div class="filter_list">
+                <div class="filter_title">
+                    <div class="title_box">
+                        <span class="main_title">의류 사이즈</span>
+                        <span class="placeholder">모든 사이즈</span>
+                    </div>
+
+                    <div class="ico_box">
+                        <img class="side_btn" src="/lib/img/h_img/logo/side_btn1.PNG" alt="">
+                    </div>
+
+                </div>
+                <div class="filter_menu_size">
+                    <ul class="menu_list_size">
+                        <li class="menu_cloth_size">
+                            <a href="#" class="menu_link_size">
+                                <span class="link_txt_size">XXS</span>
+                            </a>
+                        </li>
+                        <li class="menu_cloth_size">
+                            <a href="#" class="menu_link_size">
+                                <span class="link_txt_size">XS</span>
+                            </a>
+                        </li>
+                        <li class="menu_cloth_size">
+                            <a href="#" class="menu_link_size">
+                                <span class="link_txt_size">S</span>
+                            </a>
+                        </li>
+                        <li class="menu_cloth_size">
+                            <a href="#" class="menu_link_size">
+                                <span class="link_txt_size">M</span>
+                            </a>
+                        </li>
+                        <li class="menu_cloth_size">
+                            <a href="#" class="menu_link_size">
+                                <span class="link_txt_size">L</span>
+                            </a>
+                        </li>
+                        <li class="menu_cloth_size">
+                            <a href="#" class="menu_link_size">
+                                <span class="link_txt_size">XL</span>
+                            </a>
+                        </li>
+                        <li class="menu_cloth_size">
+                            <a href="#" class="menu_link_size">
+                                <span class="link_txt_size">XXL</span>
+                            </a>
+                        </li>
+                        <li class="menu_cloth_size">
+                            <a href="#" class="menu_link_size">
+                                <span class="link_txt_size">XXXL</span>
+                            </a>
+                        </li>
+                        <li class="menu_size">
+                            <a href="#" class="menu_link_size">
+                                <span class="link_txt_size">28</span>
+                            </a>
+                        </li>
+                        <li class="menu_size">
+                            <a href="#" class="menu_link_size">
+                                <span class="link_txt_size">29</span>
+                            </a>
+                        </li>
+                        <li class="menu_size">
+                            <a href="#" class="menu_link_size">
+                                <span class="link_txt_size">30</span>
+                            </a>
+                        </li>
+                        <li class="menu_size">
+                            <a href="#" class="menu_link_size">
+                                <span class="link_txt_size">31</span>
+                            </a>
+                        </li>
+                        <li class="menu_size">
+                            <a href="#" class="menu_link_size">
+                                <span class="link_txt_size">32</span>
+                            </a>
+                        </li>
+                        <li class="menu_size">
+                            <a href="#" class="menu_link_size">
+                                <span class="link_txt_size">33</span>
+                            </a>
+                        </li>
+                        <li class="menu_size">
+                            <a href="#" class="menu_link_size">
+                                <span class="link_txt_size">34</span>
+                            </a>
+                        </li>
+                        <li class="menu_size">
+                            <a href="#" class="menu_link_size">
+                                <span class="link_txt_size">35</span>
+                            </a>
+                        </li>
+                        <li class="menu_size">
+                            <a href="#" class="menu_link_size">
+                                <span class="link_txt_size">36</span>
+                            </a>
+                        </li>
+
+                    </ul>
+                </div>
+            </div>
+
+            <!-- 사이드바 7번 항목 -->
+            <div class="filter_list">
+                <div class="filter_title">
+                    <div class="title_box">
+                        <span class="main_title">가격</span>
+                        <span class="placeholder">모든 가격</span>
+                    </div>
+
+                    <div class="ico_box">
+                        <img class="side_btn" src="/lib/img/h_img/logo/side_btn1.PNG" alt="">
+                    </div>
+
+                </div>
+                <div class="filter_menu">
+                    <ul class="menu_list">
+                        <li class="menu">
+                            <a href="#" class="menu_link">
+                                <img src="/lib/img/h_img/logo/check_box.png" alt="체크박스 이미지" class="check_box">
+                                <span class="link_txt">10만원 이하</span>
+                            </a>
+                        </li>
+                        <li class="menu">
+                            <a href="#" class="menu_link">
+                                <img src="/lib/img/h_img/logo/check_box.png" alt="체크박스 이미지" class="check_box">
+                                <span class="link_txt">10만원 ~ 30만원 이하</span>
+                            </a>
+                        </li>
+                        <li class="menu">
+                            <a href="#" class="menu_link">
+                                <img src="/lib/img/h_img/logo/check_box.png" alt="체크박스 이미지" class="check_box">
+                                <span class="link_txt">30만원 ~ 50만원 이하</span>
+                            </a>
+                        </li>
+                        <li class="menu">
+                            <a href="#" class="menu_link">
+                                <img src="/lib/img/h_img/logo/check_box.png" alt="체크박스 이미지" class="check_box">
+                                <span class="link_txt">50만원 이상</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- content -->
+        <div class="search_content">
+            <div class="search_option">
+                <div class="filter_result">
+                    <span class="title" style="font-weight: lighter;">상품</span>
+                    <span class="amount" style="font-weight: bold;">20,929</span>
+                </div>
+
+
+                <div class="filter_sorting">
+                    <div class="popular"> 인기순<img src="/lib/img/h_img/logo/desc_logo_b.png" alt="desc_logo"
+                                                  style="width: 24px; height:24px;">
+                    </div>
+                    <div class="select_desc" id="desc_pop">
+
+                        <div class="select_box">
+                            <div class="s_desc">
+                                <div class="desc_box">
+                                    <p>인기순</p>
+                                    <p>많이 판매된 순서대로 정렬합니다.</p>
+                                </div>
+                                <p class="desc_check"></p>
+                            </div>
+                            <div class="s_desc">
+                                <div class="desc_box">
+                                    <p>프리미엄순</p>
+                                    <p>발매가 대비 가격이 높은 순서대로 정렬합니다.</p>
+                                </div>
+                                <p class="desc_check"></p>
+                            </div>
+                            <div class="s_desc">
+                                <div class="desc_box">
+                                    <p>즉시 구매가순</p>
+                                    <p>즉시 구매가가 낮은 순서대로 정렬합니다.</p>
+                                </div>
+                                <p class="desc_check"></p>
+                            </div>
+                            <div class="s_desc">
+                                <div class="desc_box">
+                                    <p>즉시 판매가순</p>
+                                    <p>즉시 판매가가 높은 순서대로 정렬합니다.</p>
+                                </div>
+                                <p class="desc_check"></p>
+                            </div>
+                            <div class="s_desc">
+                                <div class="desc_box">
+                                    <p>발매일순</p>
+                                    <p>최신 상품 순서대로 정렬합니다. 아직 발매전인 상품이 노출될 수 있습니다.</p>
+                                </div>
+                                <p class="desc_check"></p>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- content 상품 시작-->
+            <div class="search_result">
+                <div class="search_result_list">
+                    <!-- 상품 이미지,이너링크-->
+
+
+                    <!-- product -->
+
+
+                    <div class="sec_flex_box">
+                        <div class="sec_img_box">
+                            <a href="#" class="sec_img_a">
+                                <div class="sec_img" id="sec2_img1">
+                                    <p class="sec_imgClass" id="sec2_imgClass1">
+                                    </p>
+                                </div>
+
+                                <div class="sec_brand_box">
+                                    <!--                                    <div class="sec_brand_line">-->
+                                    <!--                                        <p class="sec_brand" id="sec2_brand1"></p>-->
+                                    <!--                                    </div>-->
+                                    <div class="sec_brand_text">
+
+                                    </div>
+                                    <div class="sec_mark_box">
+                                        <a href="#" class="a_mark">
+                                            <div class="sec_marking"></div>
+                                        </a>
+                                    </div>
+                                    <div class="sec_price">
+                                        <div class="sec_num"></div>
+                                        <div class="sec_won">원</div>
+                                    </div>
+                                    <div class="sec_price_text">즉시 구매가</div>
+
+                                </div>
+                            </a>
+                            <!--                            <div class="sec_mark_box">-->
+                            <!--                                <a href="#" class="a_mark">-->
+                            <!--                                    <div class="sec_marking"></div>-->
+                            <!--                                </a>-->
+                            <!--                            </div>-->
+                        </div>
+                    </div>
+                    <!-- product 끝-->
+                </div>
+            </div>
+            <!-- content 끝-->
+        </div>
+    </div>
+</div>
+
+
+<!-- Layer content-->
+
+<div class="layer_container">
+
+
+    <div class="layer_content">
+        <div class="layer_header">
+            <h2 class="ly_title">관심 상품 추가</h2>
+        </div>
+        <div class="suggest_list">
+            <div class="sg_item">
+                <div class="sg_img">
+                    <img src="/lib/img/h_img/p_f68d7b25a7ec4e67a7d4432ce7c8a18a.png" alt=""
+                         class="img_data">
+                </div>
+                <div class="sg_info">
+                    <p class="model_title">Nike x Sacai x Fragment LDWaffle Light Grey</p>
+                    <p class="sub_info">나이키 x 사카이 x 프라그먼트 LD와플 블랙큰드 블루</p>
+                </div>
+            </div>
+            <div class="interest_list">
+                <div class="interest_box_btn">
+                    <a href="#" class="btn_inner">
+                        <p class="info_txt">230</p>
+                        <img src="/lib/img/_logo.PNG" alt="" class="sec_marking2">
+                    </a>
+                </div>
+                <div class="interest_box_btn">
+                    <a href="#" class="btn_inner">
+                        <p class="info_txt">235</p>
+                        <img src="/lib/img/_logo.PNG" alt="" class="sec_marking2">
+                    </a>
+                </div>
+                <div class="interest_box_btn">
+                    <a href="#" class="btn_inner">
+                        <p class="info_txt">240</p>
+                        <img src="/lib/img/_logo.PNG" alt="" class="sec_marking2">
+                    </a>
+                </div>
+                <div class="interest_box_btn">
+                    <a href="#" class="btn_inner">
+                        <p class="info_txt">245</p>
+                        <img src="/lib/img/_logo.PNG" alt="" class="sec_marking2">
+                    </a>
+                </div>
+                <div class="interest_box_btn">
+                    <a href="#" class="btn_inner">
+                        <p class="info_txt">250</p>
+                        <img src="/lib/img/_logo.PNG" alt="" class="sec_marking2">
+                    </a>
+                </div>
+                <div class="interest_box_btn">
+                    <a href="#" class="btn_inner">
+                        <p class="info_txt">255</p>
+                        <img src="/lib/img/_logo.PNG" alt="" class="sec_marking2">
+                    </a>
+                </div>
+                <div class="interest_box_btn">
+                    <a href="#" class="btn_inner">
+                        <p class="info_txt">260</p>
+                        <img src="/lib/img/_logo.PNG" alt="" class="sec_marking2">
+                    </a>
+                </div>
+                <div class="interest_box_btn">
+                    <a href="#" class="btn_inner">
+                        <p class="info_txt">265</p>
+                        <img src="/lib/img/_logo.PNG" alt="" class="sec_marking2">
+                    </a>
+                </div>
+                <div class="interest_box_btn">
+                    <a href="#" class="btn_inner">
+                        <p class="info_txt">270</p>
+                        <img src="/lib/img/_logo.PNG" alt="" class="sec_marking2">
+                    </a>
+                </div>
+                <div class="interest_box_btn">
+                    <a href="#" class="btn_inner">
+                        <p class="info_txt">275</p>
+                        <img src="/lib/img/_logo.PNG" alt="" class="sec_marking2">
+                    </a>
+                </div>
+                <div class="interest_box_btn">
+                    <a href="#" class="btn_inner">
+                        <p class="info_txt">280</p>
+                        <img src="/lib/img/_logo.PNG" alt="" class="sec_marking2">
+                    </a>
+                </div>
+                <div class="interest_box_btn">
+                    <a href="#" class="btn_inner">
+                        <p class="info_txt">285</p>
+                        <img src="/lib/img/_logo.PNG" alt="" class="sec_marking2">
+                    </a>
+                </div>
+                <div class="interest_box_btn">
+                    <a href="#" class="btn_inner">
+                        <p class="info_txt">290</p>
+                        <img src="/lib/img/_logo.PNG" alt="" class="sec_marking2">
+                    </a>
+                </div>
+                <div class="interest_box_btn">
+                    <a href="#" class="btn_inner">
+                        <p class="info_txt">295</p>
+                        <img src="/lib/img/_logo.PNG" alt="" class="sec_marking2">
+                    </a>
+                </div>
+                <div class="interest_box_btn">
+                    <a href="#" class="btn_inner">
+                        <p class="info_txt">300</p>
+                        <img src="/lib/img/_logo.PNG" alt="" class="sec_marking2">
+                    </a>
+                </div>
+            </div>
+            <div class="layer_btn">
+                <a href="#" class="check_btn" onclick="comment_down()"> 확인 </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Layer content 끝-->
+
+<!-- footer -->
+
+
+<!-- <div class="page_wrap">
+    <div class="page_nation">
+        <a class="arrow pprev" href="#a"></a>
+        <a class="arrow prev" href="#a"></a>
+        <a href="#a" class="active">1</a>
+        <a href="#a">2</a>
+        <a href="#a">3</a>
+        <a href="#a">4</a>
+        <a href="#a">5</a>
+        <a href="#a">6</a>
+        <a href="#a">7</a>
+        <a href="#a">8</a>
+        <a href="#a">9</a>
+        <a href="#a">10</a>
+        <a class="arrow next" href="#a"></a>
+        <a class="arrow nnext" href="#a"></a>
+    </div>
+</div> -->
+
+<!-- footer -->
+<div th:replace="include/footer :: footer"></div>
+<!-- footer 끝 -->
+
+</body>
+
+</html>

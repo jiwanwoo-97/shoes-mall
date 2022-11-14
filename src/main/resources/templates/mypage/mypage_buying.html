@@ -1,0 +1,461 @@
+<html lang="ko" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org/">
+
+<!-- head.html -->
+<div th:replace="include/pjs_head :: head"></div>
+<!-- head.html 끝-->
+<script src="./jquery-ui-1.12.1/datepicker-ko.js"></script>
+
+<body>
+<div id="__nuxt">
+    <!---->
+    <div id="__layout">
+        <div class="wrap win_os">
+            <!---->
+            <div class="wrap_inner">
+                <!-- header_title start -->
+                <div th:replace="include/pjs_header_title :: header_title"></div>
+                <!--header_title end-->
+                <!--container-->
+                <div class="container my lg">
+                    <div>
+                        <!--snb_area start-->
+                        <div th:replace="include/pjs_mypage_snb_mo :: mypage_snb_mo"></div>
+                        <!--snb_area end-->
+                    </div>
+                    <div class="content_area">
+                        <div class="my_purchase">
+                            <div class="content_title">
+                                <div class="title">
+                                    <h3>구매 내역</h3>
+                                    <!---->
+                                </div>
+                                <!---->
+                            </div>
+                            <div class="purchase_list_tab detail_tab">
+                                <div class="tab_item tab_on">
+                                    <a class="tab_link">
+                                        <dl class="tab_box">
+                                            <dt class="title">구매입찰</dt>
+                                            <dd class="count" id="bindCount">0</dd>
+                                        </dl>
+                                    </a>
+                                </div>
+                                <div class="tab_item">
+                                    <a class="tab_link">
+                                        <dl class="tab_box">
+                                            <dt class="title">진행중</dt>
+                                            <dd class="count" id="continueCount">0</dd>
+                                            <!---->
+                                        </dl>
+                                    </a>
+                                </div>
+                                <div class="tab_item">
+                                    <a class="tab_link">
+                                        <dl class="tab_box">
+                                            <dt class="title">종료</dt>
+                                            <dd class="count" id="endCount">0</dd>
+                                        </dl>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="period_search">
+                                <div class="period_month">
+                                    <ul class="month_list">
+                                        <li class="month_item is_active"><a class="month_link">최근 2개월</a></li>
+                                        <li class="month_item"><a class="month_link">4개월</a></li>
+                                        <li class="month_item"><a class="month_link">6개월</a></li>
+                                        <li class="month_item hide_item"><a class="month_link">기간조회</a></li>
+                                    </ul>
+                                    <!--모바일-->
+                                    <div class="period_option">
+                                        <div class="selected_txt">
+                                            <span>기간 선택</span>
+                                            <img src="/lib/img/select_down_arrow_icon.png" class="ico-arr-down-gray icon sprite-icons">
+                                        </div>
+                                        <label>
+                                            <select id="period_select">
+                                                <option value=""> </option>
+                                                <option value=""> </option>
+                                                <option value=""> </option>
+                                                <option value=""> </option>
+                                                <option value=""> </option>
+                                                <option value=""> </option>
+                                            </select>
+                                        </label>
+                                    </div>
+                                    <!---->
+                                </div>
+                                <div class="period_calendar_wrapper">
+                                    <div class="period_calendar">
+                                        <div class="calendar_wrap">
+                                                <span>
+                                                    <div class="calendar">
+                                                        <input type="text" class="cal_input" value="2021-08-08" name="date1" id="datepicker1" readonly>
+                                                        <span class="cal_btn"></span>
+                                                    </div>
+                                                    <div class="vc-popover-content-wrapper">
+                                                        <!---->
+                                                    </div>
+                                                </span>
+                                        </div>
+                                        <span class="swung_dash">~</span>
+                                        <div class="calendar_wrap">
+                                                <span>
+                                                    <div class="calendar">
+                                                        <input type="text" class="cal_input" value="2021-09-08" name="date2" id="datepicker2" readonly>
+                                                        <span class="cal_btn"></span>
+                                                    </div>
+                                                    <div class="vc-popover-content-wrapper is-interactive" style="margin: 0px;">
+                                                        <!---->
+                                                    </div>
+                                                </span>
+                                        </div>
+                                    </div>
+                                    <div class="period_btn_box">
+                                        <button class="btn_search" onclick="bindAxios()"> 조회 </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <ul class="search_info">
+                                <li class="info_item">
+                                    <p>한 번에 조회 가능한 기간은 최대 6개월입니다.</p>
+                                </li>
+                                <li class="info_item">
+                                    <p>기간별 조회 결과는 입찰일 기준으로 노출됩니다.</p>
+                                </li>
+                            </ul>
+                            <div id="purchase_list">
+                                <!-- purchase_list -->
+                                <div class="purchase_list finished bid">
+                                    <div class="purchase_head">
+                                        <div class="head_product">
+                                            <a href="#" class="btn_filter">
+                                                <span>전체</span>
+                                                <img src="/lib/img/select_icon.png" class="ico-arr-dir-down-circle icon sprite-icons"></img>
+                                            </a>
+                                        </div>
+                                        <div class="head_status">
+                                            <div class="status_box field_price">
+                                                <a href="https://kream.co.kr/my/buying#" class="status_link">
+                                                    <span class="status_txt">구매 희망가</span>
+                                                </a>
+                                            </div>
+                                            <div class="status_box field_date_purchased" style="display: none">
+                                                <a href="https://kream.co.kr/my/buying#" class="status_link">
+                                                    <span class="status_txt">구매일</span>
+                                                </a>
+                                            </div>
+                                            <div class="status_box field_date_paid" style="display: none">
+                                                <a href="https://kream.co.kr/my/buying#" class="status_link">
+                                                    <span class="status_txt">정산일</span>
+                                                </a>
+                                            </div>
+                                            <div class="status_box field_expires_at">
+                                                <a href="https://kream.co.kr/my/buying#" class="status_link">
+                                                    <span class="status_txt">만료일</span>
+                                                </a>
+                                            </div>
+                                            <div class="status_box field_status" style="display: none">
+                                                <a href="https://kream.co.kr/my/buying#" class="status_link">
+                                                    <span class="status_txt">상태</span>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--상품 리스트-->
+                                    <div class="purchase_item_wrap">
+                                        <!--상품-->
+                                    </div>
+                                    <!--상태 팝업 1 입찰중-->
+                                    <div class="layer lg" style="display: none;" id="status1">
+                                        <div class="layer_container">
+                                            <div class="layer_header">
+                                                <h2 class="title">선택한 상태 보기</h2>
+                                            </div>
+                                            <div class="layer_content">
+                                                <div class="select_status">
+                                                    <ul class="status_list">
+                                                        <li class="status_item item_on"><a class="status_link">전체</a></li>
+                                                        <li class="status_item"><a class="status_link">입찰중</a></li>
+                                                        <li class="status_item status_danger"><a class="status_link">기한만료</a></li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                            <a class="btn_layer_close">
+                                                <img src="/lib/img/nav_close_icon.png" class="ico-close icon sprite-icons">
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <!--상태 팝업 2 진행중-->
+                                    <div class="layer lg" style="display: none;" id="status2">
+                                        <div class="layer_container">
+                                            <div class="layer_header">
+                                                <h2 class="title">선택한 상태 보기</h2>
+                                            </div>
+                                            <div class="layer_content">
+                                                <div class="select_status">
+                                                    <ul class="status_list">
+                                                        <li class="status_item item_on"><a class="status_link">전체</a></li>
+                                                        <li class="status_item"><a class="status_link">대기중</a></li>
+                                                        <li class="status_item"><a class="status_link">발송완료</a></li>
+                                                        <li class="status_item"><a class="status_link">입고대기</a></li>
+                                                        <li class="status_item"><a class="status_link">입고완료</a></li>
+                                                        <li class="status_item"><a class="status_link">검수중</a></li>
+                                                        <li class="status_item status_warning"><a class="status_link">검수보류</a></li>
+                                                        <li class="status_item"><a class="status_link">검수합격</a></li>
+                                                        <li class="status_item"><a class="status_link">배송중</a></li>
+                                                        <li class="status_item status_danger"><a class="status_link">거래실패</a></li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                            <a class="btn_layer_close">
+                                                <img src="/lib/img/nav_close_icon.png" class="ico-close icon sprite-icons">
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <!--상태 팝업 3 종료-->
+                                    <div class="layer lg" style="display: none;" id="status3">
+                                        <div class="layer_container">
+                                            <div class="layer_header">
+                                                <h2 class="title">선택한 상태 보기</h2>
+                                            </div>
+                                            <div class="layer_content">
+                                                <div class="select_status">
+                                                    <ul class="status_list">
+                                                        <li class="status_item item_on"><a class="status_link">전체</a></li>
+                                                        <li class="status_item"><a class="status_link">배송완료</a></li>
+                                                        <li class="status_item status_danger"><a class="status_link">취소완료</a></li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                            <a class="btn_layer_close">
+                                                <img src="/lib/img/nav_close_icon.png" class="ico-close icon sprite-icons">
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <!----><!----><!----><!---->
+                                </div>
+                            </div>
+                            <div class="pagination">
+                                <div class="pagination_box first last">
+                                    <div class="prev_btn_box">
+                                        <a href="https://kream.co.kr/my/buying#" class="btn_arr">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="arr-page-first icon sprite-icons">
+                                                <use href="/_nuxt/91e1223d82ae15dcdada670ee3ffdaf6.svg#i-arr-page-first" xlink:href="/_nuxt/91e1223d82ae15dcdada670ee3ffdaf6.svg#i-arr-page-first"></use>
+                                            </svg>
+                                        </a>
+                                        <a href="https://kream.co.kr/my/buying#" class="btn_arr">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="arr-page-prev icon sprite-icons">
+                                                <use href="/_nuxt/91e1223d82ae15dcdada670ee3ffdaf6.svg#i-arr-page-prev" xlink:href="/_nuxt/91e1223d82ae15dcdada670ee3ffdaf6.svg#i-arr-page-prev"></use>
+                                            </svg>
+                                        </a>
+                                    </div>
+                                    <div class="page_bind">
+                                        <a href="https://kream.co.kr/my/buying#" class="btn_page active"> 1 </a>
+                                    </div>
+                                    <div class="next_btn_box">
+                                        <a href="https://kream.co.kr/my/buying#" class="btn_arr">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="arr-page-next icon sprite-icons">
+                                                <use href="/_nuxt/91e1223d82ae15dcdada670ee3ffdaf6.svg#i-arr-page-next" xlink:href="/_nuxt/91e1223d82ae15dcdada670ee3ffdaf6.svg#i-arr-page-next"></use>
+                                            </svg>
+                                        </a>
+                                        <a href="https://kream.co.kr/my/buying#" class="btn_arr">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="arr-page-last icon sprite-icons">
+                                                <use href="/_nuxt/91e1223d82ae15dcdada670ee3ffdaf6.svg#i-arr-page-last" xlink:href="/_nuxt/91e1223d82ae15dcdada670ee3ffdaf6.svg#i-arr-page-last"></use>
+                                            </svg>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--footer-->
+                <div th:replace="include/pjs_footer :: footer"></div>
+                <!--footer end--><!----><!----><!---->
+            </div>
+        </div>
+        <!---->
+    </div>
+</div>
+</div>
+<script th:src="@{/lib/js/loginpage_mypage_all.js}" type="text/javascript"></script>
+<script>
+    const sessionId = sessionStorage.getItem('userid'); // 세션 가져오기
+
+    // 모바일 헤더 title 변경
+    const contentTitle = document.querySelector('.content_title').querySelector('h3');
+    const headerTitle = document.querySelector('.main_inner').querySelector('h4');
+    headerTitle.innerHTML=contentTitle.innerText;
+
+    // nav 태그에 on 클래스 추가
+    document.querySelector("#buying").className += ' menu_on';
+
+    // 랜덤 돌릴 배경 색상 배열
+    let colorList = [ '#ebf0f5', '#f4f4f4', 'rgb(241, 241, 234)', 'rgb(246, 238, 237)' ];
+
+    // 입찰중, 진행중, 종료 카운트
+    let bindCount = 0;
+    let continueCount = 0;
+    let endCount = 0;
+
+    // 조회날짜 변경
+    const cal_input = document.querySelectorAll('.cal_input');
+    cal_input[0].value=calcDate(2);
+    cal_input[1].value=calcDate(0);
+
+    // Axios 데이터 입력할 inpput 선언
+    let onLoadStartDate = calcDate(6);
+    let startDate = document.querySelector('#datepicker1').value;
+    let endDate = document.querySelector('#datepicker2').value;
+
+    // 상단 상태 카운트
+    axios.get('/api/customer_purchaseinfo/'+sessionId+'/'+onLoadStartDate.substring(2,onLoadStartDate.length)+'/'+endDate.substring(2, startDate.length),{
+
+    }).then(function(response){
+        for(let i in response.data.data) {
+            console.log(response);
+            console.log('카운트');
+            let $status1 = response.data.data[i].status1;   // 상품 상태
+            // 입찰, 진행중, 종료일 경우
+            if ($status1 == '구매입찰') {
+                bindCount += 1;
+            } else if ($status1 == '진행중') {
+                continueCount += 1;
+            } else {    // 종료
+                endCount += 1;
+            }
+        }
+        document.querySelector('#bindCount').innerHTML = bindCount;
+        document.querySelector('#continueCount').innerHTML = continueCount;
+        document.querySelector('#endCount').innerHTML = endCount;
+
+    }).catch(function(err){
+        console.log(err);
+    });
+
+    // 구매내역 가져오기 Axios
+    const bindAxios = function() {
+        $('.purchase_item_wrap').html('');
+
+        // 바뀐 값으로 재할당
+        startDate = document.querySelector('#datepicker1').value;
+        endDate = document.querySelector('#datepicker2').value;
+
+        axios.get('/api/customer_purchaseinfo/'+sessionId+'/'+startDate.substring(2, startDate.length)+'/'+endDate.substring(2, startDate.length), {
+
+        }).then(function (response) {
+            for (let i in response.data.data) {
+                console.log(response);
+                console.log('몇번되나요?');
+                let random = Math.floor(Math.random() * 4);  // 0~3까지 4개 색상 랜덤 돌릴 것^^
+
+                let $id = response.data.data[i].id; // 구매매 id
+                let $productId = response.data.data[i].productId;   // 상품 id
+                let $name = response.data.data[i].name;     // 상품 이름
+                let $img = response.data.data[i].originFileName;   // 상품 사진
+                let $status1 = response.data.data[i].status1;   // 상품 상태
+                let $status2 = response.data.data[i].status2;   // 상품 상태
+                let $status3 = response.data.data[i].status3;   // 상품 상태
+
+                let $size = response.data.data[i].size;    // 상품 사이즈
+                if ($size == null) {
+                    $size = ' - ';
+                }
+
+                let $price = response.data.data[i].price + '';   // 상품 가격 - number
+                if ($price == 'null') {
+                    $price = ' - ';
+                } else {
+                    $price = $price.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                }
+
+                let $period = response.data.data[i].period;     // 입찰기간 (일) - number
+                let $regdate = response.data.data[i].regdate;   // 구매일자
+                let regdateStr = $regdate.substring(0, 10);
+                let cal_period = new Date(regdateStr);
+                if ($period != null) {
+                    cal_period.setDate(cal_period.getDate() + parseInt($period));
+                }
+
+                // status2 카테고리별
+                if (document.querySelector('.tab_on .title').innerHTML == $status1) {
+                    // 전체일 경우
+                    if ($(".btn_filter").find("span").text() == '전체') {
+                        let row = $('<div class="purchase_item" onclick="location.href=\'/my/buying/' + $id + '\';">').append(
+                            '<div class="history_product">' +
+                            '<div class="product_box">' +
+                            '<div class="product" style="background-color:' + colorList[random] + ';">' +
+                            '<img src="/lib/product/' + $img + '" alt="' + $name + '" class="product_img">' +
+                            '</div></div>' +
+                            '<div class="product_detail">' +
+                            '<p class="name">' + $name + '</p><span class="size">' + $size + '</span>' +
+                            '</div></div>' +
+                            '<div class="history_status">' +
+                            '<div class="status_box field_price">' +
+                            '<div class="price">' +
+                            '<span class="amount">' + $price + '</span>' +
+                            '<span class="unit">원</span>' +
+                            '</div></div>' +
+                            '<div class="status_box field_date_purchased" style="display: none">' +
+                            '<span class="date">' + regdateStr + '</span>' +
+                            '</div>' +
+                            '<div class="status_box field_date_paid" style="display: none">' +
+                            '<span class="date">' + regdateStr + '</span>' +
+                            '</div>' +
+                            '<div class="status_box field_expires_at">' +
+                            '<span class="date text-default">' + dateFormat(cal_period) + '</span>' +
+                            '</div>' +
+                            '<div class="status_box field_status" style="display: none">' +
+                            '<span class="status_txt text-default">' + $status2 + '</span>' +
+                            '</div></div></div>'
+                        );
+                        $('.purchase_item_wrap').append(row);
+
+                        // status2 와 filter 일치할 경우
+                    } else if ($(".btn_filter").find("span").text() == $status2) {
+                        let row = $('<div class="purchase_item" onclick="location.href=\'/my/buying/' + $id + '\';">').append(
+                            '<div class="history_product">' +
+                            '<div class="product_box">' +
+                            '<div class="product" style="background-color:' + colorList[random] + ';">' +
+                            '<img src="/lib/img/' + $img + '" alt="' + $name + '" class="product_img">' +
+                            '</div></div>' +
+                            '<div class="product_detail">' +
+                            '<p class="name">' + $name + '</p><span class="size">' + $size + '</span>' +
+                            '</div></div>' +
+                            '<div class="history_status">' +
+                            '<div class="status_box field_price">' +
+                            '<div class="price">' +
+                            '<span class="amount">' + $price + '</span>' +
+                            '<span class="unit">원</span>' +
+                            '</div></div>' +
+                            '<div class="status_box field_date_purchased" style="display: none">' +
+                            '<span class="date">' + regdateStr + '</span>' +
+                            '</div>' +
+                            '<div class="status_box field_date_paid" style="display: none">' +
+                            '<span class="date">' + regdateStr + '</span>' +
+                            '</div>' +
+                            '<div class="status_box field_expires_at">' +
+                            '<span class="date text-default">' + dateFormat(cal_period) + '</span>' +
+                            '</div>' +
+                            '<div class="status_box field_status" style="display: none">' +
+                            '<span class="status_txt text-default">' + $status2 + '</span>' +
+                            '</div></div></div>'
+                        );
+                        $('.purchase_item_wrap').append(row);
+                    }
+                }
+            }
+        }).catch(function (err) {
+            console.log(err);
+        });
+    }
+
+    // 첫 페이지 세팅
+    bindAxios();
+
+</script>
+<script type="text/javascript" th:src="@{/lib/js/pjs_header_nav.js}"></script>
+<script th:src="@{/lib/js/mypage_buying.js}" type="text/javascript"></script>
+</body>
+</html>

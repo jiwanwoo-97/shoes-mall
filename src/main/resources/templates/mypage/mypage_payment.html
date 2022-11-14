@@ -1,0 +1,281 @@
+<html lang="ko" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org/">
+
+<!-- head.html -->
+<div th:replace="include/pjs_head :: head"></div>
+<!-- head.html 끝-->
+<body>
+<div id="__nuxt">
+    <!---->
+    <div id="__layout">
+        <div class="wrap win_os">
+            <!---->
+            <div class="wrap_inner">
+                <!-- header_title start -->
+                <div th:replace="include/pjs_header_title :: header_title"></div>
+                <!--header_title end-->
+                <!-- container -->
+                <div class="container my lg">
+                    <div>
+                        <!--snb_area start-->
+                        <div th:replace="include/pjs_mypage_snb_mo :: mypage_snb_mo"></div>
+                        <!--snb_area end-->
+                    </div>
+                    <div class="content_area">
+                        <div class="my_payment">
+                            <!---->
+                            <div class="content_title border has_sub">
+                                <div class="title">
+                                    <h3>결제 정보</h3>
+                                    <p class="sub_title">수수료(페널티, 착불배송비 등)가 정산되지 않을 경우, 별도 고지 없이 해당 금액을 결제 시도할 수 있습니다.</p>
+                                </div>
+                                <div class="btn_box">
+                                    <a type="button" class="btn btn_add">
+                                        <!---->
+                                        <span class="btn_txt" id="card_register">+ 새 카드 추가하기</span>
+                                    </a>
+                                </div>
+                            </div>
+                            <!---->
+                            <div class="my_list">
+                                <div class="basic">
+                                    <!--기본 flag 카드-->
+                                </div>
+                                <div class="other" id="other">
+                                    <!--other 카드-->
+                                </div>
+                                <div class="other">
+                                    <p class="notice mo">수수료(페널티, 착불배송비 등)가 정산되지 않을 경우, 별도 고지 없이 해당 금액을 결제 시도할 수 있습니다.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="layer_alert layer lg" style="display: none;">
+                            <div class="layer_container"><div class="layer_header">
+                                <h2 class="title">삭제하시겠습니까?</h2>
+                            </div>
+                                <div class="layer_content">
+                                    <div class="layer_btn">
+                                        <button type="button" class="btn outline medium"> 취소 </button>
+                                        <button type="button" class="btn solid medium"> 계속 변경 </button>
+                                    </div>
+                                </div>
+                                <a href="#" class="btn_layer_close">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="ico-close icon sprite-icons">
+                                        <use href="/_nuxt/b0de54419ba36a37dcaf45f8e18faff0.svg#i-ico-close" xlink:href="/_nuxt/b0de54419ba36a37dcaf45f8e18faff0.svg#i-ico-close"></use>
+                                    </svg>
+                                </a>
+                            </div>
+                        </div>
+                        <!---->
+                    </div>
+                </div>
+                <div>
+                    <!---->
+                </div>
+                <!--footer-->
+                <div th:replace="include/pjs_footer :: footer"></div>
+                <!--footer end-->
+            </div>
+            <!---->
+        </div>
+    </div>
+</div>
+<!-- 카드 추가 팝업 -->
+<div class="layer" id="popupDiv" style="display: none">
+    <div class="layer_container">
+        <!-- 카드 등록하기 -->
+        <div class="layer_header">
+            <h2 class="title">카드 등록하기</h2>
+            <img src="/lib/img/nav_close_icon.png" alt="닫기" class="btn_layer_close" id="popCloseBtn">
+        </div>
+        <div class="delivery_bind">
+            <!-- 카드번호 input -->
+            <div class="input_box">
+                <h4 class="input_title">카드번호</h4>
+                <div class="card_num">
+                    <input type="text" class="input_card_num" id="card_num1" autocomplete="off" minlength="4" maxlength="4" onKeyup="this.value=this.value.replace(/[^0-9]/g,'');">
+                    <span class="hyphen"></span>
+                    <input type="password" class="input_card_num" id="card_num2" autocomplete="off" minlength="4" maxlength="4" onKeyup="this.value=this.value.replace(/[^0-9]/g,'');">
+                    <span class="hyphen"></span>
+                    <input type="password" class="input_card_num" id="card_num3" autocomplete="off" minlength="4" maxlength="4" onKeyup="this.value=this.value.replace(/[^0-9]/g,'');">
+                    <span class="hyphen"></span>
+                    <input type="text" class="input_card_num" id="card_num4" autocomplete="off" minlength="4" maxlength="4" onKeyup="this.value=this.value.replace(/[^0-9]/g,'');">
+                </div>
+            </div>
+            <!-- 카드사 input -->
+            <div class="input_box">
+                <h4 class="input_title">카드사</h4>
+                <div class="card_company_box">
+                    <div class="selecte_wrap">
+                        <div class="selected_txt">
+                            <span>카드사</span>
+                            <img src="/lib/img/select_down_arrow_icon.png" class="ico-arr-down-gray icon sprite-icons">
+                        </div>
+                        <label>
+                            <select name="card_company" id="card_company">
+                                <option value="삼성">삼성</option>
+                                <option value="롯데">롯데</option>
+                                <option value="현대">현대</option>
+                                <option value="비씨">비씨</option>
+                                <option value="국민">국민</option>
+                                <option value="신한">신한</option>
+                                <option value="우리">우리</option>
+                                <option value="하나">하나</option>
+                                <option value="기업">기업</option>
+                                <option value="농협">농협</option>
+                                <option value="제일">제일</option>
+                                <option value="씨티">씨티</option>
+                                <option value="외환">외환</option>
+                                <option value="수협">수협</option>
+                                <option value="광주">광주</option>
+                                <option value="대구">대구</option>
+                                <option value="부산">부산</option>
+                                <option value="전북">전북</option>
+                                <option value="제주">제주</option>
+                                <option value="경남">경남</option>
+                            </select>
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <!-- 유효기간 input -->
+            <div class="input_box">
+                <h4 class="input_title">유효 기간</h4>
+                <div class="input_month_year">
+                    <div class="selecte_wrap">
+                        <div class="selected_txt">
+                            <span>월</span>
+                            <img src="/lib/img/select_down_arrow_icon.png" class="ico-arr-down-gray icon sprite-icons">
+                        </div>
+                        <label>
+                            <select name="month" id="birthdate">
+                                <option value="01">01</option>
+                                <option value="02">02</option>
+                                <option value="03">03</option>
+                                <option value="04">04</option>
+                                <option value="05">05</option>
+                                <option value="06">06</option>
+                                <option value="07">07</option>
+                                <option value="08">08</option>
+                                <option value="09">09</option>
+                                <option value="10">10</option>
+                                <option value="11">11</option>
+                                <option value="12">12</option>
+                            </select>
+                        </label>
+                    </div>
+                    <div class="slash"><span>/</span></div>
+                    <div class="selecte_wrap">
+                        <div class="selected_txt">
+                            <span>년</span>
+                            <img src="/lib/img/select_down_arrow_icon.png" class="ico-arr-down-gray icon sprite-icons">
+                        </div>
+                        <label>
+                            <select name="year" id="expiration">
+                                <option value="2021">2021</option>
+                                <option value="2022">2022</option>
+                                <option value="2023">2023</option>
+                                <option value="2024">2024</option>
+                                <option value="2025">2025</option>
+                                <option value="2026">2026</option>
+                                <option value="2027">2027</option>
+                                <option value="2028">2028</option>
+                                <option value="2029">2029</option>
+                                <option value="2030">2030</option>
+                            </select>
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <!-- 비밀번호 2자리 input -->
+            <div class="input_box">
+                <h4 class="input_title">비밀번호</h4>
+                <input type="password" placeholder="앞 2자리" autocomplete="off" id="cardpw" class="input_card_num" maxlength="2" onKeyup="this.value=this.value.replace(/[^0-9]/g,'');">
+            </div>
+            <div class="delivery_check">
+                <div class="checkbox_item">
+                    <input id="input_button_check" type="checkbox">
+                    <label for="input_button_check" class="check_label">
+                        <span class="label_txt">기본 카드 설정</span>
+                    </label>
+                </div>
+            </div>
+            <!-- 하단 취소하기 / 저장하기 버튼 -->
+            <div class="layer_btn">
+                <button class="btn btn_delete outlinegrey medium">취소</button>
+                <button class="btn btn_save solid medium disabled" disabled="disabled">저장하기</button>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+
+<script>
+    // 모바일 헤더 title 변경
+    const contentTitle = document.querySelector('.content_title').querySelector('h3');
+    const headerTitle = document.querySelector('.main_inner').querySelector('h4');
+    headerTitle.innerHTML=contentTitle.innerText;
+
+    // nav 태그에 on 클래스 추가
+    document.querySelector("#payment").className += ' menu_on';
+
+    const sessionId = sessionStorage.getItem('userid'); // 세션 가져오기
+
+    // 주소 등록 함수
+    function regist() {
+        const card_num1 = document.querySelector('#card_num1').value;
+        const card_num2 = document.querySelector('#card_num2').value;
+        const card_num3 = document.querySelector('#card_num3').value;
+        const card_num4 = document.querySelector('#card_num4').value;
+        const card_number = card_num1 + card_num2 + card_num3 + card_num4;
+        const card_company = document.querySelector('#card_company').value;
+        const expiration = document.querySelector('#expiration').value;
+        const birthdate = document.querySelector('#birthdate').value;
+        const cardpw = document.querySelector('#cardpw').value;
+        let input_button_check = document.querySelector('#input_button_check').checked;
+
+        let flag;
+
+        if(input_button_check){
+            flag = 'ON';
+            if($id>0){  // 기존 기본 배송지 flag OFF로 update
+                axios.request({
+                    method: "PUT",
+                    url: "/api/cardInfo_flag_update",
+                    headers: {'Content-type': 'application/json'},
+                    data: {
+                        data:{
+                            id: $id,
+                            cardFlag: "OFF"
+                        }
+                    }
+                }).then(
+                    location.reload()
+                )
+            }
+        }else{
+            flag = "OFF";
+        }
+
+        axios.request({
+            method: "POST",
+            url: "/api/cardInfo_register",
+            headers: {'Content-type': 'application/json'},
+            data: {
+                data:{
+                    cardNumber: card_number,
+                    cardCompany: card_company,
+                    expiration: expiration,
+                    birthdate: birthdate,
+                    cardpw: cardpw,
+                    cardFlag: flag,
+                    customerId: sessionId
+                }
+            }
+        }).then(
+            location.reload()
+        )
+    }
+</script>
+<script type="text/javascript" th:src="@{/lib/js/pjs_header_nav.js}"></script>
+<script type="text/javascript" th:src="@{/lib/js/mypage_payment.js}"></script>
+</html>

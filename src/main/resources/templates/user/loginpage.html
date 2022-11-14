@@ -1,0 +1,83 @@
+<html lang="ko" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org/"
+      xmlns:sec="http://www.w3.org/1999/xhtml">
+
+<!-- head.html -->
+<div th:replace="include/pjs_head :: head"></div>
+<!-- head.html 끝-->
+
+<!--네이버 로그인 script -->
+<script type="text/javascript" src="https://static.nid.naver.com/js/naverLogin_implicit-1.0.3.js" charset="utf-8"></script>
+<!---->
+
+<body>
+<div id="__nuxt">
+    <!---->
+    <div id="__layout">
+        <div class="wrap win_os">
+            <!---->
+            <div class="wrap_inner">
+                <!--header_nav start-->
+                <div th:replace="include/pjs_header_nav :: header_nav"></div>
+                <!--header_nav end-->
+                <!-- container -->
+                <div class="container login">
+                    <div class="content lg">
+                        <div class="login_area">
+                            <h2 class="login_title"><span class="blind">KREAM</span></h2>
+                            <form action="" method="post">
+                                <div class="has_button input_box" id="email_input_box">
+                                    <h3 class="input_title">이메일 주소</h3>
+                                    <div class="input_item">
+                                        <input type="text" placeholder="예) kream@kream.co.kr" autocomplete="off" class="input_txt" id="email_input" name="email">
+                                    </div>
+                                    <p class="input_error" id="email_input_error"></p>
+                                </div>
+                                <div class="input_box has_button" id="password_input_box">
+                                    <h3 class="input_title">비밀번호</h3>
+                                    <div class="input_item">
+                                        <input type="password" autocomplete="off" class="input_txt" id="password_input" name="userpw">
+                                    </div>
+                                    <p class="input_error" id="password_input_error">  </p>
+                                </div>
+                                <div class="login_btn_box">
+                                    <input type="submit" disabled="disabled"  class="btn full solid disabled" id="login_btn" value="로그인"> </input>
+                                    <a type="button" class="btn btn_login_naver full solid">
+                                        <div class="logo-naver icon sprite-icons" id="naver_id_login"></div> 네이버 로그인
+                                    </a>
+                                </div>
+                            </form>
+                            <ul class="look_box">
+                                <li class="look_list"><a href="" class="look_link"> 이메일 가입 </a></li>
+                                <li class="look_list"><a href="" class="look_link"> 이메일 찾기 </a></li>
+                                <li class="look_list"><a href="" class="look_link"> 비밀번호 찾기 </a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <!-- banner -->
+                <div th:replace="include/pjs_banner :: banner"></div>
+                <!--banner end-->
+                <!--footer strart-->
+                <div th:replace="include/pjs_footer :: footer"></div>
+                <!--footer end-->
+                <!----><!----><!---->
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+<script type="text/javascript" th:src="@{/lib/js/pjs_header_nav.js}"></script>
+<script th:src="@{/lib/js/loginpage_mypage_all.js}" type="text/javascript"></script>
+<script th:src="@{/lib/js/login.js}" type="text/javascript"></script>
+<script type="text/javascript">
+    var myDomain = window.location.href;
+    var naver_id_login = new naver_id_login("yAmQcLqQ5vooPyHA5Qm7", "http://www.naver.com");
+    var state = naver_id_login.getUniqState();
+    naver_id_login.setButton("green", 1,40);
+    naver_id_login.setDomain("http://127.0.0.1:9090/naverLogin");
+    naver_id_login.setState(state);
+    naver_id_login.setPopup();
+    naver_id_login.init_naver_id_login();
+</script>
+</body>
+</html>

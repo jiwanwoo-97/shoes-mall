@@ -1,0 +1,143 @@
+<html class="no-js" lang="ko"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org/">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KREAM | 한정판 거래의 FLEX</title>
+    <link rel="stylesheet" href="/lib/css/shop_purchaseComplite.css">
+    <link rel="stylesheet" href="/lib/css/pop.css">
+    <link data-n-head="ssr" rel="icon" type="image/x-icon" href="https://kream.co.kr/favicon.ico">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+</head>
+<script>
+    $(function () {
+        const productId = $('#productId').val();
+        const price = $('#price').val();
+        const date = $('#date').val();
+        const price_replace = price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+
+        let today = new Date();
+        let data = $('#date').val();
+        today.setDate(today.getDate() + parseInt(data));
+        let year = today.getFullYear();
+        let month = today.getMonth() + 1;
+        let date2 = today.getDate();
+        let todayStr = `${year}/${month >= 10 ? month : '0' + month}/${date2 >= 10 ? date2 : '0' + date2}`;
+
+        if(date==0){
+            $('.statusType_txt').text('즉시 판매가 완료 되었습니다.');
+            $('.price_now_title').text(' 총 결제금액 ');
+            $('.price_finish').text(price_replace);
+            $('.statusType').text('즉시 판매가');
+        }else if(date!=0){
+            $('.statusType_txt').text('판매 입찰이 완료 되었습니다.');
+            $('.sub_content').append("<p>'판매내역 > 입찰 중' 상태일 때는 입찰 지우기가 가능합니다.</p>");
+            $('.price_now_title').text(' 총 결제금액 ');
+            $('.price_finish').text(price_replace);
+            $('.statusType').text('입찰 희망가');
+            $('.price_total').append("<dl class='price_box'><dt class='price_title'> 입찰 마감기한 </dt>" +
+                "<dd class='price_empty_price'>"+date+"일 - "+todayStr+"까지</dd></dl>")
+        }
+        axios.get('/api/pro_sellfinish/'+productId)
+            .then(function (response) {
+                console.log(response);
+                let productOriginFileName = response.data.data.productOriginFileName;
+                $('#productImg').append("<img src='/lib/product/"+productOriginFileName+"' alt='sellFinish 이미지' class='product_img'>");
+            }).catch(function (err) {
+            console.log(err);
+        });
+    });
+</script>
+<body id="pop2">
+<input type="hidden" id="productId" th:value="${productId}">
+<input type="hidden" id="price" th:value="${price}">
+<input type="hidden" id="date" th:value="${date}">
+<!-- header-->
+<div th:replace="include/checkHeader :: header"></div>
+<div id="fixed"></div>
+<!-- header 끝-->
+<div th:replace="include/pop :: pop"></div>
+<!-- container buy PC버전 시작-->
+<div class="container_buy">
+    <div class="content">
+        <div class="buy_before">
+            <div class="buy_before_check">
+                <div>
+                    <div class="buy_product">
+                        <div class="product" style="background-color: rgb(220, 231, 243);" id="productImg"></div>
+                    </div>
+                </div>
+                <div class="complite_content">
+                    <div class="complite_title">
+                        <p class="statusType_txt"></p>
+                    </div>
+                    <div class="sub_title">
+                        <p>거래가 체결되는 시점에</p>
+                        <p>등록하신 결제 정보로 자동 처리 됩니다.</p>
+                    </div>
+                </div>
+                <div class="complite_btn">
+                    <div class="btn1">
+                        <a href="/my/selling">
+                            <button type="button" class="btn_small"> 판매 내역보기 </button>
+                        </a>
+                    </div>
+                    <div class="btn2">
+                        <a href="/search">
+                            <button type="button" class="btn_small"> 다른 상품 둘러보기 </button>
+                        </a>
+                    </div>
+                </div>
+                <div class="sub_content"></div>
+                <div class="price_descion_box">
+                    <div class="instant_group">
+                        <div class="price_now">
+                            <p>최종 주문정보</p>
+                            <dl class="price_now_box">
+                                <dt class="price_now_title"></dt>
+                                <dd class="price">
+                                    <span class="unit"> <span class="price_finish" style="color:red"></span>원 </span>
+                                </dd>
+                            </dl>
+                        </div>
+                        <div class="price_bind">
+                            <dl class="price_point">
+                                <dt class="price_point_title">
+                                    <span class="statusType"></span>
+                                </dt>
+                                <dd class="price_text">
+                                    <span class="unit"> <span class="price_finish"></span>원 </span>
+                                </dd>
+                            </dl>
+                            <dl class="price_addtion">
+                                <dt class="price_title">
+                                    <span>검수비</span>
+                                </dt>
+                                <dd class="price_text">무료</dd>
+                            </dl>
+                            <dl class="price_addtion">
+                                <dt class="price_title">
+                                    <span>배송비</span>
+                                </dt>
+                                <dd class="price_text">무료 이벤트</dd>
+                            </dl>
+                        </div>
+                        <div class="price_total"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- footer -->
+<div class="hidden_footer">
+    <div th:replace="include/checkFooter :: footer"></div>
+</div>
+<script src="/lib/js/pop.js"></script>
+</body>
+
+</html>

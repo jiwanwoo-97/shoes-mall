@@ -1,0 +1,50 @@
+<html lang="ko"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org/">
+<div class="mobile-menu-area" th:fragment="mo_menu">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="mobile-menu">
+                    <nav id="dropdown">
+                        <ul class="mobile-menu-nav">
+                            <li><a data-toggle="collapse" data-target="#Charts" href="#">Home</a>
+                                <ul class="collapse dropdown-header-top">
+                                    <li><a href="/pages">Dashboard</a></li>
+                                </ul>
+                            </li>
+                            <li><a data-toggle="collapse" data-target="#demoevent" href="#">주문</a>
+                                <ul id="demoevent" class="collapse dropdown-header-top">
+                                    <li><a href="/pages/order/search">구매</a></li>
+                                    <li><a href="/pages/order/sales">판매</a></li>
+                                    <li><a href="/pages/order/paycheck">미결제 확인</a></li>
+                                    <li><a href="/pages/order/delivery">배송현황 관리</a></li>
+                                </ul>
+                            </li>
+                            <li><a data-toggle="collapse" data-target="#democrou" href="#">상품등록</a>
+                                <ul id="democrou" class="collapse dropdown-header-top">
+                                    <li><a href="/pages/product/check">상품조회/수정</a></li>
+                                    <li><a href="/pages/product/regist">상품 등록</a></li>
+                                </ul>
+                            </li>
+                            <li><a data-toggle="collapse" data-target="#demodepart" href="#">공지사항&이벤트</a>
+                                <ul id="demodepart" class="collapse dropdown-header-top">
+                                    <li><a href="/pages/content/manage">글 생성/관리</a></li>
+                                    <li><a href="/pages/notice/postmange">게시글 관리</a></li>
+                                </ul>
+                            </li>
+                            <li><a data-toggle="collapse" data-target="#demo" href="#">회원관리</a>
+                                <ul id="demo" class="collapse dropdown-header-top">
+                                    <li><a href="/pages/member/all">전체회원</a></li>
+                                    <li><a href="/pages/member/withdrawal">탈퇴회원</a></li>
+                                    <li><a href="/pages/member/leave">블랙리스트</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</html>

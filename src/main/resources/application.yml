@@ -1,0 +1,47 @@
+server:
+  port: 8035
+
+spring:
+  thymeleaf:
+    prefix: classpath:templates/
+    suffix: .html
+    cache: false
+
+
+
+  datasource:
+    driver-class-name: org.mariadb.jdbc.Driver
+    url: jdbc:mariadb://localhost:3306/shoesmall?serverTimezone=Asia/Seoul
+    username: cos
+    password: cos1234
+
+
+  jpa:
+    open-in-view: true
+    database-platform: org.hibernate.dialect.MariaDB103Dialect
+    hibernate:
+      ddl-auto: create
+    properties:
+      hibernate:
+        format_sql: true
+
+
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 2MB
+
+  security:
+    user:
+      name: test
+      password: 1234
+  devtools:
+    livereload:
+      enabled: true
+
+file:
+  path: C:/Users/jwo97/Desktop/shoesmall/src/main/resources/static/upload/
+
+logging.level:
+  org.hibernate.type: trace
+

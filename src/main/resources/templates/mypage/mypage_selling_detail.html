@@ -1,0 +1,288 @@
+<html lang="ko" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org/">
+
+<!-- head.html -->
+<div th:replace="include/pjs_head :: head"></div>
+<!-- head.html 끝-->
+
+<body>
+<div id="__nuxt">
+    <!---->
+    <div id="__layout">
+        <div class="wrap win_os">
+            <!---->
+            <div class="wrap_inner">
+                <!-- header_title start -->
+                <div th:replace="include/pjs_header_title :: header_title"></div>
+                <!--header_title end-->
+                <div class="container my lg">
+                    <div>
+                        <!--snb_area start-->
+                        <div th:replace="include/pjs_mypage_snb_mo :: mypage_snb_mo"></div>
+                        <!--snb_area end-->
+                    </div>
+                    <div class="content_area">
+                        <div class="my_buying_detail bidding">
+                            <div class="content_title">
+                                <div class="title">
+                                    <h3 id="title_txt">판매내역 &gt; </h3>
+                                    <!---->
+                                </div>
+                                <!--delete-->
+                            </div>
+                            <!---->
+                            <div class="order_info_wrap">
+                                <!--이전 페이지에서 받아올 sales id 값-->
+                                <input type="hidden" id="id" th:value="${id}">
+                                <!---->
+                                <div class="section_title order_title">
+                                    <div class="title_box">
+                                        <h4 class="title"> 주문번호 <em class="order_number"> A-SW</em></h4>
+                                        <a type="button" class="btn"> 문의하기 </a>
+                                    </div>
+                                    <!---->
+                                </div>
+                                <div class="order_info">
+                                    <div class="order_product">
+                                        <div class="product_box">
+                                            <div class="product" style="background-color: rgb(244, 244, 244);">
+                                                <img src="" class="product_img">
+                                                <!---->
+                                                <!---->
+                                            </div>
+                                        </div>
+                                        <div class="product_detail">
+                                            <strong class="number">새상품 · -</strong>
+                                            <p class="name" id="product_name"></p>
+                                            <span class="size"></span>
+                                        </div>
+                                    </div>
+                                    <div class="order_price">
+                                        <ul class="price_list">
+                                            <li class="price_item">
+                                                <div class="item_inner">
+                                                    <span class="price_title">즉시 구매가</span>
+                                                    <p class="price">
+                                                        <span class="amount" id="purchasePrice">247,000</span>
+                                                        <span class="unit">원</span>
+                                                    </p>
+                                                </div>
+                                            </li>
+                                            <li class="price_item">
+                                                <div class="item_inner">
+                                                    <span class="price_title">즉시 판매가</span>
+                                                    <p class="price">
+                                                        <span class="amount" id="salesPrice">140,000</span>
+                                                        <span class="unit">원</span>
+                                                    </p>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div class="order_btn">
+                                        <a href="#" type="button" class="btn outlinegrey small" onclick="location.href='/product/'+productId;"> 상품 상세보기 </a>
+                                    </div>
+                                    <!---->
+                                    <div class="progress_wrap">
+                                        <div class="progress" style="background: #f2f9f6;">
+                                            <strong class="progress_title">진행 상황</strong>
+                                            <ol class="progress_list level-default">
+                                                <li class="progress_item">
+                                                    <p class="status">발송완료</p>
+                                                    <!----><!---->
+                                                </li>
+                                                <li class="progress_item">
+                                                    <p class="status">입고완료</p>
+                                                    <!----><!---->
+                                                </li>
+                                                <li class="progress_item">
+                                                    <p class="status">검수합격</p>
+                                                    <!----><!---->
+                                                </li>
+                                                <li class="progress_item">
+                                                    <p class="status">정산완료</p>
+                                                    <!----><!---->
+                                                </li>
+                                            </ol>
+                                        </div>
+                                        <!----><!---->
+                                    </div>
+                                </div>
+                            </div>
+                            <!---->
+                            <div class="purchase_history_wrap">
+                                <div class="section_title">
+                                    <div class="title_box">
+                                        <h4 class="title" id="detail_title"> 판매 입찰 내역 </h4>
+                                    </div>
+                                    <!---->
+                                </div>
+                                <div class="purchase_history bidding">
+                                    <div class="history_detail">
+                                        <div class="main_box">
+                                            <dl class="main_item">
+                                                <dt class="title" id="box_title">판매 희망가</dt>
+                                                <dd class="price">
+                                                    <span class="amount" id="wish_price"></span>
+                                                    <span class="unit">원</span>
+                                                </dd>
+                                            </dl>
+                                        </div>
+                                        <div item=",,," class="detail_box">
+                                            <dl class="price_addition">
+                                                <dt class="price_title">
+                                                    <span>검수비</span>
+                                                    <!---->
+                                                </dt>
+                                                <dd class="price_text"> 무료 </dd>
+                                            </dl>
+                                            <dl class="price_addition">
+                                                <dt class="price_title">
+                                                    <span>판매 수수료</span>
+                                                    <!---->
+                                                </dt>
+                                                <dd class="price_text bold"> 무료 이벤트 </dd>
+                                            </dl>
+                                            <dl class="price_addition">
+                                                <dt class="price_title">
+                                                    <span>배송비</span>
+                                                    <!---->
+                                                </dt>
+                                                <dd class="price_text"> 선불 · 판매자 부담 </dd>
+                                            </dl>
+                                            <dl class="price_addition" id="section_price">
+                                                <dt class="price_title dark">
+                                                    <span>총 정산금액</span>
+                                                    <!---->
+                                                </dt>
+                                                <dd class="price_text bold sell">
+                                                    <span id="total_price"></span>
+                                                    <span>원</span>
+                                                </dd>
+                                            </dl>
+                                        </div>
+                                        <div item="," class="detail_box">
+                                            <dl class="price_addition">
+                                                <dt class="price_title">
+                                                    <span>거래 일시</span>
+                                                    <!---->
+                                                </dt>
+                                                <dd class="price_text" id="regdate_txt"> 21/08/20 </dd>
+                                            </dl>
+                                            <dl class="price_addition" id="period_addition">
+                                                <dt class="price_title">
+                                                    <span>입찰 마감기한</span>
+                                                    <!---->
+                                                </dt>
+                                                <dd class="price_text"><span id="period"></span>일 - <span id="cal_period"></span>까지 </dd>
+                                            </dl>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!---->
+                            <div class="payment_wrap">
+                                <div class="section_title">
+                                    <div class="title_box">
+                                        <h4 class="title"> 판매 정산 계좌 </h4>
+                                    </div>
+                                    <!---->
+                                </div>
+                                <div class="payment_info">
+                                    <div class="card_info">
+                                        <span class="card_name" id="bank"></span>
+                                        <div class="card_num">
+                                                <span class="num_bind">
+                                                    <span class="last_num" id="accountNumber">***</span>
+                                                </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="shipping_address_wrap">
+                                <div class="section_title">
+                                    <div class="title_box">
+                                        <h4 class="title"> 반송 주소 </h4>
+                                    </div>
+                                    <!---->
+                                </div>
+                                <div class="shipping_address">
+                                    <dl class="address_item">
+                                        <dt class="address_title">받는 사람</dt>
+                                        <dd class="address_txt" id="addressName"></dd>
+                                    </dl>
+                                    <dl class="address_item">
+                                        <dt class="address_title">휴대폰 번호</dt>
+                                        <dd class="address_txt" id="addressHp">010</dd>
+                                    </dl>
+                                    <dl class="address_item">
+                                        <dt class="address_title">주소</dt>
+                                        <dd class="address_txt" id="addressDetail"> 주소 인풋 </dd>
+                                    </dl>
+                                </div>
+                                <!---->
+                                <!---->
+                            </div>
+                            <!---->
+                            <div class="detail_btn_box">
+                                <a href="/my/selling" type="button" class="btn btn_view_list outlinegrey medium"> 목록보기 </a>
+                            </div>
+                            <!---->
+                            <!---->
+                            <!---->
+                            <!---->
+                            <!---->
+                            <div class="layer md layer_alert" style="display: none;">
+                                <div class="layer_container">
+                                    <div class="layer_header">
+                                        <h2 class="title">입찰 지우기</h2>
+                                    </div>
+                                    <div class="layer_content">
+                                        <div class="alert_box">
+                                            <p class="alert_desc">등록하신 입찰을 지우시면 주문이 취소됩니다.</p>
+                                        </div>
+                                        <div class="layer_btn">
+                                            <button type="button" class="btn outlinegrey medium"> 취소 </button>
+                                            <button type="button" class="btn solid medium"> 입찰 지우기</button>
+                                        </div>
+                                    </div>
+                                    <a href="#" class="btn_layer_close">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="ico-close icon sprite-icons">
+                                            <use href="/_nuxt/91e1223d82ae15dcdada670ee3ffdaf6.svg#i-ico-close"
+                                                 xlink:href="/_nuxt/91e1223d82ae15dcdada670ee3ffdaf6.svg#i-ico-close">
+                                            </use>
+                                        </svg>
+                                    </a>
+                                </div>
+                            </div>
+                            <!---->
+                        </div>
+                    </div>
+                </div>
+                <!--footer-->
+                <div th:replace="include/pjs_footer :: footer"></div>
+                <!--footer end--><!----><!----><!---->
+            </div>
+        </div>
+        <!---->
+    </div>
+</div>
+</div>
+<script>
+    const sessionId = sessionStorage.getItem('userid'); // 세션 가져오기
+
+    // 이전페이지에서 받아온 sales id값
+    const salesId = document.querySelector('#id').value;
+
+    // 모바일 헤더 title 변경
+    const contentTitle = document.querySelector('.content_title').querySelector('h3');
+    const headerTitle = document.querySelector('.main_inner').querySelector('h4');
+    headerTitle.innerHTML=contentTitle.innerText;
+
+    // nav 태그에 on 클래스 추가
+    document.querySelector("#selling").className += ' menu_on';
+</script>
+<script type="text/javascript" th:src="@{/lib/js/pjs_header_nav.js}"></script>
+<script th:src="@{/lib/js/loginpage_mypage_all.js}"></script>
+<script th:src="@{/lib/js/mypage_selling_detail.js}"></script>
+</body>
+</html>

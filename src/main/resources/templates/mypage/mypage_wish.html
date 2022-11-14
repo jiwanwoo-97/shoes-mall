@@ -1,0 +1,170 @@
+<html lang="ko" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org/">
+
+<!-- head.html -->
+<div th:replace="include/pjs_head :: head"></div>
+<!-- head.html 끝-->
+
+<body>
+<div id="__nuxt">
+    <!---->
+    <div id="__layout">
+        <div class="wrap win_os">
+            <!---->
+            <div class="wrap_inner">
+                <!-- header_title start -->
+                <div th:replace="include/pjs_header_title :: header_title"></div>
+                <!--header_title end-->
+                <!-- container -->
+                <div class="container my lg">
+                    <div>
+                        <!--snb_area start-->
+                        <div th:replace="include/pjs_mypage_snb_mo :: mypage_snb_mo"></div>
+                        <!--snb_area end-->
+                    </div>
+                    <div class="content_area">
+                        <div class="my_interest">
+                            <div class="content_title border">
+                                <div class="title">
+                                    <h3>관심 상품</h3>
+                                    <!---->
+                                </div>
+                                <!---->
+                            </div>
+                            <!--관심상품 리스트 end-->
+                            <div class="pagination">
+                                <div class="pagination_box first last">
+                                    <div class="prev_btn_box">
+                                        <a href="https://kream.co.kr/my/wish?page=1" class="btn_arr">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="arr-page-first icon sprite-icons">
+                                                <use href="/_nuxt/91e1223d82ae15dcdada670ee3ffdaf6.svg#i-arr-page-first" xlink:href="/_nuxt/91e1223d82ae15dcdada670ee3ffdaf6.svg#i-arr-page-first"></use>
+                                            </svg>
+                                        </a>
+                                        <a href="https://kream.co.kr/my/wish?page=0" class="btn_arr">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="arr-page-prev icon sprite-icons">
+                                                <use href="/_nuxt/91e1223d82ae15dcdada670ee3ffdaf6.svg#i-arr-page-prev" xlink:href="/_nuxt/91e1223d82ae15dcdada670ee3ffdaf6.svg#i-arr-page-prev"></use>
+                                            </svg>
+                                        </a>
+                                    </div>
+                                    <div class="page_bind">
+                                        <a href="https://kream.co.kr/my/wish?page=1" class="btn_page active"> 1 </a>
+                                    </div>
+                                    <div class="next_btn_box">
+                                        <a href="https://kream.co.kr/my/wish?page=2" class="btn_arr">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="arr-page-next icon sprite-icons">
+                                                <use href="/_nuxt/91e1223d82ae15dcdada670ee3ffdaf6.svg#i-arr-page-next" xlink:href="/_nuxt/91e1223d82ae15dcdada670ee3ffdaf6.svg#i-arr-page-next"></use>
+                                            </svg>
+                                        </a>
+                                        <a href="https://kream.co.kr/my/wish?page=1" class="btn_arr">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="arr-page-last icon sprite-icons">
+                                                <use href="/_nuxt/91e1223d82ae15dcdada670ee3ffdaf6.svg#i-arr-page-last" xlink:href="/_nuxt/91e1223d82ae15dcdada670ee3ffdaf6.svg#i-arr-page-last"></use>
+                                            </svg>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <!---->
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <!---->
+                </div>
+                <!--footer-->
+                <div th:replace="include/pjs_footer :: footer"></div>
+                <!--footer end-->
+                <!----><!----><!----><!---->
+            </div>
+        </div>
+        <!---->
+    </div>
+</div>
+</div>
+<script>
+    const sessionId = sessionStorage.getItem('userid'); // 세션 가져오기
+
+    // 모바일 헤더 title 변경
+    const contentTitle = document.querySelector('.content_title').querySelector('h3');
+    const headerTitle = document.querySelector('.main_inner').querySelector('h4');
+    headerTitle.innerHTML=contentTitle.innerText;
+
+    // nav 태그에 on 클래스 추가
+    document.querySelector("#wish").className += ' menu_on';
+
+    // 랜덤 돌릴 배경 색상 배열
+    let colorList = [ '#ebf0f5', '#f4f4f4', 'rgb(241, 241, 234)', 'rgb(246, 238, 237)' ];
+
+    // 관심상품 삭제 함수
+    function delWish(id){
+        axios.delete('/api/cart_delete/'+id)
+            .then(function(response){
+                location.reload();
+            }).catch(function(response){
+            console.log('삭제 에러발생!')
+        });
+        return false;
+    }
+
+    axios.get('/api/customer_cartinfo/'+sessionId,{
+
+    }).then(function(response){
+        console.log(response);
+        let ul = $('<ul class="wish_list">');
+        for(let i in response.data.data){
+            console.log(response.data.data)
+            let random = Math.floor( Math.random() * 4 );  // 0~3까지 4개 색상 랜덤 돌릴 것^^
+
+            let $id = response.data.data[i].id; // 찜 id
+            let $productId = response.data.data[i].productId;   // 상품 id
+            let $brand = response.data.data[i].brand;   // 상품 brand
+            let $name = response.data.data[i].name;     // 상품 이름
+            let $img = response.data.data[i].originFileName;   // 상품 사진
+            let $size = response.data.data[i].size;    // 상품 사이즈
+            let $price = response.data.data[i].price+'';   // 상품 가격
+            let $regdate = response.data.data[i].regdate;   // 상품 구매일
+            if($size==null){
+                $size = ' - ';
+            }
+            if($price == 'null'){
+                $price = ' - ';
+            }else{
+                $price = $price.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+            }
+
+            let row = $('<li>').append(
+                '<a href="/product/'+$productId+'" class="wish_item">' +
+                '<div class="wish_product">' +
+                '<div class="product_box">' +
+                '<div class="product" style="background-color: ' + colorList[random] + ';">'+
+                '<img src="/lib/product/' + $img + '" alt="' + $name + '" class="product_img">' +
+                '</div></div>' +
+                '<div class="product_detail">' +
+                '<div class="brand">' + '<p>' + $brand + '</p></div>'+
+                '<p class="name">' + $name + '</p><span class="size">' + $size + '</span>' +
+                '</div>' +
+                '<div class="wish_buy"><div class="wish_buy_box mo">' +
+                '<a class="btn_wish" onclick="delWish(' + $id + ')"  value="' + $id + '">' +
+                '<img src="/lib/img/my_wish_icon.png" class="icon sprite-icons ico-wish-on"></a></div>' +
+                '<div class="price_info"><span class="desc">즉시 구매가</span><div class="price">' +
+                '<span class="amount">' + $price + '</span><span class="unit">원</span>' +
+                '</div></div>' +
+                '<div class="division_btn_box lg"><a href="/kream/buycheck/'+$productId+'/'+$size+'" class="btn_division buy">' +
+                '<strong class="title">구매</strong><div class="price"><span class="amount">' +
+                '<em class="num">'+ $price +'</em><span class="won"></span></span>' +
+                '<span class="desc">즉시 구매가</span>' +
+                '</div></a></div>' +
+                '<a class="status_link" onclick="delWish(' + $id + ')" value="' + $id + '">삭제</a>' +
+                '</div></div></a></li>'
+            );
+            ul.append(row);
+        }
+        ul.append('</ul>');
+        $('.content_title').after(ul);
+    }).catch(function(err){
+        console.log(err);
+    });
+</script>
+<script type="text/javascript" th:src="@{/lib/js/pjs_header_nav.js}"></script>
+<script th:src="@{/lib/js/loginpage_mypage_all.js}" type="text/javascript"></script>
+<style>a{cursor: pointer}</style>
+</body>
+</html>

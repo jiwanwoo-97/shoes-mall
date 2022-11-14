@@ -1,0 +1,537 @@
+<html lang="ko" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org/"
+      xmlns:sec="http://www.w3.org/1999/xhtml">
+
+<head>
+    <title>KRAEM | 한정판 거래의 FLEX</title>
+    <link data-n-head="ssr" rel="icon" type="image/x-icon" href="https://kream.co.kr/favicon.ico">
+
+    <!-- jquery cdn -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <!--axios cdn -->
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <!-- session -->
+
+    <link rel="stylesheet" href="/lib/css/myprofile.css">
+    <link rel="stylesheet" href="/lib/css/pop.css">
+</head>
+
+<body>
+<input type="hidden" id="idx" th:value="${id}">
+<!-- head.html -->
+<div th:replace="include/header :: head"></div>
+<div th:replace="include/pop :: pop"></div>
+<!-- head.html 끝-->
+<div id="fixed"></div>
+
+<!-- 모바일 오른쪽 -->
+<div class="navigation_wrap close">
+    <div class="navigation">
+        <div class="navigation_inner">
+            <ul class="nav_list">
+                <li class="nav_item">
+                    <a href="/social/trending" class="nav_link">STYLE</a>
+                </li>
+                <li class="nav_item">
+                    <a href="/search" class="nav_link">SHOP</a>
+                </li>
+                <li class="nav_item">
+                    <a href="/faq" class="nav_link">자주 묻는 질문</a>
+                </li>
+                <li class="nav_item">
+                    <a href="/notice" class="nav_link">공지사항</a>
+                </li>
+                <li class="nav_item">
+                    <a href="/my" class="nav_link">마이페이지</a>
+                </li>
+                <li class="nav_item" sec:authorize="hasRole('ADMIN')">
+                    <a href="/pages" class="nav_link">관리자</a>
+                </li>
+                <li class="nav_item" sec:authorize="!isAuthenticated()">
+                    <a href="/login" class="nav_link">로그인</a>
+                </li>
+                <li class="nav_item" sec:authorize="isAuthenticated()">
+                    <a href="/logout" class="nav_link" onclick="sessionStorage.clear()">로그아웃</a>
+                </li>
+                <!---->
+            </ul>
+            <!---->
+            <div class="nav_download">
+                <p class="download_txt">KREAM 앱 설치 후 사용해 보세요!</p>
+                <div class="btn_appdown">
+                    <a href="#" type="button" class="btn outline medium">
+                        앱 다운로드
+                    </a>
+                </div>
+            </div>
+        </div>
+        <button type="button" class="btn_nav_close">
+            <img src="/lib/img/pop_close.png" class="ico-close icon sprite-icons">
+        </button>
+    </div>
+</div>
+<!--검색창-->
+<div class="layer_search lg" style="display: none;">
+    <div class="search_container">
+        <div class="search_wrap">
+            <div class="search_area" value="">
+                <div class="search">
+                    <img src="/lib/img/search_gray_icon.png" class="ico-search-gray icon sprite-icons">
+                    <input type="text" placeholder="브랜드명, 모델명, 모델번호 등" title="검색창" class="input_search show_placeholder_on_focus">
+                    <button class="btn_search_delete" style="display: none;">
+                        <img src="/lib/img/text_area_delete_icon.png" class="ico-delete-circle icon sprite-icons">
+                    </button>
+                </div>
+            </div>
+            <button class="btn_close">취소</button>
+        </div>
+    </div>
+    <div class="recent_wrap">
+        <div class="recent_area">
+            <div class="recent_box">
+                <strong class="recent_title">최근 검색어</strong>
+                <button class="btn_delete">
+                    <img src="/lib/img/delete_circle_icon.png" class="ico-delete-circle icon sprite-icons">
+                </button>
+                <ul class="search_list">
+                    <li><a href="/search/" class="search_item">  DJ0950-112 </a></li>
+                    <li><a href="/search/" class="search_item"> 사카 </a></li>
+                    <li><a href="/search/" class="search_item"> 사카이 </a></li>
+                    <li><a href="/search/" class="search_item"> 덩크 </a></li>
+                    <li><a href="/search/" class="search_item"> 조던 </a></li>
+                </ul>
+            </div>
+            <ul class="brand_list lg">
+                <li class="brand_item" style="background-color: rgb(246, 238, 237);">
+                    <a class="brand_box" href="/search/">
+                        <img src="/lib/img/p_1c64737691684299b32884e7d890983c.png" alt="Jordan 1" class="brand_img">
+                        <p class="brand_name">Jordan 1</p>
+                    </a>
+                </li>
+                <li class="brand_item" style="background-color: rgb(235, 240, 245);">
+                    <a class="brand_box" href="/search/">
+                        <img src="/lib/img/a_462abc0cfd92429eae5f1e7677742261.png" alt="Dunk" class="brand_img">
+                        <p class="brand_name">Dunk</p>
+                    </a>
+                </li>
+                <li class="brand_item" style="background-color: rgb(235, 240, 245);">
+                    <a class="brand_box" href="/search/">
+                        <img src="/lib/img/p_1077af921fe1436ab78ec3f07b7dae79.png" alt="스캇" class="brand_img">
+                        <p class="brand_name">스캇</p>
+                    </a>
+                </li>
+                <li class="brand_item" style="background-color: rgb(244, 244, 244);">
+                    <a class="brand_box" href="/search/">
+                        <img src="/lib/img/a_5e37181489d44d1a80650eef3edb9296.png" alt="톰브라운" class="brand_img">
+                        <p class="brand_name">톰브라운</p>
+                    </a>
+                </li>
+                <li class="brand_item" style="background-color: rgb(244, 244, 244);">
+                    <a class="brand_box" href="/search/">
+                        <img src="/lib/img/p_4f213a0866354fa39e72f459f3374589.png" alt="지갑" class="brand_img">
+                        <p class="brand_name">지갑</p>
+                    </a>
+                </li>
+                <li class="brand_item" style="background-color: rgb(244, 244, 244);">
+                    <a class="brand_box" href="/search/">
+                        <img src="/lib/img/a_5fb25d6231d3414d9c8b5261d7d87897.png" alt="레고" class="brand_img">
+                        <p class="brand_name">레고</p>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="suggest_wrap" style="display: none;">
+        <div class="suggest_area">
+            <div class="suggest_title_area">
+                <p class="suggest_title">나이키</p>
+            </div>
+            <div class="suggest_list lg">
+                <div class="suggest_item">
+                    <a href="/product/39449" class="suggest_link">
+                        <div class="suggest_thumb">
+                            <img src="https://kream-phinf.pstatic.net/MjAyMTA4MTNfMTc4/MDAxNjI4ODE2OTU1NTEy.-ssaZSoxOvq9N6D9dNAstXpjp170UsMhxJA5syAkGC0g.JdDM7mkjhdXXkRpsTtCq7tZyA2u3r5Pm8zWFE8Oe75Mg.PNG/a_5d5dab542fae4ea9bfd2078c2d07a9f2.png" alt="나이키 x 사카이 x 프라그먼트 LD와플 라이트 스모크 그레이" class="thumb_img">
+                        </div>
+                        <div class="suggest_info">
+                            <p class="model_title">Nike x Sacai x Fragment LDWaffle Light Smoke Grey</p>
+                            <p class="model_sub_info">나이키 x 사카이 x 프라그먼트 LD와플 라이트 스모크 그레이</p>
+                        </div>
+                    </a>
+                </div>
+                <div class="suggest_item">
+                    <a href="/product/39448" class="suggest_link">
+                        <div class="suggest_thumb"><img src="https://kream-phinf.pstatic.net/MjAyMTA4MTNfMjI5/MDAxNjI4ODE2OTQyMjg4.Pr5xVktBScvuEXRctGLADuB8TJZk_ExyPagNS0Fp1i4g.Y-zakijeWyh8d9hgiIZD29bc9fWfQs_axWQ2Xj_t638g.PNG/a_8a2b9c780c234fcdbce3a2bac42f9cf4.png" alt="나이키 x 사카이 x 프라그먼트 LD와플 블랙큰드 블루" class="thumb_img">
+                        </div>
+                        <div class="suggest_info">
+                            <p class="model_title">Nike x Sacai x Fragment LDWaffle Blackened Blue</p>
+                            <p class="model_sub_info">나이키 x 사카이 x 프라그먼트 LD와플 블랙큰드 블루</p>
+                        </div>
+                    </a>
+                </div>
+                <div class="suggest_item">
+                    <a href="/product/28029" class="suggest_link">
+                        <div class="suggest_thumb">
+                            <img src="https://kream-phinf.pstatic.net/MjAyMTA3MjhfMjIg/MDAxNjI3NDQxMDA1NjE5.HOgIYywGZaaBJDqUzx2OnX9HAxoOWPvuWHqUn_LZGcgg.VYIuOfA5_GgjBGRowv6dmQuAOPtUvmAxbGpOyUCOCtYg.PNG/p_9d8ed1a74d2540ab9842e63363607bf4.png" alt="나이키 덩크 로우 레트로 블랙" class="thumb_img"></div>
+                        <div class="suggest_info">
+                            <p class="model_title">Nike Dunk Low Retro Black</p>
+                            <p class="model_sub_info">나이키 덩크 로우 레트로 블랙</p>
+                        </div>
+                    </a>
+                </div>
+                <div class="suggest_item">
+                    <a href="/product/38844" class="suggest_link">
+                        <div class="suggest_thumb">
+                            <img src="https://kream-phinf.pstatic.net/MjAyMTA4MDZfMjY0/MDAxNjI4MjM5NTA1MjU1.9FfkTXbxZFWKxDMdPayVFlD0GIyNT-mFVIQ7zZW3SPcg.c03UoCFjKXtP4XtNMgBdrmTOIQlqxrePk4JScV4GUHEg.PNG/p_8001cbaf0db042bda09fea320ee328b4.png" alt="나이키 덩크 로우 SE 서울" class="thumb_img">
+                        </div>
+                        <div class="suggest_info">
+                            <p class="model_title">Nike Dunk Low SE Seoul</p>
+                            <p class="model_sub_info">나이키 덩크 로우 SE 서울</p>
+                        </div>
+                    </a>
+                </div>
+                <div class="suggest_item">
+                    <a href="/products/28030" class="suggest_link">
+                        <div class="suggest_thumb">
+                            <img src="https://kream-phinf.pstatic.net/MjAyMTA3MjhfMjcz/MDAxNjI3NDQxMDI4OTQz.FUajQFp09YVc_uLkwLnhQslwbgiRxTm-LTxQgi5IJNcg.erY1xk-3dvoOCW8r65BCusQYco2d6ln7BSBpD2Yld9Ug.PNG/p_0ec4e132925345f48fa832f2283cf454.png" alt="(W) 나이키 덩크 로우 블랙" class="thumb_img">
+                        </div>
+                        <div class="suggest_info">
+                            <p class="model_title">(W) Nike Dunk Low Black</p>
+                            <p class="model_sub_info">(W) 나이키 덩크 로우 블랙</p>
+                        </div>
+                    </a>
+                </div>
+                <div class="suggest_item">
+                    <a href="/product/39121" class="suggest_link">
+                        <div class="suggest_thumb">
+                            <img src="https://kream-phinf.pstatic.net/MjAyMTA4MDlfMTQg/MDAxNjI4NDg5NTIwNDY2.Mn68jNQyl_usVByHwgVtvG3PP3QWZUrzx1Pl3hTGpvUg.i-iyK8TlNzo_c7wF-OKDjXPvDzRd4yqtjk6V1n96tSAg.PNG/a_afc5d9ecafec4e8c8d89d50a3236d2a5.png" alt="나이키 x 언디핏 에어포스 1 로우 SP 5 온 잇" class="thumb_img">
+                        </div>
+                        <div class="suggest_info">
+                            <p class="model_title">Nike x Undefeated Air Force 1 Low SP 5 On It</p>
+                            <p class="model_sub_info">나이키 x 언디핏 에어포스 1 로우 SP 5 온 잇</p>
+                        </div>
+                    </a>
+                </div>
+                <div class="suggest_item">
+                    <a href="/product/39142" class="suggest_link">
+                        <div class="suggest_thumb">
+                            <img src="https://kream-phinf.pstatic.net/MjAyMTA4MTBfODIg/MDAxNjI4NTc3NzY4NjQ1.iuyr8BiuWbO-DBet19oNev2VNF_OkstoNOznd1TmdlIg.mtu9Iw_SlAoUiGE-rLb1xBTYQP3T255z15tsVBYwlIIg.PNG/a_cb40b0132d8343c0894a2b8999a35e85.png" alt="나이키 x 오프화이트 덩크 로우 더 50 - 로트 18" class="thumb_img">
+                        </div>
+                        <div class="suggest_info">
+                            <p class="model_title">Nike x Off-White Dunk Low The 50 - Lot 18</p>
+                            <p class="model_sub_info">나이키 x 오프화이트 덩크 로우 더 50 - 로트 18</p>
+                        </div>
+                    </a>
+                </div>
+                <div class="suggest_item">
+                    <a href="/product/39170" class="suggest_link">
+                        <div class="suggest_thumb">
+                            <img src="https://kream-phinf.pstatic.net/MjAyMTA4MThfMTQy/MDAxNjI5MjY4NzY2ODk5.kjFtjtEy6TZ8FoPHj7P45V2Z-dw8OPgIs44mXjkU2v8g.S33cKzKXskwi8cZZChvtQrdGWVxRVvLAouyP6gZl324g.PNG/a_b79da82e8bb44d5bad1f51bc77862c06.png" alt="나이키 x 오프화이트 덩크 로우 더 50 - 로트 46" class="thumb_img">
+                        </div>
+                        <div class="suggest_info">
+                            <p class="model_title">Nike x Off-White Dunk Low The 50 - Lot 46</p>
+                            <p class="model_sub_info">나이키 x 오프화이트 덩크 로우 더 50 - 로트 46</p>
+                        </div>
+                    </a>
+                </div>
+                <div class="suggest_item">
+                    <a href="/product/25620" class="suggest_link">
+                        <div class="suggest_thumb">
+                            <img src="https://kream-phinf.pstatic.net/MjAyMDExMThfMjU2/MDAxNjA1NjkxMzExMTYz.leAiiIeRzdnBC6STAjmeqVlM0lokrpyt7EbsaWUtnnIg.hPz7sqovLq6tPmB6zs8PnR1q8UYkTl8YJiWGKm79cj0g.PNG/p_477d8861bbbd43e8aad3ee5d76c3df76.png" alt="나이키 x 피스마이너스원 에어포스 1 로우 파라노이즈 2.0" class="thumb_img">
+                        </div>
+                        <div class="suggest_info">
+                            <p class="model_title">Nike x Peaceminusone Air Force 1 Low Para-Noise 2.0</p>
+                            <p class="model_sub_info">나이키 x 피스마이너스원 에어포스 1 로우 파라노이즈 2.0</p>
+                        </div>
+                    </a>
+                </div>
+                <div class="suggest_item">
+                    <a href="/product/33799" class="suggest_link">
+                        <div class="suggest_thumb">
+                            <img src="https://kream-phinf.pstatic.net/MjAyMTA0MjNfMTM3/MDAxNjE5MTY4MjI4OTM4.sAToRDxrfFw9deS1_iWzKI7brDmtN1R9WqkimU81XSsg.Th25GokaQPcn0EdT5AvGYrafEbVkRr5P4BWCqXpImIQg.PNG/p_e6013157f46b40fbbbd81efa0cb3bc89.png" alt="나이키 덩크 로우 레트로 유니버시티 블루" class="thumb_img">
+                        </div>
+                        <div class="suggest_info">
+                            <p class="model_title">Nike Dunk Low Retro University Blue</p>
+                            <p class="model_sub_info">나이키 덩크 로우 레트로 유니버시티 블루</p>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            <a href="/search/" class="more_link">
+                <span class="more_text">7155</span>
+                <img src="/lib/img/size_select_arrow_icon.png" class="ico-arr-right icon sprite-icons">
+            </a>
+            <div class="result_nodata" style="display: none;">
+                <p class="nodata_main">검색하신 결과가 없습니다.</p>
+                <p class="nodata_sub">상품 등록 요청은 앱 <span class="emphasis">1:1 문의하기</span> 로 요청해주세요.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+<div id="container">
+    <div id="profile_box">
+        <div>
+            <img src="" alt="" id="profile">
+            <p class="userid"></p>
+        </div>
+        <div id="profile_text">
+            <p class="username"></p>
+            <p class="intro"></p>
+        </div>
+        <div id="user_button">
+            <button><a href="/social/myprofile/edit">프로필 수정</a></button>
+            <button><a href="/social/upload">새글 올리기</a></button>
+        </div>
+    </div>
+    <div id="count_box">
+        <ul>
+            <li><a href="#"><span>게시물</span> <span class="count"></span></a></li>
+            <li onclick="follower_up()"><span>팔로워</span> <span class="count"></span></li>
+            <li onclick="following_up()"><span>팔로잉</span> <span class="count"></span></li>
+        </ul>
+    </div>
+    <div id="Box">
+        <div class="card_box">
+            <a href="/social/popular">
+                <div class="imgbox">
+                    <img src="" alt="" class="img">
+                </div>
+                <div class="userbox">
+                    <img src="" alt="" class="userimg">
+                    <p class="userid"></p>
+                </div>
+                <p class="text"></p>
+            </a>
+            <div class="likebox">
+                <div class="likelink">
+                    <img src="" alt="" class="like_img" onclick="ataToggle()">
+                    <p></p>
+                </div>
+                <a href="#" class="likelink">
+                    <img src="" alt="" class="comment" >
+                    <p></p>
+                </a>
+            </div>
+            <a href="/product/121" class="product_box">
+                <div><img src="" alt="" class="product_img">
+                </div>
+                <div class="product_text">
+                    <p></p>
+                    <div>
+                        <span class="product_price"></span><span>원</span>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+    </div>
+</div>
+
+<div id="background1">
+    <div class="p_container">
+        <div class="p_title">팔로워<span></span>
+            <button onclick="follower_down()">
+                <img src="/lib/img/x.png" alt="">
+            </button>
+        </div>
+    </div>
+</div>
+
+<div id="background2">
+    <div class="p_container">
+        <div class="p_title">팔로잉<span></span>
+            <button onclick="following_down()">
+                <img src="/lib/img/x.png" alt="">
+            </button>
+        </div>
+    </div>
+</div>
+<hr />
+
+
+<!-- footer -->
+<div th:replace="include/checkFooter :: footer"></div>
+<!-- Layer content-->
+
+<script src="http://code.jquery.com/jquery-1.10.2.js"></script>
+<script src="/lib/js/myprofile.js"></script>
+<script src="/lib/js/pop.js"></script>
+</body>
+
+<script>
+    const sessionId = sessionStorage.getItem('userid'); // 세션 가져오기
+
+    $(function() {
+        axios.get('/api/style_user_list/' + sessionId,{
+        }).then(function (response){
+            console.log(response);
+
+            let main = $('<div id="container">');
+            let hash = $('<p class="text" style="text-align: initial">');
+            let background1 = $('<div class="p_title">');
+            let background2 = $('<div class="p_title">');
+
+            for(let i in response.data.data){
+                let userid = response.data.data[i].userid;
+                let name = response.data.data[i].name;
+                let intro = response.data.data[i].intro;
+                let userImg = response.data.data[i].userImg;
+                let boardCnt = response.data.data[i].boardCnt;
+                let followerCnt= response.data.data[i].followerCnt;
+                let followingCnt = response.data.data[i].followingCnt;
+                let styleImg = response.data.data[i].styleImg;
+                let content = response.data.data[i].content;
+                let hit = response.data.data[i].hit;
+                let replyCnt = response.data.data[i].replyCnt;
+                let p_img = response.data.data[i].styleProductTagApiResponseList[i].originFileName;
+                let p_name = response.data.data[i].styleProductTagApiResponseList[i].name;
+                let p_price = response.data.data[i].styleProductTagApiResponseList[i].price;
+                let styleId = response.data.data[i].styleId;
+                let hitBoolean = response.data.data[i].hitBoolean;
+
+                let likeImg = '/lib/img/smile.png';
+                //좋아요 기록이 true일 경우 이미지 변경
+                if(hitBoolean == true){
+                    likeImg = '/lib/img/heart.png';
+                }
+                let price = p_price;
+                //즉시구매가가 없는 경우
+                if(p_price == null){
+                    price = '-';
+                }
+                for(let z in response.data.data[i].styleHashTagNameApiResponseList){
+                    hashtag = response.data.data[i].styleHashTagNameApiResponseList[z].tagName;
+                    if(hashtag >response.data.data[i].styleHashTagNameApiResponseList[0].tagName ){
+                        hash.append('#'+hashtag);
+
+                    }else{
+                        hash.append(content + '#'+hashtag);
+                    }
+                }
+
+                let con = $('<div id="profile_box">').append(
+                    '<div><img src="/lib/product/'+userImg+'" alt="" id="profile">' + '<p class="userid">'+ userid+'</p></div>' +
+                    '<div id="profile_text"><p class="username">' + name + '</p><p class="intro">'+ intro+'</p></div>'+ '<div id="user_button"><button><a href="/social/myprofile/edit">프로필 수정</a></button>'+
+                    '<button><a href="/social/upload">새글 올리기</a></button></div></div>' + '<div id="count_box"><ul><li><a href="#"><span>게시물</span><span class="count">'+ boardCnt + '</span></a></li>'+
+                    '<li onclick="follower_up()"><span>팔로워</span> <span class="count">'+ followerCnt +'</span></li><li onclick="following_up()"><span>팔로잉</span> <span class="count">' + followingCnt +'</span></li></ul></div>'+
+                    '<div id="Box"><div class="card_box"><a href="/social/popular"><div class="imgbox">'+'<img src="/lib/product/'+styleImg+'" alt="" class="img"></div>'+'<div class="userbox"><img src="/lib/product/'+userImg+'" alt="" class="userimg">'+
+                    '<p class="userid">'+ userid +'</p></div>'+'</a><div class="likebox"><div class="likelink"><img src="'+likeImg+'" alt="" class="like_img" onclick="sendit('+styleId+')">'+'<p>'+hit+'</p></div>'+
+                    '<a href="#" class="likelink"><img src="/lib/img/7148750_chat_message_bubble_talk_conversation_icon.png" alt="" class="comment"><p>'+ replyCnt+'</p></a></div>'+
+                    '<a href="/product/121" class="product_box"><div>'+'<img src="/lib/product/'+p_img+'" alt="" class="product_img"></div>'+'<div class="product_text"><p>'+p_name+'</p><div>'+
+                    '<span class="product_price">'+priceToString(p_price)+'</span><span>원</span></div></div></a></div></div></div>'
+                )
+                main.append(con);
+
+                // 팔로우
+                for(let j in response.data.data[i].followerListApiResponseList){
+                    follower_id = response.data.data[i].followerListApiResponseList[j].id;
+                    let follower_img = response.data.data[i].followerListApiResponseList[j].originFileName;
+                    let follower_name = response.data.data[i].followerListApiResponseList[j].name;
+                    let follower_profileName = response.data.data[i].followerListApiResponseList[j].profileName;
+
+                    let cam = $('<div class="p_body">').append(
+                        '<div class="p_user"><div class="p_imgbox">' + '<img src="/lib/product/'+follower_img+'" alt="" id="p_img"></div>'+
+                        '<div class="p_textbox"><p class="p_text1">'+follower_name+'</p><p class="p_text2">'+follower_profileName+'</p></div></div>'+
+                        '<div class="p_btnbox"><button class="p_btn">팔로우</button></div></div>'
+                    )
+                    cam.append('</div>');
+                    background1.append(cam);
+                }
+
+
+                // 팔로잉
+                for(let k in response.data.data[i].followingListApiResponseList){
+                    following_id = response.data.data[i].followingListApiResponseList[k].id;
+                    let following_img = response.data.data[i].followingListApiResponseList[k].originFileName;
+                    let following_name = response.data.data[i].followingListApiResponseList[k].name;
+                    let following_profileName = response.data.data[i].followingListApiResponseList[k].profileName;
+
+                    let doit = $('<div class="p_body">').append(
+                        '<div class="p_user"><div class="p_imgbox">' + '<img src="/lib/product/'+following_img+'" alt="" id="p_img"></div>' +
+                        '<div class="p_textbox"><p class="p_text1">'+following_name +'</p><p class="p_text2">'+following_profileName+'</p></div></div>' +
+                        '<div class="p_btnbox"><button class="p_btn">팔로우</button></div></div></div>'
+                    )
+                    doit.append('</div>');
+                    background2.append(doit);
+                }
+            }
+            $('#container').html(main);
+            $('#background1 > .p_container > .p_title').after(background1);
+            $('#background2 > .p_container > .p_title').after(background2);
+            $('.userbox').after(hash);
+
+
+        }).catch(function (error){
+            console.log(error);
+        })
+    });
+    // 가격 ,(콤마) 생성
+    function priceToString(p_price) {
+        return p_price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    }
+    // 좋아요 버튼
+    function sendit(styleId){
+        let likeNum = document.getElementById(styleId);
+        if(customerId==null){
+            location.href='/login';
+        }else{
+            axios.get('/api/styleLike_like/'+customerId+"/"+styleId,{
+            }).then(function (response) {
+                console.log(response)
+                let like = response.data;
+                likeNum.innerText = '';
+                likeNum.append(like);
+            });
+        }
+    }
+    $(document).on('click', '.like_img', function () {
+        /*$(".check_box").index(this); 몇번쨰 클래스인지 가져옴 // .index는 함수이름*/
+        let index = $(".like_img").index(this);
+        let like = document.getElementsByClassName('like_img');
+        let likeCheck = like.item(index).getAttribute('src');
+        if(customerId!=null){    // 로그인 되어있을 경우에만 바꿔줌
+            if(likeCheck=='/lib/img/smile.png'){
+                like.item(index).setAttribute('src', '/lib/img/heart.png');
+            }else if(likeCheck=='/lib/img/heart.png'){
+                like.item(index).setAttribute('src', '/lib/img/smile.png');
+            }
+        }else{
+            location.href='/login';
+        }
+    });
+
+    /* 팔로잉 버튼 */
+    follow = [];
+    $(document).on('click', '.p_btnbox', function () {
+        let followerId = sessionId; // 본인
+        let followingId =  $('#idx').val();
+        let index = $(".p_btnbox").index(this);
+
+        axios.get('/api/follow_link/' + followingId+ '/' + followerId).then(function () {
+
+            if (follow[index] != 1) {
+                followBoolean = false;
+                follow[index] = 1;
+                const button = document.getElementsByClassName("p_btn")[index];
+                console.log(button);
+                button.innerText = "팔로잉";
+                button.style.backgroundColor = "white";
+                button.style.color = "black";
+            } else if (follow[index] == 1) {
+                followBoolean = true;
+                follow[index] = 0;
+                const button = document.getElementsByClassName("p_btn")[index];
+                button.innerText = "팔로우";
+                button.style.backgroundColor = "black";
+                button.style.color = "white";
+            }
+        })
+    });
+</script>
+
+</html>

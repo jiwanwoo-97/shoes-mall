@@ -1,0 +1,661 @@
+/***************************** 필수 ******************************/
+@import url(//fonts.googleapis.com/earlyaccess/notosanskr.css);
+html{font-family: 'Noto Sans KR', sans-serif;font-size:62.5%;}
+/***********************************************/
+
+/**********=******** 헤더 ******************************/
+
+#fixed{
+    width: 100%;
+    height: 10rem;
+}
+header{
+    width: 100%;
+    margin: 0;
+    margin-top: -1rem;
+    padding: 0;
+    background: white;
+    position: fixed;
+    z-index: 9999;
+}
+header #header_top{
+    width: 100%;
+    border-bottom: 1px solid lightgray;
+    float:right;
+}
+header #header_top #ht_box{
+    float:right;
+    list-style: none;
+    margin: 0;
+    display: flex;
+    justify-content: space-between;
+    width: 34.3rem;
+    margin-right: 0.8rem ;
+    padding: 1rem 4rem 0.8rem;
+}
+header #header_top #ht_box .ht_text{
+    font-size: 1.15rem;
+    font-family:none;
+    margin-right: 0.1rem;
+}
+header #header_top #ht_box .ht_text a{
+    text-decoration: none;
+    color: black;
+}
+header #header_bottom{
+    border-bottom: 1px solid lightgray;
+    display: flex;
+    justify-content:space-between;
+    padding: 0.4rem 4.8rem 0.4rem 1.3rem;
+}
+header #header_bottom #hb_logo_box{
+    height: 100%;
+}
+header #header_bottom #hb_logo_box #hb_logo{
+    margin-left: 1.19rem;
+    width: 13.5rem;
+    height: 3.8rem;
+    background: url(/lib/img/kream_logo.png)no-repeat center/cover;
+    background-size: 12rem;
+}
+header #header_bottom #hb_box{
+    display: flex;
+    list-style: none;
+    width: 27.7rem;
+    margin: 0;
+    padding: 0;
+    align-items: center;
+    justify-content: space-between;
+}
+header #header_bottom #hb_box .hb_text{
+    font-size: 1.46rem;
+    margin-top: -0.26rem;
+}
+header #header_bottom #hb_box  #hb_mo_text{
+    display: none;
+}
+header #header_bottom #hb_box .hb_text a{
+    text-decoration: none;
+    color: black;
+}
+header #header_bottom #hb_box #hb_no_text .hb_button_img{
+    border: none;
+    margin: 0;
+    width: 2.8rem;
+    height: 2.8rem;
+    margin-top: 0.46rem;
+    background: url(/lib/img/search.png) no-repeat center/cover;
+}
+
+/************************************************/
+#group1{display: flex; width: 130rem;margin: 0 auto; }
+#group2{width: 16rem; margin-left: 4rem;}
+#group3{height: 40rem;  width: 97rem;  margin-top: -1rem;}
+/************************************************/
+
+
+
+/*my page */
+.h1_header{
+    margin-top : 3rem;
+    padding-bottom: 1rem;
+    font-size: 3rem;
+    color: #000;
+}
+
+/* 결제 정보 */
+.h2_header{
+    font-size: 2.8rem;
+    font-weight: 500;
+    width: 100rem;
+}
+
+/*****************************************************************/
+.gg{margin-top: -1rem; line-height: 2.4rem; margin-left: -3rem;}
+.gg_font{color: rgba(34,34,34,.5); font-weight: 300;}
+.menu_item{
+    list-style: none;
+    font-size: 1.4rem;
+    margin-top: 0.3rem;
+}
+.menu_on{
+    font-size: 1.5rem;
+    font-weight: 500; color: #000 !important;
+}
+.snb_menu > .menu_item{color: rgba(34,34,34,.5);}
+ul{padding-inline-start: none;}
+/*수수료~~*/
+.title33{ width: 100rem; margin-top: 4rem;}
+.sub_title{
+    left: 32rem;
+    width: 100rem;
+    font-size: 1.2rem;
+    color: rgba(34,34,34,.5);
+    margin-top: 0rem;
+    margin-bottom: 2rem;
+}
+#box3333{width: 90rem;}
+
+/*새 카드 추가하기*/
+.btn_box > .btn_add{
+    border-radius: 10px;
+    border: 1px solid #222;
+    background-color: #fff;
+    font-size: 1.2rem;
+}
+.btn_box{ margin-top: -5rem;  width: 97rem;}
+.btn_add{
+    padding: 0 1.4rem;
+    height: 3.4rem;
+    color: black;
+    width: 14rem;
+    margin-left: 82.8rem;
+}
+
+
+/*기본 배송지 위치*/
+*, ::after, ::before{
+    box-sizing: border-box;
+}
+.my_list{
+    border-top: 3px solid black;
+    left: 32rem;
+    top: -7rem;
+}
+.my_item{
+    margin-top:1rem; 
+    border-bottom: 1px solid lightgray; 
+    width: 97rem;
+}
+
+
+/*기본 결제*/
+.info_bind{margin-top: 2rem; width: 90rem;}
+.default_mark{
+    font-size: 1.2rem;
+    font-weight: 500;
+    color: #000;
+}
+/* 둥근 기본결제 */
+.mark{
+    font-weight: 600;
+    font-size: 1rem;
+}
+/*kB*/
+.card_info{
+    /* box-sizing: border-box; */
+    padding: 1rem 5rem 1rem 1rem;
+    display: flex;
+    width: 97rem;
+    /* border: 1px solid hotpink; */
+}
+.my_list .card_name, .other_Card .card_name{
+    display: inline-block;
+    padding: 1rem;
+    min-width: 5.2rem;
+    border-radius: 0.8rem;
+    border: 1px solid #ebebeb;
+    background-color: #fff;
+    text-align: center;
+}
+.card_name{
+    font-size: 1.5rem;
+}
+.card_num{
+    margin-left: 1.7rem;
+    font-size: 0;
+    width: 30rem;
+    /* border: 1px solid dodgerblue; */
+}
+
+.card_num .dot:after, .card_num .dot::before{
+    content: "";
+    margin-left: 0.3rem;
+    display: inline-flex;
+    width: 0.5rem;
+    height: 0.5rem;
+    background-color: #222;
+    border-radius: 100%;
+}
+.card_num .hyphen, .card_num .last_num{
+    display: inline-flex;
+}
+.card_num .hyphen{
+    margin-left: 0.4rem;
+    margin-right: 0.2rem;
+    width: 0.4rem;
+    height: 0.1rem;
+    background-color: #000;
+}
+.card_num .last_num{
+    margin-left: 0.2rem;
+    font-size: 1.4rem;
+}
+.my_list .mark{
+    margin-top: 0.2rem;
+}
+/*원 안에 있는 기본 결제*/
+.mark{
+    padding: 0 0.6rem;
+    display: inline-block;
+    height: 1.8rem;
+    line-height: 1.6rem;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #fff;
+    border-radius: 1rem;
+    background-color: #bbb;
+    vertical-align: top;
+}
+/*버튼*/
+.btn_bind{
+    float: left;
+    margin-left: 61rem;
+    top: -1rem;
+}
+.btn_bind .btn{
+    padding-left: 0.7rem;
+    padding-right: 0.7rem;
+}
+.outlinegrey{
+    border: 1px solid #d3d3d3;
+    color: rgba(34,34,34,.8);
+}
+.small{
+    font-size: 1.2rem;
+    padding: 0 1.4rem;
+    height: 3.4rem;
+    line-height: 3.2rem;
+    border-radius: 10px;
+    width: 5rem;
+}
+.btn{
+    display: inline-block;
+    cursor: pointer;
+    vertical-align: middle;
+    text-align: center;
+    background-color: #fff;
+}
+a, a:active, a:focus, a:hover{
+    text-decoration: none;
+}
+
+
+
+
+/********************* footer ********************/
+footer{margin-top: 10rem;}
+
+footer .footer_flex_box2{
+    border-top: 0.1rem solid lightgray;
+    margin: 0 auto;
+    padding: 0;
+    width: 96%;
+    display: flex;
+    justify-content: space-between;
+    height: 25.65rem;
+    border-bottom: 0.1rem solid lightgray;
+}
+footer .footer_flex_box2 #footer_left_box2{
+    display: flex;
+    margin-top: 5.1rem;
+}
+footer .footer_flex_box2 #footer_left_box2 #fbtext2_left{
+    margin-right: 11.2rem;
+}
+footer .footer_flex_box2 #footer_left_box2 ul{
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+footer .footer_flex_box2 .fbb2_Btext{
+    font-size: 1.6rem;
+    font-weight: bold;
+}
+footer .footer_flex_box2 #footer_left_box2 li{
+    margin: 1.4rem 0;
+}
+footer .footer_flex_box2 #footer_left_box2 a{
+    text-decoration: none;
+    color: gray;
+    font-size: 1.4rem;
+}
+footer .footer_flex_box2 #footer_right_box2{
+    margin-top: 5.1rem;
+}
+footer .footer_flex_box2 #footer_right_box2 ul{
+    list-style: none;
+    margin: 0.8rem 0;
+    padding: 0;
+}
+footer .footer_flex_box2 #footer_right_box2 li{
+    font-size: 1.27rem;
+    margin: 0.5rem 0;
+    color: gray;
+}
+footer .footer_flex_box2 #footer_right_box2 #footer_ask_text{
+    font-size: 1.27rem;
+}
+footer .footer_flex_box2 #footer_right_box2 #footer_ask_box{
+    background-color: black;
+    text-align: center;
+    width: 10.8rem;
+    padding: 0.95rem 0;
+    margin-top: 1.6rem;
+}
+footer .footer_flex_box2 #footer_right_box2 a{
+    text-decoration: none;
+    color: white;
+    font-size: 1.18rem;
+}
+
+footer .footer_flex_box3{
+    margin: 0 auto;
+    padding: 0;
+    width: 96%;
+    display: flex;
+    justify-content: space-between;
+}
+footer .footer_flex_box3 a{
+    text-decoration: none;
+}
+footer .footer_flex_box3 ul{
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+footer .footer_flex_box3 #footer_box3{
+    width: 99.85%;
+    margin: 0 auto;
+}
+footer .footer_flex_box3 #footer_box3 #footer_box3_1{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+footer .footer_flex_box3 #footer_box3_1_text{
+    margin-top: 2.9rem;
+    display: flex;
+}
+footer .footer_flex_box3 #footer_box3_1_text li{
+    font-size: 1.4rem;
+    margin-right: 1.96rem;
+}
+footer .footer_flex_box3 #footer_box3_1_text a{
+    color: black;
+}
+footer .footer_flex_box3 #footer_box3_1_text #policy{
+    font-weight: bold;
+}
+footer .footer_flex_box3 #sns_img{
+    margin-top: 2.9rem;
+    display: flex;
+    justify-content: space-between;
+    width: 11.5rem;
+}
+footer .footer_flex_box3 #sns_img li{
+    width: 2.35rem;
+    height: 2.35rem;
+}
+footer .footer_flex_box3 #sns_img #insta_img{
+    background: url(/footer/sns/insta_img.png)no-repeat center/cover;
+}
+footer .footer_flex_box3 #sns_img #facebook_img{
+    background: url(/footer/sns/facebook_img.png)no-repeat center/cover;
+}
+footer .footer_flex_box3 #sns_img #chat_img{
+    background: url(/footer/sns/chat_img.png)no-repeat center/cover;
+}
+footer .footer_flex_box3 #footer_box3_2{
+    margin-top: 1.7rem;
+    margin-bottom: 1.2rem;
+}
+footer .footer_flex_box3 #footer_box3_2 ul{
+    display: flex;
+}
+footer .footer_flex_box3 #footer_box3_2 ul li{
+    font-size: 1.27rem;
+    color:gray;
+    margin-right: 1.77rem;
+}
+footer .footer_flex_box3 #footer_box3_2 ul li a{
+    text-decoration: underline;
+    color: gray;
+}
+
+footer .footer_flex_box4{
+    margin: 0 auto;
+    margin-bottom: 2.9rem;
+    padding: 0;
+    width: 96%;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    height: 5rem;
+    color: gray;
+    font-size: 1.18rem;
+}
+footer .footer_flex_box4 #footer_left_box4{
+    width: 63rem;
+}
+
+/*탑버튼*/
+footer .footer_flex_box #top_button_box{
+    position: fixed;
+    bottom: 2.4rem;
+    right: 2.4rem;
+    width: 4.5rem;
+    height: 4.5rem;
+    padding-top: 0.4rem;
+    border: 0;
+    border-radius: 3rem;
+    -webkit-box-shadow: 0 0.2rem 0.8rem 0 rgb(0 0 0 / 10%);
+    box-shadow: 0 0.2rem 0.8rem 0 rgb(0 0 0 / 10%);
+    background-color: #fff;
+    z-index: 1000;
+}
+footer .footer_flex_box #top_button{
+    bottom: 2.4rem;
+    right: 2.4rem;
+    width: 4.5rem;
+    height: 4.5rem;
+    padding-top: 0.4rem;
+    border: 0;
+    border-radius: 3rem;
+    background: url(/footer/top_img.png)no-repeat center/cover;
+    background-size: 1.3rem;
+}
+/*************************************************/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* pc */
+@media all and (min-width:768px){
+    html{
+        font-family: 'Noto Sans KR', sans-serif;
+        font-size: 62.5%;
+    } 
+    #mo_left , #mo_btn, #mo_btn_box, #mo_h2_header{display: none;}
+    /* footer{width: 143rem;} */
+}
+
+/* 모바일 */
+@media all and (max-width:767px) {
+    html{
+        font-family: 'Noto Sans KR', sans-serif;
+        font-size: 50%;
+        width: 60rem;
+        margin: 0 auto;
+        overflow-x: hidden;
+    }
+    header, footer, .h1_header, .snb_menu, #box3333, .btn_box, .default_mark, .btn_bind > input{display: none;}
+    #mo_header{height: 5rem; width: 59rem; margin: -8rem 1rem;}
+    #mo_h2_header{width: 15rem;  margin: -3rem auto; font-size: 2.5rem; font-weight: 500;}
+    #group3{width: 59rem; margin-left: -27rem; margin-top: 8rem;}
+    #group1{width: 60rem; }
+    #mo_btn_box > button{width: 55rem; height: 6rem; border-radius: 1rem; margin-bottom: 4rem; background-color: white; font-size: 2rem; font-weight: 400; border: 1px solid rgba(34,34,34,.5); color: rgba(34,34,34,.8); margin-left: 7rem;}
+    .card_num{margin-left: 6rem; width: 18rem; line-height: 2rem;position: fixed;}
+    .card_info{width: 59rem; }
+    .num_bind{width: 59rem;}
+
+    .my_item{width: 55rem; border-bottom: 2px solid black; 
+    position: relative; top:-8rem; margin-left: 7rem;}
+    .my_list{border: none}
+    #mo_btn{margin-left: -15rem; font-size: 1.6rem; color: rgba(34,34,34,.5);}
+    .sub_title{font-size: 1.5rem; width: 55rem;  position: relative; margin: unset; left:unset; top:8rem; margin-left: 7rem;}
+}
+
+
+
+
+
+
+
+
+
+
+/**************************************** js ***************************/
+/* 팝업 배경 css */
+#popup_mask { 
+    position: fixed;
+    width: 100%;
+    height: 1000px;
+    top: 0px;
+    left: 0px;
+    display: none; 
+    background-color: rgba(34,34,34,.5);
+    opacity: 0.8;
+    /* z-index: 1010; */
+}
+
+/* 팝업창 css */
+#popupDiv {  
+    top : 0px;
+    position: absolute;
+    background-color: #fff;
+    border-radius: 1.6rem;
+    /* border: 1px solid black; */
+    box-shadow: 0 0.4rem 1rem 0 rgb(0 0 0/ 10%);
+    width: 50rem;
+    height: 45rem;
+    display: none; 
+    transform: translate(-10%, 0%); /*팝업창 위치 조절*/
+
+}
+
+/* 오른쪽 상단 x */
+.layer_header > #popCloseBtn{
+    float: right;
+    margin-top: -3rem;
+    margin-right: 0.5rem;
+    /* border: 1px solid darkgreen; */
+}
+/* 새 배송지 등록 */
+.layer_header{
+    /* border:1px solid red; */
+    height: 4rem;
+    width: 50rem;
+    margin-top: 1rem;
+}
+.layer_header .title{margin: 0 auto; text-align: center;}
+
+
+/* 전체적인 틀 */
+.delivery_bind{
+    /* border: 1px solid steelblue; */
+    width: 35rem;
+    height: 40rem;
+    margin: 2rem auto;
+}
+/* 카드번호 / 유효기간 전체 칸 */
+.input_box{margin-bottom: 2rem;}
+
+/* 이름/ 휴대폰번호/ 우편번호 / 주소 / 상세주소 */
+.input_title{
+    font-size: 1.5rem;
+    margin-top: unset;
+}
+
+/* 수령인 이름 / -없이 입력 */
+.input_txt{
+    width: 15rem;
+    font-size: 1.4rem;
+    border: 1px solid #ebebeb;
+    display: flex;
+}
+
+/* 카드번호 전체 */
+.input_box_num{
+    width: 40rem;
+    display: flex;
+}
+
+/* 카드번호 입력칸 */
+.input_num{display: flex; width: 6rem; border: 1px solid #ebebeb; margin: -1rem 1rem 0 0;}
+
+/* 유효기간 입력 창 */
+.input_month_year{
+    width: 20rem; display: flex;
+}
+/* 월/년 선택칸 */
+#input_month, #input_year{margin-right: 1rem; width: 8rem; display: flex;}
+
+/* input 박스 */
+input{
+    margin-top: -1rem; 
+    border: 0;
+    resize: none;
+    border-radius: 0;
+    background-color: rgba(0,0,0,0);
+}
+
+/* 취소 / 저장하기 */
+.bottom_button{
+    margin: -4rem auto;
+    /* border: 1px solid darkgreen; */
+    width: 25rem;
+}
+/* 취소하기 / 저장하기 버튼 기본 설정 */
+.btn_delete, .btn_save{
+    width: 10rem;
+    height: 4rem;
+    border-radius: 0.5rem;
+    border:1px solid #d3d3d3;
+    text-align: center;
+    cursor: pointer;
+    margin: 5rem auto;
+}
+/* 취소하기 */
+.bottom_button > .btn_delete{
+    background-color: #fff;
+    margin-right: 1rem;
+}
+/* 저장하기 */
+.bottom_button > .btn_save{
+    background-color: #ebebeb;
+    color: #fff;
+}
+/******************************************************************************/

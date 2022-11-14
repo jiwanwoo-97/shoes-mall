@@ -1,0 +1,197 @@
+<html class="no-js" lang="ko"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org/">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>product_search</title>
+    <link rel="stylesheet" href="/lib/css/ljs_shop_selling.css">
+    <link rel="stylesheet" href="/lib/css/pop.css">
+    <link data-n-head="ssr" rel="icon" type="image/x-icon" href="https://kream.co.kr/favicon.ico">
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+</head>
+<script>
+    $(function () {
+        const id = $('#id').val();
+        const size = $('#size').val();
+        axios.get('/api/pro_sell_check/'+id+"/"+size)
+            .then(function (response) {
+                console.log(response);
+                let name = response.data.data.name;
+                let modelNumber = response.data.data.modelNumber;
+                let origFileName = response.data.data.origFileName;
+
+                $('#name').text(name);
+                $('#modelNumber').text(modelNumber);
+                $('#productImg').append("<img src='/lib/product/"+origFileName+"' alt='sell_check 이미지' class='product_img' style='width: 100px; height: 100px;'>");
+                let int_list = $('<div class="interest_list">');
+                for(let i in response.data.data.productSellSizeApiResponseList){
+                    let $pro_price = "정보없음";
+                    let $size = response.data.data.productSellSizeApiResponseList[i].size;
+                    if (response.data.data.productSellSizeApiResponseList[i].cnt!=null) {//사이즈의 프로덕트 아이디가 같으면
+                        $pro_price = response.data.data.productSellSizeApiResponseList[i].cnt;
+                    }
+                    let sg_info = $('<div class="sg_info">').append(
+                        '<p class="pro_size">' + $size + '</p>' + //260
+                        '<p class="pro_price">'+ $pro_price+'</p>'//
+                    );
+                    $(int_list).append('</div>');
+                    $(int_list).append(sg_info);
+                }
+                $(int_list).append('</div>');
+                $('.size_list_box').append(int_list);
+                $('.size').text(size);
+                $(".sg_info").click(function size() {
+                    let index = $(".sg_info").index(this);
+                    // border
+                    $(this).css('border','1px solid black');
+                    $(this).siblings().css('border','1px solid rgb(201, 201, 201)');
+                    // 사이즈 선택값 반환
+                    const val = $(this).find('.pro_size').text();
+                    $('.size').text(val);
+                    // 팝업닫기
+                    const pop_down = document.getElementsByClassName('p_size2')[0];
+                    pop_down.style.display = "none";
+                    const body = document.querySelector('body');
+                    body.style.overflow = 'unset'
+                });
+            }).catch(function (err) {
+            console.log(err);
+        });
+    });
+
+    function loH(){
+        const btn = document.querySelector('.btn');
+        if(btn.disabled == false){
+            location.href='/kream/selling/'+$('#id').val()+'/'+$('.size').text(); return false;
+        }else if(btn.disabled == true){
+            alert("항목을 체크해주세요")
+        }
+    }
+</script>
+<body >
+<input type="hidden" id="id" th:value="${id}">
+<input type="hidden" id="size" th:value="${size}">
+<!-- header-->
+<div th:replace="include/checkHeader :: header"></div>
+<div id="fixed"></div>
+<!-- header 끝-->
+<div th:replace="include/pop :: pop"></div>
+<!-- container buy PC버전 시작-->
+<div class="container_buy">
+    <div class="content">
+        <div class="buy_before">
+            <div class="buy_before_check">
+                <div>
+                    <div class="title_area">
+                        <h2 class="check_title">
+                            <span class="accent_text" style="color:green;">판매</span>
+                            하시기 전에
+                            꼭 확인하세요.
+                        </h2>
+
+                    </div>
+                    <div class="buy_product">
+                        <div class="product" id="productImg" style="background-color: rgb(220, 231, 243);"></div>
+                        <div class="buy_info">
+                            <div class="model_info">
+                                <strong class="model_number" id="modelNumber"></strong>
+                                <p class="model_title" id="name"></p>
+                                <div class="size_select_wrap">
+                                    <button class="btn_size" onclick="pop_size2()"><span class="size"></span><img
+                                            src="/lib/img/h_img/logo/select_btn.png" style="width:2.4rem; height:2.4rem"
+                                            alt="size-select btn"></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="list_box">
+                    <ul class="check_list">
+                        <li class="check_item">
+                            <div class="notice_group">
+                                <p class="notice_maintext">판매하려는 상품이 맞습니다.</p>
+                                <p class="notice_subtext">상품 이미지,모델번호, 출시일, 상품명, 사이즈를 한 번 더 확인했습니다.</p>
+                            </div>
+                            <div class="checkbox_item">
+                                <!-- check box 체크하는 곳-->
+                                <input type="checkbox" name="check" id="input0" class="check" style="display: none;" onclick="getCheck2()">
+                                <label for="input0" class="check_label"></label>
+                            </div>
+                        </li>
+                        <li class="check_item">
+                            <div class="notice_group">
+                                <p class="notice_maintext">국내/해외에서 발매한 정품·새상품입니다.</p>
+                                <p class="notice_subtext">모든 구성품이 그대로이며, 한 번도 착용하지 않은 정품 · 새상품입니다. 국내 발매 상품 여부는
+                                    확인드리지 않습니다.</p>
+                            </div>
+                            <div class="checkbox_item">
+                                <!-- check box 체크하는 곳-->
+                                <input type="checkbox" name="check" id="input1" class="check" style="display: none;" onclick="getCheck2()">
+                                <label for="input1" class="check_label"></label>
+                            </div>
+                        </li>
+                        <li class="check_item">
+                            <div class="notice_group">
+                                <p class="notice_maintext">제조사에서 불량으로 인정하지 않는 기준은 하자로 판단하지 않습니다.</p>
+                                <p class="notice_subtext">박스/패키지와 상품 컨디션에 민감하시다면 검수 기준을 반드시 확인하시기 바랍니다.</p>
+                                <div class="view_data">
+                                    <a onclick="pop_inspecion()"> 검수기준 보기 </a>
+                                </div>
+                            </div>
+                            <div class="checkbox_item">
+                                <!-- check box 체크하는 곳-->
+                                <input type="checkbox" name="check" id="input2" class="check" style="display: none;" onclick="getCheck2()">
+                                <label for="input2" class="check_label"></label>
+                            </div>
+                        </li>
+                        <li class="check_item">
+                            <div class="notice_group">
+                                <p class="notice_maintext">이중 포장하여 선불 발송합니다.</p>
+                                <p class="notice_subtext">반드시 이중 포장하여 택배 상자에 담아 선불 발송합니다. 합배송은 권장하지 않으며 이로 인한 박스/패키지 훼손은 판매자의 책임입니다.</p>
+                            </div>
+                            <div class="checkbox_item">
+                                <!-- check box 체크하는 곳-->
+                                <input type="checkbox" name="check" id="input3" class="check" style="display: none;" onclick="getCheck2()">
+                                <label for="input3" class="check_label"></label>
+                            </div>
+                        </li>
+                        <li class="check_item">
+                            <div class="notice_group">
+                                <p class="notice_maintext">KREAM의 최신 이용정책을 모두 확인하였으며, 판매를 계속합니다.</p>
+                                <p class="notice_subtext">건전하고 안전한 거래를 위해 반드시 숙지해야할 미입고, 패널티, 부정거래 등의 이용정책을 확인했습니다.
+                                </p>
+                                <div >
+                                    <a href="#3"  onclick="pop_policy()"> 이용정책 보기 </a>
+                                </div>
+                            </div>
+                            <div class="checkbox_item">
+                                <!-- check box 체크하는 곳-->
+                                <input type="checkbox" name="check" id="input4" class="check" style="display: none;" onclick="getCheck2()">
+                                <label for="input4" class="check_label"></label>
+                            </div>
+                        </li>
+                    </ul>
+                    <div class="btn_confirm">
+                        <a onclick="loH()" class="btn full solid disabled" disabled type="button"> 판매 계속 </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<!-- footer -->
+<div th:replace="include/checkFooter :: footer"></div>
+<!-- Layer content-->
+
+<script src="/lib/js/shop_sellcheck.js"></script>
+<script src="/lib/js/buycheck.js"></script>
+<script src="/lib/js/pop.js"></script>
+
+</body>
+</html>

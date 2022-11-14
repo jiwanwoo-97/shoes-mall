@@ -1,0 +1,170 @@
+
+/* 푸터 */
+
+.footer.lg { padding: 5rem 4rem; border-top: .1rem solid #ebebeb; }
+
+.footer .inner { position: relative; }
+
+.service_area {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: reverse;
+    -ms-flex-direction: row-reverse;
+    flex-direction: row-reverse;
+    -webkit-box-pack: justify;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+    padding-bottom: 5.6rem;
+    border-bottom: .1rem solid #ebebeb;
+}
+
+.service_title {
+    display: -webkit-inline-box;
+    display: -ms-inline-flexbox;
+    display: inline-flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    font-size: 1.6rem;
+    letter-spacing: -.016rem;
+    font-weight: 70rem;
+}
+
+.sevice_tel { margin-left: .4rem; letter-spacing: normal; }
+.service_time { padding-top: .8rem; }
+
+.time_box { line-height: 1.7rem; }
+
+.time_box+.time_box { padding-top: .4rem; }
+
+.time_box:after { content: ""; display: block; clear: both; }
+
+.time_term { margin-right: .4rem; }
+
+.time_description, .time_term {
+    float: left;
+    font-size: 1.3rem;
+    letter-spacing: -.007rem;
+    color: rgba(34,34,34,.5);
+}
+
+.service_noti { padding-top: .8rem; font-size: 1.3rem; letter-spacing: -.007rem; }
+
+.service_btn_box { padding-top: 1.7rem; }
+
+.service_btn_box .btn { border-radius: 0; color: #fafafa; }
+
+.footer_menu { display: -webkit-box; display: -ms-flexbox; display: flex; }
+
+.menu_box { width: 16rem; }
+
+.menu_box+.menu_box { margin-left: 8rem; }
+
+.menu_title { font-size: 1.6rem; letter-spacing: -.016rem; }
+
+.menu_list { padding-top: 1.6rem; }
+
+.menu_list:after { content: ""; display: block; clear: both; }
+
+.corporation_area { position: relative; margin-top: 3rem; }
+
+.term_list {
+    padding-bottom: 1.6rem;
+    display: -webkit-inline-box;
+    display: -ms-inline-flexbox;
+    display: inline-flex;
+}
+
+.term_item { margin-right: 2rem;}
+
+.term_link { display: block; font-size: 1.4rem; letter-spacing: -.021rem; color: #000; }
+
+.privacy .term_link { font-weight: 700; }
+
+.footer_sns { position: absolute; top: 0; right: 0; }
+
+.sns_box { font-size: 0; }
+
+.sns { display: inline-block; }
+
+.sns+.sns { margin-left: 2rem; }
+
+.sns > img { width: 2.4rem; height: 2.4rem; }
+
+.btn_business { display: none; }
+
+.business_title { margin-right: .4rem; }
+
+.business_desc, .business_title {
+    float: left;
+    line-height: 2rem;
+    font-size: 1.3rem;
+    letter-spacing: -.007rem;
+    color: rgba(34,34,34,.5);
+}
+
+
+.license_link { margin-left: .3rem; }
+
+.license_link, .license_link:active, .license_link:focus, .license_link:hover {
+    text-decoration: underline;
+    color: inherit;
+    -webkit-tap-highlight-color: rgba(0,0,0,.1);
+}
+
+.footer .info_item {
+    float: left;
+}
+
+.footer .info_item+.info_item {
+    margin-left: 1.7rem;
+}
+
+.info_list:after { content: ""; display: block; clear: both; }
+
+.notice_area {
+    padding-top: 1.2rem;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: end;
+    -ms-flex-align: end;
+    align-items: flex-end;
+}
+
+.notice {
+    max-width: 60.5rem;
+    font-size: 1.2rem;
+    letter-spacing: -.01rem;
+    color: rgba(34,34,34,.4);
+}
+
+.copyright {
+    margin-left: auto;
+    -ms-flex-negative: 0;
+    flex-shrink: 0;
+    font-size: 1.2rem;
+    color: rgba(34,34,34,.3);
+}
+
+
+/* 미디어 쿼리 */
+@media all and (max-width:767px) {
+    html {
+        font-family: 'Noto Sans KR', sans-serif;
+        font-size: 50%;
+    }
+
+    .footer.lg {
+        display: none;
+    }
+
+    /* 모바일 copyright 푸터 */
+
+    .footer.only_copy.right { display: block; }
+
+    .footer.mo, .footer.sm { padding: 7rem 24px; text-align: center; }
+
+}
