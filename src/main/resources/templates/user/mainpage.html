@@ -23,7 +23,7 @@
             <li class="ht_text"><a href="">관심상품</a></li>
             <li class="ht_text"><a href="">마이페이지</a></li>
             <li class="ht_text" sec:authorize="hasRole('ADMIN')"><a href="">관리자</a></li>
-            <li class="ht_text" sec:authorize="!isAuthenticated()"><a href="">로그인</a></li>
+            <li class="ht_text" ><a href="/loginPage">로그인</a></li>
             <li class="ht_text" sec:authorize="isAuthenticated()"><a href="" onclick="sessionStorage.clear()">로그아웃</a></li>
         </ul>
     </div>

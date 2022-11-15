@@ -1,6 +1,6 @@
 <html lang="ko" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org/"
       xmlns:sec="http://www.w3.org/1999/xhtml">
-
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <!-- head.html -->
 <div th:replace="include/pjs_head :: head"></div>
 <!-- head.html 끝-->
@@ -17,6 +17,7 @@
                 <div th:replace="include/pjs_header_nav :: header_nav"></div>
                 <!--header end-->
                 <!-- container -->
+                <form th:action="@{/api/join}" id="joinform" method="post">
                 <div class="container join">
                     <!-- 회원가입 영역 -->
                     <div class="content lg">
@@ -119,12 +120,15 @@
                                     </div>
                                 </div>
                             </div>
-                            <button type="submit" id="btn_submitSignIn" disabled="disabled" class="btn btn_join full solid disabled" onclick="sendit()"> 가입하기 </button>
+
+                            <button type="button" id="btn_submitSignIn" disabled="disabled" class="btn btn_join full solid disabled" onclick="joinUser()"> 가입하기 </button>
                         </div>
+
                         <!--사이즈 선택 layer-->
                         <div th:replace="include/size_layer :: size_layer"></div>
                         <!--사이즈 선택 layer end-->
                     </div>
+
                     <!-- banner -->
                     <div th:replace="include/pjs_banner :: banner"></div>
                     <!--banner end-->
@@ -133,6 +137,7 @@
                     <!--footer end-->
                     <!----><!----><!----><!---->
                 </div>
+                </form>
             </div>
             <!---->
         </div>
@@ -141,5 +146,36 @@
 <script type="text/javascript" th:src="@{/lib/js/pjs_header_nav.js}"></script>
 <script type="text/javascript" th:src="@{/lib/js/loginpage_mypage_all.js}"></script>
 <script type="text/javascript" th:src="@{/lib/js/join.js}"></script>
+<script th:inline="javascript">
+    function joinUser(){
+        const email = $('#email_input').val();
+        const id = email.substring(0,email.indexOf('@'));
+        const password = $('#password_input').val();
+        const hp = $('#tell_input').val();
+        const shoesize = $('#input_shoesize').val();
+
+
+        $.ajax({
+            type:"post",
+            url:"/api/userJoin",
+            data:JSON.stringify({
+                    "email": email,
+                    "userid": id,
+                    "userpw": password,
+                    "hp": hp,
+                    "shoesize": shoesize
+            }),
+            contentType:"application/json",
+            dataType:"json"
+        }).done(res=>{
+            alert("회원가입이 완료 되었습니다.");
+            location.href="/loginPage";
+        }).fail(error=>{
+            console.log("회원가입 실패");
+        });
+
+
+    }
+</script>
 </body>
 </html>
