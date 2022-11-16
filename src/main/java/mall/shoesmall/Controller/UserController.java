@@ -13,7 +13,7 @@ public class UserController {
         return "/user/mainpage";
     }
 
-    @GetMapping("/loginPage")
+    @GetMapping("/login")
     public String loginPage() {
         return "/user/loginpage";
     }

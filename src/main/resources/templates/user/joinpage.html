@@ -38,6 +38,12 @@
                                 </div>
                                 <p class="input_error" id="password_input_error"></p>
                             </div>
+                            <div class="input_box">
+                                <h3 class="input_title ess">이름</h3>
+                                <div class="input_item">
+                                    <input type="text" placeholder="이름을 입력해주세요." autocomplete="off" class="input_txt in_essValue" id="name_input" name="username" >
+                                </div>
+                            </div>
                             <div class="input_box" id="tell_input_box">
                                 <h3 class="input_title ess">휴대폰 번호</h3>
                                 <div class="input_item">
@@ -149,6 +155,7 @@
 <script th:inline="javascript">
     function joinUser(){
         const email = $('#email_input').val();
+        const username = $('#name_input').val();
         const id = email.substring(0,email.indexOf('@'));
         const password = $('#password_input').val();
         const hp = $('#tell_input').val();
@@ -160,6 +167,7 @@
             url:"/api/userJoin",
             data:JSON.stringify({
                     "email": email,
+                    "username": username,
                     "userid": id,
                     "userpw": password,
                     "hp": hp,
@@ -169,7 +177,7 @@
             dataType:"json"
         }).done(res=>{
             alert("회원가입이 완료 되었습니다.");
-            location.href="/loginPage";
+            location.href="/login";
         }).fail(error=>{
             console.log("회원가입 실패");
         });

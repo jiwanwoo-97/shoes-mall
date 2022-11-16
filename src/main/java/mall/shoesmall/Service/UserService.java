@@ -10,13 +10,14 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 @Service
 public class UserService {
-
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final UserRepository userRepository;
 
     @Transactional
     public User saveUserJoin(User user) {
+        String encPasswd =bCryptPasswordEncoder.encode(user.getUserpw());
+        user.setUserpw(encPasswd);
         user.setRole("ROLE_USER");
-        User userEntity = userRepository.save(user);
-     return userEntity;
+     return userRepository.save(user);
     }
 }

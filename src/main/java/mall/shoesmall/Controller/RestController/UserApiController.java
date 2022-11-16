@@ -21,7 +21,6 @@ public class UserApiController {
     @PostMapping("/api/userJoin")
     public ResponseEntity<UserDto.response> userJoin(@RequestBody UserDto.request request) throws Exception {
         HttpHeaders headers = new HttpHeaders();
-
         User user = request.toEntity();
         userService.saveUserJoin(user);
 
