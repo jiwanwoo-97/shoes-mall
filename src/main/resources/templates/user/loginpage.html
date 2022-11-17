@@ -37,7 +37,13 @@
                                         <input type="password" autocomplete="off" class="input_txt" id="password_input" name="password">
                                     </div>
                                     <p class="input_error" id="password_input_error">  </p>
+
+
                                 </div>
+                                <th:block th:if="error">
+                                    <div class="input_box has_error" style="color: red; font-size:14px; " th:text="${exception}"></div>
+                                </th:block>
+
                                 <div class="login_btn_box">
                                     <input type="submit" disabled="disabled"  class="btn full solid disabled" id="login_btn" value="로그인"> </input>
                                     <a type="button" class="btn btn_login_naver full solid">
