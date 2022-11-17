@@ -29,5 +29,14 @@ public class UserController {
         return "/user/joinpage";
     }
 
+    @GetMapping("/find_email")
+    public String findEmailPage() {
+        return "/user/login_find_email";
+    }
+
+    @GetMapping("/find_password")
+    public String findPwPage() {
+        return "/user/login_find_password";
+    }
 
 }

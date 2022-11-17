@@ -53,7 +53,7 @@
 <script type="text/javascript" th:src="@{/lib/js/pjs_header_nav.js}"></script>
 <script th:src="@{/lib/js/loginpage_mypage_all.js}" type="text/javascript"></script>
 <script th:src="@{/lib/js/login_find_email.js}" type="text/javascript"></script>
-<script>
+<script th:inline="javascript">
 
     // 전화번호 유효성 검사
     document.querySelector('#tell_input').addEventListener('input', e=>{
@@ -74,16 +74,27 @@
 
     // 이메일 요청
     $("#find_btn").on("click", function() {
+
         const hp = $("#tell_input").val();
-
-        axios.get('/api/customer_searchEmail/'+hp,{
-
-        }).then(function(response) {
-            alert('이메일은 ' + response.data + '입니다.');
-            location.href='/login';
-        }).catch(function(err) {
-            console.log(err);
+        console.log("시작");
+        $.ajax({
+            type:"post",
+            url:"/api/findMail",
+            data:JSON.stringify({
+                "hp": hp
+            }),
+            contentType:"application/json",
+            dataType:"json"
+        }).done(res=>{
+            document.querySelector('#tell_input_error').innerHTML='가입하신 이메일은 [' +res.returnMessage+ '] 입니다.';
+            document.querySelector('#tell_input_error').style.fontSize = "18px";
+            document.querySelector('#tell_input').readOnly=true;
+        }).fail(error=>{
+            document.querySelector('#tell_input_error').innerHTML='등록되지 않은 번호입니다.';
+            document.querySelector('#tell_input_box').className='input_box has_error';
+            document.querySelector('#find_btn').className='btn full solid disabled';
         });
+
     });
 
 </script>

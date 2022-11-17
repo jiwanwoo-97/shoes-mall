@@ -48,8 +48,14 @@ public class UserDto {
     @Setter
     @AllArgsConstructor
     public static class response {
+        private UserDto.info user;
         private int returnCode;
         private String returnMessage;
+
+        public response(int returnCode, String returnMessage) {
+            this.returnCode = returnCode;
+            this.returnMessage = returnMessage;
+        }
     }
 
 

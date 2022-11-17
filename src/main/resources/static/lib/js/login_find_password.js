@@ -41,16 +41,4 @@ document.querySelector('#tell_input').addEventListener('input', e=>{
     })
 });
 
-// 임시 비밀번호 문자로 보내기
-$("#find_btn").on("click", function() {
-    let hp = $("#tell_input").val();
-    let email = $("#email_input").val();
 
-    axios.request({
-        method:"GET",
-        url:"/api/customer_searchpw/"+email+"/"+hp
-    }).then(
-        alert('메일로 임시비밀번호를 발송했습니다.'),
-            window.location = "/login"
-    )
-});
