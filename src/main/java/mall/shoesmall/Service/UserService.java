@@ -30,4 +30,12 @@ public class UserService {
         return user.getEmail();
 
     }
+
+    @Transactional
+    public User findByHpAndEmail(String hp, String email) throws Exception{
+        User user = userRepository.findByHpAndEmail(hp,email).orElseThrow(() -> new IllegalArgumentException("일치하는 사용자가 존재하지 않습니다."));
+        String encPasswd =bCryptPasswordEncoder.encode("abcd1234!@");
+        user.setUserpw(encPasswd);
+        return userRepository.save(user);
+    }
 }

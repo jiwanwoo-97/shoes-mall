@@ -33,13 +33,22 @@ public class UserApiController {
     }
     @PostMapping("/api/findMail")
     public ResponseEntity<UserDto.response>findMail(@RequestBody UserDto.request request) throws Exception{
-        HttpHeaders headers = new HttpHeaders();
         String getEmail = userService.getUserEmail(request.getHp());
 
         UserDto.response response = new UserDto.response(200, getEmail);
 
         return ResponseEntity.ok()
-                .headers(headers)
+                .headers(new HttpHeaders())
+                .body(response);
+    }
+
+    @PostMapping("/api/findPw")
+    public ResponseEntity<UserDto.response>findPw(@RequestBody UserDto.request request) throws Exception{
+        userService.findByHpAndEmail(request.getHp(),request.getEmail());
+        UserDto.response response = new UserDto.response(200, "비밀번호가 초기화 되었습니다.");
+
+        return ResponseEntity.ok()
+                .headers(new HttpHeaders())
                 .body(response);
     }
 }
