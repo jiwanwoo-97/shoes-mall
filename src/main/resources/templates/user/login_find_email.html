@@ -76,10 +76,9 @@
     $("#find_btn").on("click", function() {
 
         const hp = $("#tell_input").val();
-        console.log("시작");
         $.ajax({
             type:"post",
-            url:"/api/findMail",
+            url:"/api/users/mail",
             data:JSON.stringify({
                 "hp": hp
             }),

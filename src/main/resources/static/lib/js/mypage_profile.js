@@ -11,24 +11,7 @@ imageFileInput.addEventListener("change", (e) => {
     image = '/lib/img/'+imageFileInput.value.replace(/C:\\fakepath\\/i,'');
     update();
 
-    // 서버로 처리
-    // for (let i = 0; i < imageFileInput.files.length; i++) {
-    //     fileData.append('uploadfile'. imageFileInput.files[i]);
-    // }
-    // console.log(fileData);
-    //
-    // var xhr = new XMLHttpRequest();
-    // xhr.open('PATCH', '/api/test_upload/', true);
-    // xhr.setRequestHeader("Content-Type", "multipart/formed-data");
-    // xhr.onreadystatechange = function() { // Call a function when the state changes.
-    //     if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
-    //         alert('서버로 데이터 전송 완료');
-    //     }
-    //     else {
-    //         alert('Error');
-    //     }
-    // };
-    // xhr.send(fileData);
+
 
 });
 
@@ -277,13 +260,13 @@ $(document).on('click', '.size_item', function(){
         $(".size_item").children('a').removeClass("on");
     }
     this.querySelector('a').className+=" on";
+    $("#show_shoesize").val(document.querySelector('.btn.outlinegrey.medium.on').text.trim());
 });
 
 // text에 선택 사이즈 값 전달
 $(document).on('click', '#size_submit_btn', function(){
     $(".size_layer").css('display', 'none');
     $("#show_shoesize").text(document.querySelector('.btn.outlinegrey.medium.on').text.trim());
-    console.log(document.querySelector('.btn.outlinegrey.medium.on').text.trim());
     shoesize = document.querySelector('.btn.outlinegrey.medium.on').text.trim();
     update();
 });

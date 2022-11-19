@@ -24,14 +24,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf()
                 .disable()
                 .authorizeRequests()
-                .antMatchers("/")
+                .antMatchers("/","/my")
                 .permitAll()
                 .and()
                 .formLogin()
                 .loginPage("/login")//Get
-                .loginProcessingUrl("/login")//Post ->시큐리티 로그인 프로세스 진행
-                .defaultSuccessUrl("/")
+                .loginProcessingUrl("/login")//Post ->시큐리티 로그인 프로세스 진행// .defaultSuccessUrl("/")
                 .failureHandler(new LoginfailureHandler())
+                .defaultSuccessUrl("/")
                 .and()
                 .logout()
                 .logoutUrl("/logout")

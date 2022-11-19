@@ -38,4 +38,32 @@ public class UserService {
         user.setUserpw(encPasswd);
         return userRepository.save(user);
     }
+    @Transactional(readOnly = true)
+    public User findByUser(Long id) {
+        return userRepository.findById(id).get();
+    }
+
+    @Transactional
+    public User patchUser(UserDto.request request, Long id) {
+         User user = userRepository.findById(id).get();
+
+
+        if(request.getEmail()!=null && !request.getEmail().isEmpty()){
+            user.setEmail(request.getEmail());
+        }else if(request.getUserid()!=null && !request.getUserid().isEmpty()){
+            user.setUserid(request.getUserid());
+        }else if(request.getUserpw()!=null && !request.getUserpw().isEmpty()){
+            user.setUserpw(request.getUserpw());
+        }else if(request.getHp()!=null && !request.getHp().isEmpty()){
+            user.setHp(request.getHp());
+        }else if(request.getUsername()!=null && !request.getUsername().isEmpty()){
+            user.setUsername(request.getUsername());
+        }else if(request.getShoesize()!=null && !request.getShoesize().isEmpty()){
+            user.setShoesize(request.getShoesize());
+        }
+
+        return userRepository.saveAndFlush(user);
+    }
+
+
 }
