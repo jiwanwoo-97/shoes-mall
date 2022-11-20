@@ -4,15 +4,26 @@ import lombok.RequiredArgsConstructor;
 import mall.shoesmall.Model.Entity.User;
 import mall.shoesmall.Model.dto.UserDto;
 import mall.shoesmall.Repository.UserRepository;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Optional;
+import java.util.UUID;
 
 @RequiredArgsConstructor
 @Service
 public class UserService {
+
+    @Value("${file.path}")
+    private String uploadFolder;
+
+
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final UserRepository userRepository;
 
@@ -50,14 +61,20 @@ public class UserService {
 
         if(request.getEmail()!=null && !request.getEmail().isEmpty()){
             user.setEmail(request.getEmail());
+
         }else if(request.getUserid()!=null && !request.getUserid().isEmpty()){
             user.setUserid(request.getUserid());
+
         }else if(request.getUserpw()!=null && !request.getUserpw().isEmpty()){
-            user.setUserpw(request.getUserpw());
+            String encPasswd =bCryptPasswordEncoder.encode(request.getUserpw());
+            user.setUserpw(encPasswd);
+
         }else if(request.getHp()!=null && !request.getHp().isEmpty()){
             user.setHp(request.getHp());
+
         }else if(request.getUsername()!=null && !request.getUsername().isEmpty()){
             user.setUsername(request.getUsername());
+
         }else if(request.getShoesize()!=null && !request.getShoesize().isEmpty()){
             user.setShoesize(request.getShoesize());
         }
@@ -66,4 +83,22 @@ public class UserService {
     }
 
 
+    public User updateImage(MultipartFile file, Long id) {
+
+        UUID uuid = UUID.randomUUID();
+        String imageFileName = uuid + "_" + file.getOriginalFilename();
+        System.out.println("이미지 파일 이름 :" + imageFileName);
+
+        Path imageFilePath = Paths.get(uploadFolder + imageFileName);
+        try {
+            Files.write(imageFilePath, file.getBytes());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        User user = userRepository.findById(id).get();
+        user.setImage(imageFileName);
+
+        return userRepository.save(user);
+
+    }
 }

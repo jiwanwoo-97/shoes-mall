@@ -1,19 +1,5 @@
-// 사진 변경 버튼 클릭 이벤트
-$("#upImage").on('click',function(e){
-    e.preventDefault();
-    $('#imageFileInput').click();
-});
-
-const fileData = new FormData();
-const imageFileInput = document.querySelector("#imageFileInput");
-imageFileInput.addEventListener("change", (e) => {
-    // 파일경로 + 파일명
-    image = '/lib/img/'+imageFileInput.value.replace(/C:\\fakepath\\/i,'');
-    update();
 
 
-
-});
 
 // 사진 삭제 버튼 클릭 이벤트
 document.querySelector('#delImage').addEventListener('click',()=>{

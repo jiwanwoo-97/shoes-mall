@@ -47,31 +47,8 @@ window.onload = function () {
 ///////////////////파일 업로드//////////////////////
 
 // 사진 변경 버튼 클릭 이벤트
-$("#upImage").on('click',function(e){
-    e.preventDefault();
-    $('#imageFileInput').click();
-});
 
-const imageFileInput = document.querySelector("#imageFileInput");
-const fileData = new FormData();
-imageFileInput.addEventListener("change", (e) => {
-    // 이제 서버로 처리
-    image = '/lib/img/'+imageFileInput.value.replace(/C:\\fakepath\\/i,'');
-    console.log(image);
-    updateImage();
-    // var xhr = new XMLHttpRequest();
-    // xhr.open('PATCH', '/api/test_upload/', true);   // 서버에서 처리할 api 주소 입력
-    // xhr.setRequestHeader("Content-Type", "multipart/formed-data");
-    // xhr.onreadystatechange = function() { // Call a function when the state changes.
-    //     if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
-    //         alert('서버로 데이터 전송 완료');
-    //     }
-    //     else {
-    //         alert('Error');
-    //     }
-    // };
-    // xhr.send(fileData);
-});
+
 
 ///////////프로필 수정 부분///////////////
 // 이름 유효성 검사

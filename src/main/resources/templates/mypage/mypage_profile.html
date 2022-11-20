@@ -25,21 +25,25 @@
                     </div>
                     <!---->
                 </div>
-                <!--                        <form method="post" enctype="multipart/form-data" onsubmit="return sendImage()">-->
+
                 <div class="user_profile">
                     <div class="profile_thumb">
-                        <img src="" alt="사용자 이미지" class="profile_img">
+                        <img th:src="|/upload/${user.image}|" alt="사용자 이미지" class="profile_img">
                     </div>
                     <div class="profile_detail">
                         <strong class="name" id="show_userid_title" th:text="${user.username}" ></strong>
                         <div class="profile_btn_box">
-                            <button class="btn outlinegrey small" id="upImage"> 이미지 변경 </button>
+                            <form  enctype="multipart/form-data" id="imageForm" >
+                            <input type="file" id="imageInput" name="file" hidden="hidden" onchange="imageUpdate()">
+                            </form>
+                                <button class="btn outlinegrey small" id="upImage" > 이미지 변경 </button>
                             <button class="btn outlinegrey small" id="delImage"> 삭제 </button>
+
                         </div>
+
                     </div>
-                    <input type="file" hidden="hidden" id="imageFileInput" name="file" accept="image/png, image/jpeg" multiple>
                 </div>
-                <!--                        </form>-->
+
                 <div class="profile_info">
                     <div class="profile_group">
                         <h4 class="group_title">로그인 정보</h4>
@@ -52,7 +56,6 @@
                         <!-- 이메일 변경 -->
                         <div class="modify" id="modify_email">
                             <div id="input_mo_box">
-                                <!--                                    <form method="post" onsubmit="return sendit()">-->
                                 <div class="input_box" id="email_input_box">
                                     <h6 class="input_title">이메일 주소 변경</h6>
                                     <div class="input_item">
@@ -65,7 +68,6 @@
                                     <button type="button" class="btn outlinegrey medium" slot="button" id="closeEmailBtn"> 취소 </button>
                                     <button type="button" class="btn solid medium disabled" slot="button" id="sendEmailBtn" disabled> 저장 </button>
                                 </div>
-                                <!--                                    </form>-->
                             </div>
                         </div>
                         <!-- 기존 비밀 번호  -->
@@ -221,13 +223,6 @@
         const shoesize = $('#show_shoesize').val();
         const id = [[${user.id}]];
 
-        console.log("email"+email);
-        console.log("username"+username);
-        console.log("password"+password);
-        console.log("hp"+hp);
-        console.log("shoesize@@@@"+shoesize);
-        console.log("id"+id);
-
         $.ajax({
             type:"PATCH",
             url:"/api/users/info/"+id,
@@ -248,6 +243,37 @@
             console.log("실패");
         });
     }
+
+    // 사진 변경 버튼 클릭 이벤트
+    $("#upImage").on('click',function(e){
+        e.preventDefault();
+        $('#imageInput').click();
+    });
+
+    function imageUpdate(){
+         const id = [[${user.id}]];
+         const imageinput =$("#imageInput")[0];
+        console.log("imageInput: ", imageinput.files[0]);
+         const formData = new FormData();
+         formData.append("file",imageinput.files[0]);
+
+
+        $.ajax({
+            type:"post",
+            url:"/api/users/image/"+id,
+            data:formData,
+            cache:false,
+            processData:false,
+            contentType:false,
+        }).done(res=>{
+            alert("수정이 완료되었습니다.");
+            location.href="/my/profile";
+        }).fail(error=>{
+            console.log("실패");
+        });
+
+    }
+
 </script>
 <script type="text/javascript" th:src="@{/lib/js/pjs_header_nav.js}"></script>
 <script th:src="@{/lib/js/loginpage_mypage_all.js}" type="text/javascript"></script>
