@@ -79,7 +79,9 @@ public class UserController {
     }
 
     @GetMapping("/my/address")  // 주소저장
-    public String myAdressPage() {
+    public String myAdressPage(@AuthenticationPrincipal PrincipalDetails principalDetails, Model model) {
+        User user = userService.findByUser(principalDetails.getUser().getId());
+        model.addAttribute("user",user);
         return "/mypage/mypage_address";
     }
 

@@ -1,0 +1,199 @@
+<html lang="ko" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org/"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<!-- head.html -->
+<div th:replace="include/pjs_head :: head"></div>
+<!-- head.html 끝-->
+
+<body>
+<div id="__nuxt">
+    <!---->
+    <div id="__layout">
+        <div class="wrap win_os">
+            <!---->
+            <div class="wrap_inner">
+                <!-- head.html -->
+                <div th:replace="include/pjs_header_nav :: header_nav"></div>
+                <!-- head.html 끝-->
+                <!--conents-->
+                <div class="container my lg">
+                    <div>
+                        <!--snb_area start-->
+                        <div th:replace="include/pjs_mypage_snb :: mypage_snb"></div>
+                        <!--snb_area end-->
+                    </div>
+                    <div class="content_area">
+                        <div class="my_home">
+                            <div class="user_membership">
+                                <div class="user_detail">
+                                    <div class="user_thumb">
+                                        <img th:src="|/upload/${user.image}|" alt="사용자 이미지" class="thumb_img" id="profile_image">
+                                    </div>
+                                    <div class="user_info">
+                                        <div class="info_box">
+                                            <strong class="name"></strong>
+                                            <p class="email"></p>
+                                            <div class="profile_button_wrap">
+                                                <ul>
+                                                <a href="/my/profile" class="btn btn outlinegrey small" type="button"> 프로필 수정 </a>
+                                                </ul>
+                                                <ul>
+
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="membership_detail">
+                                    <a href="#" class="membership_item disabled">
+                                        <strong class="info" id="membership_grade"> 일반 회원 </strong>
+                                        <p class="title"> 회원 등급 </p>
+                                    </a>
+                                    <a href="#" class="membership_item" id="point_layer_open">
+                                        <strong class="info"> <span id="point">0</span>P </strong>
+                                        <p class="title"> 포인트 </p>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="my_home_title">
+                                <h3 class="title"> 구매 내역 </h3>
+                                <a href="/my/buying" class="btn_more">
+                                    <span class="btn_txt">더보기</span>
+                                </a>
+                            </div>
+                            <div class="recent_purchase">
+                                <div class="purchase_list_tab">
+                                    <div class="tab_item total">
+                                        <a href="/my/buying" class="tab_link">
+                                            <dl class="tab_box">
+                                                <dt class="title">전체</dt>
+                                                <dd class="count" id="purchaseAllCount">0</dd>
+                                            </dl>
+                                        </a>
+                                    </div>
+                                    <div class="tab_item tab_on">
+                                        <a href="/my/buying" class="tab_link">
+                                            <dl class="tab_box">
+                                                <dt class="title">입찰 중</dt>
+                                                <dd class="count" id="purchaseBindCount">0</dd>
+                                            </dl>
+                                        </a>
+                                    </div>
+                                    <div class="tab_item">
+                                        <a href="/my/buying" class="tab_link">
+                                            <dl class="tab_box">
+                                                <dt class="title">진행 중</dt>
+                                                <dd class="count" id="purchaseContinueCount">0</dd>
+                                                <!---->
+                                            </dl>
+                                        </a>
+                                    </div>
+                                    <div class="tab_item">
+                                        <a href="/my/buying" class="tab_link">
+                                            <dl class="tab_box">
+                                                <dt class="title">종료</dt>
+                                                <dd class="count" id="purchaseEndCount">0</dd>
+                                            </dl>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div class="purchase_list all bid">
+                                        <!---->
+
+                                    </div>
+                                    <!---->
+                                </div>
+                            </div>
+                            <div class="my_home_title">
+                                <h3 class="title"> 판매 내역 </h3>
+                                <a href="/my/selling" class="btn_more">
+                                    <span class="btn_txt">더보기</span>
+                                </a>
+                            </div>
+                            <div class="recent_purchase">
+                                <div class="purchase_list_tab sell">
+                                    <div class="tab_item total">
+                                        <a href="/my/selling" class="tab_link">
+                                            <dl class="tab_box">
+                                                <dt class="title">전체</dt>
+                                                <dd class="count" id="salesAllCount">0</dd>
+                                            </dl>
+                                        </a>
+                                    </div>
+                                    <div class="tab_item tab_on">
+                                        <a href="/my/selling" class="tab_link">
+                                            <dl class="tab_box"><dt class="title">입찰 중</dt>
+                                                <dd class="count" id="salesBindCount">0</dd>
+                                            </dl>
+                                        </a>
+                                    </div>
+                                    <div class="tab_item">
+                                        <a href="/my/selling" class="tab_link">
+                                            <dl class="tab_box">
+                                                <dt class="title">진행 중</dt>
+                                                <dd class="count" id="salesContinueCount">0</dd>
+                                                <!---->
+                                            </dl>
+                                        </a>
+                                    </div>
+                                    <div class="tab_item">
+                                        <a href="/my/selling" class="tab_link">
+                                            <dl class="tab_box">
+                                                <dt class="title">종료</dt>
+                                                <dd class="count" id="salesEndCount">0</dd>
+                                            </dl>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div class="purchase_list all ask">
+                                        <!---->
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="my_home_title">
+                                <h3 class="title"> 관심 상품 </h3>
+                                <a href="/my/wish" class="btn_more">
+                                    <span class="btn_txt">더보기</span>
+                                </a>
+                                <!---->
+                            </div>
+                            <div class="interest_product">
+                                <!---->
+                            </div>
+                            <!---->
+                            <!--point layer start-->
+                            <div th:replace="include/pjs_point_layer :: point_layer"></div>
+                            <!--point layer end-->
+                        </div>
+                    </div>
+                </div>
+                <!--footer start-->
+                <div th:replace="include/pjs_footer :: footer"></div>
+                <!--footer end-->
+                <!--mobile footer start-->
+                <div class="footer only_copy right">
+                    <div class="footer mo">
+                        <p class="copyright">© 2021 KREAM.Corp.</p>
+                    </div>
+                </div>
+                <!--mobile footer end-->
+            </div>
+            <!---->
+        </div>
+    </div>
+</div>
+<script>
+    const sessionId = sessionStorage.getItem('userid'); // 세션 가져오기
+
+    function ready(){
+        alert(sessionId);
+    }
+
+</script>
+<script type="text/javascript" th:src="@{/lib/js/pjs_header_nav.js}"></script>
+<script th:src="@{/lib/js/loginpage_mypage_all.js}" type="text/javascript"></script>
+<script th:src="@{/lib/js/mypage.js}" type="text/javascript"></script>
+</body>
+</html>
