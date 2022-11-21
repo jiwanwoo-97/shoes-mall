@@ -1,67 +1,4 @@
-// 기본 배송지로 설정되어있는 주소 id값
-let $id;
 
-// axios 데이터 읽어오기
-let addressCount = 0;   // data가 없으면 0, 있을 경우 숫자만큼 증가
-axios.get('/api/Address_list/'+sessionId,{
-
-}).then(function(response){
-    if(response.data.data.length==0){
-        document.querySelector('.my_item').innerHTML = '';
-        document.querySelector('.basic').innerHTML+='<div class="empty_area">' +
-            '<p class="desc">배송지가 없습니다. 새 배송지를 추가해주세요.</p>' +
-            '</div>';
-    }
-    let other_list = $(`<div class="other_list">`);
-    for(let i in response.data.data){
-        addressCount += 1;
-        let id = response.data.data[i].id; // 주소 id
-        let hp = response.data.data[i].hp; // 수령자 전화번호
-        let hp_hipen = hp.replace(/(^02.{0}|^01.{1}|[0-9]{3})([0-9]+)([0-9]{4})/,"$1-$2-$3");   // 번호 하이픈 넣은 것
-        let name = response.data.data[i].name;     // 수령자 이름
-        let zipcode = response.data.data[i].zipcode;   // 배송지 우편번호
-        let zipcodeString = '(' + zipcode + ')';
-        let detail1 = response.data.data[i].detail1;    // 배송지 주소
-        let detail2 = response.data.data[i].detail2;   // 배송지 상세주소
-        let address = detail1 + ' ' + detail2;
-        let customerId = response.data.data[i].customerId;   // 고객 idx
-        let flag = response.data.data[i].flag; // 기본 배송지 flag
-
-        if(flag == 'ON') { // 기본 배송지
-            $id = id;
-            document.querySelector('#defaltName').innerHTML = name;
-            document.querySelector('#defaltHp').innerHTML = hp_hipen;
-            document.querySelector('#defaltZipcode').innerHTML = zipcodeString;
-            document.querySelector('#defaltAddress').innerHTML = address;
-            document.querySelector('#modifyDefalt').setAttribute('value',id);
-            document.querySelector('#deleteDefalt').setAttribute('value',id);
-        }else{  // 기본배송지가 아닌 주소들
-            let row = $('<div class="my_item">').append(
-                '<div class="info_bind">' +
-                '<div class="address_info">' +
-                '<div class="name_box">' +
-                '<span class="name">' + name + '</span>' +
-                '</div>'+
-                '<p class="phone">' + hp_hipen + '</p>' +
-                '<div class="address_box">' +
-                '<span class="zipcode">' + zipcodeString + '</span>' +
-                '<span class="address">' + address + '</span>' +
-                '</div></div></div>' +
-                '<div class="btn_bind">' +
-                '<a type="button" class="btn outlinegrey small" value="'+ id +'" onclick="setDefalt('+id+');"> 기본 배송지 </a>' +
-                '<a type="button" class="btn outlinegrey small" value="'+ id +'" onclick="modifyInfo('+id+');"> 수정 </a>' +
-                '<a type="button" class="btn outlinegrey small" value="'+ id +'" onclick="DeleteInfo('+id+');"> 삭제 </a>' +
-                '</div></div></div>'
-            );
-            other_list.append(row);
-        }
-    }
-    other_list.append('</div>');
-    $('.other').append(other_list);
-    console.log(addressCount);
-}).catch(function(err){
-    console.log(err);
-});
 
 // 다음포스트 서비스
 function sample6_execDaumPostcode() {
@@ -161,7 +98,7 @@ in_essentialList.forEach((element, i, array) => {
         document.querySelector('.btn_save').className = 'btn btn_save solid disabled';
         document.querySelector('.btn_save').disable = true;
         if (element.getAttribute('validateresult') ?? false) {
-            if (result = (array.reduce((before, after) => {
+            if ((array.reduce((before, after) => {
                 return before && (after.getAttribute('validateresult') == "true")
             }, true))) {
                 //맞음
@@ -179,15 +116,6 @@ function DeleteOnClick(){
     alert('다른 주소를 기본배송지로 변경 후, 삭제할 수 있습니다.');
 }
 
-// 기본 배송지 아닌 배송지 삭제
-function DeleteInfo(id){
-    axios.delete('/api/Address_delete/'+parseInt(id))
-        .then(function(response){
-            location.reload()
-        }).catch(function(response){
-        console.log('삭제 에러발생!')
-    });
-}
 
 // 엑스 버튼 클릭
 $("#popCloseBtn").click(function(event){
@@ -215,26 +143,6 @@ $(".btn_delete").click(function(event){
     console.log('취소버튼 클릭')
 });
 
-// 기본배송지 설정하기 버튼 클릭
-function setDefalt(id){
-    // 해당 id에 해당하는 주소 기본배송지로 update
-    axios.request({
-        method: "PUT",
-        url: "/api/Address_flag_update",
-        headers: {'Content-type': 'application/json'},
-        data: {
-            data:{
-                id: id,
-                flag: "ON"
-            }
-        }
-    }).then(
-        location.reload()
-    )
-
-    // 기존 기본 배송지 flag OFF로 update
-    updateDefaltOff($id);
-}
 
 // 새 배송지 추가 버튼 클릭
 function addDelivary(){
@@ -251,7 +159,7 @@ function addDelivary(){
     }
 // 저장하기 버튼
     $(".btn_save").click(function(event){
-        regist();
+        registAddress();
     });
 }
 
@@ -300,7 +208,7 @@ function modifyInfo(id) {
 
         // 저장하기 버튼 클릭(업데이트 실행)
         $(".btn_save").click(function(event){
-            update(id);
+            registAddress(id);
         });
     });
 }

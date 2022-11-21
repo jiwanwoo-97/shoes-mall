@@ -78,7 +78,7 @@ public class UserController {
         return "/mypage/mypage_wish";
     }
 
-    @GetMapping("/my/address")  // 주소저장
+    @GetMapping("/my/address")  // 주소
     public String myAdressPage(@AuthenticationPrincipal PrincipalDetails principalDetails, Model model) {
         User user = userService.findByUser(principalDetails.getUser().getId());
         model.addAttribute("user",user);

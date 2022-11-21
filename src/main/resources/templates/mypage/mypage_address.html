@@ -5,6 +5,7 @@
 <!-- head.html 끝-->
 <link rel="stylesheet" th:href="@{/lib/css/mypage_address.css}">
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+
 <body>
 <div class="wrap">
     <!-- header_title start -->
@@ -125,35 +126,109 @@
 <!-- js 마지막 -->
 </body>
 <script>
-    const sessionId = sessionStorage.getItem('userid'); // 세션 가져오기
-
-    // 모바일 헤더 title 변경
-    const contentTitle = document.querySelector('.content_title').querySelector('h3');
-    const headerTitle = document.querySelector('.main_inner').querySelector('h4');
-    headerTitle.innerHTML=contentTitle.innerText;
-
     // nav 태그에 on 클래스 추가
     document.querySelector("#address").className += ' menu_on';
+    let addressCount = 0;
+    $(function(){
+        const userid = [[${user.id}]];
+
+        alert("확인"+userid);
+        $.ajax({
+            type:"post",
+            url:"/api/users/addressList/"+userid,
+            contentType:"application/json",
+            dataType:"json",
+            async:false,
+        }).done(response=>{
+            alert("갔다.");
+            let other_list = $(`<div class="other_list">`);
+            for(let i in response){
+                addressCount += 1
+                let id = response[i].id; // 주소 id
+                let hp = response[i].hp; // 수령자 전화번호
+                let hp_hipen = hp.replace(/(^02.{0}|^01.{1}|[0-9]{3})([0-9]+)([0-9]{4})/,"$1-$2-$3");   // 번호 하이픈 넣은 것
+                let name = response[i].name;     // 수령자 이름
+                let zipcode = response[i].zipcode;   // 배송지 우편번호
+                let zipcodeString = '(' + zipcode + ')';
+                let detail = response[i].detail;    // 배송지 주소
+                let detailsub = response[i].detailsub;   // 배송지 상세주소
+                let address = detail + ' ' + detailsub;
+                let flag = response[i].flag; // 기본 배송지 flag
+                if(flag == 'ON') { // 기본 배송지
+                    document.querySelector('#defaltName').innerHTML = name;
+                    document.querySelector('#defaltHp').innerHTML = hp_hipen;
+                    document.querySelector('#defaltZipcode').innerHTML = zipcodeString;
+                    document.querySelector('#defaltAddress').innerHTML = address;
+                    document.querySelector('#modifyDefalt').setAttribute('value',id);
+                    document.querySelector('#deleteDefalt').setAttribute('value',id);
+                }else{  // 기본배송지가 아닌 주소들
+                    let row = $('<div class="my_item">').append(
+                        '<div class="info_bind">' +
+                        '<div class="address_info">' +
+                        '<div class="name_box">' +
+                        '<span class="name">' + name + '</span>' +
+                        '</div>'+
+                        '<p class="phone">' + hp_hipen + '</p>' +
+                        '<div class="address_box">' +
+                        '<span class="zipcode">' + zipcodeString + '</span>' +
+                        '<span class="address">' + address + '</span>' +
+                        '</div></div></div>' +
+                        '<div class="btn_bind">' +
+                        '<a type="button" class="btn outlinegrey small" value="'+ id +'" onclick="setDefalt('+id+');"> 기본 배송지 </a>' +
+                        '<a type="button" class="btn outlinegrey small" value="'+ id +'" onclick="modifyInfo('+id+');"> 수정 </a>' +
+                        '<a type="button" class="btn outlinegrey small" value="'+ id +'" onclick="DeleteInfo('+id+');"> 삭제 </a>' +
+                        '</div></div></div>'
+                    );
+                    other_list.append(row);
+                    console.log(row);
+                }
+            }
+            other_list.append('</div>');
+            $('.other').append(other_list);
+            console.log(addressCount);
+
+        }).fail(error=>{
+            console.log("주소등록에 실패하였습니다.");
+        });
+    });
 
 
     // 주소 등록 함수
-    function regist() {
+    function registAddress() {
         const name = document.querySelector('#name_input').value;
         const hp = document.querySelector('#hp_input').value;
         const zipcode = document.querySelector('#zipcode_input').value;
         const detail1 = document.querySelector('#address1_input').value;
         const detail2 = document.querySelector('#address2_input').value;
         let input_button_check = document.querySelector('#input_button_check').checked;
+        const id = [[${user.id}]];
 
         let delivery_flag;
+
         if(input_button_check){
             delivery_flag = 'ON';
-            if($id>0){
-                updateDefaltOff($id);
-            }
         }else{
             delivery_flag = "OFF";
         }
+        $.ajax({
+            type:"post",
+            url:"/api/users/address/"+id,
+            data:JSON.stringify({
+                "name": name,
+                "hp": hp,
+                "zipcode": zipcode,
+                "detail": detail1,
+                "detailsub": detail2,
+                "flag":delivery_flag
+            }),
+            contentType:"application/json",
+            dataType:"json"
+        }).done(res=>{
+            alert("주소가 등록되었습니다.");
+            location.href="/my/address";
+        }).fail(error=>{
+            console.log("주소등록에 실패하였습니다.");
+        });
     }
 
 
@@ -168,17 +243,33 @@
         let delivery_flag;
         if(input_button_check.checked == true){
             delivery_flag = 'ON';
-            if($id>0){
-                updateDefaltOff($id);
-            }
         }else{
             delivery_flag = "OFF";
         }
 
     }
 
+    function updateflag(flag,id){
+        $.ajax({
+            type:"put",
+            url:"/api/users/address/"+userid,
+            data:JSON.stringify({
+                "addressId":id,
+                "flag":flag
+            }),
+            contentType:"application/json",
+            dataType:"json"
+        }).done(res=>{
+            alert("기본 배송지가 등록되었습니다.");
+            location.href="/my/address";
+        }).fail(error=>{
+            console.log("주소등록에 실패하였습니다.");
+        });
+    }
+
 
 </script><script type="text/javascript" th:src="@{/lib/js/pjs_header_nav.js}"></script>
 <script type="text/javascript" th:src="@{/lib/js/loginpage_mypage_all.js}"></script>
 <script type="text/javascript" th:src="@{/lib/js/mypage_address.js}"></script>
+
 </html>
