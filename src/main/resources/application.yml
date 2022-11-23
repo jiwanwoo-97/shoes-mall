@@ -45,6 +45,7 @@ spring:
     livereload:
       enabled: true
 
+
 file:
   path: C:/Users/jwo97/Desktop/shoesmall/src/main/resources/static/upload/
 
