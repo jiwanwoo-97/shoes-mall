@@ -9,13 +9,12 @@ import javax.persistence.*;
 
 
 @Getter
-@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @DynamicUpdate
 @Entity
-public class Address {
+public class Address extends BaseTimeEntity {
 
     @GeneratedValue
     @Id
