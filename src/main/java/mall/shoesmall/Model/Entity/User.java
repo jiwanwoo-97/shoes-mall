@@ -38,6 +38,9 @@ public class User extends BaseTimeEntity {
     @OneToMany(mappedBy = "user")
     private List<Address> address = new ArrayList<>();
 
+    @OneToMany(mappedBy = "user")
+    private List<Card> card = new ArrayList<>();
+
 
 }
 

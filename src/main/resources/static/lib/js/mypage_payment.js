@@ -3,6 +3,7 @@ let $id;
 
 // 카드정보 데이터 읽어오기
 let cardCount = 0;   // data가 없으면 0, 있을 경우 숫자만큼 증가
+/*
 axios.get('/api/cardInfo_list/'+sessionId,{
 
 }).then(function(response){
@@ -72,6 +73,7 @@ axios.get('/api/cardInfo_list/'+sessionId,{
 }).catch(function(err){
     console.log(err);
 });
+*/
 
 
 

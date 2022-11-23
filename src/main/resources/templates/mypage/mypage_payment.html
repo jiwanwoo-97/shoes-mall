@@ -218,10 +218,49 @@
     // nav 태그에 on 클래스 추가
     document.querySelector("#payment").className += ' menu_on';
 
-    const sessionId = sessionStorage.getItem('userid'); // 세션 가져오기
+    const userid=[[${user.id}]];
+    function regist(){
+        const card_num1 = document.querySelector('#card_num1').value;
+        const card_num2 = document.querySelector('#card_num2').value;
+        const card_num3 = document.querySelector('#card_num3').value;
+        const card_num4 = document.querySelector('#card_num4').value;
+        const card_number = card_num1 + card_num2 + card_num3 + card_num4;
+        const card_company = document.querySelector('#card_company').value;
+        const expiration = document.querySelector('#expiration').value;
+        const birthdate = document.querySelector('#birthdate').value;
+        const cardpw = document.querySelector('#cardpw').value;
+        let input_button_check = document.querySelector('#input_button_check').checked;
+        let flag;
+
+        if(input_button_check){
+            flag = 'ON';
+        }else{
+            flag = "OFF";
+        }
+        $.ajax({
+            type:"post",
+            url:"/api/users/"+userid+"/card",
+            data:JSON.stringify({
+                "card_number": card_number,
+                "card_company": card_company,
+                "expiration": expiration,
+                "birth": birthdate,
+                "cardpw": cardpw,
+                "card_flag": flag
+            }),
+            contentType:"application/json",
+            dataType:"json"
+        }).done(res=>{
+            alert("카드 등록이 완료되었습니다..");
+        }).fail(error=>{
+            console.log("카드 등록에 실패하였습니다.");
+        });
+
+
+    }
 
     // 주소 등록 함수
-    function regist() {
+    function regist2() {
         const card_num1 = document.querySelector('#card_num1').value;
         const card_num2 = document.querySelector('#card_num2').value;
         const card_num3 = document.querySelector('#card_num3').value;

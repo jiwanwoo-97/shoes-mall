@@ -86,7 +86,9 @@ public class UserController {
     }
 
     @GetMapping("/my/payment")  // 주소
-    public String myPaymentPage() {
+    public String myPaymentPage(@AuthenticationPrincipal PrincipalDetails principalDetails, Model model) {
+        User user = userService.findByUser(principalDetails.getUser().getId());
+        model.addAttribute("user",user);
         return "/mypage/mypage_payment";
     }
 
