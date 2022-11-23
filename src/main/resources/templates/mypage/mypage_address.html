@@ -49,8 +49,8 @@
                                 </div>
                             </div>
                             <div class="btn_bind">
-                                <span type="button" class="btn outlinegrey small" id="modifyDefalt" value=""> 수정 </span>
-                                <span type="button" class="btn outlinegrey small" id="deleteDefalt" value="" onclick=" DeleteOnClick()"> 삭제 </span>
+                                <span type="button" class="btn outlinegrey small" id="getAddress" value="" > 수정 </span>
+                                <span type="button" class="btn outlinegrey small" id="deleteDefalt" value=""  > 삭제 </span>
                             </div>
                         </div>
                     </div>
@@ -129,18 +129,18 @@
     // nav 태그에 on 클래스 추가
     document.querySelector("#address").className += ' menu_on';
     let addressCount = 0;
-    $(function(){
-        const userid = [[${user.id}]];
+    let userid = [[${user.id}]];
 
-        alert("확인"+userid);
+    //주소 리스트 불러오기
+    $(function(){
+
         $.ajax({
             type:"post",
-            url:"/api/users/addressList/"+userid,
+            url:"/api/users/"+userid+"/addressList",
             contentType:"application/json",
             dataType:"json",
             async:false,
         }).done(response=>{
-            alert("갔다.");
             let other_list = $(`<div class="other_list">`);
             for(let i in response){
                 addressCount += 1
@@ -159,7 +159,7 @@
                     document.querySelector('#defaltHp').innerHTML = hp_hipen;
                     document.querySelector('#defaltZipcode').innerHTML = zipcodeString;
                     document.querySelector('#defaltAddress').innerHTML = address;
-                    document.querySelector('#modifyDefalt').setAttribute('value',id);
+                    document.querySelector('#getAddress').setAttribute('value',id);
                     document.querySelector('#deleteDefalt').setAttribute('value',id);
                 }else{  // 기본배송지가 아닌 주소들
                     let row = $('<div class="my_item">').append(
@@ -174,9 +174,9 @@
                         '<span class="address">' + address + '</span>' +
                         '</div></div></div>' +
                         '<div class="btn_bind">' +
-                        '<a type="button" class="btn outlinegrey small" value="'+ id +'" onclick="setDefalt('+id+');"> 기본 배송지 </a>' +
-                        '<a type="button" class="btn outlinegrey small" value="'+ id +'" onclick="modifyInfo('+id+');"> 수정 </a>' +
-                        '<a type="button" class="btn outlinegrey small" value="'+ id +'" onclick="DeleteInfo('+id+');"> 삭제 </a>' +
+                        '<a type="button" class="btn outlinegrey small" value="'+ id +'" onclick="updateflag('+id+');"> 기본 배송지 </a>' +
+                        '<a type="button" class="btn outlinegrey small" value="'+ id +'" onclick="getAddress('+id+');"> 수정 </a>' +
+                        '<a type="button" class="btn outlinegrey small" value="'+ id +'" onclick="deleteAddress('+id+');"> 삭제 </a>' +
                         '</div></div></div>'
                     );
                     other_list.append(row);
@@ -212,7 +212,7 @@
         }
         $.ajax({
             type:"post",
-            url:"/api/users/address/"+id,
+            url:"/api/users/"+id+"/address/",
             data:JSON.stringify({
                 "name": name,
                 "hp": hp,
@@ -232,40 +232,134 @@
     }
 
 
-    // 주소 update 함수
-    function update(id){
+    //기본 배송지 수정
+    function updateflag(addressId) {
+        const delivery_flag = 'ON';
+        $.ajax({
+            type: "put",
+            url: "/api/users/" + userid + "/address-flag",
+            data: JSON.stringify({
+                "id": addressId,
+                "flag": delivery_flag
+            }),
+            contentType: "application/json",
+            dataType: "json"
+        }).done(res => {
+            alert("기본배송지가 변경되었습니다.");
+            location.href="/my/address";
+        }).fail(error => {
+
+        });
+    }
+    //수정 주소 받기
+    function getAddress(addressId){
+
+        $("#popupDiv").css("display", "block"); //팝업창 display block
+        $("#edit_address_title").show();
+        $("#new_address_title").hide();
+
+        $.ajax({
+            type: "post",
+            url: "/api/users/" + userid + "/address-info",
+            data: JSON.stringify({
+                "id": addressId,
+            }),
+            contentType: "application/json",
+            dataType: "json",
+            async: false
+        }).done(response => {
+            let name = response.name;     // 수령자 이름
+            let hp = response.hp; // 수령자 전화번호
+            let zipcode = response.zipcode;   // 배송지 우편번호
+            let detail1 = response.detail;    // 배송지 주소
+            let detail2 = response.detailsub;   // 배송지 상세주소
+            let flag = response.flag; // 기본 배송지 flag
+
+            document.querySelector('#name_input').value = name;
+            document.querySelector('#hp_input').value = hp;
+            document.querySelector('#zipcode_input').value = zipcode;
+            document.querySelector('#address1_input').value = detail1;
+            document.querySelector('#address2_input').value = detail2;
+            if (flag == "ON") {
+                document.querySelector('#input_button_check').checked = true;
+            } else {
+                document.querySelector('#input_button_check').checked = false;
+            }
+
+            in_essentialList.forEach((element, i, array) => {
+                element.addEventListener('input', e => {
+                    document.querySelector('.btn_save').className = 'btn btn_save solid';
+                    document.querySelector('.btn_save').disabled = false;
+                    this.removeEventListener("click",arguments.callee);
+                });
+            });
+
+            $(".btn_save").click(function(event){
+                updateAddress(addressId);
+            });
+
+        }).fail(error => {
+
+        });
+    }
+    //주소 수정
+    function updateAddress(addressId) {
         const name = document.querySelector('#name_input').value;
         const hp = document.querySelector('#hp_input').value;
         const zipcode = document.querySelector('#zipcode_input').value;
         const detail1 = document.querySelector('#address1_input').value;
         const detail2 = document.querySelector('#address2_input').value;
-        const input_button_check = document.querySelector('#input_button_check');
+        let input_button_check = document.querySelector('#input_button_check').checked;
+        const id = [[${user.id}]];
+
         let delivery_flag;
-        if(input_button_check.checked == true){
+
+        if(input_button_check){
             delivery_flag = 'ON';
         }else{
             delivery_flag = "OFF";
         }
-
-    }
-
-    function updateflag(flag,id){
         $.ajax({
             type:"put",
-            url:"/api/users/address/"+userid,
+            url:"/api/users/"+id+"/address",
             data:JSON.stringify({
-                "addressId":id,
-                "flag":flag
+                "id":addressId,
+                "name": name,
+                "hp": hp,
+                "zipcode": zipcode,
+                "detail": detail1,
+                "detailsub": detail2,
+                "flag":delivery_flag
             }),
             contentType:"application/json",
             dataType:"json"
         }).done(res=>{
-            alert("기본 배송지가 등록되었습니다.");
+            alert("주소가 등록되었습니다.");
             location.href="/my/address";
         }).fail(error=>{
             console.log("주소등록에 실패하였습니다.");
         });
     }
+    //주소 삭제
+    function deleteAddress(addressId) {
+         if(confirm("삭제하시겠습니까?")) {
+             $.ajax({
+                 type: "delete",
+                 url: "/api/users/" + userid + "/address",
+                 data: JSON.stringify({
+                     "id": addressId,
+                 }),
+                 contentType: "application/json",
+                 dataType: "json"
+             }).done(res => {
+                 alert("삭제되었습니다.");
+                 location.href="/my/address";
+             }).fail(error => {
+                 console.log("삭제에 실패하였습니다.");
+             });
+         }
+    }
+
 
 
 </script><script type="text/javascript" th:src="@{/lib/js/pjs_header_nav.js}"></script>

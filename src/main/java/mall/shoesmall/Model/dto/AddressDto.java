@@ -29,6 +29,7 @@ public class AddressDto {
     @Getter
     @Setter
     public static class request {
+        private Long id;
         private String name;
         private String hp;
         private String zipcode;

@@ -36,7 +36,7 @@ public class User  {
     private String image;
     private String role; //권한
 
-    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "user")
     private List<Address> address = new ArrayList<>();
 
 

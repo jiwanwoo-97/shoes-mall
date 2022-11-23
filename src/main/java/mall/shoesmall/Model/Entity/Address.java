@@ -1,6 +1,8 @@
 package mall.shoesmall.Model.Entity;
 
 import lombok.*;
+import mall.shoesmall.Model.dto.AddressDto;
+import org.hibernate.annotations.DynamicUpdate;
 
 
 import javax.persistence.*;
@@ -11,6 +13,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@DynamicUpdate
 @Entity
 public class Address {
 
@@ -30,9 +33,22 @@ public class Address {
 
     private String flag;
 
-    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
 
 
+    public void update(Long id, String flag) {
+        this.id = id;
+        this.flag = flag;
+    }
+
+    public void update(AddressDto.request request) {
+        this.name = request.getName();
+        this.hp = request.getHp();
+        this.zipcode = request.getZipcode();
+        this.detail = request.getDetail();
+        this.detailsub = request.getDetailsub();
+        this.flag = request.getFlag();
+    }
 }

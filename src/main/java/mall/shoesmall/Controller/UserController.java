@@ -85,6 +85,11 @@ public class UserController {
         return "/mypage/mypage_address";
     }
 
+    @GetMapping("/my/payment")  // 주소
+    public String myPaymentPage() {
+        return "/mypage/mypage_payment";
+    }
+
 
 
 

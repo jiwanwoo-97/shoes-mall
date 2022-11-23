@@ -111,10 +111,6 @@ in_essentialList.forEach((element, i, array) => {
 
 
 
-// 기본 배송지 삭제
-function DeleteOnClick(){
-    alert('다른 주소를 기본배송지로 변경 후, 삭제할 수 있습니다.');
-}
 
 
 // 엑스 버튼 클릭
@@ -164,9 +160,14 @@ function addDelivary(){
 }
 
 // 기본 배송지 수정 버튼 클릭
-document.querySelector('#modifyDefalt').addEventListener('click',()=>{
-    console.log(document.querySelector('#modifyDefalt').getAttribute('value'));
-    modifyInfo(document.querySelector('#modifyDefalt').getAttribute('value'));
+document.querySelector('#getAddress').addEventListener('click',()=>{
+    console.log(document.querySelector('#getAddress').getAttribute('value'));
+    getAddress(document.querySelector('#getAddress').getAttribute('value'));
+})
+
+document.querySelector('#deleteDefalt').addEventListener('click',()=>{
+    console.log(document.querySelector('#deleteDefalt').getAttribute('value'));
+    deleteAddress(document.querySelector('#deleteDefalt').getAttribute('value'));
 })
 
 // 수정하기 버튼 클릭 레이어 세팅
@@ -208,7 +209,7 @@ function modifyInfo(id) {
 
         // 저장하기 버튼 클릭(업데이트 실행)
         $(".btn_save").click(function(event){
-            registAddress(id);
+            registAddress();
         });
     });
 }
