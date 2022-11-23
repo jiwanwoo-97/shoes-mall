@@ -8,10 +8,9 @@ import mall.shoesmall.Service.CardService;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
@@ -27,5 +26,32 @@ public class CardApiController {
                 .headers(new HttpHeaders())
                 .body(response);
     }
+    //카드 조회
+    @PostMapping("/api/users/{id}/cardList")
+    public ResponseEntity<List<CardDto.response>> cardList(@PathVariable Long id) {
+        List<CardDto.response> response = cardService.findByCardList(id);
+        return ResponseEntity.ok()
+                .headers(new HttpHeaders())
+                .body(response);
+    }
+
+    @PutMapping("/api/users/{id}/card-flag")
+    public ResponseEntity<CardDto.response> updateFlag(@PathVariable Long id, @RequestBody CardDto.request request) {
+        cardService.updateFlag(request);
+        CardDto.response response = new CardDto.response(200, "기본 결제 등록이 완료되었습니다.");
+        return ResponseEntity.ok()
+                .headers(new HttpHeaders())
+                .body(response);
+    }
+
+    @DeleteMapping("/api/users/{id}/card")
+    public ResponseEntity<CardDto.response> deleteCard(@PathVariable Long id, @RequestBody CardDto.request request) {
+        cardService.deleteCard(request);
+        CardDto.response response = new CardDto.response(200, "카드 삭제가 완료되었습니다.");
+        return ResponseEntity.ok()
+                .headers(new HttpHeaders())
+                .body(response);
+    }
+
 
 }

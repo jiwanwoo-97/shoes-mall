@@ -32,4 +32,9 @@ public class Card extends BaseTimeEntity {
     private User user;
 
 
+        public void update(Long id, String cardFlag) {
+            this.id = id;
+            this.card_flag = cardFlag;
+        }
+
 }

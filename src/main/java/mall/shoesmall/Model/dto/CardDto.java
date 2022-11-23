@@ -11,11 +11,11 @@ public class CardDto {
     @NoArgsConstructor
     @Builder
     public static class info {
-        private String card_company;
-        private String card_number;
+        private String cardCompany;
+        private String cardNumber;
         private String expiration;
         private String birth;
-        private String card_flag;
+        private String cardFlag;
         private String cardpw;
     }
 
@@ -23,31 +23,39 @@ public class CardDto {
     @Setter
     public static class request {
         private Long id;
-        private String card_company;
-        private String card_number;
+        private String cardCompany;
+        private String cardNumber;
         private String expiration;
         private String birth;
-        private String card_flag;
+        private String cardFlag;
         private String cardpw;
 
         public Card toEntity(User user){
             return Card.builder()
-                    .card_company(card_company)
-                    .card_number(card_number)
+                    .card_company(cardCompany)
+                    .card_number(cardNumber)
                     .expiration(expiration)
                     .birth(birth)
-                    .card_flag(card_flag)
+                    .card_flag(cardFlag)
                     .cardpw(cardpw)
                     .user(user)
                     .build();
         }
+
+
     }
 
     @Getter
     @Setter
     @AllArgsConstructor
     public static class response {
-        CardDto.info info;
+        private Long id;
+        private String cardCompany;
+        private String cardNumber;
+        private String expiration;
+        private String birth;
+        private String cardFlag;
+        private String cardpw;
         private int returnCode;
         private String returnMessage;
 
@@ -55,6 +63,16 @@ public class CardDto {
             this.returnCode = returnCode;
             this.returnMessage = returnMessage;
 
+        }
+
+        public response(Card card) {
+            this.id = card.getId();
+            this.cardCompany = card.getCard_company();
+            this.cardNumber = card.getCard_number();
+            this.cardpw = card.getCardpw();
+            this.cardFlag = card.getCard_flag();
+            this.expiration = card.getExpiration();
+            this.birth = card.getBirth();
         }
     }
 

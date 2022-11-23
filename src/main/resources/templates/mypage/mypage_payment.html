@@ -219,6 +219,83 @@
     document.querySelector("#payment").className += ' menu_on';
 
     const userid=[[${user.id}]];
+    $(function(){
+        $.ajax({
+            type:"post",
+            url:"/api/users/"+userid+"/cardList",
+            contentType:"application/json",
+            dataType:"json",
+            async:false,
+        }).done(response=>{
+
+            if(response.length==0){
+                document.querySelector('.basic').innerHTML+='<div class="empty_area">' +
+                    '<p class="desc">카드정보가 없습니다. 새 카드를 추가해주세요.</p>' +
+                    '</div>';
+            }
+            let div = $('<div>');
+            for(let i in response){
+                cardCount += 1;
+                let cardid = response[i].id; // 카드 id
+                let cardFlag = response[i].cardFlag; // 카드 flag
+                let cardCompany = response[i].cardCompany; // 카드사
+                let cardNumber = response[i].cardNumber; // 카드번호
+                let defaultNumber = cardNumber.substring(cardNumber.length-4, cardNumber.length);   // 카드번호 뒤 4자리
+
+                if(cardFlag == 'ON') { // 기본 카드
+                    let row = $('<div class="my_item" default-mark="기본 결제">').append(
+                        '<div class="info_bind">' +
+                        '<div class="card_info">' +
+                        '<span class="card_name">'+cardCompany+'</span>'+
+                        '<div class="card_num">' +
+                        '<span class="num_bind">' +
+                        '<span class="dot"><span class="dot"></span></span>' +
+                        '<span class="hyphen"></span>' +
+                        '<span class="dot"><span class="dot"></span></span>' +
+                        '<span class="hyphen"></span>' +
+                        '<span class="dot"><span class="dot"></span></span>' +
+                        '<span class="hyphen"></span>' +
+                        '<span class="last_num" id="defaultNumber">'+defaultNumber+'</span>' +
+                        '</span>' +
+                        '<span class="mark">기본 결제</span>' +
+                        '</div></div></div>' +
+                        '<div class="btn_bind">' +
+                        '<a type="button" class="btn outlinegrey small" onclick="deleteCard('+cardid+')"> 삭제 </a>' +
+                        '</div></div>'
+                    );
+                    $('.basic').append(row);
+                }else{  // 기본 flag 아닌 카드들
+                    let row = $('<div class="my_item">').append(
+                        '<div class="info_bind">' +
+                        '<div class="card_info">' +
+                        '<span class="card_name">'+cardCompany+'</span>'+
+                        '<div class="card_num">' +
+                        '<span class="num_bind">' +
+                        '<span class="dot"><span class="dot"></span></span>' +
+                        '<span class="hyphen"></span>' +
+                        '<span class="dot"><span class="dot"></span></span>' +
+                        '<span class="hyphen"></span>' +
+                        '<span class="dot"><span class="dot"></span></span>' +
+                        '<span class="hyphen"></span>' +
+                        '<span class="last_num" id="defaultNumber">'+defaultNumber+'</span>' +
+                        '</span>' +
+                        '</div></div></div>' +
+                        '<div class="btn_bind">' +
+                        '<a type="button" class="btn outlinegrey small" onclick="updateFlag('+cardid+')">기본 결제</a>' +
+                        '<a type="button" class="btn outlinegrey small" onclick="deleteCard('+cardid+')">삭제</a>' +
+                        '</div></div>'
+                    );
+                    div.append(row);
+                }
+            }
+            div.append('</div>');
+            $('#other').append(div);
+        }).fail(error=>{
+            console.log("가져오지못해.");
+        });
+    });
+
+
     function regist(){
         const card_num1 = document.querySelector('#card_num1').value;
         const card_num2 = document.querySelector('#card_num2').value;
@@ -241,78 +318,57 @@
             type:"post",
             url:"/api/users/"+userid+"/card",
             data:JSON.stringify({
-                "card_number": card_number,
-                "card_company": card_company,
+                "cardNumber": card_number,
+                "cardCompany": card_company,
                 "expiration": expiration,
                 "birth": birthdate,
                 "cardpw": cardpw,
-                "card_flag": flag
+                "cardFlag": flag
             }),
             contentType:"application/json",
             dataType:"json"
         }).done(res=>{
             alert("카드 등록이 완료되었습니다..");
+            location.href="/my/payment";
         }).fail(error=>{
             console.log("카드 등록에 실패하였습니다.");
         });
-
-
     }
 
-    // 주소 등록 함수
-    function regist2() {
-        const card_num1 = document.querySelector('#card_num1').value;
-        const card_num2 = document.querySelector('#card_num2').value;
-        const card_num3 = document.querySelector('#card_num3').value;
-        const card_num4 = document.querySelector('#card_num4').value;
-        const card_number = card_num1 + card_num2 + card_num3 + card_num4;
-        const card_company = document.querySelector('#card_company').value;
-        const expiration = document.querySelector('#expiration').value;
-        const birthdate = document.querySelector('#birthdate').value;
-        const cardpw = document.querySelector('#cardpw').value;
-        let input_button_check = document.querySelector('#input_button_check').checked;
+    // 기본 결제 설정 버튼 클릭
+    function updateFlag(id){
+        $.ajax({
+            type:"put",
+            url:"/api/users/"+userid+"/card-flag",
+            data:JSON.stringify({
+                "cardFlag": "ON",
+                "id":id,
+            }),
+            contentType:"application/json",
+            dataType:"json"
+        }).done(res=>{
+            alert("기본 결제 설정이 완료되었습니다..");
+            location.href="/my/payment";
+        }).fail(error=>{
+            console.log("카드 등록에 실패하였습니다.");
+        });
+    }
 
-        let flag;
-
-        if(input_button_check){
-            flag = 'ON';
-            if($id>0){  // 기존 기본 배송지 flag OFF로 update
-                axios.request({
-                    method: "PUT",
-                    url: "/api/cardInfo_flag_update",
-                    headers: {'Content-type': 'application/json'},
-                    data: {
-                        data:{
-                            id: $id,
-                            cardFlag: "OFF"
-                        }
-                    }
-                }).then(
-                    location.reload()
-                )
-            }
-        }else{
-            flag = "OFF";
-        }
-
-        axios.request({
-            method: "POST",
-            url: "/api/cardInfo_register",
-            headers: {'Content-type': 'application/json'},
-            data: {
-                data:{
-                    cardNumber: card_number,
-                    cardCompany: card_company,
-                    expiration: expiration,
-                    birthdate: birthdate,
-                    cardpw: cardpw,
-                    cardFlag: flag,
-                    customerId: sessionId
-                }
-            }
-        }).then(
-            location.reload()
-        )
+    function deleteCard(id){
+        $.ajax({
+            type:"delete",
+            url:"/api/users/"+userid+"/card",
+            data:JSON.stringify({
+                "id":id,
+            }),
+            contentType:"application/json",
+            dataType:"json"
+        }).done(res=>{
+            alert("카드 삭제가 완료되었습니다.");
+            location.href="/my/payment";
+        }).fail(error=>{
+            console.log("카드 삭제에 실패하였습니다.");
+        });
     }
 </script>
 <script type="text/javascript" th:src="@{/lib/js/pjs_header_nav.js}"></script>
