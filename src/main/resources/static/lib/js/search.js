@@ -61,7 +61,7 @@ let click_you = null;
 let click_you_cancle = null;
 
 
-function sendit(){
+function sendit1(){
     console.log("센드잇 선택!////" + click_you) //nike
     console.log("센드잇 삭제!////" + click_you_cancle)
 
@@ -533,39 +533,6 @@ $(document).on('click', '.menu_price', function () {
 
 
 
-/*=====상품 좋아요 체크 기능 =====*/
-mark1 = [];
-mark_check = 0;
-
-
-$(function () {
-    $('.filter_title').click(function () {
-        // $(this).parent(".filter_title").parent(".filter_list").children(".filter_menu").slideToggle('fast');
-        $(this).next(".filter_menu").slideToggle('fast');
-
-        // $(this).parent(".filter_title").next(".filter_menu").slideToggle('fast');
-
-        $(this).next(".filter_menu_size").slideToggle('fast');
-    });
-});
-
-// $(document).on('click', '.sec_marking', function pro_like() {
-//     console.log(sessionStorage.getItem("userid"));
-//     if (sessionStorage.getItem("userid") == null) {
-//         alert("로그인을 해주세용 >3<")
-//         location.href = '/login';
-//     } else {
-//         let index = $(".sec_marking").index(this);
-//         proId = document.querySelectorAll('.sec_marking').item(index).getAttribute('value');
-//         const popup = document.getElementsByClassName('layer_container')[0];
-//         // const customer_id = sessionStorage.getItem( "userid")
-//         popup.style.display = "flex";
-//         console.log(proId);
-//         const body = document.querySelector('body');
-//         body.style.overflow = 'hidden'
-//     }
-// });
-
 
 /*
     클릭시 해당 클래스 인덱스값 저장 -> 상품 좋아요 카운트 저장 ->
@@ -992,24 +959,6 @@ $(document).on('click', '.sec_marking', function pro_like() {
             }
             $('.interest_un_list').append(sizeData);
         }
-
-        /*=====상품 좋아요 체크 기능 =====*/
-        mark1 = [];
-        mark_check = 0;
-        let sizeBtn = document.getElementsByClassName('interest_box_btn');
-        let sizeMark = document.getElementsByClassName('sec_marking2');
-        $('.interest_box_btn').on('click', function (){
-            console.log(proId);
-            let index = $(".interest_box_btn").index(this);
-            let sizeSrc = sizeMark.item(index).getAttribute('src');
-            if(sizeSrc=='/lib/img/h_img/logo/like_logo.PNG'){
-                sizeMark.item(index).setAttribute('src', '/lib/img/h_img/logo/like_logo_b.PNG');
-                sizeBtn.item(index).setAttribute('style', 'border: 1px solid black');
-            }else if(sizeSrc=='/lib/img/h_img/logo/like_logo_b.PNG'){
-                sizeMark.item(index).setAttribute('src', '/lib/img/h_img/logo/like_logo.PNG');
-                sizeBtn.item(index).setAttribute('style', 'border: 1px rgb(223, 223, 223) solid');
-            }
-        });
     }).catch(function (err) {
         console.log(err);
     })

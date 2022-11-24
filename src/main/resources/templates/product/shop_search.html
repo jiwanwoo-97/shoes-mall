@@ -24,7 +24,7 @@
 
 
 
-    /* 콘텐츠 쇼잉*/
+  /*  /!* 콘텐츠 쇼잉*!/
     $(function () {
 
         let axios3 = '/api/pro_userlist';
@@ -90,23 +90,11 @@
             $('.search_result_list').html(pro_con);
             let list_len = response[0].data.data.length;
             $('#list_len').text(list_len.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','));
-            //
-            // let avgPage = Math.ceil(list_len/40);
-            // $(document).ready(function (){
-            //    $(window).scroll(function (){
-            //        var scrollHeigth = $(window).scrollTop();
-            //        var documentHeight=$(document).height()-$(window).height();
-            //
-            //        if(scrollHeigth==documentHeight){
-            //            alert('빠밤')
-            //        }
-            //    })
-            // });
         }).catch(function (err) {
             console.log(err);
         })
     });
-
+*/
 </script>
 <body id="shop_search">
 <!-- head.html -->
@@ -1078,6 +1066,80 @@
 <script src="http://code.jquery.com/jquery-1.10.2.js"></script>
 <script th:src="@{/lib/js/search.js}"></script>
 <script th:src="@{/lib/js/pop.js}"></script>
+<script th:inline="javascript">
+
+    $(function (){
+        search();
+    })
+function search(){
+    $.ajax({
+        type:"post",
+        url:"/api/products/search",
+        contentType:"application/json",
+        dataType:"json"
+    }).done(response=>{
+        alert("나와라잉");
+        console.log(response);
+        $('.default_list').css({"display":"none"});
+
+
+        let pro_con = $(' <div class="sec_flex_box cate_list">');
+        for (let i in response) {
+            let $proBrand = response[i].brand;
+            let $proName = response[i].name;
+            let $proReleasePrice = response[i].releasePrice;
+            let $proImg = response[i].image;
+            let $pro_id = response[i].id;
+
+            if($proReleasePrice == null){
+                price = "-"
+            }else{
+                price = priceToString($proReleasePrice);
+            }
+            function priceToString($proReleasePrice){
+                return $proReleasePrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+            }
+
+            if(order_flag_js != "pricepremium"){
+                let con = $('<div  class="sec_img_box" style="cursor: pointer">').append(
+                    '<div id="reImg"><div class="sec_mark_box"><a href="#" class="a_mark"><div class="sec_marking" value="'+$pro_id+'"></div></a></div></div> '+
+                    '<div><img src="/upload/'+$proImg +'" class="sec_img"  onclick="location.href=\'/product/'+ $pro_id+'\';" id="sec2_img1" no-repeat center/cover;></div>' +
+                    '<div class="sec_brand_box"> <div class="sec_brand_line"> </div>' +
+                    '<div class="sec_brand_text">' + $proBrand + '</div>' +
+                    '<div class="sec_brand_s_text">' + $proName + '</div>' +
+                    '<div class="sec_price">' +
+                    '<div class="sec_num">' + price + '</div><div class="sec_won">원</div></div><div class="sec_price_text">즉시 구매가</div>' +
+                    '</a></div>'
+
+                )
+                pro_con.append(con);
+            }else{
+                let con = $('<div  class="sec_img_box" style="cursor: pointer">').append(
+                    '<div id="reImg"><div class="sec_mark_box"><a href="#" class="a_mark"><div class="sec_marking" value="'+$pro_id+'"></div></a></div></div> '+
+                    '<div><img src="/upload/'+$proImg +'" class="sec_img"  onclick="location.href=\'/product/'+ $pro_id+'\';" id="sec2_img1" no-repeat center/cover;>' +
+                    '<div class="status_value premium_up">'+$premium_per+'</div></div> '+
+                    '<div class="sec_brand_box"> <div class="sec_brand_line"> </div>' +
+                    '<div class="sec_brand_text">' + $proBrand + '</div>' +
+                    '<div class="sec_brand_s_text">' + $proName + '</div>' +
+                    '<div class="sec_price">' +
+                    '<div class="sec_num">' + price + '</div><div class="sec_won">원</div></div><div class="sec_price_text">즉시 구매가</div>' +
+                    '</a></div>'
+
+                )
+                pro_con.append(con);
+            }
+
+        }
+        pro_con.append('</div>');
+
+        $('.search_result_list').html(pro_con);
+    }).fail(error=>{
+        console.log(error);
+        console.log("나와라잉 실패하였습니다.");
+    });
+
+}
+</script>
 </body>
 
 </html>
