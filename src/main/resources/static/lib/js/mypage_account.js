@@ -7,7 +7,7 @@ const in_essentialList = [bank_select, account_input, name_input];
 const btn_save = document.querySelector('.btn_save')
 
 
-// acoount 페이지 axios 데이터 읽어오기
+/*// acoount 페이지 axios 데이터 읽어오기
 let accountId; // data가 있으면 1이상
 axios.get('/api/account_detail/'+sessionId,{
 
@@ -26,7 +26,7 @@ axios.get('/api/account_detail/'+sessionId,{
     name_input.setAttribute('validateresult', true);
 }).catch(function(err){
     console.log(err);
-});
+});*/
 
 // 은행명 select
 const selected_txt = document.querySelector('#selected_txt');
@@ -88,47 +88,5 @@ in_essentialList.forEach((element, i, array) => {
 
 // 저장하기 버튼 클릭 regist, update
 btn_save.addEventListener('click', ()=>{
-    if(accountId>0){ // 졔좌 업데이트
-        const bank = bank_select.value;
-        const accountNumber = account_input.value;
-        const name = name_input.value;
-
-        axios.request({
-            method: "PUT",
-            url: "/api/account_update",
-            headers: {'Content-type': 'application/json'},
-            data: {
-                data:{
-                    id:accountId,
-                    bank: bank,
-                    accountNumber: accountNumber,
-                    name: name
-                }
-            }
-        }).then(
-            location.reload()
-        )
-    }else{  // 새 계좌 등록
-        const bank = bank_select.value;
-        const accountNumber = account_input.value;
-        const name = name_input.value;
-
-        axios.request({
-            method: "POST",
-            url: "/api/account_register",
-            headers: {'Content-type': 'application/json'},
-            data: {
-                data:{
-                    bank: bank,
-                    accountNumber: accountNumber,
-                    name: name,
-                    customerId: sessionId
-                }
-            }
-        }).then(
-            location.reload()
-        ).catch(function(err){
-            console.log(err);
-        });
-    }
+    regist();
 });

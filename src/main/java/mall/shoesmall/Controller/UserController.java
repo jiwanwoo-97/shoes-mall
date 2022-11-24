@@ -78,19 +78,35 @@ public class UserController {
         return "/mypage/mypage_wish";
     }
 
-    @GetMapping("/my/address")  // 주소
+    @GetMapping("/my/address")  // 주소등록
     public String myAdressPage(@AuthenticationPrincipal PrincipalDetails principalDetails, Model model) {
         User user = userService.findByUser(principalDetails.getUser().getId());
         model.addAttribute("user",user);
         return "/mypage/mypage_address";
     }
 
-    @GetMapping("/my/payment")  // 카드
+    @GetMapping("/my/payment")  // 카드등록
     public String myPaymentPage(@AuthenticationPrincipal PrincipalDetails principalDetails, Model model) {
         User user = userService.findByUser(principalDetails.getUser().getId());
         model.addAttribute("user",user);
         return "/mypage/mypage_payment";
     }
+
+
+    @GetMapping("/my/account")  // 카드
+    public String myAccountPage(@AuthenticationPrincipal PrincipalDetails principalDetails, Model model) {
+        User user = userService.findByUser(principalDetails.getUser().getId());
+        model.addAttribute("user",user);
+        return "/mypage/mypage_account";
+    }
+
+    // 샵 search 페이지
+    @GetMapping("/search")
+    public String adminList() { return "/product/shop_search"; }
+
+    // 샵 product 페이지
+    @GetMapping("/product")
+    public String shopproduct() { return "/product/shop_product"; }
 
 
 
