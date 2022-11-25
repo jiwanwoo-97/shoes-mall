@@ -27,4 +27,10 @@ public class ProductService {
                 .collect(Collectors.toList());
         return responseList;
     }
+
+    public ProductDto.response getProduct(Long id) {
+        Product product = productRepository.findById(id).orElseThrow(()-> new IllegalArgumentException("등록된 상품이 아닙니다."));
+        ProductDto.response response = new ProductDto.response(product);
+        return response;
+    }
 }

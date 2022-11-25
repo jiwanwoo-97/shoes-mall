@@ -1,5 +1,5 @@
 <html class="no-js" lang="ko" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org/"
-      xmlns:sec="http://www.w3.org/1999/xhtml">
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <head>
     <title>KRAEM | 한정판 거래의 FLEX</title>
@@ -369,17 +369,40 @@
                             </div>
                         </div>
                         <div class="division_btn_box division_md1" >
-                            <a href="#" class="btn_division buy" onclick="go_to_buy()">
+
+                            <a href="#" class="btn_division buy" sec:authorize="!isAuthenticated()"
+                               onclick="go_to_login()">
                                 <div class="title">구매</div>
-                                <div class="price priceClass"><span class="amount"><div class="num quick" id="sellnowprice"></div>
+                                <div class="price priceClass"><span class="amount"><div class="num quick" id=""></div>
                                     <span class="won quick">원</span></span><span class="desc quick">즉시 구매가</span>
                                 </div>
                             </a>
-                            <a href="#" class="btn_division sell" onclick="go_to_sell()">
+                            <a href="#" class="btn_division buy" sec:authorize="isAuthenticated()"
+                               onclick="go_to_buy()">
+                                <div class="title">구매</div>
+                                <div class="price priceClass"><span class="amount"><div class="num quick"
+                                                                                        id="sellnowprice"></div>
+                                    <span class="won quick">원</span></span><span class="desc quick">즉시 구매가</span>
+                                </div>
+
+                            </a>
+
+                            <a href="#" class="btn_division sell" sec:authorize="!isAuthenticated()"
+                               onclick="go_to_login()">
                                 <div class="title">판매</div>
-                                <div class="price priceClass"><span class="amount"><div class="num quick" id="buynowprice"></div>
+                                <div class="price priceClass"><span class="amount"><div class="num quick"></div>
                                     <span class="won quick">원</span></span><span class="desc quick">즉시 판매가</span>
                                 </div>
+                            </a>
+                            <a href="#" class="btn_division sell" sec:authorize="isAuthenticated()"
+                               onclick="go_to_sell()">
+
+                                <div class="title">판매</div>
+                                <div class="price priceClass"><span class="amount"><div class="num quick"
+                                                                                        id="buynowprice"></div>
+                                    <span class="won quick">원</span></span><span class="desc quick">즉시 판매가</span>
+                                </div>
+
                             </a>
                         </div>
                         <div class="confirm_wrap">
@@ -685,6 +708,7 @@
                             <em class="num quick" id="buynowprice_mo"></em>
                             <span class="won quick">원</span>
                         </span>
+
                     <span class="desc quick">즉시 구매가</span>
                 </div>
             </a>
@@ -892,7 +916,7 @@
                 <ul class="select_list2">
                     <li class="select_item2 active">
                         <button role="button" aria-selected="true" class="select_link buy">
-                            <div class="link_inner">
+                            <div class="link_inner" >
                                 <span class="size">모든 사이즈</span>
                                 <span class="price1 avgNum"></span>
                             </div>
@@ -910,345 +934,72 @@
 <script src="/lib/js/ljs_product.js"></script>
 <script src="/lib/js/pop.js"></script>
 
-<script>
+<script th:inline="javascript">
 
     let proSize = [];
+    function getProduct(){
+        const productId = [[${productId}]];
+        $.ajax({
+            type:"post",
+            url:"/api/products/"+productId,
+            contentType:"application/json",
+            dataType:"json"
+        }).done(response=>{
+            alert("성공성공.");
+            console.log(response);
+            const brand = response.brand;
+            const name = response.name;
+            const release = response.releaseFirst;
+            const releasePrice = response.releasePrice;
+            const img = response.image;
+            const modelNumber = response.modelNumber;
 
-    const customerId = sessionStorage.getItem('userid'); // 세션 가져오기
-    $(function () {
-        const id = $('#id').val();
-        console.log(id);
+            $('.brand12').text(brand);
+            $('#brand').text(brand);
 
-        axios.all([axios.get('/api/pro_detail/' + id)])
-            .then(function (response) {
+            $('#brand_mo').text(brand);
 
-                console.log(response);
-                const brand = response[0].data.data.brand;
-                const collection = response[0].data.data.collection;
-                const name = response[0].data.data.name;
-                const korName = response[0].data.data.korName;
-                const release = response[0].data.data.release;
-                const releasePrice = response[0].data.data.releasePrice;
+            $('#name').text(name);
+            $('#name_mo').text(name);
 
-                const img = response[0].data.data.productImgApiResponseList[0].originFileName;
-                const color = response[0].data.data.color;
-                const modelNumber = response[0].data.data.modelNumber;
+            $('#release').text(release);
+            $('#release_mo').text(release);
 
-                $('.brand12').text(brand);
-                $('#brand').text(brand);
+            $('#releasePrice').text(releasePrice);
+            $('#releasePrice_mo').text(releasePrice);
 
-                $('#brand_mo').text(brand);
-                $('#collection').text(collection);
-                $('#collection_mo').text(collection);
-
-                $('#name').text(name);
-                $('#name_mo').text(name);
-
-                $('#namepop').text(name);
-                $('#korName').text(korName);
-                $('#korNamepop').text(korName);
-                $('#release').text(release);
-                $('#release_mo').text(release);
-
-                $('#releasePrice').text(releasePrice);
-                $('#releasePrice_mo').text(releasePrice);
-
-                $('#img').text(img);
-                $('#color').text(color);
-                $('#color_mo').text(color);
-
-                $('#modelNumber').text(modelNumber);
-                $('#modelNumber_mo').text(modelNumber);
+            $('#img').text(img);
 
 
-                let $img = response[0].data.data.img;
-                let $brand = response[0].data.data.brand;
+            $('#modelNumber').text(modelNumber);
+            $('#modelNumber_mo').text(modelNumber);
 
-                $('.aximg').append("<img src='" + $img + "' alt='" + $brand + "' >");
+            $('.aximg').append("<img src='/upload/"+img + "' alt='" + brand + "' >");
 
-
-                let $pro_id = response[0].data.data.id;
-                let $sec_mark = $('<img src="/lib/img/sec_mark.jpg" value="' + $pro_id + '" class="img_wish sec_marking btn_wish ">')
-                $('.for2').append($sec_mark);
-
-                if (response[0].data.data.productPurchaseSizeApiResponseList.length != 0) {
-                    buynowprice = response[0].data.data.productPurchaseSizeApiResponseList[0].price;
-                    $('#buynowprice').text(buynowprice);
-                    $('#buynowprice_mo').text(buynowprice);
-                    let $price_body2 = $(' <div class="price_body">');
-                    for (let purFor = 0; purFor < response[0].data.data.productPurchaseSizeApiResponseList.length; purFor++) {
-                        let $buysize = response[0].data.data.productPurchaseSizeApiResponseList[purFor].size;
-                        let $buyprice = response[0].data.data.productPurchaseSizeApiResponseList[purFor].price;
-                        let $buycnt = response[0].data.data.productPurchaseSizeApiResponseList[purFor].cnt;
-                        let $buylist = $('<div class="body_list">').append(
-                            '<div class="list_txt">' + $buysize + '</div>' +
-                            ' <div class="list_txt">' + $buyprice + '원</div>' +
-                            '<div class="list_txt is_active">' + $buycnt + '</div></div>'
-                        )
-                        $($price_body2).append($buylist);
-                    }
-                    $($price_body2).append('</div>');
-                    $('.table2').append($price_body2);
-
-                    /*구매내역리스트*/
-                    let forbuy = $(' <tbody class="buylist">');
-                    for (let i = 0; i < response[0].data.data.productPurchaseSizeApiResponseList.length; i++) {
-                        if (i < 6) {
-                            let $buysize = response[0].data.data.productPurchaseSizeApiResponseList[i].size;
-                            let $buyprice = response[0].data.data.productPurchaseSizeApiResponseList[i].price;
-                            let $buycnt = response[0].data.data.productPurchaseSizeApiResponseList[i].cnt;
-                            let buy = $('<tr>').append(
-                                '<td class="table_td">' + $buysize + '</td>' +
-                                '<td class="table_td align_right">' + $buyprice + '원' + '</td>' +
-                                '<td class="table_td align_right">' + $buycnt + '</td>' +
-                                '</tr>'
-                            );
-                            forbuy.append(buy);
-                        }
-                    }
-                    forbuy.append('</tbody>');
-                    $('.forbuylist').append(forbuy);
-                } else {
-                    $('#buynowprice').text('-  ');
-                    $('#buynowprice_mo').text('-  ');
-                }
+            let $sec_mark = $('<img src="/lib/img/sec_mark.jpg" value="' + productId + '" class="img_wish sec_marking btn_wish ">')
+            $('.for2').append($sec_mark);
+            let proimg = response.image; //o
+            console.log(proimg);
+            let swip_img = '';
+            swip_img += '<div class="swiper-slide"><img src="/upload/' + proimg + '"></div>';
+            $('.swiper-wrapper').append(swip_img);
 
 
-                if (response[0].data.data.productSalesSizeApiResponseList.length != 0) {
-                    sellnowprice = response[0].data.data.productSalesSizeApiResponseList[0].price;
-                    $('#sellnowprice').text(sellnowprice);
-                    $('#sellnowprice_mo').text(sellnowprice);
-                    let price_body3 = $(' <div class="price_body">');
-                    for (let salFor = 0; salFor < response[0].data.data.productSalesSizeApiResponseList.length; salFor++) {
-                        let $salesize = response[0].data.data.productSalesSizeApiResponseList[salFor].size;
-                        let $saleprice = response[0].data.data.productSalesSizeApiResponseList[salFor].price;
-                        let $sellcnt = response[0].data.data.productSalesSizeApiResponseList[salFor].cnt;
-                        let $selllist = $('<div class="body_list">').append(
-                            '<div class="list_txt">' + $salesize + '</div>' +
-                            ' <div class="list_txt">' + $saleprice + '원</div>' +
-                            '<div class="list_txt is_active">' + $sellcnt + '</div></div>'
-                        )
-                        $(price_body3).append($selllist);
-                    }
-                    $(price_body3).append('</div>');
-                    $('.table3').append(price_body3);
+            const size = ['230','235','240','245','250','255','260'];
+            for (let j = 0; j < size.length; j++) {
+                // 사이즈에 대한 가격 평균 가격 프로세스 추가 필요
+                let pro_price = '정보없음'
 
-                    /*입찰내역리스트*/
-                    let forsale = $(' <tbody class="salelist">');
-                    for (let i = 0; i < response[0].data.data.productSalesSizeApiResponseList.length; i++) {
-                        if (i < 6) {
-                            let $salesize = response[0].data.data.productSalesSizeApiResponseList[i].size;
-                            let $saleprice = response[0].data.data.productSalesSizeApiResponseList[i].price;
-                            let $salecnt = response[0].data.data.productSalesSizeApiResponseList[i].cnt;
-
-                            let sale = $('<tr>').append(
-                                '<td class="table_td">' + $salesize + '</td>' +
-                                '<td class="table_td align_right">' + $saleprice + '원' + '</td>' +
-                                '<td class="table_td align_right">' + $salecnt + '</td>' +
-                                '</tr>'
-                            );
-                            forsale.append(sale);
-                        }
-                    }
-                    $('.forsalelist').append(forsale);
-                } else {
-                    $('#sellnowprice').text('-');
-                    $('#sellnowprice_mo').text('-');
-                }
-
-                /*style */
-                if (response[0].data.data.productStyleTagApiResponseList.length != 0) {
-                    let box = $('<div id="Box">');
-                    let style_len = response[0].data.data.productStyleTagApiResponseList.length;
-                    if (style_len > 0 && style_len < 9) {
-                        for (let i = 0; i < style_len; i++) {
-                            if(i==8){break}
-                            let tag;// 해시태그
-                            let userid = response[0].data.data.productStyleTagApiResponseList[i].userId; // 유저아이디
-                            let hit = response[0].data.data.productStyleTagApiResponseList[i].hit; // 좋아요
-                            let cnt = response[0].data.data.productStyleTagApiResponseList[i].replyCnt; // 댓글갯수
-                            let styleimg = response[0].data.data.productStyleTagApiResponseList[i].styleImg; // 이미지
-                            let stylecnt = response[0].data.data.productStyleTagApiResponseList[i].imgCnt; // 이미지 사진 갯수
-                            let userimg = response[0].data.data.productStyleTagApiResponseList[i].userImg; // 유저 이미지
-                            let content = response[0].data.data.productStyleTagApiResponseList[i].content; // 내용
-                            let styleId = response[0].data.data.productStyleTagApiResponseList[i].styleId;
-                            if(userimg == null){
-                                userimg = '/lib/img/blank_profile.4347742.png';
-                            }
-                            tag = "";
-                            for (let j in response[0].data.data.productStyleTagApiResponseList.productHashtagApiResponseList) {
-                                tag += response[0].data.data.productStyleTagApiResponseList.productHashtagApiResponseList[j].tagName;
-                            }
-                            // 아래 데이터 삽입
-                            let can = $('<div class="card_box">').append(
-                                '<div class="img_count"><span class="count">' + '+' + stylecnt + '</span></div><a href="/social/popular"><div class="imgbox"><img src="/lib/styleImg/' + styleimg + '" alt="으아" class="img">' + '</div>' +
-                                '<div class="userbox"><img src="' + userimg + '" alt="계정" class="userimg">' +
-                                '<p class="userid">' + userid + '</p></div>' +
-                                '<p class="textbox"><p class="text">' + content + '#' + tag + '</p></p></a>' +
-                                '<div class="likebox">' + ' <div href="#" class="likelink"><img src="/lib/img/smile.png" alt="좋아요" class="like_img" onclick="sendit(' + styleId + ')">' +
-                                '<p class="hit" id="' + styleId + '">' + hit + '</p></div>' + '<a href="/social/popular" class="likelink">' + '<img src="/lib/img/7148750_chat_message_bubble_talk_conversation_icon.png" alt="" class="comment">' +
-                                '<p>' + cnt + '</p></a></div>'
-                            )
-                            box.append(can);
-
-                            $('.social_feeds').html(box);
-                        }
-
-                    } else if (style_len > 8) {
-                        for (let i = 0; i < style_len; i++) {
-                            console.log("프로덕트아이디와 일치하는 스타일이 있음")
-                            let tag;// 해시태그
-
-                            let userid = response[0].data.data.productStyleTagApiResponseList[i].userId; // 유저아이디
-                            let hit = response[0].data.data.productStyleTagApiResponseList[i].hit; // 좋아요
-                            let cnt = response[0].data.data.productStyleTagApiResponseList[i].replyCnt; // 댓글갯수
-                            let styleimg = response[0].data.data.productStyleTagApiResponseList[i].styleImg; // 이미지
-                            let stylecnt = response[0].data.data.productStyleTagApiResponseList[i].imgCnt; // 이미지 사진 갯수
-                            let userimg = response[0].data.data.productStyleTagApiResponseList[i].userImg; // 유저 이미지
-                            let content = response[0].data.data.productStyleTagApiResponseList[i].content; // 내용
-                            let styleId = response[0].data.data.productStyleTagApiResponseList[i].styleId;
-                            console.log(styleId);
-                            if(userimg == null){
-                                userimg = '/lib/img/blank_profile.4347742.png';
-                            }
-                            tag = "";
-                            for (let j in response[0].data.data.productStyleTagApiResponseList.productHashtagApiResponseList) {
-                                tag += response[0].data.data.productStyleTagApiResponseList.productHashtagApiResponseList[j].tagName;
-                            }
-                            // 아래 데이터 삽입
-                            let can = $('<div class="card_box">').append(
-                                '<div class="img_count"><span class="count">' + '+' + stylecnt + '</span></div><a href="/social/popular"><div class="imgbox"><img src="/lib/styleImg/' + styleimg + '" alt="으아" class="img">' + '</div>' +
-                                '<div class="userbox"><img src="' + userimg + '" alt="계정" class="userimg">' +
-                                '<p class="userid">' + userid + '</p></div>' +
-                                '<p class="textbox"><p class="text">' + content + '#' + tag + '</p></p></a>' +
-                                '<div class="likebox">' + ' <div href="#" class="likelink"><img src="/lib/img/smile.png" alt="좋아요" class="like_img" onclick="sendit(' + styleId + ')">' +
-                                '<p class="hit" id="' + styleId + '">' + hit + '</p></div>' + '<a href="/social/popular" class="likelink">' + '<img src="/lib/img/7148750_chat_message_bubble_talk_conversation_icon.png" alt="" class="comment">' +
-                                '<p>' + cnt + '</p></a></div>'
-                            )
-                            box.append(can);
-
-                            $('.social_feeds').html(box);
-
-                            for (let x = 8; x < style_len; x++) {
-                                let hide = document.querySelectorAll('.card_box').item(x);
-                                $(hide).hide();
-                            }
-                        }
-                        let btn = $('<div class="more_btn_box">').append(
-                            '<button type="button" id="btn_more" class="btn outlinegrey medium"> 더보기 </button>' +
-                            '</div>'
-                        )
-                        $('.social_feeds').after(btn);
-                    }
-                    $('#style_len').text(style_len)
-                } else {
-                    let box = $('<h4 class="no_style" style="text-align: center; font-size: 13px;" >Style에서 상품 태그를 등록하여 사진을 올리세요</h4>')
-                    $('.social_feeds').html(box);
-                }
-
-                if (response[0].data.data.productTopTransactionApiResponseList.length > 1) {
-                    let $lateprice0 = response[0].data.data.productTopTransactionApiResponseList[0].price;
-                    let $lateprice1 = response[0].data.data.productTopTransactionApiResponseList[1].price;
-                    let $latelyprice = $lateprice0 - $lateprice1;
-                    let $iflate = null;
-                    if ($latelyprice < 0) {
-                        $iflate = " - ";
-                    } else {
-                        $iflate = "  + ";
-                    }
-                    ;
-                    let $per = ($lateprice0 / $lateprice1);
-                    let lateper = $('<p id="latelyPrice2">').append(
-                        ' ' + $latelyprice + '원 (' + $iflate + $per.toFixed(0.1) + '%)'
-                    );
-                    $(lateper).append('</p>');
-                    $('#latelyPrice').text($lateprice0);
-                    $('#latelyPrice2').text($latelyprice);
-                    $('.fluctuation').append(lateper);
-                } else if (response[0].data.data.productTopTransactionApiResponseList.length == 1) {
-                    let $lateprice0 = response[0].data.data.productTopTransactionApiResponseList[0].price;
-                    $('#latelyPrice').text($lateprice0);
-                    let lateper = $('<p id="latelyPrice2">').append(
-                        ' ' + $lateprice0 + '원 ( - )'
-                    );
-                    $(lateper).append('</p>');
-                    $('#latelyPrice2').text($lateprice0);
-                } else {
-                    $('#latelyPrice').text('- ');
-                    $('#latelyPrice2').text('- ');
-                }
-
-                //구매완료팝업
-                if (response[0].data.data.productTransactionApiResponseList.length != 0) {
-                    let $price_body1 = $(' <div class="price_body">');
-                    for (let i = 0; i < response[0].data.data.productTransactionApiResponseList.length; i++) {
-                        let $buysize = response[0].data.data.productTransactionApiResponseList[i].sizeType;
-                        let $buyprice = response[0].data.data.productTransactionApiResponseList[i].price;
-                        let $buydate = response[0].data.data.productTransactionApiResponseList[i].regdate.substring(2, 9);
-                        let $buylist = $('<div class="body_list">').append(
-                            '<div class="list_txt">' + $buysize + '</div>' +
-                            ' <div class="list_txt">' + $buyprice + '원</div>' +
-                            '<div class="list_txt is_active">' + $buydate + '</div></div>'
-                        )
-                        $($price_body1).append($buylist);
-                    }
-                    $($price_body1).append('</div>');
-                    $('.table1').append($price_body1);
-                }
-
-                if (response[0].data.data.productCollectionApiResponseList.length != 0) {
-                    let haspopimg = false;
-                    for (let i = 0; i < response[0].data.data.productCollectionApiResponseList.length; i++) {
-                        if (response[0].data.data.productCollectionApiResponseList[i].id == id && haspopimg == false) {
-                            let $popimg = response[0].data.data.productImgApiResponseList[0].originFileName;
-                            let $pop_pro = $('<div class="pop_product" style="background-color: rgb(235, 240, 245);">').append(
-                                '<img src="/lib/product/' + $popimg + '" class="pop_product_img"></div>'
-                            )
-                            haspopimg = true;
-                            $('.pop_buy_product').prepend($pop_pro);
-                        }
-                    }
-                }
-
-                if (response[0].data.data.productSizeApiResponseList.length != 0) {
-                    let $pro_size_len = response[0].data.data.productSizeApiResponseList.length;
-                    let $sumPrice = 0;
-                    let $nullcnt = 0;
-                    for (let i = 0; i < $pro_size_len; i++) {
-                        if (response[0].data.data.productSizeApiResponseList[i].cnt != null) {
-                            $sumPrice += response[0].data.data.productSizeApiResponseList[i].cnt;
-                            $nullcnt = $nullcnt + 1;
-                        }
-                    }
-                    let $avgPrice = 0;
-                    let avgPrice = 0;
-                    if ($sumPrice != 0 || $nullcnt != 0) {
-                        $avgPrice = $sumPrice / $nullcnt;
-                        avgPrice = Math.ceil($avgPrice);
-                    } else {
-                        avgPrice = '정보없음'
-                    }
-
-
-                    $('.avgNum').text(avgPrice);
-                    for (let j = 0; j < $pro_size_len; j++) {
-                        let $prosize = response[0].data.data.productSizeApiResponseList[j].size;
-                        let $proprice = response[0].data.data.productSizeApiResponseList[j].cnt;
-                        let pro_price = $proprice;
-                        if ($proprice == null) {
-                            pro_price = '정보없음';
-                        }
-                        let itemsizehead = $('<li  class="select_item2">').append(
-                            '<button  role="button"class="select_link buy">' +
-                            '<div  class="link_inner">' +
-                            '<p class="size">' + $prosize + '</p>' +
-                            '<p class="price1">' + pro_price + '</p>' +
-                            '</div>' +
-                            '</button>'
-                        );
-                        $('.select_list2').append(itemsizehead)
-                    }
-                }
+                let itemsizehead = $('<li  class="select_item2">').append(
+                    '<button  role="button"class="select_link buy">' +
+                    '<div  class="link_inner">' +
+                    '<p class="size">' + size[j] + '</p>' +
+                    '<p class="price1">' + pro_price + '</p>' +
+                    '</div>' +
+                    '</button>'
+                );
+                $('.select_list2').append(itemsizehead);
+            }
 
                 $('.select_item2').on('click', function () {
                     $(this).css('border', '1px solid black');
@@ -1272,216 +1023,41 @@
                     body.style.overflow = 'unset';
                 });
 
-                /*프로덕트 이미지*/
-                let proimgres = response[0].data.data.productImgApiResponseList.length;
-                console.log(proimgres)//==3
-
-                let swip_img = '';
-                for (i = 0; i < proimgres; i++) { //length - 1 개 만큼 돌아가게
-
-                    let proimg = response[0].data.data.productImgApiResponseList[i].originFileName; //o
-                    console.log(proimg);
-
-                    swip_img += '<div class="swiper-slide"><img src="/lib/product/' + proimg + '"></div>';
-
-                    console.log(swip_img);
-                }
-                $('.swiper-wrapper').append(swip_img);
-
-                if (response[0].data.data.productCollectionApiResponseList.length != 0) {
-                    let $maxcheck = 0;
-                    for (let i = 0; i < response[0].data.data.productCollectionApiResponseList.length; i++) {
-                        if ($maxcheck <= 3) {
-                            let $proId = response[0].data.data.productCollectionApiResponseList[i].id;
-                            if ($proId == id) {
-                                continue;
-                            }
-                            let $proName = response[0].data.data.productCollectionApiResponseList[i].name;
-                            let $proBrand = response[0].data.data.productCollectionApiResponseList[i].brand;
-                            let $proReleasePrice = response[0].data.data.productCollectionApiResponseList[i].price;
-                            let $proImg = response[0].data.data.productCollectionApiResponseList[i].oringinFileName;
-                            let price = $proReleasePrice;
-                            if ($proReleasePrice == null) {
-                                price = ' - ';
-                            } else {
-                                price = priceToString($proReleasePrice);
-                            }
-
-                            function priceToString($proReleasePrice) {
-                                return $proReleasePrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-                            }
-
-                            let pro_item = $(' <div class="product_item">');
-                            let iteminnner = $('<a class="item_inner" href="/product/' + $proId + '">');
-
-                            let iteminner1 = $('<div class="product" style="background-color: rgb(246,238,237);">').append(
-                                '<img src="/lib/product/' + $proImg + ' " class="product_img"></div>'
-                            );
-                            let iteminner2 = $('<div class="info_box">').append(
-                                '<div class="brand">' +
-                                '<p class="brand-text without-wish" style="font-size: 1.5rem;">' + $proBrand + '</p>' +
-                                '<p class="name">' + $proName + '</p>' +
-                                '<div class="price">' +
-                                '<div class="amount lg"><em class="num">' + price + '</em>' +
-                                '<span class="won lg">' + '원</span></div>' +
-                                '<div class="desc">' +
-                                '<p>즉시 구매가</p>' +
-                                '</div>' +
-                                '</div></div>'
-                            );
-                            $(iteminnner).append(iteminner1);
-                            $(iteminnner).append(iteminner2);
-                            $(iteminnner).append('</a>');
-                            $(pro_item).append(iteminnner);
-                            $('.product_list').append(pro_item);
-
-                            $maxcheck += 1;
-                        }
-                    }
-                }
-                console.log(response[0].data.data.productCollectionApiResponseList.length);
-                if (response[0].data.data.productCollectionApiResponseList.length == 1) {
-                    $('.product_list').append('<div class="social_feeds" style="padding:5rem; border-bottom:0.2rem solid #d3d3d3; margin:4rem"><h4 class="no_style" style="text-align: center; font-size: 13px;">다른 상품이 없습니다.</h4></div>');
-                }
-
-                //팝업사이즈
-                if (response[0].data.data.productSizeApiResponseList.length != 0) {
-                    let $size_poplen = response[0].data.data.productSizeApiResponseList.length;
-
-                    let size_pop = $('<select name="pop_size" id="select_jsy">');
-                    let everysize = $(' <option value="모든사이즈" selected>모든사이즈</option>')
-                    size_pop.append(everysize);
-
-                    for (i = 0; i < $size_poplen; i++) { //length - 1 개 만큼 돌아가
-                        let $prosize = response[0].data.data.productSizeApiResponseList[i].size;
-                        let addsize = $('<option class="choice" value="' + $prosize + '">' + $prosize + '</option>');
-                        size_pop.append(addsize);
-                    }
-                    size_pop.append('</select>');
-                    $('.model_ko').after(size_pop);
-                }
-
-                $('#btn_more').click(function () {
-                    if (response[0].data.data.productStyleTagApiResponseList.length > 8) {
-                        for (let y = 8; y < response[0].data.data.productStyleTagApiResponseList.length; y++) {
-                            let show = document.querySelectorAll('.card_box').item(y);
-                            $(show).show();
-                            $(this).parent(".more_btn_box").css('display', 'none'); //버튼 안보이게
-                        }
-                    }
-                });
-
-                $(document).on('click', '.like_btn', function shows_id() {
-                    let index = $(".like_btn").index(this);
-                    let styleId2 = response[0].data.data.productStyleTagApiResponseList[index].styleId;
-                    console.log(styleId2)
-                })
-
-                /*여기 안에서 작업 해라*/
-                $(document).ready(function () {
-                    $('#select_jsy').on('change', function () {
-                        console.log(this.value)
-                        $('#selected_size').text('')
-                        $('#selected_size').text(this.value);
-                    })
-                })
-
-
-                new Swiper('.swiper-container', {
-                    loop: false,
-                    loopAdditionalSlides: 1,
-                    pagination: { // 페이징 설정
-                        el: '.swiper-pagination',
-                        clickable: true, // 페이징을 클릭하면 해당 영역으로 이동, 필요시 지정해 줘야 기능 작동
-                    },
-                    navigation: { // 네비게이션 설정
-                        nextEl: '.swiper-button-next', // 다음 버튼 클래스명
-                        prevEl: '.swiper-button-prev', // 이번 버튼 클래스명
-                    },
-
-                }).catch(function (err) {
-                    console.log(err);
-                })
-            });
-
-        function sendit(styleId) {
-            let likeNum = document.getElementById(styleId);
-            if (customerId == null) {
-                location.href = '/login';
-            } else {
-                axios.get('/api/styleLike_like/' + customerId + "/" + styleId, {}).then(function (response) {
-                    console.log(response)
-                    let like = response.data;
-                    likeNum.innerText = '';
-                    likeNum.append(like);
-                });
-            }
-        }
-
-
-        $(document).on('click', '.like_img', function () {
-            /*$(".check_box").index(this); 몇번쨰 클래스인지 가져옴 // .index는 함수이름*/
-            let index = $(".like_img").index(this);
-            let like = document.getElementsByClassName('like_img');
-            let likeCheck = like.item(index).getAttribute('src');
-            if (customerId != null) {    // 로그인 되어있을 경우에만 바꿔줌
-                if (likeCheck == '/lib/img/smile.png') {
-                    like.item(index).setAttribute('src', '/lib/img/heart.png');
-                } else if (likeCheck == '/lib/img/heart.png') {
-                    like.item(index).setAttribute('src', '/lib/img/smile.png');
-                }
-            } else {
-                location.href = '/login';
-            }
+        }).fail(error=>{
+            alert("실패실패.");
         });
+    }
 
-    })
+
+
+    const productId = [[${productId}]];
+    $(function () {
+        console.log("상품아이디" + productId);
+        getProduct();
+
+    });
+    function go_to_login(){
+        if(confirm("로그인이 필요한 시스템입니다 \n 로그인 하시겠습니까?")){
+            location.href = '/login';
+        }
+    }
+
     function go_to_sell() {
-        let all_Size = $('.all_size').text()
-        if (all_Size != "모든 사이즈") {
-            console.log("btn_disabled -> true")
+        let all_Size = $('.all_size').text();
+        console.log(all_Size);
+        if (all_Size != "모든사이즈") {
             $(".btn").prop("disabled", false);
+            location.href = "/products/sellcheck/"+productId+"/"+all_Size;
         } else {
-            console.log("btn_disabled -> false")
-
+            alert("사이즈를 체크해주세요");
             $(".btn").prop("disabled", true);
+            return false;
         }
-        if (sessionStorage.getItem('userid') != null) {
-            const btn = document.querySelector('.btn');
-            if (btn.disabled == false) {
-                location.href = '/kream/sellcheck/' + $('#id').val() + '/' + $('.all_size').text();
-                return false;
-            } else if (btn.disabled == true) {
-                alert("사이즈를 체크해주세요")
-            }
-        } else {
-            location.href = '/login';
-        }
+
+
     }
 
-    function go_to_buy() {
 
-        let all_Size = $('.all_size').text()
 
-        if (all_Size != "모든 사이즈") {
-            console.log("btn_disabled -> true")
-            $(".btn").prop("disabled", false);
-        } else {
-            console.log("btn_disabled -> false")
-
-            $(".btn").prop("disabled", true);
-        }
-        if (sessionStorage.getItem('userid') != null) {
-            const btn = document.querySelector('.btn');
-            if (btn.disabled == false) {
-                location.href = '/kream/buycheck/' + $('#id').val() + '/' + $('.all_size').text();
-                return false;
-            } else if (btn.disabled == true) {
-                alert("사이즈를 체크해주세요")
-            }
-        } else {
-            location.href = '/login';
-        }
-    }
 </script>
 </html>

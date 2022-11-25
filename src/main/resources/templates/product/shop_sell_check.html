@@ -14,67 +14,45 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 </head>
 <script>
+    const id = [[${productId}]];
+    const size = [[${size}]];
     $(function () {
-        const id = $('#id').val();
-        const size = $('#size').val();
-        axios.get('/api/pro_sell_check/'+id+"/"+size)
-            .then(function (response) {
-                console.log(response);
-                let name = response.data.data.name;
-                let modelNumber = response.data.data.modelNumber;
-                let origFileName = response.data.data.origFileName;
+        console.log(id);
+        console.log(size);
 
-                $('#name').text(name);
-                $('#modelNumber').text(modelNumber);
-                $('#productImg').append("<img src='/lib/product/"+origFileName+"' alt='sell_check 이미지' class='product_img' style='width: 100px; height: 100px;'>");
-                let int_list = $('<div class="interest_list">');
-                for(let i in response.data.data.productSellSizeApiResponseList){
-                    let $pro_price = "정보없음";
-                    let $size = response.data.data.productSellSizeApiResponseList[i].size;
-                    if (response.data.data.productSellSizeApiResponseList[i].cnt!=null) {//사이즈의 프로덕트 아이디가 같으면
-                        $pro_price = response.data.data.productSellSizeApiResponseList[i].cnt;
-                    }
-                    let sg_info = $('<div class="sg_info">').append(
-                        '<p class="pro_size">' + $size + '</p>' + //260
-                        '<p class="pro_price">'+ $pro_price+'</p>'//
-                    );
-                    $(int_list).append('</div>');
-                    $(int_list).append(sg_info);
-                }
-                $(int_list).append('</div>');
-                $('.size_list_box').append(int_list);
-                $('.size').text(size);
-                $(".sg_info").click(function size() {
-                    let index = $(".sg_info").index(this);
-                    // border
-                    $(this).css('border','1px solid black');
-                    $(this).siblings().css('border','1px solid rgb(201, 201, 201)');
-                    // 사이즈 선택값 반환
-                    const val = $(this).find('.pro_size').text();
-                    $('.size').text(val);
-                    // 팝업닫기
-                    const pop_down = document.getElementsByClassName('p_size2')[0];
-                    pop_down.style.display = "none";
-                    const body = document.querySelector('body');
-                    body.style.overflow = 'unset'
-                });
-            }).catch(function (err) {
-            console.log(err);
+        $.ajax({
+            type:"post",
+            url:"/api/products/"+id,
+            contentType:"application/json",
+            dataType:"json"
+        }).done(response=>{
+            let name = response.name;
+            let modelNumber = response.modelNumber;
+            let origFileName = response.image;
+            $('#name').text(name);
+            $('#modelNumber').text(modelNumber);
+            $('#productImg').append("<img src='/upload/"+origFileName+"' alt='sell_check 이미지' class='product_img' style='width: 100px; height: 100px;'>");
+            $('.size').text(size);
+        }).fail(error=>{
+
         });
+
+
+
     });
 
-    function loH(){
+    function nextPage() {
         const btn = document.querySelector('.btn');
-        if(btn.disabled == false){
-            location.href='/kream/selling/'+$('#id').val()+'/'+$('.size').text(); return false;
-        }else if(btn.disabled == true){
+        if (btn.disabled == false) {
+            location.href = '/products/selling/' + id + '/' + size;
+            return false;
+        } else if (btn.disabled == true) {
             alert("항목을 체크해주세요")
         }
     }
 </script>
 <body >
-<input type="hidden" id="id" th:value="${id}">
-<input type="hidden" id="size" th:value="${size}">
+
 <!-- header-->
 <div th:replace="include/checkHeader :: header"></div>
 <div id="fixed"></div>
@@ -101,9 +79,7 @@
                                 <strong class="model_number" id="modelNumber"></strong>
                                 <p class="model_title" id="name"></p>
                                 <div class="size_select_wrap">
-                                    <button class="btn_size" onclick="pop_size2()"><span class="size"></span><img
-                                            src="/lib/img/h_img/logo/select_btn.png" style="width:2.4rem; height:2.4rem"
-                                            alt="size-select btn"></button>
+                                    <button class="btn_size" ><span class="size"></span></button>
                                 </div>
                             </div>
                         </div>
@@ -139,7 +115,6 @@
                                 <p class="notice_maintext">제조사에서 불량으로 인정하지 않는 기준은 하자로 판단하지 않습니다.</p>
                                 <p class="notice_subtext">박스/패키지와 상품 컨디션에 민감하시다면 검수 기준을 반드시 확인하시기 바랍니다.</p>
                                 <div class="view_data">
-                                    <a onclick="pop_inspecion()"> 검수기준 보기 </a>
                                 </div>
                             </div>
                             <div class="checkbox_item">
@@ -165,7 +140,6 @@
                                 <p class="notice_subtext">건전하고 안전한 거래를 위해 반드시 숙지해야할 미입고, 패널티, 부정거래 등의 이용정책을 확인했습니다.
                                 </p>
                                 <div >
-                                    <a href="#3"  onclick="pop_policy()"> 이용정책 보기 </a>
                                 </div>
                             </div>
                             <div class="checkbox_item">
@@ -176,7 +150,7 @@
                         </li>
                     </ul>
                     <div class="btn_confirm">
-                        <a onclick="loH()" class="btn full solid disabled" disabled type="button"> 판매 계속 </a>
+                        <a onclick="nextPage()" class="btn full solid disabled" disabled type="button"> 판매 계속 </a>
                     </div>
                 </div>
             </div>

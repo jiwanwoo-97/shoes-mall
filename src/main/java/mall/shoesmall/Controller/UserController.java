@@ -2,7 +2,10 @@ package mall.shoesmall.Controller;
 
 import lombok.RequiredArgsConstructor;
 import mall.shoesmall.Config.PrincipalDetails;
+import mall.shoesmall.Model.Entity.Product;
 import mall.shoesmall.Model.Entity.User;
+import mall.shoesmall.Model.dto.ProductDto;
+import mall.shoesmall.Repository.ProductRepository;
 import mall.shoesmall.Repository.UserRepository;
 import mall.shoesmall.Service.UserService;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -12,20 +15,24 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.Optional;
+
 
 @RequiredArgsConstructor
 @Controller
 public class UserController {
 
     private final UserService userService;
+    private final ProductRepository productRepository;
 
-
+    //메인 페이지
     @GetMapping("/")
     public String mainPage() {
         return "/user/mainpage";
     }
 
-    @GetMapping("/login") //로그인
+    //로그인 페이지
+    @GetMapping("/login")
     public String loginPage(
             @RequestParam(value = "error", required = false) String error,
             @RequestParam(value = "exception", required = false) String exception, Model model) {
@@ -34,79 +41,107 @@ public class UserController {
         return "/user/loginpage";
     }
 
-    @GetMapping("/joinPage") // 회원가입
+    // 회원가입 페이지
+    @GetMapping("/joinPage")
     public String joinPage() {
         return "/user/joinpage";
     }
 
-    @GetMapping("/find_email") // 이메일찾기
+    // 이메일찾기 페이지
+    @GetMapping("/find_email")
     public String findEmailPage() {
         return "/user/login_find_email";
     }
 
-    @GetMapping("/find_password") // 패스워드찾기
+    // 패스워드찾기 페이지
+    @GetMapping("/find_password")
     public String findPwPage() {
         return "/user/login_find_password";
     }
 
-    @GetMapping("/my") // 유저프로필 메인
+    // 유저프로필 메인 페이지
+    @GetMapping("/my")
     public String myPage(@AuthenticationPrincipal PrincipalDetails principalDetails, Model model) {
         User user = userService.findByUser(principalDetails.getUser().getId());
         model.addAttribute("user",user);
         return "/mypage/mypage";
     }
-
-    @GetMapping("/my/profile")// 회원수정
+    // 회원수정 페이지
+    @GetMapping("/my/profile")
     public String myProfilePage(@AuthenticationPrincipal PrincipalDetails principalDetails, Model model) {
         User user = userService.findByUser(principalDetails.getUser().getId());
         model.addAttribute("user",user);
         return "/mypage/mypage_profile";
     }
 
-    @GetMapping("/my/buying") // 구매내역
+    // 구매내역
+    @GetMapping("/my/buying")
     public String myBuyingPage() {
         return "/mypage/mypage_buying";
     }
 
-    @GetMapping("/my/selling") // 판매내역
+    // 판매내역 페이지
+    @GetMapping("/my/selling")
     public String mySellingPage() {
         return "/mypage/mypage_selling";
     }
 
-    @GetMapping("/my/wish")  // 관심상품
+
+    // 관심상품 페이지
+    @GetMapping("/my/wish")
     public String myWishPage() {
         return "/mypage/mypage_wish";
     }
 
-    @GetMapping("/my/address")  // 주소등록
+
+    // 주소등록 페이지
+    @GetMapping("/my/address")
     public String myAdressPage(@AuthenticationPrincipal PrincipalDetails principalDetails, Model model) {
         User user = userService.findByUser(principalDetails.getUser().getId());
         model.addAttribute("user",user);
         return "/mypage/mypage_address";
     }
-
-    @GetMapping("/my/payment")  // 카드등록
+    // 카드등록 페이지
+    @GetMapping("/my/payment")
     public String myPaymentPage(@AuthenticationPrincipal PrincipalDetails principalDetails, Model model) {
         User user = userService.findByUser(principalDetails.getUser().getId());
         model.addAttribute("user",user);
         return "/mypage/mypage_payment";
     }
 
-
-    @GetMapping("/my/account")  // 카드
+    // 계좌등록 페이지
+    @GetMapping("/my/account")
     public String myAccountPage(@AuthenticationPrincipal PrincipalDetails principalDetails, Model model) {
         User user = userService.findByUser(principalDetails.getUser().getId());
         model.addAttribute("user",user);
         return "/mypage/mypage_account";
     }
 
-    // 샵 search 페이지
+    // 상품 리스트 페이지
     @GetMapping("/search")
-    public String adminList() { return "/product/shop_search"; }
+    public String productListPage() { return "/product/shop_search"; }
 
-    // 샵 product 페이지
-    @GetMapping("/product")
-    public String shopproduct() { return "/product/shop_product"; }
+    // 상품 디테일 페이지
+    @GetMapping("/products/{id}")
+    public String productPage(@PathVariable("id") Long id,Model model) {
+        model.addAttribute("productId",id);
+        return "/product/shop_product"; }
+
+    // 상품 체크 페이지
+    @GetMapping("/products/sellcheck/{id}/{size}")
+    public String product_sell_check_Page(@PathVariable("id") Long id,
+                                          @PathVariable("size") int size ,Model model) {
+        model.addAttribute("productId",id);
+        model.addAttribute("size",size);
+        return "/product/shop_sell_check"; }
+
+    // 상품 체크 페이지2
+    @GetMapping("/products/selling/{id}/{size}")
+    public String product_selling_Page(@PathVariable("id") Long id,
+                                          @PathVariable("size") int size ,Model model) {
+        model.addAttribute("productId",id);
+        model.addAttribute("size",size);
+        return "/product/shop_selling"; }
 
 
 

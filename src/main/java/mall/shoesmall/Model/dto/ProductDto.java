@@ -28,7 +28,7 @@ public class ProductDto {
         private String name;
         private String releaseFirst;
         private Long releasePrice;
-        private String model_number;
+        private String modelNumber;
         private MultipartFile image;
     }
 
@@ -41,7 +41,7 @@ public class ProductDto {
         private String name;
         private String releaseFirst;
         private Long releasePrice;
-        private String model_number;
+        private String modelNumber;
         private String image;
         private int returnCode;
         private String returnMessage;
@@ -52,7 +52,7 @@ public class ProductDto {
             this.name = product.getName();
             this.releaseFirst = product.getRelease_first();
             this.releasePrice = product.getRelease_price();
-            this.model_number = product.getModel_number();
+            this.modelNumber = product.getModel_number();
             this.image = product.getImage();
         }
     }

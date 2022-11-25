@@ -486,9 +486,9 @@ window.onload = function () {
                     let file = response.data.data[i].origFileName;
 
                     let divItem = $('<div class="suggest_item">');
-                    divItem.append('<a href="/product/'+productId+'" class="suggest_link">' +
+                    divItem.append('<a href="/products/'+productId+'" class="suggest_link">' +
                         '<div class="suggest_thumb">' +
-                        '<img src="/lib/product/'+file+'" alt="'+korName+'" class="thumb_img">' +
+                        '<img src="/lib/products/'+file+'" alt="'+korName+'" class="thumb_img">' +
                         '</div>' +
                         '<div class="suggest_info">' +
                         '<p class="model_title">'+name+'</p>' +
