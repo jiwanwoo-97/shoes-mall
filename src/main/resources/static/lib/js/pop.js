@@ -76,7 +76,7 @@ $(".input_search").on("propertychange change keyup paste input", function() {
                 let file = response.data.data[i].origFileName;
 
                 let divItem = $('<div class="suggest_item">');
-                divItem.append('<a href="/product/'+productId+'" class="suggest_link">' +
+                divItem.append('<a href="/products/'+productId+'" class="suggest_link">' +
                     '<div class="suggest_thumb">' +
                     '<img src="/lib/product/'+file+'" alt="'+korName+'" class="thumb_img">' +
                     '</div>' +

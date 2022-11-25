@@ -147,7 +147,7 @@ axios.get(axiosUrl, {
                 if(price==null){
                     productPrice = '-';
                 };
-                productTagText += '<a class="product_link" href="/product/'+productId+'">' +
+                productTagText += '<a class="product_link" href=" /products/'+productId+'">' +
                     '<div class="product">' +
                     '<img src="/lib/product/'+productImg+'" alt="'+productName+'" class="product_img">' +
                     '</div>' +
