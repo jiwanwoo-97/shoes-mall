@@ -48,15 +48,6 @@ function selectdeadline() {
 
 }
 
-function usepoint() {
-    const popup = document.querySelector('#pointusepop');
-    popup.classList.add('hide');
-
-    $('.btn_solid:contains("사용 하기")').text("취소");
-
-    $('.pointshow').toggle();
-
-}
 
 
 // =====================================================================================
@@ -85,46 +76,17 @@ $(function () {
             $('.layer_payout_account').css('display', 'none');
         }
     });
+/*
     // 은행명 select
     const selected_txt = document.querySelector('#selected_txt');
     bank_select.addEventListener('input', function () {
         bank_select.setAttribute('validateresult', true);
         selected_txt.firstElementChild.innerHTML = this.value;
     });
+*/
 
-    // 계좌번호 유효성 검사
-    document.querySelector('#account_input').addEventListener('input', (e) => {
-        account_input.value = account_input.value.replaceAll(/\D/g, "");
-        filterByDebounce(e, strAccount => {
-            let errorMsg = '';
-            if (6 < strAccount.length && strAccount.length < 16) {
-                document.querySelector('#account_input_box').className = 'input_box fill';
-                document.querySelector('#account_input').setAttribute('validateresult', true);
-            } else {
-                document.querySelector('#account_input_box').className = 'input_box has_error';
-                document.querySelector('#account_input').setAttribute('validateresult', false);
-                errorMsg = '올바른 계좌번호를 입력해주세요.(\'-\'제외)';
-            }
-            document.querySelector('#account_input_error').innerHTML = errorMsg;
 
-        });
-    });
-
-    // 이름 유효성 검사
-    document.querySelector('#name_input').addEventListener('input', e => {
-        filterByDebounce(e, strName => {
-            let errorMsg = '';
-            if (!validateName(strName)) {
-                errorMsg = '올바른 이름을 입력해주세요. (2 - 50자)';
-                document.querySelector('#name_input_box').className = 'input_box has_error';
-                name_input.setAttribute('validateresult', false);
-            } else {
-                document.querySelector('#name_input_box').className = 'input_box fill';
-                name_input.setAttribute('validateresult', true);
-            }
-            document.querySelector('#name_input_error').innerHTML = errorMsg;
-        });
-    });
+/*
 
     // 저장하기 제출
     in_essentialList.forEach((element, i, array) => {
@@ -142,6 +104,7 @@ $(function () {
             }
         });
     });
+*/
 
 
 });

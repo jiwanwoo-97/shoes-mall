@@ -14,49 +14,6 @@
 </head>
 <script src="/js/search.js"></script>
 
-
-<!--<script>-->
-<!--    /* 콘텐츠 쇼잉*/-->
-<!--    $(function () {-->
-<!--        axios.get('/api/pro_list', {}).then(function (response) {-->
-<!--            console.log(response);-->
-<!--            let pro_con = $(' <div class="sec_flex_box">');-->
-<!--            for (let i in response.data.data) {-->
-
-<!--                let $proName = response.data.data[i].name;-->
-<!--                let $proReleasePrice = response.data.data[i].releasePrice;-->
-<!--                let $proImg = response.data.data[i].img;-->
-
-<!--                function priceToString($proReleasePrice){-->
-<!--                    return $proReleasePrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');-->
-<!--                }-->
-<!--                // <a th:href="@{'/user/edit/' + ${id}}"> <button>수정</button> </a>-->
-<!--                //-->
-<!--                let con = $('<div class="sec_img_box">').append(-->
-<!--                    '<a th:href="@{\'/pages/Product/\' + ${id}}" class="sec_img_a"<button></button>' +-->
-<!--                    '<div class="sec_img" id="sec2_img1" style="background: url(' + $proImg + ') no-repeat center/cover;"><p class="sec_imgClass" id="sec2_imgClass1"></p></div>' +-->
-<!--                    '<div class="sec_brand_box"> <div class="sec_brand_line"> </div>' +-->
-<!--                    '<div class="sec_brand_text">' + $proName + '</div>' +-->
-<!--                    '<div class="sec_price">' +-->
-<!--                    '<div class="sec_num">' + priceToString($proReleasePrice) + '</div><div class="sec_won">원</div></div><div class="sec_price_text">즉시 구매가</div>' +-->
-<!--                    '</a>' +-->
-
-
-<!--                    '<div class="sec_mark_box"><a href="#" class="a_mark"><div class="sec_marking"></div></a></div> </div>'-->
-<!--                )-->
-<!--                pro_con.append(con);-->
-
-<!--            }-->
-<!--            pro_con.append('</div>');-->
-
-<!--            $('.search_result_list').html(pro_con);-->
-<!--        }).catch(function (err) {-->
-<!--            console.log(err);-->
-<!--        })-->
-<!--    });-->
-<!--</script>-->
-
-
 <body>
 
 <!-- head.html -->
@@ -1523,24 +1480,6 @@
 <!-- footer -->
 
 
-<!-- <div class="page_wrap">
-    <div class="page_nation">
-        <a class="arrow pprev" href="#a"></a>
-        <a class="arrow prev" href="#a"></a>
-        <a href="#a" class="active">1</a>
-        <a href="#a">2</a>
-        <a href="#a">3</a>
-        <a href="#a">4</a>
-        <a href="#a">5</a>
-        <a href="#a">6</a>
-        <a href="#a">7</a>
-        <a href="#a">8</a>
-        <a href="#a">9</a>
-        <a href="#a">10</a>
-        <a class="arrow next" href="#a"></a>
-        <a class="arrow nnext" href="#a"></a>
-    </div>
-</div> -->
 
 <!-- footer -->
 <div th:replace="include/footer :: footer"></div>

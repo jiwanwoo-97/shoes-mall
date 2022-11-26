@@ -1,10 +1,14 @@
 package mall.shoesmall.Model.dto;
 
 import lombok.*;
+import mall.shoesmall.Model.Entity.Account;
 import mall.shoesmall.Model.Entity.Product;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
+
 public class ProductDto {
+
 
     @Getter
     @AllArgsConstructor
@@ -54,6 +58,41 @@ public class ProductDto {
             this.releasePrice = product.getRelease_price();
             this.modelNumber = product.getModel_number();
             this.image = product.getImage();
+        }
+
+
+    }
+
+
+    @Getter
+    @Setter
+    @NoArgsConstructor
+    public static class product_sell_final_response {
+        private Long id;
+        private String brand;
+        private String name;
+        private String releaseFirst;
+        private Long releasePrice;
+        private String modelNumber;
+        private String image;
+        List<AddressDto.response> addressList;
+        private Long accountId;
+        private String accountBank;
+        private String accountName;
+        private String accountNumber;
+
+        public product_sell_final_response(Product product, List<AddressDto.response> addressList, Account account) {
+            this.id = product.getId();
+            this.brand = product.getBrand();
+            this.name = product.getName();
+            this.releasePrice = product.getRelease_price();
+            this.modelNumber = product.getModel_number();
+            this.image = product.getImage();
+            this.addressList = addressList;
+            this.accountId = account.getId();
+            this.accountNumber = account.getAccount_number();
+            this.accountName = account.getName();
+            this.accountBank = account.getBank();
         }
     }
 }

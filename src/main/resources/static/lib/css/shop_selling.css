@@ -1057,15 +1057,7 @@ footer .footer_flex_box3 #sns_img li{
     width: 2.35rem;
     height: 2.35rem;
 }
-footer .footer_flex_box3 #sns_img #insta_img{
-    background: url(../img/sns/insta_img.png)no-repeat center/cover;
-}
-footer .footer_flex_box3 #sns_img #facebook_img{
-    background: url(../img/sns/facebook_img.png)no-repeat center/cover;
-}
-footer .footer_flex_box3 #sns_img #chat_img{
-    background: url(../img/sns/chat_img.png)no-repeat center/cover;
-}
+
 footer .footer_flex_box3 #footer_box3_2{
     margin-top: 1.7rem;
     margin-bottom: 1.2rem;

@@ -956,24 +956,16 @@
 
             $('.brand12').text(brand);
             $('#brand').text(brand);
-
             $('#brand_mo').text(brand);
-
             $('#name').text(name);
             $('#name_mo').text(name);
-
             $('#release').text(release);
             $('#release_mo').text(release);
-
             $('#releasePrice').text(releasePrice);
             $('#releasePrice_mo').text(releasePrice);
-
             $('#img').text(img);
-
-
             $('#modelNumber').text(modelNumber);
             $('#modelNumber_mo').text(modelNumber);
-
             $('.aximg').append("<img src='/upload/"+img + "' alt='" + brand + "' >");
 
             let $sec_mark = $('<img src="/lib/img/sec_mark.jpg" value="' + productId + '" class="img_wish sec_marking btn_wish ">')
@@ -1027,14 +1019,9 @@
             alert("실패실패.");
         });
     }
-
-
-
     const productId = [[${productId}]];
     $(function () {
-        console.log("상품아이디" + productId);
         getProduct();
-
     });
     function go_to_login(){
         if(confirm("로그인이 필요한 시스템입니다 \n 로그인 하시겠습니까?")){
