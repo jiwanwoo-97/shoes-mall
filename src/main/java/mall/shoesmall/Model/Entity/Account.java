@@ -29,6 +29,9 @@ public class Account extends BaseTimeEntity {
     @JoinColumn(name = "user_id")
     private User user;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Sale sale;
+
 
     public void update(AccountDto.request request) {
         this.id = request.getId();

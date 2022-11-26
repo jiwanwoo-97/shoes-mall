@@ -318,10 +318,11 @@
             const btn_confirm = document.querySelector('.btn_confirm');
             const accountId = $('#accountId').val();
             const addressId = $('#addressId').val();
+            alert("시작");
             if(btn_confirm.disabled == false) {
                 $.ajax({
                     type: "post",
-                    url: "/api/sale/create",
+                    url: "/api/sale/create/"+productId,
                     data: JSON.stringify({
                         "size": size,
                         "period": date,
@@ -329,19 +330,22 @@
                         "accountId": accountId,
                         "addressId": addressId,
                         "productId": productId,
+                        "bidStatus":"입찰중",
+                        "deliveryStatus":"배송전"
                     }),
                     contentType: "application/json",
                     dataType: "json"
                 }).done(response => {
+                    alert("성공");
 
                 }).fail(error => {
-
+                    alert("실패");
                 });
             }
             }
 
 
-    function sellFinal(){
+/*    function sellFinal(){
         const btn_confirm = document.querySelector('.btn_confirm');
         const accountId = $('#accountId').val();
         const addressId = $('#addressId').val();
@@ -368,12 +372,14 @@
         }else if(btn_confirm.disabled == true){
             alert("모든 항목을 입력/체크 해주세요")
         }
-    }
+    }*/
 </script>
 <body id="pop3">
 <!-- header-->
 <div th:replace="include/checkHeader :: header"></div>
 <div id="fixed"></div>
+<input type="hidden" id="accountId">
+<input type="hidden" id="addressId">
 <!-- header 끝-->
 <div th:replace="include/pop :: pop"></div>
 
@@ -544,7 +550,7 @@
                             </ul>
                             <div class="buy_check">
                                 <div class="btn_confirm">
-                                    <a onclick="sellFinal()" type="button" class="btn_full_solid" disabled> 결제하기</a>
+                                    <a onclick="registSales()" type="button" class="btn_full_solid" disabled> 결제하기</a>
                                 </div>
                             </div>
                         </div>

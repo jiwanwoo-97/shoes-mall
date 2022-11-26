@@ -36,7 +36,6 @@ public class Address extends BaseTimeEntity {
     @JoinColumn(name = "user_id")
     private User user;
 
-
     public void update(Long id, String flag) {
         this.id = id;
         this.flag = flag;

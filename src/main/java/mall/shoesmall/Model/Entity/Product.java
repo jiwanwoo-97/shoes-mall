@@ -9,6 +9,8 @@ import mall.shoesmall.Model.Enum.Category;
 import mall.shoesmall.Model.Enum.PostStatus;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @NoArgsConstructor
@@ -32,6 +34,10 @@ public class Product  {
     private String model_number;
 
     private String image;
+
+    @OneToMany(mappedBy = "product")
+    private List<Sale> sale = new ArrayList<>();
+
 
 
 
