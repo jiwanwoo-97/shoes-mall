@@ -22,141 +22,6 @@
     let bank_count = 0;
     $(function () {
         getProduct();
-
-
-
-     /*   axios.get('/api/pro_sellfinal/'+productId+"/"+size+"/"+price+"/"+date+"/")
-            .then(function (response) {
-                console.log(response);
-                let size_txt = response.data.data.size;
-                let model_number = response.data.data.modelNumber;
-                let model_title = response.data.data.name;
-                let model_ko = response.data.data.korName;
-                let accountName = response.data.data.accountName;
-                let accountId = response.data.data.accountId;
-                let bank = response.data.data.bank;
-                let accountNumber = response.data.data.accountNumber;
-                let originFileName = response.data.data.originFileName;
-                let addressList = response.data.data.productAddressApiResponseList[0];
-                let productAddress = response.data.data.productAddressApiResponseList;
-
-                if(addressList!=undefined){
-                    address_count = 1;
-                    $('.address_info').after("<a onclick='pop_sell_address()' class='btn_edit'> 변경 </a>");
-                    for(let i in productAddress){
-                        if(productAddress[i].addressFlag == "ON"){
-                            let addressId = productAddress[i].addressId;
-                            let name = productAddress[i].name;
-                            let zipcode = productAddress[i].zipcode;
-                            let address1 = productAddress[i].address1;
-                            let address2 = productAddress[i].address2;
-                            let addressZip = "<span class='zipcode'>("+zipcode+") </span><span class='address'>"+address1+" "+address2+"</span>"
-                            let hp = productAddress[i].hp;
-                            let hp_replace = hp.replace(/(^02.{0}|^01.{1}|[0-9]{3})([0-9]+)([0-9]{4})/,"$1-$2-$3");
-                            $('.address_info').append("<div class='name_box'><span class='name'>"+name+"</span>" +
-                                "</div><div class='address_box'>"+addressZip+"</div><p class='phone'>"+hp_replace+"</p>");
-                            $('#address_ul_sell').append("<input type='hidden' class='accountId_OFF' value='"+addressId+"'><li class='address_li_sell'><div class='pop_address_head'><div class='pp_head_txt'>" +
-                                "<div class='basic'><div class='address_name'>"+name+"</div>" +
-                                "<div class='basic_address' style='display: block'>기본배송지</div></div>" +
-                                "<div class='address_hp'>"+hp_replace+"</div><div class='address_address'>("+zipcode+") "+address1+" "+address2+"</div></div>" +
-                                "<div class='pop_policy_pp'><div class='pp_img_sell'  style='display: block'></div>" +
-                                "</div></div></li>")
-                            $('#addressId').val(addressId);
-                        }
-                    }
-                    for(let i in productAddress){
-                        if(productAddress[i].addressFlag == "OFF"){
-                            let addressId = productAddress[i].addressId;
-                            let name = productAddress[i].name;
-                            let zipcode = productAddress[i].zipcode;
-                            let address1 = productAddress[i].address1;
-                            let address2 = productAddress[i].address2;
-                            let hp = productAddress[i].hp;
-                            let hp_replace = hp.replace(/(^02.{0}|^01.{1}|[0-9]{3})([0-9]+)([0-9]{4})/,"$1-$2-$3");
-                            $('#address_ul_sell').append("<input type='hidden' class='accountId_OFF' value='"+addressId+"'><li class='address_li_sell'><div class='pop_address_head'><div class='pp_head_txt'>" +
-                                "<div class='basic'><div class='address_name'>"+name+"</div></div>" +
-                                "<div class='address_hp'>"+hp_replace+"</div><div class='address_address'>("+zipcode+") "+address1+" "+address2+"</div></div>" +
-                                "<div class='pop_policy_pp'><div class='pp_img_sell'  style='display: none'></div>" +
-                                "</div></div></li>")
-                        }
-                    }
-                }else if(addressList==undefined){
-                    address_count = 0;
-                    $('.address_info').after("<a onclick='addDelivary()' class='btn_edit'> 등록 </a>");
-                    $('.address_info').append("<div class='no_address'>등록된 주소가 없습니다. 주소 등록을 진행해주세요!</div>");
-                }
-
-                let price_append = price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-                $('.price_append').append(price_append);
-
-                $('#productImg').append("<img src='/lib/product/"+originFileName+"' alt='sellfinal 이미지' class='product_img'>");
-                $('.model_number').append(model_number);
-                $('.model_title').append(model_title);
-                $('.model_ko').append(model_ko);
-                $('.size_txt').append(size_txt);
-
-                if(bank==null){
-                    bank_count = 0;
-                    $('.section_address').append("<div class='account_info'><div class='no_account'>등록된 계좌가 없습니다. 계좌 등록을 진행해주세요!</div></div>" +
-                        "<a onclick='addAccount()' class='btn_edit'> 등록 </a>");
-                }else if(bank!=null){
-                    bank_count = 1;
-                    $('#accountId').val(accountId);
-                    $('.section_address').append(
-                        "<div class='account_info'><div class='account_box'><span class='accountName' style='font-size:1.4rem'>"+accountName+"</span><br><span class='bank'>("+bank+
-                        ") </span><span class='accountNumber'> "+accountNumber+"</span></div></div>"
-                    );
-                }
-
-                let today = new Date();
-                let data = $('#date').val();
-                today.setDate(today.getDate() + parseInt(data));
-                let year = today.getFullYear();
-                let month = today.getMonth() + 1;
-                let date2 = today.getDate();
-                let todayStr = `${year}/${month >= 10 ? month : '0' + month}/${date2 >= 10 ? date2 : '0' + date2}`;
-
-                if(date==0){
-                    $('.price_total').append("<dl class='price_box'>" +
-                        "<dt class='price_title'> 즉시 판매 </dt>" +
-                        "<dd class='price_empty_price'>"+todayStr+"</dd></dl>");
-                }else{
-                    $('.price_total').append("<dl class='price_box'>" +
-                        "<dt class='price_title'> 입찰 마감기한 </dt>" +
-                        "<dd class='price_empty_price'>"+date+"일 - "+todayStr+"까지</dd></dl>");
-                }
-
-                const addressList_sell = document.querySelectorAll('.address_li_sell');
-                const address_name = document.querySelectorAll('.address_name');
-                const address_hp = document.querySelectorAll('.address_hp');
-                const address_address = document.querySelectorAll('.address_address');
-                const accountId_OFF = document.querySelectorAll('.accountId_OFF');
-
-                for(let i=0; i<addressList_sell.length; i++){
-                    addressList_sell[i].addEventListener('click', function(){
-                        const imgA = this.querySelector('.pp_img_sell')
-                        imgA.style.display='block';
-                        $('.name').text('');
-                        $('.address_box').text('');
-                        $('.phone').text('');
-                        $('.name').append(address_name[i].textContent);
-                        $('.address_box').append("<span>"+address_address[i].textContent+"</span>");
-                        $('.phone').append(address_hp[i].textContent);
-                        $('#addressId').val(accountId_OFF[i].value);
-                        console.log(accountId_OFF[i].value)
-                        for(let j=0; j<addressList_sell.length; j++){
-                            if(addressList_sell[i]!=addressList_sell[j]){
-                                const imgB = addressList_sell[j].querySelector('.pp_img_sell');
-                                imgB.style.display='none';
-                            }
-                        }
-
-                        pop_sell_address_down();
-                    });
-                }
-            }).catch(function (err) {
-            console.log(err);
-        });*/
     });
 
     const productId = [[${productId}]];
@@ -337,6 +202,7 @@
                     dataType: "json"
                 }).done(response => {
                     alert("성공");
+                    location.href="/products/sellfinish/"+productId+"/"+size+"/"+price+"/"+date;
 
                 }).fail(error => {
                     alert("실패");

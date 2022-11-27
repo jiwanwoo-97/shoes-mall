@@ -155,6 +155,19 @@ public class UserController {
         model.addAttribute("date",date);
         return "/product/shop_sell_final"; }
 
+    // 상품 판매 등록 완료 페이지
+    @GetMapping("/products/sellfinish/{id}/{size}/{price}/{date}")
+    public String product_sell_finish_Page(@PathVariable("id") Long id,
+                                           @PathVariable("size") int size,
+                                           @PathVariable("price") Long price,
+                                           @PathVariable("date") String date, Model model) {
+        String image = productRepository.findById(id).get().getImage();
+        model.addAttribute("productId",id);
+        model.addAttribute("size",size);
+        model.addAttribute("price",price);
+        model.addAttribute("date",date);
+        model.addAttribute("image",image);
+        return "/product/shop_sell_finish"; }
 
 
 

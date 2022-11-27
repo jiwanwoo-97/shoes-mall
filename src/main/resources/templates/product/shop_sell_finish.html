@@ -15,14 +15,12 @@
 </head>
 <script>
     $(function () {
-        const productId = $('#productId').val();
-        const price = $('#price').val();
-        const date = $('#date').val();
+        const price = [[${price}]];
+        const date = [[${date}]];
         const price_replace = price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 
         let today = new Date();
-        let data = $('#date').val();
-        today.setDate(today.getDate() + parseInt(data));
+        today.setDate(today.getDate() + date);
         let year = today.getFullYear();
         let month = today.getMonth() + 1;
         let date2 = today.getDate();
@@ -42,20 +40,9 @@
             $('.price_total').append("<dl class='price_box'><dt class='price_title'> 입찰 마감기한 </dt>" +
                 "<dd class='price_empty_price'>"+date+"일 - "+todayStr+"까지</dd></dl>")
         }
-        axios.get('/api/pro_sellfinish/'+productId)
-            .then(function (response) {
-                console.log(response);
-                let productOriginFileName = response.data.data.productOriginFileName;
-                $('#productImg').append("<img src='/lib/product/"+productOriginFileName+"' alt='sellFinish 이미지' class='product_img'>");
-            }).catch(function (err) {
-            console.log(err);
-        });
     });
 </script>
 <body id="pop2">
-<input type="hidden" id="productId" th:value="${productId}">
-<input type="hidden" id="price" th:value="${price}">
-<input type="hidden" id="date" th:value="${date}">
 <!-- header-->
 <div th:replace="include/checkHeader :: header"></div>
 <div id="fixed"></div>
@@ -68,7 +55,9 @@
             <div class="buy_before_check">
                 <div>
                     <div class="buy_product">
-                        <div class="product" style="background-color: rgb(220, 231, 243);" id="productImg"></div>
+                        <div class="product" style="background-color: rgb(220, 231, 243);" id="productImg">
+                            <img th:src='|/upload/${image}|' alt='sellFinish 이미지' class='product_img'>
+                        </div>
                     </div>
                 </div>
                 <div class="complite_content">
