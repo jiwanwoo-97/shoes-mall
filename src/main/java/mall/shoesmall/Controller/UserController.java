@@ -169,6 +169,24 @@ public class UserController {
         model.addAttribute("image",image);
         return "/product/shop_sell_finish"; }
 
+    // 상품 구매 체크 페이지
+    @GetMapping("/products/buycheck/{id}/{size}")
+    public String product_buy_check_Page(@PathVariable("id") Long id,
+                                          @PathVariable("size") int size ,Model model) {
+        model.addAttribute("productId",id);
+        model.addAttribute("size",size);
+        return "/product/shop_buy_check"; }
+
+
+    // 상품 구매 등록 페이지
+    @GetMapping("/products/buying/{id}/{size}")
+    public String product_buying_Page(@PathVariable("id") Long id,
+                                       @PathVariable("size") int size ,Model model) {
+        model.addAttribute("productId",id);
+        model.addAttribute("size",size);
+        return "/product/shop_buying"; }
+
+
 
 
 

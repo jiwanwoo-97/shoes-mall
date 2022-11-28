@@ -65,6 +65,18 @@ public class ProductApiController {
                 .body(response);
     }
 
+    // 상품 판매 정보 호출
+    @PostMapping("/api/products/buy_info/{id}/{size}")
+    public ResponseEntity<ProductDto.response> product_buy_info(@PathVariable("id") Long id,
+                                                                 @PathVariable("size") String size, Model model) {
+        ProductDto.response response = productService.find_product_buy_info(id,size);
+        model.addAttribute("product", response);
+        return ResponseEntity.ok()
+                .headers(new HttpHeaders())
+                .body(response);
+    }
+
+
 
 
 }

@@ -27,7 +27,7 @@ public class Product  {
 
     private String name;
 
-    private String release_first;
+    private String krname;
 
     private Long release_price;
 

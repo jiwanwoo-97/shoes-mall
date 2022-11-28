@@ -43,16 +43,7 @@ axios.get('/api/pro_buy_info/'+productId+'/'+productSize ,{
 
 
 
-/*포인트인포*/
-function pointinfopop(multipleFilter) {
-    const popup = document.querySelector('#pointinfopop');
-    if (multipleFilter) {
-        popup.classList.add('multiple-filter');
-    } else {
-        popup.classList.remove('multiple-filter');
-    }
-    popup.classList.remove('hide');
-}
+
 
 
 function closeinfoPopup() {
@@ -61,16 +52,6 @@ function closeinfoPopup() {
 }
 
 
-/*포인트유즈*/
-function showPopup(multipleFilter) {
-    const popup = document.querySelector('#pointusepop');
-    if (multipleFilter) {
-        popup.classList.add('multiple-filter');
-    } else {
-        popup.classList.remove('multiple-filter');
-    }
-    popup.classList.remove('hide');
-}
 
 
 function closePopup() {
@@ -101,15 +82,6 @@ function buyafter() {
     in_amount.setAttribute('validateresult', false);
 }
 
-function usepoint(){
-    const popup = document.querySelector('#pointusepop');
-    popup.classList.add('hide');
-    $('.btn_solid:contains("사용 하기")').text("취소");
-    $('.pointshow').toggle();
-}
-
-
-/******** 정수니가 한곳 ㅇ_< ********/
 
 // 변수수선언 부분
 

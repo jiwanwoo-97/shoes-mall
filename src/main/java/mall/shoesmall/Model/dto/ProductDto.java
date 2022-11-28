@@ -18,7 +18,7 @@ public class ProductDto {
         private Long id;
         private String brand;
         private String name;
-        private String releaseFirst;
+        private String krname;
         private Long releasePrice;
         private String model_number;
         private String image;
@@ -30,7 +30,7 @@ public class ProductDto {
         private Long id;
         private String brand;
         private String name;
-        private String releaseFirst;
+        private String krname;
         private Long releasePrice;
         private String modelNumber;
         private MultipartFile image;
@@ -43,7 +43,7 @@ public class ProductDto {
         private Long id;
         private String brand;
         private String name;
-        private String releaseFirst;
+        private String krname;
         private Long releasePrice;
         private String modelNumber;
         private String image;
@@ -54,7 +54,7 @@ public class ProductDto {
             this.id = product.getId();
             this.brand = product.getBrand();
             this.name = product.getName();
-            this.releaseFirst = product.getRelease_first();
+            this.krname = product.getKrname();
             this.releasePrice = product.getRelease_price();
             this.modelNumber = product.getModel_number();
             this.image = product.getImage();
@@ -71,7 +71,7 @@ public class ProductDto {
         private Long id;
         private String brand;
         private String name;
-        private String releaseFirst;
+        private String krname;
         private Long releasePrice;
         private String modelNumber;
         private String image;
@@ -85,6 +85,7 @@ public class ProductDto {
             this.id = product.getId();
             this.brand = product.getBrand();
             this.name = product.getName();
+            this.krname = product.getKrname();
             this.releasePrice = product.getRelease_price();
             this.modelNumber = product.getModel_number();
             this.image = product.getImage();

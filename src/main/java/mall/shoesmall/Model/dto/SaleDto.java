@@ -12,6 +12,7 @@ public class SaleDto {
     @AllArgsConstructor
     @NoArgsConstructor
     @Builder
+    @Data
     public static class info {
         private Long id;
         private Long price;

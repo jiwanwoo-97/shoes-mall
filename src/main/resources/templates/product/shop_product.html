@@ -568,10 +568,6 @@
                                             <dd class="product_info" id="modelNumber"></dd>
                                         </di>
                                         <di class="detail_product">
-                                            <dt class="product_title">출시일</dt>
-                                            <dd class="product_info" id="release"></dd>
-                                        </di>
-                                        <di class="detail_product">
                                             <dt class="product_title">발매가</dt>
                                             <dd class="product_info" id="releasePrice"></dd>
                                         </di>
@@ -949,7 +945,7 @@
             console.log(response);
             const brand = response.brand;
             const name = response.name;
-            const release = response.releaseFirst;
+            const krname = response.krname;
             const releasePrice = response.releasePrice;
             const img = response.image;
             const modelNumber = response.modelNumber;
@@ -959,8 +955,8 @@
             $('#brand_mo').text(brand);
             $('#name').text(name);
             $('#name_mo').text(name);
-            $('#release').text(release);
-            $('#release_mo').text(release);
+            $('#korName').text(krname);
+            $('#korNamepop').text(krname);
             $('#releasePrice').text(releasePrice);
             $('#releasePrice_mo').text(releasePrice);
             $('#img').text(img);
@@ -1043,6 +1039,22 @@
 
 
     }
+
+    function go_to_buy() {
+        let all_Size = $('.all_size').text();
+        console.log(all_Size);
+        if (all_Size != "모든사이즈") {
+            $(".btn").prop("disabled", false);
+            location.href = "/products/buycheck/"+productId+"/"+all_Size;
+        } else {
+            alert("사이즈를 체크해주세요");
+            $(".btn").prop("disabled", true);
+            return false;
+        }
+
+
+    }
+
 
 
 

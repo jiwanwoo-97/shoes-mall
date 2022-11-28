@@ -2,32 +2,13 @@
       xmlns:sec="http://www.w3.org/1999/xhtml">
 
 <!-- jquery cdn -->
+
 <link rel="stylesheet" href="/lib/css/shop_buyCheck.css">
 <link rel="stylesheet" href="/lib/css/pop.css">
 <link data-n-head="ssr" rel="icon" type="image/x-icon" href="https://kream.co.kr/favicon.ico">
 <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
-<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-<script>
-    // ㅊㅔ크 개수 따라 구매계속 버튼 색 바뀌기
-    function getCheck(){
-        const query = 'input[name=check]:checked';
-        const selectedElements = document.querySelectorAll(query);
-        const cnt = selectedElements.length;
-
-        if(cnt == 4){
-            $(".btn").css("background-color", "black");
-            document.querySelector('.btn').disabled=false;
-
-        }else{
-            $(".btn").css("background-color", "rgb(214,214,214)");
-            document.querySelector('.btn').disabled=true;
-        }
-    }
-</script>
 
 <body>
-<input type="hidden" id="id" th:value="${id}">
-<input type="hidden" id="size" th:value="${size}">
 
 <!-- header-->
 <div th:replace="include/header :: head"></div>
@@ -56,9 +37,8 @@
                                 <strong class="model_number" id="modelNumber"></strong>
                                 <p class="model_title" id="name"></p>
                                 <div class="size_select_wrap">
-                                    <button class="btn_size" onclick="pop_size()">
-                                        <span class="size" id="size_txt" "></span>
-                                        <img src="/lib/img/h_img/logo/select_btn.png" style="width:2.4rem; height:2.4rem" alt="size-select btn">
+                                    <button class="btn_size" >
+                                        <span class="size" id="size_txt"></span>
                                     </button>
                                 </div>
                             </div>
@@ -125,7 +105,7 @@
                         </li>
                     </ul>
                     <div class="btn_confirm">
-                        <a type="button" class="btn full solid disabled" disabled> 구매 계속 </a>
+                        <a type="button" class="btn full solid disabled" disabled onclick="nextPage()"> 구매 계속 </a>
                     </div>
                 </div>
             </div>
@@ -136,17 +116,64 @@
 
 <!-- footer -->
 
-<!--&lt;!&ndash; footer &ndash;&gt;-->
 <div th:replace="include/footer :: footer"></div>
-<!--&lt;!&ndash; footer 끝 &ndash;&gt;-->
 
 
 <script src="http://code.jquery.com/jquery-1.10.2.js"></script>
 <script src="/lib/js/pop.js"></script>
-<script>
+<script th:inline="javascript">
+
+    const id = [[${productId}]];
+    const size =[[${size}]];
+    // ㅊㅔ크 개수 따라 구매계속 버튼 색 바뀌기
+
+    $(function () {
+
+        $.ajax({
+            type:"post",
+            url:"/api/products/"+id,
+            contentType:"application/json",
+            dataType:"json"
+        }).done(response=>{
+            let name = response.name;
+            let modelNumber = response.modelNumber;
+            let origFileName = response.image;
+            $('#name').text(name);
+            $('#modelNumber').text(modelNumber);
+            $('#productImg').append("<img src='/upload/"+origFileName+"' alt='sell_check 이미지' class='product_img' style='width: 100px; height: 100px;'>");
+            $('.size').text(size);
+        }).fail(error=>{
+        });
+    });
+
+
+    function nextPage() {
+        const btn = document.querySelector('.btn');
+        if (btn.disabled == false) {
+            location.href = '/products/buying/' + id + '/' + size;
+            return false;
+        } else if (btn.disabled == true) {
+            alert("항목을 체크해주세요")
+        }
+    }
 
 
 
+
+    function getCheck(){
+        const query = 'input[name=check]:checked';
+        const selectedElements = document.querySelectorAll(query);
+        const cnt = selectedElements.length;
+
+        if(cnt == 4){
+            $(".btn").css("background-color", "black");
+            document.querySelector('.btn').disabled=false;
+
+        }else{
+            $(".btn").css("background-color", "rgb(214,214,214)");
+            document.querySelector('.btn').disabled=true;
+        }
+    }
 </script>
 
 </body>
