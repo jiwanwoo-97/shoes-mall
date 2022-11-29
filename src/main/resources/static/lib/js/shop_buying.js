@@ -4,6 +4,7 @@ const productId = document.querySelector('#id').value;
 const productSize = document.querySelector('#size').value;
 
 let modelNumber, name, korName, img, salesPrice, purchasePrice, checkId;
+/*
 
 axios.get('/api/pro_buy_info/'+productId+'/'+productSize ,{
 
@@ -42,6 +43,7 @@ axios.get('/api/pro_buy_info/'+productId+'/'+productSize ,{
 });
 
 
+*/
 
 
 

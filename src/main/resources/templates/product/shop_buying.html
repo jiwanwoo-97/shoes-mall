@@ -182,7 +182,6 @@
 <script src="http://code.jquery.com/jquery-1.10.2.js"></script>
 <script src="/lib/js/shop_buying.js"></script>
 <script src="/lib/js/loginpage_mypage_all.js"></script>
-<script src="/lib/js/pop.js"></script>
 <script>
     const id = [[${productId}]];
     const size = [[${size}]];
@@ -199,7 +198,36 @@
                    dataType: "json"
                }).done(response => {
                    alert("성공");
-                   console.log(response);
+                   modelNumber = response.modelNumber;
+                   name = response.name;
+                   korName = response.krname;
+                   //checkId = response.salesId;
+                   img = '/upload/'+response.image;
+
+                   salesPrice = response.sellPrice + ''; // 즉시 판매가
+                   if (salesPrice == 'null') {
+                       document.querySelectorAll('.item_link').item(1).onclick=null;
+                       salesPrice = ' - ';
+                   } else {
+                       salesPrice = salesPrice.replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
+                   }
+
+                   purchasePrice = response.buyPrice + '';   // 즉시 구매가
+                   if (purchasePrice == 'null') {
+                       purchasePrice = ' - ';
+                   } else {
+                       purchasePrice = purchasePrice.replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
+                   }
+
+                   // axios 데이터 입력
+                   document.querySelector('.model_number').innerHTML += modelNumber;
+                   document.querySelector('.model_title').innerHTML = name;
+                   document.querySelector('.model_ko').innerHTML = korName;
+                   document.querySelector('.size_txt').innerHTML = productSize;
+                   document.querySelector('#max_sales').innerHTML = salesPrice;
+                   document.querySelector('#min_purchase').innerHTML = purchasePrice;
+                   document.querySelector('.product_img').setAttribute('src', img);
+                   document.querySelector('.product_img').setAttribute('alt', korName);
 
                }).fail(error => {
 

@@ -8,10 +8,8 @@ import mall.shoesmall.Model.Entity.Address;
 import mall.shoesmall.Model.Entity.Product;
 import mall.shoesmall.Model.dto.AddressDto;
 import mall.shoesmall.Model.dto.ProductDto;
-import mall.shoesmall.Repository.AccountRepository;
-import mall.shoesmall.Repository.AddressRepository;
-import mall.shoesmall.Repository.ProductRepository;
-import mall.shoesmall.Repository.SaleRepository;
+import mall.shoesmall.Model.dto.SaleDto;
+import mall.shoesmall.Repository.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,6 +24,7 @@ public class ProductService {
     private final AddressRepository addressRepository;
     private final AccountRepository accountRepository;
     private final SaleRepository saleRepository;
+    private final PurchaseRepository purchaseRepository;
 
     @Transactional(readOnly = true)
     public List<ProductDto.response> searchList() {
@@ -61,9 +60,10 @@ public class ProductService {
 
     public ProductDto.response find_product_buy_info(Long id, String size) {
         Product product = productRepository.findById(id).orElseThrow(()-> new IllegalArgumentException("등록된 상품이 아닙니다."));
-        saleRepository.findFirstBySizeAndProductId(size,id);
-
-        return null;
+        Long buyPrice = saleRepository.findFirstBySizeAndProductId(size, id).getPrice(); //즉시 구매 가격
+        Long sellPrice = purchaseRepository.findByBuyNowPrice(size,id).getPrice(); //즉시 판매 가격
+        ProductDto.response response = new ProductDto.response(product,buyPrice,sellPrice);
+        return response;
     }
 }
 

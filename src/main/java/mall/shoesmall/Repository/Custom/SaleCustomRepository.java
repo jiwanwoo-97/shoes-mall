@@ -1,8 +1,8 @@
 package mall.shoesmall.Repository.Custom;
 
-import mall.shoesmall.Model.Entity.Sale;
+import mall.shoesmall.Model.dto.SaleDto;
 
 public interface SaleCustomRepository {
 
-    Sale findFirstBySizeAndProductId(String size, Long id);
+    SaleDto.response findFirstBySizeAndProductId(String size, Long id);
 }

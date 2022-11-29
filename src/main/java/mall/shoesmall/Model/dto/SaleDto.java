@@ -63,6 +63,18 @@ public class SaleDto {
     @NoArgsConstructor
     public static class response {
 
+        private Long id;
+        private Long price;
+        private String deliveryStatus;
+        private String bidStatus;
+        private Long addressId;
+        private Long accountId;
+        private Long productId;
+
+        private String period;
+        private String size;
+
+
         private int returnCode;
         private String returnMessage;
 
