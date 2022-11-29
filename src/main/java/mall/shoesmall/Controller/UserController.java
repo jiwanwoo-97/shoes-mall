@@ -186,6 +186,34 @@ public class UserController {
         model.addAttribute("size",size);
         return "/product/shop_buying"; }
 
+    // 상품 구매 등록 페이지
+    @GetMapping("/products/buyfinal/{id}/{size}/{price}/{date}")
+    public String product_buyfinal_Page(@PathVariable("id") Long id,
+                                        @PathVariable("size") String size,
+                                        @PathVariable("price") Long price,
+                                        @PathVariable("date") String date,Model model) {
+        model.addAttribute("productId",id);
+        model.addAttribute("size",size);
+        model.addAttribute("price",price);
+        model.addAttribute("date",date);
+        return "/product/shop_buy_final"; }
+
+    // 상품 구매 등록 완료 페이지
+    @GetMapping("/products/buyfinish/{id}/{size}/{price}/{date}")
+    public String product_buy_finish_Page(@PathVariable("id") Long id,
+                                           @PathVariable("size") String size,
+                                           @PathVariable("price") Long price,
+                                           @PathVariable("date") String date, Model model) {
+        String image = productRepository.findById(id).get().getImage();
+        model.addAttribute("productId",id);
+        model.addAttribute("size",size);
+        model.addAttribute("price",price);
+        model.addAttribute("date",date);
+        model.addAttribute("image",image);
+        return "/product/shop_buy_finish"; }
+
+
+
 
 
 

@@ -6,6 +6,7 @@ import mall.shoesmall.Model.Entity.Sale;
 import mall.shoesmall.Model.dto.SaleDto;
 import mall.shoesmall.Repository.*;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @RequiredArgsConstructor
 @Service
@@ -16,7 +17,7 @@ public class SaleService {
     private final AddressRepository addressRepository;
     private final UserRepository userRepository;
 
-
+    @Transactional
     public void create_sale_product(SaleDto.request request, Long id) {
         Sale sale = request.toEntity(
                 productRepository.getById(request.getProductId())

@@ -241,17 +241,3 @@ in_amount.addEventListener('focusout', e=>{
     }
 });
 
-
-// 구매 입찰 계속 버튼 클릭시 이동 url
-document.querySelector('#btn_confirm1').addEventListener('click',()=> {
-    let input_amount = minusComma(document.querySelector('.input_amount').value);
-    let deadline = document.querySelector('.deadline.is_active').innerHTML;
-    location.href = '/kream/buyfinal/' + productId + '/' + productSize + '/' + input_amount +'/' + deadline.substring(0,deadline.length-1) + '/0';
-});
-
-
-// 즉시 구매 계속 버튼 클릭시 이동 url
-document.querySelector('#btn_confirm2').addEventListener('click',()=> {
-    let input_amount = minusComma(document.querySelectorAll('.input_amount').item(1).innerHTML);
-    location.href = '/kream/buyfinal/' + productId + '/' + productSize + '/' + input_amount +'/0/' + checkId ;
-});

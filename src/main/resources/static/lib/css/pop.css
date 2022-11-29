@@ -555,7 +555,7 @@ span{
 /*********************************************/
 
 /**********************
-    BuynowFinish.html
+    shop_buy_finish.html
     BuyoperFinish.html
     SellnowFinish.html
     SelloperFinish.html
@@ -577,7 +577,7 @@ span{
 }
 
 /**********************
-    BuyFinal.html
+    shop_buy_final.html
 **********************/
 #pop3 .footer_pop {
     overflow-y: hidden;
@@ -1352,7 +1352,7 @@ span{
         padding: 0px 0 6.3rem 0;
     }
     /**********************
-        BuynowFinish.html
+        shop_buy_finish.html
         BuyoperFinish.html
         SellnowFinish.html
         SelloperFinish.html
@@ -1373,7 +1373,7 @@ span{
         word-break:keep-all;
     }
     /**********************
-       BuyFinal.html
+       shop_buy_final.html
     **********************/
     #pop3 .footer_pop {
         overflow-y: hidden;

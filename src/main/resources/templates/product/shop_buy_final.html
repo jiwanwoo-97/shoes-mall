@@ -17,11 +17,6 @@
 
 <body id="pop3">
 
-<input type="hidden" id="id" th:value="${id}">
-<input type="hidden" id="size" th:value="${size}">
-<input type="hidden" id="price" th:value="${price}">
-<input type="hidden" id="date" th:value="${date}">
-<input type="hidden" id="checkId" th:value="${checkId}">
 
 <!-- header-->
 <div th:replace="include/checkHeader :: header"></div>
@@ -265,7 +260,7 @@
                             </ul>
                             <div class="buy_check">
                                 <div class="btn_confirm">
-                                    <a onclick="buyFinal()" class="btn_full_solid" disabled> 결제하기</a>
+                                    <a onclick="registPurchase()" class="btn_full_solid" disabled> 결제하기</a>
                                 </div>
                             </div>
                         </div>
@@ -284,7 +279,6 @@
 <script src="/lib/js/pop.js"></script>
 
 <script>
-    const sessionId = sessionStorage.getItem('userid'); // 세션 가져오기
 
     // 마감 기한 날짜 계산
     function expiredDate(date){
@@ -297,187 +291,218 @@
         let todayStr = `${year}/${month >= 10 ? month : '0' + month}/${data >= 10 ? data : '0' + data}`;
         return todayStr;
     }
+    const productId = [[${productId}]];
+    const size = [[${size}]];
+    const price = [[${price}]];
+    const date = [[${date}]];
 
-    $(function (){
-        const productId = $('#id').val();
-        const size = $('#size').val();
-        const price = $('#price').val();
-        const date = $('#date').val();
-        const checkId = $('#checkId').val();
+    function getProduct() {
+        $.ajax({
+            type: "post",
+            url: "/api/products/buy_final_info/" + productId + "/" + size + "/" + price + "/" + date,
+            contentType: "application/json",
+            dataType: "json"
+        }).done(response => {
+            alert("성공");
+            console.log(response);
+            let model_num = response.modelNumber;
+            let title = response.name;
+            let origFileName = response.image;
+            let korName = response.krname;
 
+            function priceToString(price) {
+                return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+            }
 
-                function priceToString(price){
-                    return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+            // 마감 기한
+            if (date == 0) {
+                $('.price_total').append("<dl class='price_box'>" +
+                    "<dt class='price_title'> 즉시 판매 </dt>" +
+                    "<dd class='price_empty_price'>" + expiredDate(0) + "</dd></dl>");
+            } else {
+                $('.price_total').append("<dl class='price_box'>" +
+                    "<dt class='price_title'> 입찰 마감기한 </dt>" +
+                    "<dd class='price_empty_price'>" + date + "일 - " + expiredDate(date) + "까지</dd></dl>");
+            }
+
+            // DOM 에 상품 정보 입력
+            $('.model_number').text(model_num);
+            $('.model_title').text(title);
+            $('.model_ko').text(korName);
+            $('.product').append("<img src='/upload/" + origFileName + "' alt='" + korName + "' class='product_img' style='margin-top: 4rem;'> ");
+            $('.size_txt').text(size);
+            $('.unit').text(priceToString(price) + '원');
+            $('.item_price').text(priceToString(price) + '원');
+
+            // 배송지 설정
+            let p_address = $('<ul id="address_ul">');
+            for (let j in response.addressList) {
+                let p_name = response.addressList[j].name;
+                let p_hp = response.addressList[j].hp;
+                let phone = p_hp.replace(/(^02.{0}|^01.{1}|[0-9]{3})([0-9]+)([0-9]{4})/, "$1-$2-$3");
+                let p_zipcode = response.addressList[j].zipcode;
+                let p_add1 = response.addressList[j].detail;
+                let p_add2 = response.addressList[j].detailsub;
+                let flag = response.addressList[j].flag; // ㄱㅣ본 배송지
+                let addressId = response.addressList[j].id; // ㄱㅣ본 배송지
+
+                // dom 요소
+                let con = $('<li class="address_li" id="ali1">');
+
+                if (flag == 'ON') {   // 기본 배송지일 경우
+                    document.querySelector('.name').innerHTML = p_name;
+                    document.querySelector('.address').innerHTML = '(' + p_zipcode + ') ' + p_add1 + p_add2;
+                    document.querySelector('.phone').innerHTML = phone;
+                    document.querySelector('#addressId').value = addressId;
+
+                    con = $('<li class="address_li" id="ali1" value="' + addressId + '">').append(
+                        '<div class="pop_address_head"><div class="pp_head_txt"><div class="basic">' +
+                        '<div class="basic_name">' + p_name + '</div><div class="basic_address"">기본배송지</div></div>' +
+                        '<div class="basic_num">' + phone + '</div>' + '<div class="basic_add">' + '(' + p_zipcode + ')' + p_add1 + p_add2 + '</div>' +
+                        '<div class="pop_policy_pp" style="float: right; margin-top: -7rem;" ><div class="pp_img_A"></div></div>' + '</div></div></li>'
+                    )
+                } else {  // 기본배송지 아닐 경우
+                    con = $('<li class="address_li" id="ali1" value="' + addressId + '">').append(
+                        '<div class="pop_address_head"><div class="pp_head_txt"><div class="basic">' +
+                        '<div class="basic_name">' + p_name + '</div></div>' +
+                        '<div class="basic_num">' + phone + '</div>' + '<div class="basic_add">' + '(' + p_zipcode + ')' + p_add1 + p_add2 + '</div>' +
+                        '<div class="pop_policy_pp" style="float: right; margin-top: -7rem;" ><div class="pp_img_A"  style="display: none;"></div></div>' + '</div></div></li>'
+                    )
                 }
+                p_address.append(con);
+            }
+            $('#address_ul').html(p_address);
 
-                // 마감 기한
-                if(date==0){
-                    $('.price_total').append("<dl class='price_box'>" +
-                        "<dt class='price_title'> 즉시 판매 </dt>" +
-                        "<dd class='price_empty_price'>"+expiredDate(0)+"</dd></dl>");
-                }else{
-                    $('.price_total').append("<dl class='price_box'>" +
-                        "<dt class='price_title'> 입찰 마감기한 </dt>" +
-                        "<dd class='price_empty_price'>"+date+"일 - "+expiredDate(date)+"까지</dd></dl>");
-                }
+            // 배송지 리스트 클릭
+            const addressList = document.querySelectorAll('.address_li');
+            for (let i = 0; i < addressList.length; i++) {
+                addressList[i].addEventListener('click', function () {
+                    const imgA = this.querySelector('.pp_img_A')
+                    imgA.style.display = 'block';
 
-                // DOM 에 상품 정보 입력
-                $('.model_number').text(model_num);
-                $('.model_title').text(title);
-                $('.model_ko').text(korName);
-                $('.product').append("<img src='/lib/product/" + origFileName+"' alt='"+korName+"' class='product_img' style='margin-top: 4rem;'> ");
-                $('.size_txt').text(size);
-                $('.unit').text(priceToString(price) + '원');
-                $('.item_price').text(priceToString(price) + '원');
-
-                // 배송지 설정
-                let p_address = $('<ul id="address_ul">');
-                for(let j in response.data.data.productAddressApiResponseList){
-                    let p_name = response.data.data.productAddressApiResponseList[j].name;
-                    let p_hp = response.data.data.productAddressApiResponseList[j].hp;
-                    let phone = p_hp.replace(/(^02.{0}|^01.{1}|[0-9]{3})([0-9]+)([0-9]{4})/,"$1-$2-$3");
-                    let p_zipcode = response.data.data.productAddressApiResponseList[j].zipcode;
-                    let p_add1 = response.data.data.productAddressApiResponseList[j].address1;
-                    let p_add2 = response.data.data.productAddressApiResponseList[j].address2;
-                    let flag = response.data.data.productAddressApiResponseList[j].addressFlag; // ㄱㅣ본 배송지
-                    let addressId = response.data.data.productAddressApiResponseList[j].addressId; // ㄱㅣ본 배송지
-
-                    // dom 요소
-                    let con = $('<li class="address_li" id="ali1">');
-
-                    if(flag == 'ON'){   // 기본 배송지일 경우
-                        document.querySelector('.name').innerHTML = p_name;
-                        document.querySelector('.address').innerHTML = '(' + p_zipcode  + ') ' + p_add1 + p_add2;
-                        document.querySelector('.phone').innerHTML = phone;
-                        document.querySelector('#addressId').value = addressId;
-
-                        con = $('<li class="address_li" id="ali1" value="'+addressId+'">').append(
-                            '<div class="pop_address_head"><div class="pp_head_txt"><div class="basic">' +
-                            '<div class="basic_name">' + p_name +'</div><div class="basic_address"">기본배송지</div></div>' +
-                            '<div class="basic_num">' + phone + '</div>' + '<div class="basic_add">' +'('+ p_zipcode + ')'+ p_add1 + p_add2 + '</div>' +
-                            '<div class="pop_policy_pp" style="float: right; margin-top: -7rem;" ><div class="pp_img_A"></div></div>' +'</div></div></li>'
-                        )
-                    }else{  // 기본배송지 아닐 경우
-                        con = $('<li class="address_li" id="ali1" value="'+addressId+'">').append(
-                            '<div class="pop_address_head"><div class="pp_head_txt"><div class="basic">' +
-                            '<div class="basic_name">' + p_name +'</div></div>' +
-                            '<div class="basic_num">' + phone + '</div>' + '<div class="basic_add">' +'('+ p_zipcode + ')'+ p_add1 + p_add2 + '</div>' +
-                            '<div class="pop_policy_pp" style="float: right; margin-top: -7rem;" ><div class="pp_img_A"  style="display: none;"></div></div>' +'</div></div></li>'
-                        )
-                    }
-                    p_address.append(con);
-                }
-                $('#address_ul').html(p_address);
-
-                // 배송지 리스트 클릭
-                const addressList = document.querySelectorAll('.address_li');
-                for(let i=0; i<addressList.length; i++){
-                    addressList[i].addEventListener('click', function(){
-                        const imgA = this.querySelector('.pp_img_A')
-                        imgA.style.display='block';
-
-                        for(let j=0; j<addressList.length; j++){
-                            if(addressList[i]!=addressList[j]){
-                                const imgB = addressList[j].querySelector('.pp_img_A');
-                                imgB.style.display='none';
-                            }
+                    for (let j = 0; j < addressList.length; j++) {
+                        if (addressList[i] != addressList[j]) {
+                            const imgB = addressList[j].querySelector('.pp_img_A');
+                            imgB.style.display = 'none';
                         }
-
-                        // 설정한 배송지 DOM에 전달
-                        let add_name = document.getElementsByClassName('basic_name')[i].innerText;
-                        let add_hp = document.getElementsByClassName('basic_num')[i].innerText;
-                        console.log(add_hp);
-                        let re_hp = add_hp.replace(/-[0-9]{4}-/g, "-****-");
-
-                        console.log(re_hp);
-                        let add_address = document.getElementsByClassName('basic_add')[i].innerText;
-                        let add_addressId = addressList[i].getAttribute('value');
-                        console.log(add_addressId);
-
-                        $('#addressId').val(add_addressId);
-                        $('.name').text(add_name);
-                        $('.phone').text(re_hp);
-                        $('.address').text(add_address);
-
-                        // 팝업 닫기
-                        pop_address_down();
-                    });
-                }
-
-                // 카드 설정
-                let car = $('<ul class="other_card_list" >');
-                for(let i in response.data.data.productCardInfoApiResponses) {
-                    console.log(response.data.data.productCardInfoApiResponses);
-                    let cardId = response.data.data.productCardInfoApiResponses[i].id;
-                    let card_company = response.data.data.productCardInfoApiResponses[i].cardCompany;
-                    let card_num = response.data.data.productCardInfoApiResponses[i].cardNumber;
-                    let result = card_num.slice(-4); // 숫자 뒤에서 4자리
-                    let flag = response.data.data.productCardInfoApiResponses[i].cardFlag;
-
-                    // 카드 리스트 html 입력
-                    let can = $('<li class="other_card_item card_on" value="'+cardId+'">')
-
-                    if(flag == 'ON'){
-                        document.getElementById('pre_card').innerHTML = card_company;
-                        document.getElementById('pre_num').innerHTML = result;
-                        document.getElementById('cardId').value = cardId;
-
-                        can.append(
-                            '<div class="card_info"><span class="card_name">' + card_company + '</span>' +
-                            '<div class="card_num"><span class="num_bind"><span class="dot"><span class="dot"></span></span>' +
-                            '<span class="hyphen"></span><span class="dot">' + '<span class="dot"></span></span>' +
-                            '<span class="hyphen"></span>'+ '<span class="dot"><span class="dot"></span></span>' +
-                            '<span class="hyphen"></span><div class="last_num">' + result + '</div></span>'+
-                            '<div class="mark" id="sam_mark">기본 결제</div></div>' +
-                            '<span class="cardcheck"><img src="/lib/img/check_white.png" width="23px" height="23px" alt="체크" id="sam_check"></span></div></li>'
-                        );
-                    }else{
-                        can.append(
-                            '<div class="card_info"><span class="card_name">' + card_company + '</span>' +
-                            '<div class="card_num"><span class="num_bind"><span class="dot"><span class="dot"></span></span>' +
-                            '<span class="hyphen"></span><span class="dot">' + '<span class="dot"></span></span>' +
-                            '<span class="hyphen"></span>'+ '<span class="dot"><span class="dot"></span></span>' +
-                            '<span class="hyphen"></span><div class="last_num">' + result + '</div></span>'+
-                            '</div>' +
-                            '<span class="cardcheck"><img src="/lib/img/check_white.png" width="23px" height="23px" alt="체크" id="sam_check"></span></div></li>'
-                        );
                     }
-                    car.append(can);
-                }
-                car.append('</ul>');
-                $('.other_card_list').html(car);
-                $('#sam_check').attr('src', '/lib/img/check_black.png');
+
+                    // 설정한 배송지 DOM에 전달
+                    let add_name = document.getElementsByClassName('basic_name')[i].innerText;
+                    let add_hp = document.getElementsByClassName('basic_num')[i].innerText;
+                    console.log(add_hp);
+                    let re_hp = add_hp.replace(/-[0-9]{4}-/g, "-****-");
+
+                    console.log(re_hp);
+                    let add_address = document.getElementsByClassName('basic_add')[i].innerText;
+                    let add_addressId = addressList[i].getAttribute('value');
+                    console.log(add_addressId);
+
+                    $('#addressId').val(add_addressId);
+                    $('.name').text(add_name);
+                    $('.phone').text(re_hp);
+                    $('.address').text(add_address);
+
+                    // 팝업 닫기
+                    pop_address_down();
+                });
+            }
+
+            // 카드 설정
+            let car = $('<ul class="other_card_list" >');
+
+            let cardId = response.cardId;
+            let card_company = response.cardCompany;
+            let card_num = response.cardNumber;
+            let result = card_num.slice(-4); // 숫자 뒤에서 4자리
+            let flag = response.cardFlag;
+
+            // 카드 리스트 html 입력
+            let can = $('<li class="other_card_item card_on" value="' + cardId + '">')
+
+            if (flag == 'ON') {
+                document.getElementById('pre_card').innerHTML = card_company;
+                document.getElementById('pre_num').innerHTML = result;
+                document.getElementById('cardId').value = cardId;
+
+                can.append(
+                    '<div class="card_info"><span class="card_name">' + card_company + '</span>' +
+                    '<div class="card_num"><span class="num_bind"><span class="dot"><span class="dot"></span></span>' +
+                    '<span class="hyphen"></span><span class="dot">' + '<span class="dot"></span></span>' +
+                    '<span class="hyphen"></span>' + '<span class="dot"><span class="dot"></span></span>' +
+                    '<span class="hyphen"></span><div class="last_num">' + result + '</div></span>' +
+                    '<div class="mark" id="sam_mark">기본 결제</div></div>' +
+                    '<span class="cardcheck"><img src="/lib/img/check_white.png" width="23px" height="23px" alt="체크" id="sam_check"></span></div></li>'
+                );
+            } else {
+                can.append(
+                    '<div class="card_info"><span class="card_name">' + card_company + '</span>' +
+                    '<div class="card_num"><span class="num_bind"><span class="dot"><span class="dot"></span></span>' +
+                    '<span class="hyphen"></span><span class="dot">' + '<span class="dot"></span></span>' +
+                    '<span class="hyphen"></span>' + '<span class="dot"><span class="dot"></span></span>' +
+                    '<span class="hyphen"></span><div class="last_num">' + result + '</div></span>' +
+                    '</div>' +
+                    '<span class="cardcheck"><img src="/lib/img/check_white.png" width="23px" height="23px" alt="체크" id="sam_check"></span></div></li>'
+                );
+            }
+            car.append(can);
+
+            car.append('</ul>');
+            $('.other_card_list').html(car);
+            $('#sam_check').attr('src', '/lib/img/check_black.png');
+
+            const cardList = document.querySelectorAll('.other_card_item');
+
+        }).fail(error => {
+
+        });
+    }
 
 
-                const cardList = document.querySelectorAll('.other_card_item');
+    function registPurchase() {
 
-
-
-    // DB 등록
-    function buyFinal() {
         const btn_confirm = document.querySelector('.btn_confirm');
-        const productId = $('#id').val();
-        const price = $('#price').val();
-        const size = $('#size').val();
-        let date = $('#date').val();
         const cardId = $('#cardId').val();
         const addressId = $('#addressId').val();
-        const checkId = $('#checkId').val();
-        let status1 = '';
-        let status2 = '';
-        let status3 = '';
-        if (date == 0) {
-            status1 = '진행중';
-            status2 = '입고대기';
-            status3 = '일반';
-        } else if (date != 0) {
-            status1 = '구매입찰';
-            status2 = '입찰중';
-            status3 = '구매';
-        }
+        if (btn_confirm.disabled == false) {
+            $.ajax({
+                type: "post",
+                url: "/api/purchase/create/" + productId,
+                data: JSON.stringify({
+                    "size": size,
+                    "period": date,
+                    "price": price,
+                    "cardId": cardId,
+                    "addressId": addressId,
+                    "productId": productId,
+                    "bidStatus": "입찰중",
+                    "deliveryStatus": "배송전"
+                }),
+                contentType: "application/json",
+                dataType: "json"
+            }).done(response => {
+                alert("성공");
+               location.href = "/products/buyfinish/" + productId + "/" + size + "/" + price + "/" + date;
 
-        console.log(productId+','+price+','+ size+','+date+','+cardId+','+addressId+','+ sessionId);
-        console.log(typeof(period));
+            }).fail(error => {
+                alert("실패");
+            });
+        }
+    }
+
+
+    $(function () {
+
+
+        getProduct();
+
+        function priceToString(price) {
+            return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+        }
+    });
+
+
+
 
 
 

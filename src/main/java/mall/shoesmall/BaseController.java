@@ -376,7 +376,7 @@ public class BaseController {
 
     @GetMapping("/kream/buying")
     public String userBuying() {
-        return "/product/Buying";
+        return "shop_buying";
     }
 
     @GetMapping("/kream/selling")

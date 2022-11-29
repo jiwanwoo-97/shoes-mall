@@ -14,14 +14,16 @@
 </head>
 
 <script>
+    const productId = [[${productId}]];
+    const size = [[${size}]];
+    const price = [[${price}]];
+    const date = [[${date}]];
+
     $(function () {
-        const productId = $('#productId').val();
-        const price = $('#price').val();
-        const date = $('#date').val();
         const price_replace = price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 
         let today = new Date();
-        today.setDate(today.getDate() + parseInt(date));
+        today.setDate(today.getDate() + date);
         let year = today.getFullYear();
         let month = today.getMonth() + 1;
         let date2 = today.getDate();
@@ -41,14 +43,6 @@
             $('.price_total').append("<dl class='price_box'><dt class='price_title'> 입찰 마감기한 </dt>" +
                 "<dd class='price_empty_price'>"+date+"일 - "+todayStr+"까지</dd></dl>")
         }
-        axios.get('/api/pro_buyfinish/'+productId)
-            .then(function (response) {
-                console.log(response);
-                let productOriginFileName = response.data.data.productOriginFileName;
-                $('.product_img').attr("src", "/lib/product/"+productOriginFileName);
-            }).catch(function (err) {
-            console.log(err);
-        });
     });
 </script>
 
@@ -62,10 +56,6 @@
 <!-- header 끝-->
 <div th:replace="include/pop :: pop"></div>
 
-<!--이전 페이지에서 가져올 productId, price, date값들-->
-<input type="hidden" id="productId" th:value="${id}">
-<input type="hidden" id="price" th:value="${price}">
-<input type="hidden" id="date" th:value="${date}">
 
 <!-- container buy PC버전 시작-->
 <div class="container_buy">
@@ -75,7 +65,7 @@
                 <div>
                     <div class="buy_product">
                         <div class="product" style="background-color: rgb(220, 231, 243);">
-                            <img src="buy check 이미지 url" alt="buy_check 이미지" class="product_img">
+                            <img th:src="|/upload/${image}|" alt="buy_check 이미지" class="product_img">
                         </div>
                     </div>
                 </div>

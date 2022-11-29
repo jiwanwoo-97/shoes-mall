@@ -38,7 +38,6 @@ public class SaleDto {
         private Long addressId;
         private Long accountId;
         private Long productId;
-
         private String period;
         private String size;
 

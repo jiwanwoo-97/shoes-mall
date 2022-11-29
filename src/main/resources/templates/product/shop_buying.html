@@ -204,7 +204,7 @@
                    //checkId = response.salesId;
                    img = '/upload/'+response.image;
 
-                   salesPrice = response.sellPrice + ''; // 즉시 판매가
+                   salesPrice = response.buyPrice + ''; // 즉시 판매가
                    if (salesPrice == 'null') {
                        document.querySelectorAll('.item_link').item(1).onclick=null;
                        salesPrice = ' - ';
@@ -212,7 +212,7 @@
                        salesPrice = salesPrice.replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
                    }
 
-                   purchasePrice = response.buyPrice + '';   // 즉시 구매가
+                   purchasePrice = response.sellPrice + '';   // 즉시 구매가
                    if (purchasePrice == 'null') {
                        purchasePrice = ' - ';
                    } else {
@@ -224,8 +224,8 @@
                    document.querySelector('.model_title').innerHTML = name;
                    document.querySelector('.model_ko').innerHTML = korName;
                    document.querySelector('.size_txt').innerHTML = productSize;
-                   document.querySelector('#max_sales').innerHTML = salesPrice;
-                   document.querySelector('#min_purchase').innerHTML = purchasePrice;
+                   document.querySelector('#max_sales').innerHTML = purchasePrice;
+                   document.querySelector('#min_purchase').innerHTML = salesPrice;
                    document.querySelector('.product_img').setAttribute('src', img);
                    document.querySelector('.product_img').setAttribute('alt', korName);
 
@@ -233,6 +233,22 @@
 
                });
            }
+
+
+    // 구매 입찰 계속 버튼 클릭시 이동 url
+    document.querySelector('#btn_confirm1').addEventListener('click',()=> {
+        let input_amount = minusComma(document.querySelector('.input_amount').value);
+        let deadline = document.querySelector('.deadline.is_active').innerHTML;
+        location.href = '/products/buyfinal/' + id + '/' + size + '/' + input_amount +'/' + deadline.substring(0,deadline.length-1);
+    });
+
+
+    // 즉시 구매 계속 버튼 클릭시 이동 url
+    document.querySelector('#btn_confirm2').addEventListener('click',()=> {
+        let input_amount = minusComma(document.querySelectorAll('.input_amount').item(1).innerHTML);
+        location.href = '/kream/buyfinal/' + id + '/' + size + '/' + input_amount +'/0/' + checkId ;
+    });
+
 
 
 </script>

@@ -76,6 +76,18 @@ public class ProductApiController {
                 .body(response);
     }
 
+    // 상품 구매 및 주소 카드 정보 호출
+    @PostMapping("/api/products/buy_final_info/{id}/{size}/{price}/{date}")
+    public ResponseEntity<ProductDto.product_buy_final_response> product_buy_final_info(@PathVariable("id") Long productId,
+                                                                                          @PathVariable("size") int size,
+                                                                                          @PathVariable("price") Long price,
+                                                                                          @PathVariable("date") int date, @AuthenticationPrincipal PrincipalDetails principalDetails) {
+        ProductDto.product_buy_final_response response = productService.find_product_buy_final_info(productId, principalDetails.getUser().getId());
+        return ResponseEntity.ok()
+                .headers(new HttpHeaders())
+                .body(response);
+    }
+
 
 
 

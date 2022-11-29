@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 
 import mall.shoesmall.Model.Entity.Account;
 import mall.shoesmall.Model.Entity.Address;
+import mall.shoesmall.Model.Entity.Card;
 import mall.shoesmall.Model.Entity.Product;
 import mall.shoesmall.Model.dto.AddressDto;
 import mall.shoesmall.Model.dto.ProductDto;
@@ -25,6 +26,7 @@ public class ProductService {
     private final AccountRepository accountRepository;
     private final SaleRepository saleRepository;
     private final PurchaseRepository purchaseRepository;
+    private final CardRepository cardRepository;
 
     @Transactional(readOnly = true)
     public List<ProductDto.response> searchList() {
@@ -64,6 +66,17 @@ public class ProductService {
         Long sellPrice = purchaseRepository.findByBuyNowPrice(size,id).getPrice(); //즉시 판매 가격
         ProductDto.response response = new ProductDto.response(product,buyPrice,sellPrice);
         return response;
+    }
+
+    public ProductDto.product_buy_final_response find_product_buy_final_info(Long productId, Long id) {
+        Product product = productRepository.findById(productId).orElseThrow(()-> new IllegalArgumentException("등록된 상품이 아닙니다."));
+        List<Address> addressList = addressRepository.findAlLByUserId(id);
+        List<AddressDto.response> address = addressList.stream()
+                .map(AddressDto.response::new)
+                .collect(Collectors.toList());
+        Card card = cardRepository.findByUserId(id);
+        return new ProductDto.product_buy_final_response(product,address,card);
+
     }
 }
 

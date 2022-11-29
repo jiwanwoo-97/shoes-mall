@@ -2,6 +2,7 @@ package mall.shoesmall.Model.dto;
 
 import lombok.*;
 import mall.shoesmall.Model.Entity.Account;
+import mall.shoesmall.Model.Entity.Card;
 import mall.shoesmall.Model.Entity.Product;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -108,6 +109,39 @@ public class ProductDto {
             this.accountNumber = account.getAccount_number();
             this.accountName = account.getName();
             this.accountBank = account.getBank();
+        }
+    }
+
+    @Getter
+    @Setter
+    @NoArgsConstructor
+    public static class product_buy_final_response extends product_sell_final_response {
+        private Long id;
+        private String brand;
+        private String name;
+        private String krname;
+        private Long releasePrice;
+        private String modelNumber;
+        private String image;
+        List<AddressDto.response> addressList;
+        private Long cardId;
+        private String cardCompany;
+        private String cardNumber;
+        private String cardFlag;
+
+        public product_buy_final_response(Product product, List<AddressDto.response> addressList, Card card) {
+            this.id = product.getId();
+            this.brand = product.getBrand();
+            this.name = product.getName();
+            this.krname = product.getKrname();
+            this.releasePrice = product.getRelease_price();
+            this.modelNumber = product.getModel_number();
+            this.image = product.getImage();
+            this.addressList = addressList;
+            this.cardId = card.getId();
+            this.cardCompany = card.getCard_company();
+            this.cardNumber = card.getCard_number();
+            this.cardFlag = card.getCard_flag();
         }
     }
 }
