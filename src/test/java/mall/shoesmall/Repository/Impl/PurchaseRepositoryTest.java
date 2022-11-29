@@ -37,7 +37,7 @@ class PurchaseRepositoryTest {
     @Test
     void findByBuyNowPrice() {
 
-        PurchaseDto.response price = queryFactory.select(Projections.bean(PurchaseDto.response.class,
+        PurchaseDto.response response = queryFactory.select(Projections.bean(PurchaseDto.response.class,
                 purchase.price.max().as("price")))
                 .from(purchase)
                 .where(
@@ -47,13 +47,13 @@ class PurchaseRepositoryTest {
                 )
                 .fetchOne();
 
-        System.out.println(price.getPrice());
+        Assertions.assertThat(response).isNotNull();
 
     }
 
     @Test
-    public void name () throws Exception {
-          //given
+    void findFirstBySizeAndProductId() {
+
         SaleDto.response response = queryFactory.select(Projections.bean(SaleDto.response.class,
                 sale.price.min().as("price")))
                 .from(sale)
@@ -63,9 +63,9 @@ class PurchaseRepositoryTest {
                         , sale.bidStatus.eq(BidStatus.입찰중)
                 )
                 .fetchOne();
-        //when
+
         Assertions.assertThat(response).isNotNull();
-          //then
+
 
     }
 
