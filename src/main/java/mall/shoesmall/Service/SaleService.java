@@ -16,6 +16,7 @@ public class SaleService {
     private final AccountRepository accountRepository;
     private final AddressRepository addressRepository;
     private final UserRepository userRepository;
+    private final PurchaseRepository purchaseRepository;
 
     @Transactional
     public void create_sale_product(SaleDto.request request, Long id) {
@@ -27,6 +28,19 @@ public class SaleService {
         );
 
         saleRepository.save(sale);
+
+    }
+
+    @Transactional
+    public void create_sale_now_product(SaleDto.request request, Long id, Long checkId) {
+        Sale sale = request.toEntity(
+                productRepository.getById(request.getProductId())
+                , accountRepository.getById(request.getAccountId())
+                , addressRepository.getById(request.getAddressId())
+                , userRepository.getById(id)
+        );
+        saleRepository.save(sale);
+        purchaseRepository.bulkPurchaseStatus(checkId);
 
     }
 }

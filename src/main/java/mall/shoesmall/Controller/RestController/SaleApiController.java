@@ -32,4 +32,16 @@ public class SaleApiController {
                 .body(response);
     }
 
+    // 판매 상품 즉시판매
+    @PostMapping("/api/sale/now/{productId}/{checkId}")
+    public ResponseEntity<SaleDto.response> create_sell_now_product(@PathVariable("productId") Long id,
+                                                                @PathVariable("checkId") Long checkId,@RequestBody SaleDto.request request, @AuthenticationPrincipal PrincipalDetails principalDetails) {
+        saleService.create_sale_now_product(request, principalDetails.getUser().getId(),checkId);
+        SaleDto.response response = new SaleDto.response(200, "판매 등록이 완료되었습니다.");
+        return ResponseEntity.ok()
+                .headers(new HttpHeaders())
+                .body(response);
+    }
+
+
 }

@@ -40,7 +40,8 @@ class PurchaseRepositoryTest {
     void findByBuyNowPrice() {
 
         PurchaseDto.response response = queryFactory.select(Projections.bean(PurchaseDto.response.class,
-                purchase.price.max().as("price")))
+                purchase.price.max().as("price")
+                ,purchase.id.as("id")))
                 .from(purchase)
                 .where(
                         purchase.size.eq("250")
@@ -50,6 +51,7 @@ class PurchaseRepositoryTest {
                 .fetchOne();
 
         assertThat(response).isNotNull();
+
 
     }
 
@@ -85,6 +87,18 @@ class PurchaseRepositoryTest {
 
 
     }
+    @Test
+    public void bulkPurchaseStatus()throws Exception{
+        Long count = queryFactory.update(purchase)
+                .set(purchase.bidStatus,BidStatus.입찰완료)
+                .set(purchase.deliveryStatus, DeliveryStatus.배송중)
+                .where(purchase.id.eq(1L))
+                .execute();
+
+        assertThat(count).isEqualTo(1L);
+    }
+
+
 
 
 }

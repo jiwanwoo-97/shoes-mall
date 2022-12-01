@@ -5,6 +5,7 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import mall.shoesmall.Model.Entity.QPurchase;
 import mall.shoesmall.Model.Enum.BidStatus;
+import mall.shoesmall.Model.Enum.DeliveryStatus;
 import mall.shoesmall.Model.dto.PurchaseDto;
 import mall.shoesmall.Repository.Custom.PurchaseCustomRepository;
 
@@ -18,7 +19,8 @@ public class PurchaseRepositoryImpl implements PurchaseCustomRepository {
     @Override
     public PurchaseDto.response findByBuyNowPrice(String size,Long id){
         return queryFactory.select(Projections.bean(PurchaseDto.response.class,
-                purchase.price.max().as("price")))
+                purchase.price.max().as("price")
+               ,purchase.id.as("id")))
                 .from(purchase)
                 .where(
                         purchase.size.eq(size)
@@ -28,5 +30,13 @@ public class PurchaseRepositoryImpl implements PurchaseCustomRepository {
                 .fetchOne();
     }
 
+    @Override
+    public Long bulkPurchaseStatus(Long checkId){
+        return queryFactory.update(purchase)
+                .set(purchase.bidStatus,BidStatus.입찰완료)
+                .set(purchase.deliveryStatus, DeliveryStatus.배송중)
+                .where(purchase.id.eq(checkId))
+                .execute();
+    }
 
 }

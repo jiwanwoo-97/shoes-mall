@@ -144,15 +144,17 @@ public class UserController {
         return "/product/shop_selling"; }
 
     // 상품 판매 등록 페이지
-    @GetMapping("/products/sellfinal/{id}/{size}/{price}/{date}")
+    @GetMapping("/products/sellfinal/{id}/{size}/{price}/{date}/{checkId}")
     public String product_sellfinal_Page(@PathVariable("id") Long id,
-                                         @PathVariable("size") int size,
+                                         @PathVariable("size") String size,
                                          @PathVariable("price") Long price,
-                                         @PathVariable("date") String date, Model model) {
+                                         @PathVariable("date") String date,
+                                         @PathVariable("checkId") String checkId,Model model) {
         model.addAttribute("productId",id);
         model.addAttribute("size",size);
         model.addAttribute("price",price);
         model.addAttribute("date",date);
+        model.addAttribute("checkId",checkId);
         return "/product/shop_sell_final"; }
 
     // 상품 판매 등록 완료 페이지

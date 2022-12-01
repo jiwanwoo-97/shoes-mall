@@ -476,6 +476,7 @@
 
     const id = [[${productId}]];
     const size = [[${size}]];
+    let checkId;
     function cell(){
         $.ajax({
             type:"post",
@@ -484,12 +485,13 @@
             dataType:"json"
         }).done(response=>{
             alert("주소가 등록되었습니다.");
-            let pur_price = null;
-            let sal_price = null;
+            let pur_price = response.sellPrice;
+            let sal_price = response.buyPrice;
             let size_txt = size;
             let model_number = response.modelNumber;
             let model_title = response.name;
             let origFileName = response.image;
+            checkId = response.sellId;
             if(pur_price == null){
                 $('#sal_price').text("-");
                 $('#part1_buynow').append("<a class='item_link' id='buyafter' onclick='buynow()'>즉시 판매</a>");
@@ -532,7 +534,7 @@
         const price = price_replace.replaceAll(',','');
         const btnConfirm = document.querySelector('#btn_confirm');
         if(btnConfirm.disabled == false){
-            location.href='/products/sellfinal/'+id+'/'+size+'/'+price+'/'+date;
+            location.href='/products/sellfinal/'+id+'/'+size+'/'+price+'/'+date+'/0';
             return false;
         }
     }
@@ -540,44 +542,47 @@
         const btnConfirm2 = document.querySelector('#btn_confirm2');
         const price_replace = $('.price_empty_price').text();
         const price_split = price_replace.replaceAll(',','');
-        const price = price_split.split('원');
+        const price = price_split.split('원')[0]
         if(btnConfirm2.disabled == false){
-            location.href='/products/sellfinal/'+id+'/'+size+'/'+price;
+            location.href='/products/sellfinal/'+id+'/'+size+'/'+price+'/'+0+'/'+checkId;
             return false;
         }
     }
 
     function buynow() {
-        alert("들어간다");
-        const buyafter = document.querySelector('#buyafter');
-        const buynow = document.querySelector('#buynow');
-        const bid_section = document.querySelector('#bid_section');
+        let salesPrice = $("#sal_price").val();
+        $(".instant_group.part1").hide();
+        $(".instant_group.part2").show();
+        $(".bid_section.deadline1").hide();
+        $("#btn_confirm1").hide();
+        $("#btn_confirm2").show();
+        $("#total_price2").html(salesPrice + "원");  // total_price 값 최고금액으로 변경
+        in_amount.innerHTML = salesPrice;  // input_amount value 값 최고금액으로 변경
+
         const btn_save = document.querySelector('#btn_confirm');
         const btn_save2 = document.querySelector('#btn_confirm2');
-        buyafter.style.display = 'none';
-        buynow.style.display = 'block';
-        bid_section.style.display = 'none';
-        btn_save.style.display = 'none';
-        btn_save2.style.display = 'block';
         btn_save2.className = 'btn full solid false';
         btn_save2.disabled = false;
+        btn_save.style.display = 'none';
+
     }
     function buyafter() {
-        alert("들어간다");
-        const buyafter = document.querySelector('#buyafter');
-        const buynow = document.querySelector('#buynow');
-        const bid_section = document.querySelector('#bid_section');
+        $(".instant_group.part1").show();
+        $(".instant_group.part2").hide();
+        $(".bid_section.deadline1").show();
+        $("#btn_confirm1").show();
+        $("#btn_confirm2").hide();
         const btn_save = document.querySelector('#btn_confirm');
         const btn_save2 = document.querySelector('#btn_confirm2');
-        buyafter.style.display = 'block';
-        buynow.style.display = 'none';
-        bid_section.style.display = 'block';
         btn_save2.style.display = 'none';
         btn_save.style.display = 'block';
         btn_save.className = 'btn full solid false disabled';
         btn_save.disabled = true;
 
+        in_amount.setAttribute('value', '');  // input_amount value 값 초기화
+        in_amount.setAttribute('validateresult', false);
     }
+
 
 </script>
 

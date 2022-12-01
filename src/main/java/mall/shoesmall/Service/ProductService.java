@@ -9,6 +9,7 @@ import mall.shoesmall.Model.Entity.Card;
 import mall.shoesmall.Model.Entity.Product;
 import mall.shoesmall.Model.dto.AddressDto;
 import mall.shoesmall.Model.dto.ProductDto;
+import mall.shoesmall.Model.dto.PurchaseDto;
 import mall.shoesmall.Model.dto.SaleDto;
 import mall.shoesmall.Repository.*;
 import org.springframework.stereotype.Service;
@@ -63,8 +64,8 @@ public class ProductService {
     public ProductDto.response find_product_buy_info(Long id, String size) {
         Product product = productRepository.findById(id).orElseThrow(()-> new IllegalArgumentException("등록된 상품이 아닙니다."));
         SaleDto.response buyPrice = saleRepository.findFirstBySizeAndProductId(size, id); //즉시 구매 가격
-        Long sellPrice = purchaseRepository.findByBuyNowPrice(size,id).getPrice(); //즉시 판매 가격
-        ProductDto.response response = new ProductDto.response(product,buyPrice.getId(),buyPrice.getPrice(),sellPrice);
+        PurchaseDto.response sellPrice = purchaseRepository.findByBuyNowPrice(size,id); //즉시 판매 가격
+        ProductDto.response response = new ProductDto.response(product,buyPrice.getId(),buyPrice.getPrice(), sellPrice.getPrice(),sellPrice.getId());
         return response;
     }
 
@@ -78,6 +79,7 @@ public class ProductService {
         return new ProductDto.product_buy_final_response(product,address,card);
 
     }
+
 }
 
 

@@ -179,66 +179,64 @@
         }
     }
 
-        function registSales() {
-            const btn_confirm = document.querySelector('.btn_confirm');
-            const accountId = $('#accountId').val();
-            const addressId = $('#addressId').val();
-            alert("시작");
-            if(btn_confirm.disabled == false) {
-                $.ajax({
-                    type: "post",
-                    url: "/api/sale/create/"+productId,
-                    data: JSON.stringify({
-                        "size": size,
-                        "period": date,
-                        "price": price,
-                        "accountId": accountId,
-                        "addressId": addressId,
-                        "productId": productId,
-                        "bidStatus":"입찰중",
-                        "deliveryStatus":"배송전"
-                    }),
-                    contentType: "application/json",
-                    dataType: "json"
-                }).done(response => {
-                    alert("성공");
-                    location.href="/products/sellfinish/"+productId+"/"+size+"/"+price+"/"+date;
-
-                }).fail(error => {
-                    alert("실패");
-                });
-            }
-            }
-
-
-/*    function sellFinal(){
+    function registSales() {
         const btn_confirm = document.querySelector('.btn_confirm');
         const accountId = $('#accountId').val();
         const addressId = $('#addressId').val();
+        alert("시작");
+        if (btn_confirm.disabled == false) {
+            $.ajax({
+                type: "post",
+                url: "/api/sale/create/" + productId,
+                data: JSON.stringify({
+                    "size": size,
+                    "period": date,
+                    "price": price,
+                    "accountId": accountId,
+                    "addressId": addressId,
+                    "productId": productId,
+                    "bidStatus": "입찰중",
+                    "deliveryStatus": "배송전"
+                }),
+                contentType: "application/json",
+                dataType: "json"
+            }).done(response => {
+                alert("성공");
+                location.href = "/products/sellfinish/" + productId + "/" + size + "/" + price + "/" + date;
 
-        if(btn_confirm.disabled == false){
-            axios.request({
-                method: "POST",
-                url: "/api/sales_register",
-                headers: {'Content-type': 'application/json'},
-                data: {
-                        size: size,
-                        period: date,
-                        price: price,
-                        accountId: accountId,
-                        addressId: addressId,
-                        productId: productId,
-                }
-            }).then(
-                alert('완료되었습니다.')
-            )
-
-            location.href='/kream/sellfinish/'+productId+"/"+price+"/"+date; return false;
-
-        }else if(btn_confirm.disabled == true){
-            alert("모든 항목을 입력/체크 해주세요")
+            }).fail(error => {
+                alert("실패");
+            });
         }
-    }*/
+    }
+
+    function nowSale() {
+        const accountId = $('#accountId').val();
+        const addressId = $('#addressId').val();
+        const checkId = [[${checkId}]];
+        $.ajax({
+            type: "post",
+            url: "/api/sale/now/" + productId+"/"+checkId,
+            data: JSON.stringify({
+                "size": size,
+                "period": date,
+                "price": price,
+                "accountId": accountId,
+                "addressId": addressId,
+                "productId": productId,
+                "bidStatus": "입찰완료",
+                "deliveryStatus": "배송중"
+            }),
+            contentType: "application/json",
+            dataType: "json"
+        }).done(response => {
+            alert("성공");
+
+        }).fail(error => {
+
+        });
+    }
+
 </script>
 <body id="pop3">
 <!-- header-->
@@ -416,7 +414,8 @@
                             </ul>
                             <div class="buy_check">
                                 <div class="btn_confirm">
-                                    <a onclick="registSales()" type="button" class="btn_full_solid" disabled> 결제하기</a>
+                                    <a th:if="${checkId}==0" onclick="registSales()" type="button" class="btn_full_solid" disabled> 결제하기</a>
+                                    <a th:unless="${checkId}==0" onclick="nowSale()" type="button" class="btn_full_solid" disabled> 즉시결제</a>
                                 </div>
                             </div>
                         </div>
