@@ -214,6 +214,24 @@ public class UserController {
 
 
 
+    // 상품 즉시 구매 등록 페이지
+    @GetMapping("/products/buyfinal/{id}/{size}/{price}/{date}/{checkId}")
+    public String product_now_buyfinal_Page(@PathVariable("id") Long id,
+                                        @PathVariable("size") String size,
+                                        @PathVariable("price") Long price,
+                                        @PathVariable("date") String date,
+                                        @PathVariable("checkId") Long checkId,Model model) {
+        model.addAttribute("productId",id);
+        model.addAttribute("size",size);
+        model.addAttribute("price",price);
+        model.addAttribute("date",date);
+        model.addAttribute("checkId" , checkId);
+        return "/product/shop_buy_final"; }
+
+
+
+
+
 
 
 

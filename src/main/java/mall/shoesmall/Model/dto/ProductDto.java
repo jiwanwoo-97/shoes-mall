@@ -51,6 +51,7 @@ public class ProductDto {
         private int returnCode;
         private String returnMessage;
 
+        private Long buyId;
         private Long buyPrice;
         private Long sellPrice;
 
@@ -65,7 +66,7 @@ public class ProductDto {
         }
 
 
-        public response(Product product, Long buyPrice, Long sellPrice) {
+        public response(Product product,Long buyId ,Long buyPrice, Long sellPrice) {
             this.id = product.getId();
             this.brand = product.getBrand();
             this.name = product.getName();
@@ -73,9 +74,12 @@ public class ProductDto {
             this.releasePrice = product.getRelease_price();
             this.modelNumber = product.getModel_number();
             this.image = product.getImage();
+            this.buyId = buyId;
             this.buyPrice = buyPrice;
             this.sellPrice = sellPrice;
         }
+
+
     }
 
 

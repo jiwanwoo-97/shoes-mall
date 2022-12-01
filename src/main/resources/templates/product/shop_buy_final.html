@@ -260,7 +260,13 @@
                             </ul>
                             <div class="buy_check">
                                 <div class="btn_confirm">
-                                    <a onclick="registPurchase()" class="btn_full_solid" disabled> 결제하기</a>
+                                    <th:block th:if="${checkId}=='0'">
+                                        <a onclick="registPurchase()" class="btn_full_solid" disabled> 결제하기</a>
+                                    </th:block>
+                                    <th:block th:unless="${checkId} =='0'">
+                                        <a onclick="nowPurchase()" class="btn_full_solid" disabled> 즉시결제</a>
+                                    </th:block>
+
                                 </div>
                             </div>
                         </div>
@@ -489,6 +495,35 @@
             });
         }
     }
+
+        function nowPurchase() {
+        const checkId = [[${checkId}]];
+            const cardId = $('#cardId').val();
+            const addressId = $('#addressId').val();
+                $.ajax({
+                    type: "post",
+                    url: "/api/purchase/buy/"+productId+"/"+checkId,
+                    data: JSON.stringify({
+                        "size": size,
+                        "period": date,
+                        "price": price,
+                        "cardId": cardId,
+                        "addressId": addressId,
+                        "productId": productId,
+                        "bidStatus": "입찰완료",
+                        "deliveryStatus": "배송중"
+                    }),
+                    contentType: "application/json",
+                    dataType: "json"
+                }).done(response => {
+                    alert("즉시구매성공");
+                    location.href = "/products/buyfinish/" + productId + "/" + size + "/" + price + "/" + date;
+
+                }).fail(error => {
+
+                });
+            }
+
 
 
     $(function () {

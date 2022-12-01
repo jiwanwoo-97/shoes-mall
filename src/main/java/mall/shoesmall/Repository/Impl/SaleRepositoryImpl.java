@@ -6,6 +6,7 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import mall.shoesmall.Model.Entity.QSale;
 import mall.shoesmall.Model.Enum.BidStatus;
+import mall.shoesmall.Model.Enum.DeliveryStatus;
 import mall.shoesmall.Model.dto.SaleDto;
 import mall.shoesmall.Repository.Custom.SaleCustomRepository;
 
@@ -19,7 +20,8 @@ public class SaleRepositoryImpl implements SaleCustomRepository {
     @Override
     public SaleDto.response findFirstBySizeAndProductId(String size, Long id) {
         return queryFactory.select(Projections.bean(SaleDto.response.class,
-                sale.price.min().as("price")))
+                sale.price.min().as("price")
+                , sale.id.as("id")))
                 .from(sale)
                 .where(
                         sale.size.eq(size)
@@ -28,6 +30,16 @@ public class SaleRepositoryImpl implements SaleCustomRepository {
                 )
                 .fetchOne();
 
+
+    }
+
+    @Override
+    public long bulkSaleStatus(Long checkId) {
+        return queryFactory.update(sale)
+                .set(sale.bidStatus, BidStatus.입찰완료)
+                .set(sale.deliveryStatus, DeliveryStatus.배송중)
+                .where(sale.id.eq(checkId))
+                .execute();
 
     }
 }

@@ -62,9 +62,9 @@ public class ProductService {
 
     public ProductDto.response find_product_buy_info(Long id, String size) {
         Product product = productRepository.findById(id).orElseThrow(()-> new IllegalArgumentException("등록된 상품이 아닙니다."));
-        Long buyPrice = saleRepository.findFirstBySizeAndProductId(size, id).getPrice(); //즉시 구매 가격
+        SaleDto.response buyPrice = saleRepository.findFirstBySizeAndProductId(size, id); //즉시 구매 가격
         Long sellPrice = purchaseRepository.findByBuyNowPrice(size,id).getPrice(); //즉시 판매 가격
-        ProductDto.response response = new ProductDto.response(product,buyPrice,sellPrice);
+        ProductDto.response response = new ProductDto.response(product,buyPrice.getId(),buyPrice.getPrice(),sellPrice);
         return response;
     }
 

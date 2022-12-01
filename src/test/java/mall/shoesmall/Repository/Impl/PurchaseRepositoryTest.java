@@ -4,6 +4,7 @@ import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import mall.shoesmall.Model.Entity.QPurchase;
 import mall.shoesmall.Model.Enum.BidStatus;
+import mall.shoesmall.Model.Enum.DeliveryStatus;
 import mall.shoesmall.Model.dto.PurchaseDto;
 import mall.shoesmall.Model.dto.SaleDto;
 import org.assertj.core.api.Assertions;
@@ -17,6 +18,7 @@ import javax.persistence.EntityManager;
 
 import static mall.shoesmall.Model.Entity.QPurchase.purchase;
 import static mall.shoesmall.Model.Entity.QSale.sale;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
@@ -47,7 +49,7 @@ class PurchaseRepositoryTest {
                 )
                 .fetchOne();
 
-        Assertions.assertThat(response).isNotNull();
+        assertThat(response).isNotNull();
 
     }
 
@@ -55,7 +57,8 @@ class PurchaseRepositoryTest {
     void findFirstBySizeAndProductId() {
 
         SaleDto.response response = queryFactory.select(Projections.bean(SaleDto.response.class,
-                sale.price.min().as("price")))
+                sale.price.min().as("price")
+               ,sale.id.as("id")))
                 .from(sale)
                 .where(
                         sale.size.eq("250")
@@ -64,7 +67,21 @@ class PurchaseRepositoryTest {
                 )
                 .fetchOne();
 
-        Assertions.assertThat(response).isNotNull();
+        assertThat(response).isNotNull();
+
+
+    }
+
+    @Test
+    public void bulkSaleStatus () throws Exception {
+          //given
+          Long count =  queryFactory.update(sale)
+                  .set(sale.bidStatus, BidStatus.입찰완료)
+                  .set(sale.deliveryStatus, DeliveryStatus.배송중)
+                  .where(sale.id.eq(1L))
+                  .execute();
+
+          assertThat(count).isEqualTo(1L);
 
 
     }
