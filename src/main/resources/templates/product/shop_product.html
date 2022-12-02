@@ -346,7 +346,7 @@
                                 <div class="btn_size">
                                     <div class="btn_text" onclick="everysizePop()">
                                         <div class="all_size_box">
-                                            <div class="all_size">모든사이즈</div>
+                                            <div class="all_size" id="size_val">모든사이즈</div>
                                             <div class="all_size_img_box">
                                                 <img src="/lib/img/select_icon.png" alt="select_down"
                                                      class="btn_rowDown">
@@ -973,13 +973,19 @@
             $('.swiper-wrapper').append(swip_img);
 
 
-            const size = ['230','235','240','245','250','255','260'];
+            const size = ['230','235','240','245','250','255','260','265','270','275'];
             for (let j = 0; j < size.length; j++) {
-                // 사이즈에 대한 가격 평균 가격 프로세스 추가 필요
+
                 let pro_price = '정보없음'
+                for(let k = 0; k < response.priceList.length; k++){
+                    if(size[j]==response.priceList[k].size){
+                        pro_price = response.priceList[k].price;
+                        continue;
+                    }
+                }
 
                 let itemsizehead = $('<li  class="select_item2">').append(
-                    '<button  role="button"class="select_link buy">' +
+                    '<button  role="button"class="select_link buy" >' +
                     '<div  class="link_inner">' +
                     '<p class="size">' + size[j] + '</p>' +
                     '<p class="price1">' + pro_price + '</p>' +
@@ -989,17 +995,13 @@
                 $('.select_list2').append(itemsizehead);
             }
 
+
                 $('.select_item2').on('click', function () {
                     $(this).css('border', '1px solid black');
                     $(this).siblings().css('border', '1px solid rgb(201, 201, 201)');
                     const val = $(this).find('.size').text();
                     $('.all_size').text(val);
-                });
-                $('.select_item2').on('click', function () {
-                    $(this).css('border', '1px solid black');
-                    $(this).siblings().css('border', '1px solid rgb(201, 201, 201)');
-                    const val = $(this).find('.size').text();
-                    $('.all_size').text(val);
+                    chagneSize(val);
 
                     const popdown = document.getElementsByClassName('layer_container2')[0];
                     popdown.style.display = "none";
@@ -1013,9 +1015,28 @@
 
         }).fail(error=>{
             alert("실패실패.");
-        });
+        })
     }
     const productId = [[${productId}]];
+    function chagneSize(size){
+        console.log(size);
+        const select_size = size;
+        alert(select_size + productId);
+
+                    $.ajax({
+                        type: "post",
+                        url: url,
+                        data: JSON.stringify({}),
+                        contentType: "application/json",
+                        dataType: "json"
+                    }).done(response => {
+
+                    }).fail(error => {
+
+                    });
+
+    }
+
     $(function () {
         getProduct();
     });

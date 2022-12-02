@@ -51,13 +51,29 @@ public class ProductDto {
         private int returnCode;
         private String returnMessage;
 
+        private String size;
+
+
         private Long buyId;
         private Long buyPrice;
         private Long sellId;
         private Long sellPrice;
+        private List<SizeDto> priceList;
 
 
-        public response(Product product) {
+        public response(Product product ,List<SizeDto> findBySizeMinPrice) {
+            this.id = product.getId();
+            this.brand = product.getBrand();
+            this.name = product.getName();
+            this.krname = product.getKrname();
+            this.releasePrice = product.getRelease_price();
+            this.modelNumber = product.getModel_number();
+            this.image = product.getImage();
+            this.priceList = findBySizeMinPrice;
+
+        }
+
+        public response(Product product ) {
             this.id = product.getId();
             this.brand = product.getBrand();
             this.name = product.getName();
@@ -81,7 +97,6 @@ public class ProductDto {
             this.sellId = sellId;
             this.sellPrice = sellPrice;
         }
-
 
     }
 

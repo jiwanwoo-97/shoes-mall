@@ -7,10 +7,7 @@ import mall.shoesmall.Model.Entity.Account;
 import mall.shoesmall.Model.Entity.Address;
 import mall.shoesmall.Model.Entity.Card;
 import mall.shoesmall.Model.Entity.Product;
-import mall.shoesmall.Model.dto.AddressDto;
-import mall.shoesmall.Model.dto.ProductDto;
-import mall.shoesmall.Model.dto.PurchaseDto;
-import mall.shoesmall.Model.dto.SaleDto;
+import mall.shoesmall.Model.dto.*;
 import mall.shoesmall.Repository.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -32,18 +29,17 @@ public class ProductService {
     @Transactional(readOnly = true)
     public List<ProductDto.response> searchList() {
         List<Product> productList = productRepository.findAll();
-        List<ProductDto.response> responseList =
-                productList.stream()
-                .map(ProductDto.response :: new)
+
+        return productList.stream()
+                .map(ProductDto.response::new)
                 .collect(Collectors.toList());
-        return responseList;
     }
 
     @Transactional(readOnly = true)
     public ProductDto.response find_product_info(Long id) {
         Product product = productRepository.findById(id).orElseThrow(()-> new IllegalArgumentException("등록된 상품이 아닙니다."));
-        ProductDto.response response = new ProductDto.response(product);
-        return response;
+        List<SizeDto> findBySizeMinPrice =productRepository.findBySizeMinPrice(id);
+        return new ProductDto.response(product,findBySizeMinPrice);
     }
 
     @Transactional(readOnly = true)
@@ -54,8 +50,7 @@ public class ProductService {
                 .map(AddressDto.response::new)
                 .collect(Collectors.toList());
         Account account = accountRepository.findByUserId(id);
-        ProductDto.product_sell_final_response response = new ProductDto.product_sell_final_response(product,address,account);
-        return response;
+        return new ProductDto.product_sell_final_response(product,address,account);
 
 
     }
@@ -65,8 +60,7 @@ public class ProductService {
         Product product = productRepository.findById(id).orElseThrow(()-> new IllegalArgumentException("등록된 상품이 아닙니다."));
         SaleDto.response buyPrice = saleRepository.findFirstBySizeAndProductId(size, id); //즉시 구매 가격
         PurchaseDto.response sellPrice = purchaseRepository.findByBuyNowPrice(size,id); //즉시 판매 가격
-        ProductDto.response response = new ProductDto.response(product,buyPrice.getId(),buyPrice.getPrice(), sellPrice.getPrice(),sellPrice.getId());
-        return response;
+        return new ProductDto.response(product,buyPrice.getId(),buyPrice.getPrice(), sellPrice.getPrice(),sellPrice.getId());
     }
 
     public ProductDto.product_buy_final_response find_product_buy_final_info(Long productId, Long id) {
@@ -80,6 +74,9 @@ public class ProductService {
 
     }
 
+    public ProductDto.response find_product_size_info(Long id, String size) {
+        return null;
+    }
 }
 
 

@@ -2,7 +2,7 @@ package mall.shoesmall.Repository.Impl;
 
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import mall.shoesmall.Model.Entity.QPurchase;
+import mall.shoesmall.Model.Entity.*;
 import mall.shoesmall.Model.Enum.BidStatus;
 import mall.shoesmall.Model.Enum.DeliveryStatus;
 import mall.shoesmall.Model.dto.PurchaseDto;
@@ -16,6 +16,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 
+import java.util.List;
+
+import static mall.shoesmall.Model.Entity.QProduct.*;
 import static mall.shoesmall.Model.Entity.QPurchase.purchase;
 import static mall.shoesmall.Model.Entity.QSale.sale;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -34,7 +37,6 @@ class PurchaseRepositoryTest {
     public void before() {
         queryFactory = new JPAQueryFactory(em);
     }
-
 
     @Test
     void findByBuyNowPrice() {

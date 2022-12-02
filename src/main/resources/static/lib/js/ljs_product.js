@@ -158,81 +158,12 @@ function everysizePop() {
     body.style.overflow = 'hidden'
 }
 
-function everysizePopdown() {
-    $('.layer2').css({"display": "flex"})
-    const popup = document.getElementsByClassName('layer_container2')[0];
-    popup.style.display = "none";
-    const body = document.querySelector('body');
-    body.style.overflow = 'unset';
-}
-
 
 /*서영서연*/
 mark1 = [];
 mark_check = 0;
 
-/*
-$(document).on('click', '.sec_marking', function pro_like() {
-    if(sessionStorage.getItem('userid')!=null){
 
-        const inspecion = document.getElementsByClassName('layer_container')[1];
-        inspecion.style.display = "flex";
-        const body = document.querySelector('body');
-        body.style.overflow = 'hidden'
-        let index = $(".sec_marking").index(this);
-
-        proId = document.querySelectorAll('.sec_marking').item(index).getAttribute('value');
-        customer_id = sessionStorage.getItem( "userid");
-
-        console.log(proId + " /////" +customer_id)
-        axios.get('/api/pro_userlist_cart/' + proId +'/'+ customer_id, {
-        }).then(function (response) {
-            console.log(response);
-            let popImg = response.data.data.origFileName;
-            let name = response.data.data.name;
-            let sizeData ='';
-
-
-            let productData=
-                '<div class="sg_img"><img src="/lib/product/'+ popImg+'" class="img_data"></div>'+
-                '<div class="sg_info">'+
-                '<p class="model_title">'+name+'</p>'+
-                '</div>';
-
-            $('.sg_item').append(productData);
-            for(let i in response.data.data.productSizeApiResponseList){
-                let popSize = response.data.data.productSizeApiResponseList[i].size;
-                if(response.data.data.productSizeApiResponseList[i].cnt != 0){
-                    sizeData =
-                        '<div class="interest_box_btn" style="border: 1px solid black;">'+
-                        '<input type="hidden" class="sizeValue" value="'+popSize+'">'+
-                        '<a href="#" class="btn_inner">'+
-                        '<p class="info_txt">'+popSize+'</p>'+
-                        '<img src="/lib/img/h_img/logo/like_logo_b.PNG" alt="" class="sec_marking2">'+
-                        '</a>'+
-                        '</div>';
-                }else{
-                    sizeData =
-                        '<div class="interest_box_btn">'+
-                        '<input type="hidden" class="sizeValue" value="'+popSize+'">'+
-                        '<a href="#" class="btn_inner">'+
-                        '<p class="info_txt">'+popSize+'</p>'+
-                        '<img src="/lib/img/h_img/logo/like_logo.PNG" alt="" class="sec_marking2">'+
-                        '</a>'+
-                        '</div>';
-                }
-                $('.interest_list').append(sizeData);
-            }
-
-
-        }).catch(function (err) {
-            console.log(err);
-        })
-    } else {
-        location.href='/login';
-    }
-})
-*/
 
 
 function comment_down() {
@@ -250,51 +181,7 @@ function comment_down() {
             sizeArr.push(sizeVal);
         }
     }
-    /*
-        console.log(sizeArr)
-        axios.get('/api/pro_userlist_cart/' + proId + '/' + customer_id, {
-        }).then(function (response) {
-            for(let i=0; i<response.data.data.productSizeApiResponseList.length; i++){
-                let size = response.data.data.productSizeApiResponseList[i].size;
-                let cnt = response.data.data.productSizeApiResponseList[i].cnt;
-                if(cnt>0){
-                    let sizeCheck = 0;
-                    for(let j=0;j<sizeArr.length;j++){
-                        if(size==sizeArr[j]){
-                            sizeCheck = 1;
-                        }
-                    }
-                    if(sizeCheck==0){
-                        axios.delete(' /api/cart_delete/' + proId + '/' + size).then(function () {
-                            console.log('관심상품 취소');
-                        });
-                    }
-                }else if(cnt==0){
-                    for(let j=0;j<sizeArr.length;j++){
-                        if(size==sizeArr[j]){
-                            axios.request({
-                                method: 'POST',
-                                url: '/api/cart_register',
-                                headers: {'Content-type': 'application/json'},
-                                data: {
-                                    data: {
-                                        sizeType: sizeArr[j],
-                                        customerId: customer_id,
-                                        productId: proId
-                                    }
-                                }
-                            }).then(
-                                console.log("관심상품등록"),
-                            )
-                        }else{}
-                    }
-                }
-            }
-        });
-        $('.interest_list').empty();
-        $('.sg_item').empty();
-    }
-    */
+
 
 
 // 헤더 검색창
