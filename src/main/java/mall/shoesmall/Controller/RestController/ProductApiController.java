@@ -42,12 +42,12 @@ public class ProductApiController {
                 .body(response);
     }
 
-    // 상품 정보 호출
+    // 상품 사이즈별 정보 호출
     @PostMapping("/api/products/size_info/{id}/{size}")
-    public ResponseEntity<ProductDto.response> product_size_info(@PathVariable("id") Long id,
-                                                                 @PathVariable("size") String size,Model model) {
-        ProductDto.response response = productService.find_product_size_info(id,size);
-        model.addAttribute("product", response);
+    public ResponseEntity<ProductDto.product_size_info_all_list_response> product_size_info(@PathVariable("id") Long id,
+                                                                                            @PathVariable("size") String size) {
+        ProductDto.product_size_info_all_list_response response = productService.find_product_size_info(id, size);
+
         return ResponseEntity.ok()
                 .headers(new HttpHeaders())
                 .body(response);

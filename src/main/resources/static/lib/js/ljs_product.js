@@ -159,7 +159,6 @@ function everysizePop() {
 }
 
 
-/*서영서연*/
 mark1 = [];
 mark_check = 0;
 

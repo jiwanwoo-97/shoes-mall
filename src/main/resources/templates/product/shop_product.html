@@ -373,7 +373,7 @@
                             <a href="#" class="btn_division buy" sec:authorize="!isAuthenticated()"
                                onclick="go_to_login()">
                                 <div class="title">구매</div>
-                                <div class="price priceClass"><span class="amount"><div class="num quick" id=""></div>
+                                <div class="price priceClass"><span class="amount"><div class="num quick" id="sellnowprice"></div>
                                     <span class="won quick">원</span></span><span class="desc quick">즉시 구매가</span>
                                 </div>
                             </a>
@@ -390,8 +390,8 @@
                             <a href="#" class="btn_division sell" sec:authorize="!isAuthenticated()"
                                onclick="go_to_login()">
                                 <div class="title">판매</div>
-                                <div class="price priceClass"><span class="amount"><div class="num quick"></div>
-                                    <span class="won quick">원</span></span><span class="desc quick">즉시 판매가</span>
+                                <div class="price priceClass"><span class="amount"><div class="num quick" id="buynowprice"></div>
+                                    <span class="won quick" >원</span></span><span class="desc quick">즉시 판매가</span>
                                 </div>
                             </a>
                             <a href="#" class="btn_division sell" sec:authorize="isAuthenticated()"
@@ -730,26 +730,6 @@
                 <img src="/lib/img/nav_close_icon.png" alt="" class="lay_close">
             </p>
         </div>
-        <div class="layer_box">
-            <div class="pop_buy_product">
-                <div class="buy_info">
-                    <div class="model_info">
-                        <!--                        <strong class="model_number"></strong>-->
-                        <p class="model_title" id="namepop"></p>
-                        <p class="model_ko" id="korNamepop" style="color:rgb(170, 170, 170)"></p>
-
-                        <div class="size_select_wrap">
-                            <div class="sz_select">
-                                <label class="selected_txt" id="selected_txt">
-                                    <span id="selected_size" onclick="checking(this)">사이즈 선택</span>
-                                    <img src="/lib/img/select_icon.png" class="sz_sel_img">
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
         <div class="pop_tab_area">
             <ul role="tablist" class="pop_tab_list">
                 <li role="tab" aria-selected="true" aria-controls="panel_1" class="p_item">
@@ -996,7 +976,8 @@
             }
 
 
-                $('.select_item2').on('click', function () {
+
+            $('.select_item2').on('click', function () {
                     $(this).css('border', '1px solid black');
                     $(this).siblings().css('border', '1px solid rgb(201, 201, 201)');
                     const val = $(this).find('.size').text();
@@ -1013,6 +994,8 @@
                     body.style.overflow = 'unset';
                 });
 
+
+
         }).fail(error=>{
             alert("실패실패.");
         })
@@ -1020,25 +1003,174 @@
     const productId = [[${productId}]];
     function chagneSize(size){
         console.log(size);
-        const select_size = size;
+
+        const select_size = size != "모든 사이즈" ? size : "all";
         alert(select_size + productId);
 
                     $.ajax({
                         type: "post",
-                        url: url,
-                        data: JSON.stringify({}),
+                        url: "/api/products/size_info/"+productId+"/"+select_size,
                         contentType: "application/json",
                         dataType: "json"
                     }).done(response => {
+                        alert("성공");
+                        console.log(response);
+
+                        let recentPrice = response.recentPrice != null ? response.recentPrice : "-   ";
+
+
+
+
+
+                        $('#latelyPrice').text(recentPrice);
+
+                        if(select_size=="all"){
+                            $('#buynowprice').text(response.buyBidPriceList[0].price);
+                            $('#buynowprice_mo').text(response.buyBidPriceList[0].price);
+                            $('#sellnowprice').text(response.saleBidPriceList[0].price);
+                            $('#sellnowprice_mo').text(response.saleBidPriceList[0].price);
+                            $('#latelyPrice').text(response.bidFinishList[response.bidFinishList.length-1].price);
+                        }else{
+                            $('#buynowprice').text(response.sellPrice);
+                            $('#buynowprice_mo').text(response.sellPrice);
+                            $('#sellnowprice').text(response.buyPrice);
+                            $('#sellnowprice_mo').text(response.buyPrice);
+                        }
+
+
+
+
+
+
+
+                        /* buy */
+
+                        let $price_body2 = $(' <div class="price_body">');
+                        $(".price_body").remove();
+                        $(".buylist").remove();
+
+                        if (response.buyBidPriceList.length > 0) {
+
+                            for (let k = 0; k < response.buyBidPriceList.length; k++) {
+                                let $buysize = response.buyBidPriceList[k].size;
+                                let $buyprice = response.buyBidPriceList[k].price;
+                                let $buycnt = response.buyBidPriceList[k].count;
+                                let $buylist = $('<div class="body_list">').append(
+                                    '<div class="list_txt">' + $buysize + '</div>' +
+                                    ' <div class="list_txt">' + $buyprice + '원</div>' +
+                                    '<div class="list_txt is_active">' + $buycnt + '</div></div>'
+                                )
+                                $($price_body2).append($buylist);
+                            }
+                            $($price_body2).append('</div>');
+                            $('.table3').append($price_body2);
+
+                            let forbuy = $(' <tbody class="buylist">');
+
+
+
+                            for (let i = 0; i < response.buyBidPriceList.length; i++) {
+                                if (i < 6) {
+                                    let $buysize = response.buyBidPriceList[i].size;
+                                    let $buyprice = response.buyBidPriceList[i].price;
+                                    let $buycnt = response.buyBidPriceList[i].count;
+                                    let buy = $('<tr>').append(
+                                        '<td class="table_td">' + $buysize + '</td>' +
+                                        '<td class="table_td align_right">' + $buyprice + '원' + '</td>' +
+                                        '<td class="table_td align_right">' + $buycnt + '</td>' +
+                                        '</tr>'
+                                    );
+                                    forbuy.append(buy);
+                                }
+                            }
+                            forbuy.append('</tbody>');
+                            $('.forbuylist').append(forbuy);
+                        }else{
+                            $('#buynowprice').text("- ");
+                            $('#buynowprice_mo').text("- ");
+                        }
+
+
+                        /* sale */
+
+                        $(".salelist").remove();
+
+                        let price_body3 = $(' <div class="price_body">');
+                        if (response.saleBidPriceList.length > 0) {
+
+
+
+                            for (let f = 0; f < response.saleBidPriceList.length; f++) {
+                                let $salesize = response.saleBidPriceList[f].size;
+                                let $saleprice = response.saleBidPriceList[f].price;
+                                let $sellcnt = response.saleBidPriceList[f].count;
+                                let $selllist = $('<div class="body_list">').append(
+                                    '<div class="list_txt">' + $salesize + '</div>' +
+                                    ' <div class="list_txt">' + $saleprice + '원</div>' +
+                                    '<div class="list_txt is_active">' + $sellcnt + '</div></div>'
+                                )
+                                $(price_body3).append($selllist);
+                            }
+                            $(price_body3).append('</div>');
+                            $('.table2').append(price_body3);
+
+
+                            let forsale = $(' <tbody class="salelist">');
+
+
+
+                            for (let j = 0; j < response.saleBidPriceList.length; j++) {
+                                if (j < 6) {
+                                    let $salesize = response.saleBidPriceList[j].size;
+                                    let $saleprice = response.saleBidPriceList[j].price;
+                                    let $salecnt = response.saleBidPriceList[j].count;
+
+                                    let sale = $('<tr>').append(
+                                        '<td class="table_td">' + $salesize + '</td>' +
+                                        '<td class="table_td align_right">' + $saleprice + '원' + '</td>' +
+                                        '<td class="table_td align_right">' + $salecnt + '</td>' +
+                                        '</tr>'
+                                    );
+                                    forsale.append(sale);
+                                }
+                            }
+                            $('.forsalelist').append(forsale);
+                        }else{
+                            $('#sellnowprice').text("-  ");
+                            $('#sellnowprice_mo').text("-  ");
+                        }
+
+
+
+                        //구매완료팝업
+                        if (response.bidFinishList.length != 0) {
+                            let $price_body1 = $(' <div class="price_body">');
+                            for (let y = 0; y < response.bidFinishList.length; y++) {
+                                let $buysize = response.bidFinishList[y].size;
+                                let $buyprice = response.bidFinishList[y].price;
+                                let $buydate = response.bidFinishList[y].date;
+                                let $buylist = $('<div class="body_list">').append(
+                                    '<div class="list_txt">' + $buysize + '</div>' +
+                                    ' <div class="list_txt">' + $buyprice + '원</div>' +
+                                    '<div class="list_txt is_active">' + $buydate + '</div></div>'
+                                )
+                                $($price_body1).append($buylist);
+                            }
+                            $($price_body1).append('</div>');
+                            $('.table1').append($price_body1);
+                        }
+
+
+
 
                     }).fail(error => {
 
                     });
 
     }
-
     $(function () {
         getProduct();
+        chagneSize("모든 사이즈");
     });
     function go_to_login(){
         if(confirm("로그인이 필요한 시스템입니다 \n 로그인 하시겠습니까?")){

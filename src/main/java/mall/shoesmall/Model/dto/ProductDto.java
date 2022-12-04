@@ -6,6 +6,8 @@ import mall.shoesmall.Model.Entity.Card;
 import mall.shoesmall.Model.Entity.Product;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 
 public class ProductDto {
@@ -73,7 +75,7 @@ public class ProductDto {
 
         }
 
-        public response(Product product ) {
+        public response(Product product) {
             this.id = product.getId();
             this.brand = product.getBrand();
             this.name = product.getName();
@@ -99,6 +101,26 @@ public class ProductDto {
         }
 
     }
+
+    @Getter
+    @Setter
+    @NoArgsConstructor
+    public static class product_size_info_response {
+        private Long price;
+        private Long count;
+        private String size;
+
+    }
+
+    @Getter
+    @Setter
+    @NoArgsConstructor
+    public static class product_size_info_list_response {
+        private String date;
+        private Long price;
+        private String size;
+    }
+
 
 
     @Getter
@@ -137,7 +159,7 @@ public class ProductDto {
     @Getter
     @Setter
     @NoArgsConstructor
-    public static class product_buy_final_response extends product_sell_final_response {
+    public static class product_buy_final_response {
         private Long id;
         private String brand;
         private String name;
@@ -164,6 +186,31 @@ public class ProductDto {
             this.cardCompany = card.getCard_company();
             this.cardNumber = card.getCard_number();
             this.cardFlag = card.getCard_flag();
+        }
+    }
+
+    @Getter
+    @Setter
+    @NoArgsConstructor
+    public static class product_size_info_all_list_response {
+        private Long buyPrice;
+        private Long sellPrice;
+        private Long recentPrice;
+
+        private List<product_size_info_response> buyBidPriceList;
+
+        private List<product_size_info_response> saleBidPriceList;
+
+        private List<product_size_info_list_response> bidFinishList;
+
+
+        public product_size_info_all_list_response(Long buyPrice, Long sellPrice, List<product_size_info_response> buyBidPriceList, List<product_size_info_response> saleBidPriceList, Long recentPrice, List<product_size_info_list_response> bidFinishList) {
+        this.buyPrice = buyPrice;
+        this.sellPrice = sellPrice;
+        this.recentPrice = recentPrice;
+        this.buyBidPriceList = buyBidPriceList;
+        this.saleBidPriceList = saleBidPriceList;
+        this.bidFinishList = bidFinishList;
         }
     }
 }

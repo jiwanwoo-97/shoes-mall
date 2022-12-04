@@ -74,8 +74,16 @@ public class ProductService {
 
     }
 
-    public ProductDto.response find_product_size_info(Long id, String size) {
-        return null;
+    public ProductDto.product_size_info_all_list_response find_product_size_info(Long id, String size) {
+
+        List<ProductDto.product_size_info_response> saleBidPriceList = saleRepository.getBuyBidPrice(id,size); //구매 입찰
+        List<ProductDto.product_size_info_response> buyBidPriceList = purchaseRepository.getSaleBidPrice(id,size);//판매 입찰
+        List<ProductDto.product_size_info_list_response> bidFinishList = saleRepository.getFinishBidList(id);//거래 완료 목록
+        Long buyPrice = saleRepository.findFirstBySizeAndProductId(size, id).getPrice(); //즉시 구매 가격
+        Long sellPrice = purchaseRepository.findByBuyNowPrice(size, id).getPrice(); //즉시 판매 가격
+        Long recentPrice = saleRepository.getRecentPrice(id, size);// 최근 거래가
+
+        return new ProductDto.product_size_info_all_list_response(buyPrice, sellPrice, buyBidPriceList, saleBidPriceList, recentPrice, bidFinishList);
     }
 }
 

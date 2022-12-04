@@ -6,12 +6,14 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import mall.shoesmall.Model.Entity.QSale;
 import mall.shoesmall.Model.Enum.BidStatus;
+import mall.shoesmall.Model.dto.ProductDto;
 import mall.shoesmall.Model.dto.SizeDto;
 import mall.shoesmall.Repository.Custom.ProductCustomRepository;
 
 import java.util.List;
 
 import static mall.shoesmall.Model.Entity.QProduct.product;
+import static mall.shoesmall.Model.Entity.QPurchase.purchase;
 import static mall.shoesmall.Model.Entity.QSale.sale;
 
 @RequiredArgsConstructor
@@ -39,4 +41,8 @@ public class ProductRepositoryImpl implements ProductCustomRepository {
                                         .where(subSale.size.eq(sale.size))))
                 .fetch();
     }
+
+
+
+
 }
