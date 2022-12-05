@@ -5,7 +5,9 @@
 <!-- head.html -->
 <div th:replace="include/pjs_head :: head"></div>
 <!-- head.html end-->
-<script src="./jquery-ui-1.12.1/datepicker-ko.js"></script>
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 
 <body>
 <div id="__nuxt">
@@ -36,7 +38,7 @@
                             <div class="purchase_list_tab sell detail_tab">
                                 <div class="tab_item tab_on">
                                     <a class="tab_link">
-                                        <dl class="tab_box">
+                                        <dl class="tab_box" onclick="bidChange('판매입찰')">
                                             <dt class="title">판매입찰</dt>
                                             <dd class="count" id="bindCount">0</dd>
                                         </dl>
@@ -44,8 +46,8 @@
                                 </div>
                                 <div class="tab_item">
                                     <a class="tab_link">
-                                        <dl class="tab_box">
-                                            <dt class="title">진행중</dt>
+                                        <dl class="tab_box" onclick="bidChange('입찰중')">
+                                            <dt class="title">입찰중</dt>
                                             <dd class="count" id="continueCount">0</dd>
                                             <!---->
                                         </dl>
@@ -53,8 +55,8 @@
                                 </div>
                                 <div class="tab_item">
                                     <a class="tab_link">
-                                        <dl class="tab_box">
-                                            <dt class="title">종료</dt>
+                                        <dl class="tab_box" onclick="bidChange('입찰완료')">
+                                            <dt class="title">입찰완료</dt>
                                             <dd class="count" id="endCount">0</dd>
                                         </dl>
                                     </a>
@@ -151,7 +153,7 @@
                                                 <span class="status_txt">만료일</span>
                                             </a>
                                         </div>
-                                        <div class="status_box field_status ascending" style="display: none">
+                                        <div class="status_box field_status ascending">
                                             <a href="#" class="status_link">
                                                 <span class="status_txt">상태</span>
                                             </a>
@@ -234,13 +236,10 @@
                             <div class="pagination">
                                 <div class="pagination_box first last">
                                     <div class="prev_btn_box"><a href="https://kream.co.kr/my/selling#" class="btn_arr">
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="arr-page-first icon sprite-icons"><use href="/_nuxt/91e1223d82ae15dcdada670ee3ffdaf6.svg#i-arr-page-first" xlink:href="/_nuxt/91e1223d82ae15dcdada670ee3ffdaf6.svg#i-arr-page-first"></use>
-                                        </svg>
+
                                     </a>
                                         <a href="https://kream.co.kr/my/selling#" class="btn_arr">
-                                            <svg xmlns="http://www.w3.org/2000/svg" class="arr-page-prev icon sprite-icons">
-                                                <use href="/_nuxt/91e1223d82ae15dcdada670ee3ffdaf6.svg#i-arr-page-prev" xlink:href="/_nuxt/91e1223d82ae15dcdada670ee3ffdaf6.svg#i-arr-page-prev"></use>
-                                            </svg>
+
                                         </a>
                                     </div>
                                     <div class="page_bind">
@@ -248,16 +247,10 @@
                                     </div>
                                     <div class="next_btn_box">
                                         <a href="https://kream.co.kr/my/selling#" class="btn_arr">
-                                            <svg xmlns="http://www.w3.org/2000/svg" class="arr-page-next icon sprite-icons">
-                                                <use href="/_nuxt/91e1223d82ae15dcdada670ee3ffdaf6.svg#i-arr-page-next" xlink:href="/_nuxt/91e1223d82ae15dcdada670ee3ffdaf6.svg#i-arr-page-next">
-                                                </use>
-                                            </svg>
+
                                         </a>
                                         <a href="https://kream.co.kr/my/selling#" class="btn_arr">
-                                            <svg xmlns="http://www.w3.org/2000/svg" class="arr-page-last icon sprite-icons">
-                                                <use href="/_nuxt/91e1223d82ae15dcdada670ee3ffdaf6.svg#i-arr-page-last" xlink:href="/_nuxt/91e1223d82ae15dcdada670ee3ffdaf6.svg#i-arr-page-last">
-                                                </use>
-                                            </svg>
+
                                         </a>
                                     </div>
                                 </div>
@@ -284,7 +277,6 @@
     // nav 태그에 on 클래스 추가
     document.querySelector("#selling").className += ' menu_on';
 
-    const sessionId = sessionStorage.getItem('userid'); // 세션 가져오기
 
     // 랜덤 돌릴 배경 색상 배열
     let colorList = [ '#ebf0f5', '#f4f4f4', 'rgb(241, 241, 234)', 'rgb(246, 238, 237)' ];
@@ -304,8 +296,140 @@
     let startDate = document.querySelector('#datepicker1').value;
     let endDate = document.querySelector('#datepicker2').value;
 
+    let bidStatus;
+    const userId= [[${user.id}]];
+
+    function bidChange(val){
+        bidStatus = val;
+        getSaleList();
+    }
+
+    function getSaleCount() {
+
+        startDate = document.querySelector('#datepicker1').value;
+        endDate = document.querySelector('#datepicker2').value;
+        $.ajax({
+            type: "post",
+            url: "/api/users/sale_list_count/"+userId+"/"+startDate.substring(0, startDate.length)+"/"+endDate.substring(0, startDate.length),
+            contentType: "application/json",
+            dataType: "json"
+        }).done(response => {
+            let bindCount = response.length;
+            let continueCount = 0;
+            let endCount = 0;
+
+            for (let i in response) {
+                let $status2 = response[i].bidStatus;   // 상품 상태
+                if ($status2 == '입찰중') {
+                    continueCount++;
+                } else if ($status2 == '입찰완료') {
+                    endCount++;
+                }
+            }
+            document.querySelector('#bindCount').innerHTML = bindCount;
+            document.querySelector('#continueCount').innerHTML = continueCount;
+            document.querySelector('#endCount').innerHTML = endCount;
+
+        }).fail(error => {
+
+        });
+    }
+
+    function getSaleList() {
+        startDate = document.querySelector('#datepicker1').value;
+        endDate = document.querySelector('#datepicker2').value;
+        alert(bidStatus);
+
+        $.ajax({
+            type: "post",
+            url: "/api/users/sale_List/"+userId+"/"+startDate.substring(0, startDate.length)+"/"+endDate.substring(0, startDate.length)+"/"+bidStatus,
+            contentType: "application/json",
+            dataType: "json"
+        }).done(response => {
+            $(".purchase_item").remove();
+
+            for (let i in response) {
+                console.log(response);
+                let random = Math.floor(Math.random() * 4);  // 0~3까지 4개 색상 랜덤 돌릴 것^^
+
+                let $productId = response[i].productId;   // 상품 id
+                let $name = response[i].name;     // 상품 이름
+                let $img = response[i].image;   // 상품 사진
+                let $status1 = response[i].deliveryStatus;   // 상품 상태
+                let $status2 = response[i].bidStatus;   // 상품 상태
+
+                let $size = response[i].size;    // 상품 사이즈
+                if ($size == null) {
+                    $size = ' - ';
+                }
+
+                let $price = response[i].price + '';   // 상품 가격 - number
+                if ($price == 'null') {
+                    $price = ' - ';
+                } else {
+                    $price = $price.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                }
+
+                let $period = response[i].period;     // 입찰기간 (일) - number
+                let $regdate = response[i].date;   // 구매일자
+                let regdateStr = $regdate.substring(0, 10);
+                let cal_period = new Date(regdateStr);
+                if ($period != null) {
+                    cal_period.setDate(cal_period.getDate() + parseInt($period));
+                }
+                if($status2 == '입찰중'){
+                    continueCount++;
+                } else if($status2 =='입찰완료'){
+                    endCount++;
+                }
+
+                // status2 카테고리별
+
+                // 전체일 경우
+                if ($(".btn_filter").find("span").text() == '전체') {
+                    let row = $('<div class="purchase_item" onclick="location.href=\'/my/buying/' + $productId + '\';">').append(
+                        '<div class="history_product">' +
+                        '<div class="product_box">' +
+                        '<div class="product" style="background-color:' + colorList[random] + ';">' +
+                        '<img src="/upload/' + $img + '" alt="' + $name + '" class="product_img">' +
+                        '</div></div>' +
+                        '<div class="product_detail">' +
+                        '<p class="name">' + $name + '</p><span class="size">' + $size + '</span>' +
+                        '</div></div>' +
+                        '<div class="history_status">' +
+                        '<div class="status_box field_price">' +
+                        '<div class="price">' +
+                        '<span class="amount">' + $price + '</span>' +
+                        '<span class="unit">원</span>' +
+                        '</div></div>' +
+                        '<div class="status_box field_date_purchased" style="display: none">' +
+                        '<span class="date">' + regdateStr + '</span>' +
+                        '</div>' +
+                        '<div class="status_box field_date_paid" style="display: none">' +
+                        '<span class="date">' + regdateStr + '</span>' +
+                        '</div>' +
+                        '<div class="status_box field_expires_at">' +
+                        '<span class="date text-default">' + dateFormat(cal_period) + '</span>' +
+                        '</div>' +
+                        '<div class="status_box field_status" >' +
+                        '<span class="status_txt text-default">' + $status2 + '</span>' +
+                        '</div></div></div>'
+                    );
+                    $('.purchase_item_wrap').append(row);
+
+                }
+            }
+        }).fail(error => {
+
+        });
+    }
+
+    $(function (){
+        getSaleList();
+        getSaleCount();
+    });
     // 상단 상태 카운트
-    axios.get('/api/customer_salesinfo/'+sessionId+'/'+onLoadStartDate.substring(2,onLoadStartDate.length)+'/'+endDate.substring(2, startDate.length),{
+  /*  axios.get('/api/customer_salesinfo/'+sessionId+'/'+onLoadStartDate.substring(2,onLoadStartDate.length)+'/'+endDate.substring(2, startDate.length),{
 
     }).then(function(response){
         for(let i in response.data.data) {
@@ -443,10 +567,8 @@
         }).catch(function (err) {
             console.log(err);
         });
-    }
+    }*/
 
-    // 첫 페이지 세팅
-    bindAxios();
 
 </script>
 <script type="text/javascript" th:src="@{/lib/js/pjs_header_nav.js}"></script>

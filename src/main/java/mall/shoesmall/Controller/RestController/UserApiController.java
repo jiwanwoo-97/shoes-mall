@@ -11,6 +11,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
+
 @RequiredArgsConstructor
 @RestController
 public class UserApiController {
@@ -68,6 +70,57 @@ public class UserApiController {
                 .headers(new HttpHeaders())
                 .body(response);
     }
+
+    @PostMapping("/api/users/purchase_List/{id}/{startDate}/{endDate}/{status}")
+    public ResponseEntity<List<UserDto.user_purchase_response>> user_purchase_List(@PathVariable("id") Long id,
+                                                                                   @PathVariable("startDate") String startDate,
+                                                                                   @PathVariable("endDate") String endDate,
+                                                                                   @PathVariable("status") String status) throws Exception {
+        List<UserDto.user_purchase_response> response = userService.find_user_purchase_List(id, startDate,endDate,status);
+
+        return ResponseEntity.ok()
+                .headers(new HttpHeaders())
+                .body(response);
+    }
+
+    @PostMapping("/api/users/purchase_list_count/{id}/{startDate}/{endDate}")
+    public ResponseEntity<List<UserDto.user_purchase_response>> user_purchase_list_count(@PathVariable("id") Long id,
+                                                                                   @PathVariable("startDate") String startDate,
+                                                                                   @PathVariable("endDate") String endDate) throws Exception {
+        List<UserDto.user_purchase_response> response = userService.find_user_purchase_list_count(id, startDate,endDate);
+
+        return ResponseEntity.ok()
+                .headers(new HttpHeaders())
+                .body(response);
+    }
+
+    @PostMapping("/api/users/sale_List/{id}/{startDate}/{endDate}/{status}")
+    public ResponseEntity<List<UserDto.user_sale_response>> user_sale_List(@PathVariable("id") Long id,
+                                                                                   @PathVariable("startDate") String startDate,
+                                                                                   @PathVariable("endDate") String endDate,
+                                                                                   @PathVariable("status") String status) throws Exception {
+        List<UserDto.user_sale_response> response = userService.find_user_sale_List(id, startDate,endDate,status);
+
+        return ResponseEntity.ok()
+                .headers(new HttpHeaders())
+                .body(response);
+    }
+
+    @PostMapping("/api/users/sale_list_count/{id}/{startDate}/{endDate}")
+    public ResponseEntity<List<UserDto.user_sale_response>> user_sale_list_count(@PathVariable("id") Long id,
+                                                                                         @PathVariable("startDate") String startDate,
+                                                                                         @PathVariable("endDate") String endDate) throws Exception {
+        List<UserDto.user_sale_response> response = userService.find_user_sale_list_count(id, startDate,endDate);
+
+        return ResponseEntity.ok()
+                .headers(new HttpHeaders())
+                .body(response);
+    }
+
+
+
+
+
 
 
 

@@ -42,27 +42,14 @@ $("#datepicker2").datepicker({
 // 상단 입찰, 진행중, 종료 카테고리
 const tab_item_list = document.querySelectorAll('.tab_item');    // 0: 전체(none) 1:입찰 2:진행중 3:종료
 tab_item_list.forEach(element=>{
+
     element.addEventListener('click', ()=>{
         // 상단 구매입찰 설정
         tab_item_list.forEach(element=>{element.className='tab_item';});
         element.className='tab_item tab_on';
-
-        // status2 layer 팝업 전체로 초기화
-        $(".btn_filter").find("span").text('전체');
-        if($('.status_item').hasClass('item_on')){
-            $('.status_item').removeClass('item_on');
-        }
-        layer.forEach(element=>{
-            element.querySelectorAll('.status_item').item(0).className += ' item_on';
-        });
-
-        // 기간 조회 최근 2개월으로 초기화
-        $(".month_link")[0].click();
-
-        // 액시오스 호출
-        bindAxios();
     });
 });
+
 
 
 
@@ -71,6 +58,7 @@ const month_link_list = document.querySelectorAll('.month_link');    // index :0
 let month_link = $('.month_link').on('click', function(){
     let idx = $('.month_link').index(this)
     cal_input[0].value=calcDate((idx+1)*2);
+    getSaleList();
 });
 
 // 개월선택버튼
@@ -123,7 +111,7 @@ $(document).on('click', '.status_item', function(){
     layer.forEach(element=>{
         element.style.display = 'none';
     });
-    bindAxios();
+    getSaleList();
 });
 
 

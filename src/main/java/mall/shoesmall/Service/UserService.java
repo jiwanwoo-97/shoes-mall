@@ -3,6 +3,8 @@ package mall.shoesmall.Service;
 import lombok.RequiredArgsConstructor;
 import mall.shoesmall.Model.Entity.User;
 import mall.shoesmall.Model.dto.UserDto;
+import mall.shoesmall.Repository.PurchaseRepository;
+import mall.shoesmall.Repository.SaleRepository;
 import mall.shoesmall.Repository.UserRepository;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -13,6 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -26,6 +29,8 @@ public class UserService {
 
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final UserRepository userRepository;
+    private final PurchaseRepository purchaseRepository;
+    private final SaleRepository saleRepository;
 
     @Transactional
     public User saveUserJoin(User user) {
@@ -82,7 +87,7 @@ public class UserService {
         return userRepository.saveAndFlush(user);
     }
 
-
+    @Transactional
     public User updateImage(MultipartFile file, Long id) {
 
         UUID uuid = UUID.randomUUID();
@@ -100,5 +105,25 @@ public class UserService {
 
         return userRepository.save(user);
 
+    }
+
+    @Transactional(readOnly = true)
+    public List<UserDto.user_purchase_response> find_user_purchase_List(Long id, String startDate, String endDate, String status) {
+        return purchaseRepository.getUserPurchaseList(id, startDate, endDate, status);
+    }
+
+    @Transactional(readOnly = true)
+    public List<UserDto.user_purchase_response> find_user_purchase_list_count(Long id, String startDate, String endDate) {
+        return purchaseRepository.getUserPurchaseListCount(id, startDate, endDate);
+
+
+    }
+    @Transactional(readOnly = true)
+    public List<UserDto.user_sale_response> find_user_sale_List(Long id, String startDate, String endDate, String status) {
+        return saleRepository.getUserSaleList(id, startDate, endDate, status);
+    }
+
+    public List<UserDto.user_sale_response> find_user_sale_list_count(Long id, String startDate, String endDate) {
+        return saleRepository.getUserSaleListCount(id, startDate, endDate);
     }
 }

@@ -76,13 +76,17 @@ public class UserController {
 
     // 구매내역
     @GetMapping("/my/buying")
-    public String myBuyingPage() {
+    public String myBuyingPage(@AuthenticationPrincipal PrincipalDetails principalDetails, Model model) {
+        User user = userService.findByUser(principalDetails.getUser().getId());
+        model.addAttribute("user",user);
         return "/mypage/mypage_buying";
     }
 
     // 판매내역 페이지
     @GetMapping("/my/selling")
-    public String mySellingPage() {
+    public String mySellingPage(@AuthenticationPrincipal PrincipalDetails principalDetails, Model model) {
+        User user = userService.findByUser(principalDetails.getUser().getId());
+        model.addAttribute("user",user);
         return "/mypage/mypage_selling";
     }
 
