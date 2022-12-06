@@ -291,7 +291,7 @@
     cal_input[0].value=calcDate(2);
     cal_input[1].value=calcDate(0);
 
-    // Axios 데이터 입력할 inpput 선언
+
     let onLoadStartDate = calcDate(6);
     let startDate = document.querySelector('#datepicker1').value;
     let endDate = document.querySelector('#datepicker2').value;
@@ -338,7 +338,7 @@
     function getSaleList() {
         startDate = document.querySelector('#datepicker1').value;
         endDate = document.querySelector('#datepicker2').value;
-        alert(bidStatus);
+
 
         $.ajax({
             type: "post",
@@ -349,7 +349,7 @@
             $(".purchase_item").remove();
 
             for (let i in response) {
-                console.log(response);
+
                 let random = Math.floor(Math.random() * 4);  // 0~3까지 4개 색상 랜덤 돌릴 것^^
 
                 let $productId = response[i].productId;   // 상품 id
@@ -387,7 +387,7 @@
 
                 // 전체일 경우
                 if ($(".btn_filter").find("span").text() == '전체') {
-                    let row = $('<div class="purchase_item" onclick="location.href=\'/my/buying/' + $productId + '\';">').append(
+                    let row = $('<div class="purchase_item">').append(
                         '<div class="history_product">' +
                         '<div class="product_box">' +
                         '<div class="product" style="background-color:' + colorList[random] + ';">' +
@@ -428,146 +428,6 @@
         getSaleList();
         getSaleCount();
     });
-    // 상단 상태 카운트
-  /*  axios.get('/api/customer_salesinfo/'+sessionId+'/'+onLoadStartDate.substring(2,onLoadStartDate.length)+'/'+endDate.substring(2, startDate.length),{
-
-    }).then(function(response){
-        for(let i in response.data.data) {
-            console.log(response);
-            let $status1 = response.data.data[i].status1;   // 상품 상태
-            // 입찰, 진행중, 종료일 경우
-            if ($status1 == '판매입찰') {
-                bindCount += 1;
-            } else if ($status1 == '진행중') {
-                continueCount += 1;
-            } else {    // 종료
-                endCount += 1;
-            }
-        }
-        document.querySelector('#bindCount').innerHTML = bindCount;
-        document.querySelector('#continueCount').innerHTML = continueCount;
-        document.querySelector('#endCount').innerHTML = endCount;
-
-    }).catch(function(err){
-        console.log(err);
-    });
-
-
-    // 판매내역 가져오기 Axios
-    const bindAxios = function() {
-        $('.purchase_item_wrap').html('');
-
-        // 바뀐 값으로 재할당
-        startDate = document.querySelector('#datepicker1').value;
-        endDate = document.querySelector('#datepicker2').value;
-
-        axios.get('/api/customer_salesinfo/'+sessionId+'/'+startDate.substring(2, startDate.length)+'/'+endDate.substring(2, startDate.length), {
-
-        }).then(function (response) {
-            for (let i in response.data.data) {
-                console.log(response);
-                let random = Math.floor(Math.random() * 4);  // 0~3까지 4개 색상 랜덤 돌릴 것^^
-
-                let $id = response.data.data[i].id; // 판매 id
-                let $productId = response.data.data[i].productId;   // 상품 id
-                let $name = response.data.data[i].name;     // 상품 이름
-                let $img = response.data.data[i].originFileName;   // 상품 사진
-                let $status1 = response.data.data[i].status1;   // 상품 상태
-                let $status2 = response.data.data[i].status2;   // 상품 상태
-                let $status3 = response.data.data[i].status3;   // 상품 상태
-
-                let $size = response.data.data[i].size;    // 상품 사이즈
-                if ($size == null) {
-                    $size = ' - ';
-                }
-
-                let $price = response.data.data[i].price + '';   // 상품 가격
-                if ($price == 'null') {
-                    $price = ' - ';
-                } else {
-                    $price = $price.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-                }
-
-                let $period = response.data.data[i].period;     // 입찰기간 (일)
-                let $regdate = response.data.data[i].regdate;   // 판매일자
-                let regdateStr = $regdate.substring(0, 10);
-                let cal_period = new Date(regdateStr);
-                if ($period != null) {
-                    cal_period.setDate(cal_period.getDate() + parseInt($period));
-                }
-
-                // status2 카테고리별
-                if(document.querySelector('.tab_on .title').innerHTML == $status1) {
-                    // 전체일 경우
-                    if ($(".btn_filter").find("span").text() == '전체') {
-                        let row = $('<div class="purchase_item" onclick="location.href=\'/my/selling/' + $id + '\';">').append(
-                            '<div class="history_product">' +
-                            '<div class="product_box">' +
-                            '<div class="product" style="background-color:' + colorList[random] + ';">' +
-                            '<img src="/lib/product/' + $img + '" alt="' + $name + '" class="product_img">' +
-                            '</div></div>' +
-                            '<div class="product_detail">' +
-                            '<p class="name">' + $name + '</p><span class="size">' + $size + '</span>' +
-                            '</div></div>' +
-                            '<div class="history_status">' +
-                            '<div class="status_box field_price">' +
-                            '<div class="price">' +
-                            '<span class="amount">' + $price + '</span>' +
-                            '<span class="unit">원</span>' +
-                            '</div></div>' +
-                            '<div class="status_box field_date_purchased" style="display: none">' +
-                            '<span class="date">' + regdateStr + '</span>' +
-                            '</div>' +
-                            '<div class="status_box field_date_paid" style="display: none">' +
-                            '<span class="date">' + regdateStr + '</span>' +
-                            '</div>' +
-                            '<div class="status_box field_expires_at">' +
-                            '<span class="date text-default">' + dateFormat(cal_period) + '</span>' +
-                            '</div>' +
-                            '<div class="status_box field_status" style="display: none">' +
-                            '<span class="status_txt text-default">' + $status2 + '</span>' +
-                            '</div></div></div>'
-                        );
-                        $('.purchase_item_wrap').append(row);
-
-                        // status2 와 filter 일치할 경우
-                    } else if ($(".btn_filter").find("span").text() == $status2) {
-                        let row = $('<div class="purchase_item" onclick="location.href=\'/my/selling/' + $id + '\';">').append(
-                            '<div class="history_product">' +
-                            '<div class="product_box">' +
-                            '<div class="product" style="background-color:' + colorList[random] + ';">' +
-                            '<img src="/lib/product/' + $img + '" alt="' + $name + '" class="product_img">' +
-                            '</div></div>' +
-                            '<div class="product_detail">' +
-                            '<p class="name">' + $name + '</p><span class="size">' + $size + '</span>' +
-                            '</div></div>' +
-                            '<div class="history_status">' +
-                            '<div class="status_box field_price">' +
-                            '<div class="price">' +
-                            '<span class="amount">' + $price + '</span>' +
-                            '<span class="unit">원</span>' +
-                            '</div></div>' +
-                            '<div class="status_box field_date_purchased" style="display: none">' +
-                            '<span class="date">' + regdateStr + '</span>' +
-                            '</div>' +
-                            '<div class="status_box field_date_paid" style="display: none">' +
-                            '<span class="date">' + regdateStr + '</span>' +
-                            '</div>' +
-                            '<div class="status_box field_expires_at">' +
-                            '<span class="date text-default">' + dateFormat(cal_period) + '</span>' +
-                            '</div>' +
-                            '<div class="status_box field_status" style="display: none">' +
-                            '<span class="status_txt text-default">' + $status2 + '</span>' +
-                            '</div></div></div>'
-                        );
-                        $('.purchase_item_wrap').append(row);
-                    }
-                }
-            }
-        }).catch(function (err) {
-            console.log(err);
-        });
-    }*/
 
 
 </script>

@@ -349,7 +349,6 @@
         function getPurchaseList() {
             startDate = document.querySelector('#datepicker1').value;
             endDate = document.querySelector('#datepicker2').value;
-            alert(bidStatus);
 
                 $.ajax({
                     type: "post",
@@ -360,7 +359,7 @@
                     $(".purchase_item").remove();
 
                     for (let i in response) {
-                        console.log(response);
+
                         let random = Math.floor(Math.random() * 4);  // 0~3까지 4개 색상 랜덤 돌릴 것^^
 
                         let $productId = response[i].productId;   // 상품 id
@@ -398,7 +397,7 @@
 
                             // 전체일 경우
                             if ($(".btn_filter").find("span").text() == '전체') {
-                                let row = $('<div class="purchase_item" onclick="location.href=\'/my/buying/' + $productId + '\';">').append(
+                                let row = $('<div class="purchase_item"">').append(
                                     '<div class="history_product">' +
                                     '<div class="product_box">' +
                                     '<div class="product" style="background-color:' + colorList[random] + ';">' +
