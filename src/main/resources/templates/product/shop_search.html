@@ -19,82 +19,10 @@
     let proSize = [];
     let click_ca;
     let click_va;
-    let select = '"' + click_ca + '":' + '"'+ click_va + '"' ;
-    const customer_id = sessionStorage.getItem( "userid")
+    let select = '"' + click_ca + '":' + '"' + click_va + '"';
 
 
 
-  /*  /!* 콘텐츠 쇼잉*!/
-    $(function () {
-
-        let axios3 = '/api/pro_userlist';
-
-        let category_click = null;
-        let subcategory_click = null;
-        let brand_click = null;
-        let gender_click = null;
-        let collecttion_click = null;
-        let price_click = null;
-
-
-
-        axios.all([axios.request({
-            method:"POST",
-            url:axios3,
-            headers:{'Content-type':'application/json'},
-            data:{
-                "data":{
-                    "category" : category_click ,
-                    "subcategory" : subcategory_click ,
-                    "gender" : gender_click ,
-                    "brand" : brand_click,
-                    "collecttion" : collecttion_click ,
-                    "price" : price_click
-
-                }
-            }
-        })
-        ]).then(function (response) {
-
-            console.log(response);
-            let pro_con = $(' <div class="sec_flex_box default_list">');
-            for (let i in response[0].data.data) {
-                let $proBrand = response[0].data.data[i].brand;
-                let $proKorName = response[0].data.data[i].korName;
-                let $proName = response[0].data.data[i].name;
-                let $proReleasePrice = response[0].data.data[i].price;
-                let $proImg = response[0].data.data[i].origFileName;
-                let $pro_id = response[0].data.data[i].id;
-                if($proReleasePrice == null){
-                    $price = "-"
-                }else{
-                    $price = priceToString($proReleasePrice);
-                }
-                function priceToString($proReleasePrice){
-                    return $proReleasePrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-                }
-                let con = $('<div  class="sec_img_box" style="cursor: pointer">').append(
-                    '<div id="reImg"><div class="sec_mark_box"><a href="#" class="a_mark"><div class="sec_marking" value="'+$pro_id+'"></div></a></div></div> '+
-                    '<div><img src="/lib/product/'+$proImg +'" class="sec_img"  onclick="location.href=\'/product/'+ $pro_id+'\';" id="sec2_img1" no-repeat center/cover;></div>' +
-                    '<div class="sec_brand_box"> <div class="sec_brand_line"> </div>' +
-                    '<div class="sec_brand_text">' + $proBrand + '</div>' +
-                    '<div class="sec_brand_s_text">' + $proName + '</div>' +
-                    '<div class="sec_price">' +
-                    '<div class="sec_num">' + $price + '</div><div class="sec_won">원</div></div><div class="sec_price_text">즉시 구매가</div>' +
-                    '</a></div>'
-                )
-                pro_con.append(con);
-            }
-            pro_con.append('</div>');
-
-            $('.search_result_list').html(pro_con);
-            let list_len = response[0].data.data.length;
-            $('#list_len').text(list_len.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','));
-        }).catch(function (err) {
-            console.log(err);
-        })
-    });
-*/
 </script>
 <body id="shop_search">
 <!-- head.html -->
@@ -111,10 +39,10 @@
         <div class="navigation_inner">
             <ul class="nav_list">
                 <li class="nav_item">
-                    <a href="/social/trending" class="nav_link" >STYLE</a>
+                    <a href="/social/trending" class="nav_link">STYLE</a>
                 </li>
                 <li class="nav_item">
-                    <a href="/kream/search" class="nav_link" >SHOP</a>
+                    <a href="/kream/search" class="nav_link">SHOP</a>
                 </li>
                 <li class="nav_item">
                     <a href="/faq" class="nav_link">자주 묻는 질문</a>
@@ -127,7 +55,9 @@
                 </li>
                 <li class="nav_item" sec:authorize="hasRole('ADMIN')"><a href="/pages" class="nav_link"> 관리자 </a></li>
                 <li class="nav_item" sec:authorize="!isAuthenticated()"><a href="/login" class="nav_link"> 로그인 </a></li>
-                <li class="nav_item" sec:authorize="isAuthenticated()"><a href="/logout" class="nav_link" onclick="sessionStorage.clear()"> 로그아웃 </a></li>
+                <li class="nav_item" sec:authorize="isAuthenticated()"><a href="/logout" class="nav_link"
+                                                                          onclick="sessionStorage.clear()"> 로그아웃 </a>
+                </li>
                 <!---->
             </ul>
             <!---->
@@ -155,9 +85,10 @@
         </div>
 
         <div class="search_title has_input" style="display: none">
-            <H2 class="title_txt" ></H2>
+            <H2 class="title_txt"></H2>
             <div value="" class="search_area" style="background-color: #FFFFFF">
-                <input type="text" placeholder="브랜드명, 모델명 ,모델번호 등" title="검색창" name="검색메인" class="in_search show_placeholder_on_focus for_search" autocomplete="off">
+                <input type="text" placeholder="브랜드명, 모델명 ,모델번호 등" title="검색창" name="검색메인"
+                       class="in_search show_placeholder_on_focus for_search" autocomplete="off">
                 <div class="btn_search_delete lg">
                     <img src="/lib/img/h_img/logo/close_btn.png" class="stop">
                 </div>
@@ -196,54 +127,56 @@
                     <a class="brand_box">
                         <p class="brand_name">
                             <!--                            <img src="/lib/img/h_img/brand_box_img/jd1.png" alt="Jordan1"   value="Jordan1" class="brand_img">Jordan1-->
-                            <input type="image"  src="/lib/product/4e33813f-ad6c-45e8-b321-42c3d2078e74_p_20643_0_5d1ee4856d3f439e87c77c2572e875c3.png" alt="Jordan1"   value="Jordan1" class="brand_img">Jordan1
+                            <input type="image"
+                                   src="/lib/product/4e33813f-ad6c-45e8-b321-42c3d2078e74_p_20643_0_5d1ee4856d3f439e87c77c2572e875c3.png"
+                                   alt="Jordan1" value="Jordan1" class="brand_img">Jordan1
                         </p>
                     </a>
                 </li>
                 <li class="brand_item">
                     <a class="brand_box">
-                        <p class="brand_name"  >
+                        <p class="brand_name">
                             <!--                            <img src="/lib/img/h_img/brand_box_img/dunk.png" alt="Dunk" class="brand_img">Dunk-->
-                            <input type="image" src="/lib/product/4bdd93ae-78f6-4940-959a-93cd571911a8_p_95fc84e59b9347e7b1fd1095598aeb2e.png" alt="Dunk"value="Dunk" class="brand_img">Dunk
+                            <input type="image"
+                                   src="/lib/product/4bdd93ae-78f6-4940-959a-93cd571911a8_p_95fc84e59b9347e7b1fd1095598aeb2e.png"
+                                   alt="Dunk" value="Dunk" class="brand_img">Dunk
 
                         </p>
                     </a>
                 </li>
                 <li class="brand_item">
                     <a class="brand_box">
-                        <p class="brand_name"  >
+                        <p class="brand_name">
                             <!--                            <img src="/lib/img/h_img/brand_box_img/skat.png" alt="스캇"class="brand_img">-->
-                            <input type="image" src="/lib/product/5bb6c4b8-467c-484a-8617-32763756249c_p_b9e27c1c4c9f4c2d9f84dbb13507f2ac.png" value="Jordan3"alt="Jordan3"class="brand_img">Jordan3
+                            <input type="image"
+                                   src="/lib/product/5bb6c4b8-467c-484a-8617-32763756249c_p_b9e27c1c4c9f4c2d9f84dbb13507f2ac.png"
+                                   value="Jordan3" alt="Jordan3" class="brand_img">Jordan3
 
                         </p>
                     </a>
                 </li>
                 <li class="brand_item">
                     <a class="brand_box">
-                        <p class="brand_name" >
+                        <p class="brand_name">
                             <!--                            <img src="/lib/img/h_img/brand_box_img/tombrown.png" alt="톰브라운" class="brand_img">톰브라운-->
-                            <input  type="image" src="/lib/product/a8c2e8c5-d266-4b2c-9a7b-43bb1edaad37_Adidas Yeezy 700 V3 Clay Brown.png"  value="Adidas"alt="Adidas" class="brand_img">Adidas
+                            <input type="image"
+                                   src="/lib/product/a8c2e8c5-d266-4b2c-9a7b-43bb1edaad37_Adidas Yeezy 700 V3 Clay Brown.png"
+                                   value="Adidas" alt="Adidas" class="brand_img">Adidas
                         </p>
                     </a>
                 </li>
 
                 <li class="brand_item">
                     <a class="brand_box">
-                        <p class="brand_name"  >
+                        <p class="brand_name">
                             <!--                            <img src="/lib/img/h_img/brand_box_img/lego.png" alt="레고" class="brand_img">레고 -->
-                            <input  type="image" src="/lib/product/ac119e48-f154-45eb-8bb5-66b255f48216_Balenciaga Track.2 Sneaker Blue Red 2019.png" value="Asics"alt="Asics" class="brand_img">Asics
+                            <input type="image"
+                                   src="/lib/product/ac119e48-f154-45eb-8bb5-66b255f48216_Balenciaga Track.2 Sneaker Blue Red 2019.png"
+                                   value="Asics" alt="Asics" class="brand_img">Asics
 
                         </p>
                     </a>
                 </li>
-                <li class="brand_item">
-                    <a class="brand_box" >
-                        <p class="brand_name" >
-                            <!--                            <img src="/lib/img/h_img/brand_box_img/iab_studio.png" alt="IAB Studio" class="brand_img">IAB Studio-->
-                            <input  type="image" src="/lib/product/af990ad0-4162-445e-b46a-2141cb9d2d47_a_4a933942f6e04fccb25b476d33379be7(1).png" value="IKEA" alt="IKEA" class="brand_img">IKEA
-
-                        </p>
-                    </a></li>
             </ul>
         </div>
         <!-- top box sneakers-->
@@ -253,23 +186,28 @@
                     <a class="brand_box">
                         <p class="brand_name">
                             <!--                            <img src="/lib/img/h_img/brand_box_img/jd1.png" alt="Jordan1"   value="Jordan1" class="brand_img">Jordan1-->
-                            <input type="image"  src="/lib/product/2d7ee8a8-391b-4673-bb78-04efb0c923fe_p_ce7a3406e3f848beb2e082b288de72d7.png" alt="Adidas"   value="Adidas" class="brand_img">Adidas
+                            <input type="image"
+                                   src="/lib/product/2d7ee8a8-391b-4673-bb78-04efb0c923fe_p_ce7a3406e3f848beb2e082b288de72d7.png"
+                                   alt="Adidas" value="Adidas" class="brand_img">Adidas
                         </p>
                     </a>
                 </li>
                 <li class="brand_item">
                     <a class="brand_box">
-                        <p class="brand_name" >
+                        <p class="brand_name">
                             <!--                            <img src="/lib/img/h_img/brand_box_img/dunk.png" alt="Dunk" class="brand_img">Dunk-->
-                            <input type="image" src="/lib/product/ac119e48-f154-45eb-8bb5-66b255f48216_Balenciaga Track.2 Sneaker Blue Red 2019.png" alt="Asics"  value="Asics"class="brand_img">Asics
+                            <input type="image"
+                                   src="/lib/product/ac119e48-f154-45eb-8bb5-66b255f48216_Balenciaga Track.2 Sneaker Blue Red 2019.png"
+                                   alt="Asics" value="Asics" class="brand_img">Asics
                         </p>
                     </a>
                 </li>
                 <li class="brand_item">
                     <a class="brand_box">
-                        <p class="brand_name" >
+                        <p class="brand_name">
                             <!--                            <img src="/lib/img/h_img/brand_box_img/skat.png" alt="스캇"class="brand_img">-->
-                            <input type="image" src="/lib/product/닥터마틴 x 보데가 1461.png" alt="Dr. Martens" value="Dr. Martens"class="brand_img">Dr. Martens
+                            <input type="image" src="/lib/product/닥터마틴 x 보데가 1461.png" alt="Dr. Martens"
+                                   value="Dr. Martens" class="brand_img">Dr. Martens
 
                         </p>
                     </a>
@@ -286,33 +224,40 @@
                     <a class="brand_box">
                         <p class="brand_name">
                             <!--                            <img src="/lib/img/h_img/brand_box_img/jd1.png" alt="Jordan1"   value="Jordan1" class="brand_img">Jordan1-->
-                            <input type="image"   src="/lib/product/a_ade49a968a4b48f49336ae8f59deaf22.jpg" alt="Maison Kitsune"   value="Maison Kitsune" class="brand_img">Maison Kitsune
+                            <input type="image" src="/lib/product/a_ade49a968a4b48f49336ae8f59deaf22.jpg"
+                                   alt="Maison Kitsune" value="Maison Kitsune" class="brand_img">Maison Kitsune
                         </p>
                     </a>
                 </li>
                 <li class="brand_item">
                     <a class="brand_box">
-                        <p class="brand_name" >
+                        <p class="brand_name">
                             <!--                            <img src="/lib/img/h_img/brand_box_img/dunk.png" alt="Dunk" class="brand_img">Dunk-->
-                            <input type="image"  src="/lib/product/b5155702-f610-400e-a2ab-06d2c7d6e1b1_Stone Island 63051 Crewneck Sweatshirt Black - 21SS2.jpg" alt="Stone Island"  value="Stone Island"class="brand_img">Stone Island
+                            <input type="image"
+                                   src="/lib/product/b5155702-f610-400e-a2ab-06d2c7d6e1b1_Stone Island 63051 Crewneck Sweatshirt Black - 21SS2.jpg"
+                                   alt="Stone Island" value="Stone Island" class="brand_img">Stone Island
 
                         </p>
                     </a>
                 </li>
                 <li class="brand_item">
                     <a class="brand_box">
-                        <p class="brand_name" >
+                        <p class="brand_name">
                             <!--                            <img src="/lib/img/h_img/brand_box_img/skat.png" alt="스캇"class="brand_img">-->
-                            <input type="image" src="/lib/product/3f49c0ac-5e54-43ef-a564-9186d79af350_The North Face M’s 1996 Novelty Nuptse Jacket Real Black.jpg" alt="The North Face" value="The North Face"class="brand_img">The North Face
+                            <input type="image"
+                                   src="/lib/product/3f49c0ac-5e54-43ef-a564-9186d79af350_The North Face M’s 1996 Novelty Nuptse Jacket Real Black.jpg"
+                                   alt="The North Face" value="The North Face" class="brand_img">The North Face
 
                         </p>
                     </a>
                 </li>
                 <li class="brand_item">
                     <a class="brand_box">
-                        <p class="brand_name" >
+                        <p class="brand_name">
                             <!--                            <img src="/lib/img/h_img/brand_box_img/tombrown.png" alt="톰브라운" class="brand_img">톰브라운-->
-                            <input type="image" src="/lib/product/52802073-54fe-451b-989e-d2a4612b5650_Samsung Galaxy Z Fold2 Thom Browne Edition.png" alt="Thom Browne" value="Thom Browne" class="brand_img">Thom Browne
+                            <input type="image"
+                                   src="/lib/product/52802073-54fe-451b-989e-d2a4612b5650_Samsung Galaxy Z Fold2 Thom Browne Edition.png"
+                                   alt="Thom Browne" value="Thom Browne" class="brand_img">Thom Browne
                         </p>
                     </a>
                 </li>
@@ -328,15 +273,18 @@
                 <li class="brand_item">
                     <a class="brand_box">
                         <p class="brand_name">
-                            <input type="image"  src="/lib/product/a_fac9719356514391bab69a1a51e83db3.jpg" alt="Casetify"   value="Casetify" class="brand_img">Casetify
+                            <input type="image" src="/lib/product/a_fac9719356514391bab69a1a51e83db3.jpg" alt="Casetify"
+                                   value="Casetify" class="brand_img">Casetify
                         </p>
                     </a>
                 </li>
                 <li class="brand_item">
                     <a class="brand_box">
-                        <p class="brand_name" >
+                        <p class="brand_name">
                             <!--                            <img src="/lib/img/h_img/brand_box_img/dunk.png" alt="Dunk" class="brand_img">Dunk-->
-                            <input type="image"  src="/lib/product/09bbe1d8-6dda-4591-883f-f187f4de043e_Supreme Webbing Keychain Black - 20FW.jpg" alt="x Supreme"  value="x Supreme"class="brand_img">Supreme
+                            <input type="image"
+                                   src="/lib/product/09bbe1d8-6dda-4591-883f-f187f4de043e_Supreme Webbing Keychain Black - 20FW.jpg"
+                                   alt="x Supreme" value="x Supreme" class="brand_img">Supreme
 
                         </p>
                     </a>
@@ -356,7 +304,9 @@
                     <a class="brand_box">
                         <p class="brand_name">
                             <!--                            <img src="/lib/img/h_img/brand_box_img/jd1.png" alt="Jordan1"   value="Jordan1" class="brand_img">Jordan1-->
-                            <input type="image"  src="/lib/product/af990ad0-4162-445e-b46a-2141cb9d2d47_a_4a933942f6e04fccb25b476d33379be7(1).png" alt="IKEA"   value="IKEA" class="brand_img">IKEA
+                            <input type="image"
+                                   src="/lib/product/af990ad0-4162-445e-b46a-2141cb9d2d47_a_4a933942f6e04fccb25b476d33379be7(1).png"
+                                   alt="IKEA" value="IKEA" class="brand_img">IKEA
                         </p>
                     </a>
                 </li>
@@ -372,35 +322,39 @@
             <ul class="search_list">
                 <li class="brand_item">
                     <a class="brand_box">
-                        <p class="brand_name" >
+                        <p class="brand_name">
                             <!--                            <img src="/lib/img/h_img/brand_box_img/dunk.png" alt="Dunk" class="brand_img">Dunk-->
-                            <input type="image"  src="/lib/product/마이크로소프트 엑스박스 시리즈 X (한국 정식 발매 제품).jpg" alt="Microsoft"  value="Microsoft"class="brand_img">Microsoft
+                            <input type="image" src="/lib/product/마이크로소프트 엑스박스 시리즈 X (한국 정식 발매 제품).jpg" alt="Microsoft"
+                                   value="Microsoft" class="brand_img">Microsoft
 
                         </p>
                     </a>
                 </li>
                 <li class="brand_item">
                     <a class="brand_box">
-                        <p class="brand_name" >
+                        <p class="brand_name">
                             <!--                            <img src="/lib/img/h_img/brand_box_img/skat.png" alt="스캇"class="brand_img">-->
-                            <input type="image"  src="/lib/product/NVIDIA.png" alt="Nvidia" value="Nvidia"class="brand_img">Nvidia
+                            <input type="image" src="/lib/product/NVIDIA.png" alt="Nvidia" value="Nvidia"
+                                   class="brand_img">Nvidia
 
                         </p>
                     </a>
                 </li>
                 <li class="brand_item">
                     <a class="brand_box">
-                        <p class="brand_name" >
+                        <p class="brand_name">
                             <!--                            <img src="/lib/img/h_img/brand_box_img/tombrown.png" alt="톰브라운" class="brand_img">톰브라운-->
-                            <input  type="image"  src="/lib/product/삼성 갤럭시 워치4 클래식 톰브라운 에디션.jpg" alt="Samsung" value="Samsung" class="brand_img">Samsung
+                            <input type="image" src="/lib/product/삼성 갤럭시 워치4 클래식 톰브라운 에디션.jpg" alt="Samsung"
+                                   value="Samsung" class="brand_img">Samsung
                         </p>
                     </a>
                 </li>
                 <li class="brand_item">
                     <a class="brand_box">
-                        <p class="brand_name"  >
+                        <p class="brand_name">
                             <!--                            <img src="/lib/img/h_img/brand_box_img/wallet.png" alt="지갑" class="brand_img">지갑-->
-                            <input  type="image"  src="/lib/product/소니 플레이스테이션 5 블루레이 에디션 (한국 정식 발매 제품).jpg" alt="Sony"value="Sony" class="brand_img">Sony
+                            <input type="image" src="/lib/product/소니 플레이스테이션 5 블루레이 에디션 (한국 정식 발매 제품).jpg" alt="Sony"
+                                   value="Sony" class="brand_img">Sony
                         </p>
                     </a></li>
             </ul>
@@ -415,70 +369,6 @@
             <div class="filter_status">
                 <div class="status_box"><span class="status_txt" style="font-weight: bold;">필터</span></div>
                 <a href="#a" class="st_clear" style="color:rgb(158, 158, 158)">모두 삭제</a>
-            </div>
-            <!-- 사이드바 1번 항목 -->
-            <div class="filter_list">
-                <div class="filter_title">
-                    <div class="title_box">
-                        <span class="main_title">카테고리</span>
-                        <span class="placeholder">모든 카테고리</span>
-                    </div>
-
-                    <div class="ico_box">
-                        <img class="side_btn" src="/lib/img/h_img/logo/side_btn1.PNG" alt="">
-                    </div>
-                </div>
-                <div class="filter_menu">
-                    <ul class="menu_list">
-                        <!--                        <input type="radio"  class="checkInput" name="checkInput" value="">-->
-                        <li class="menu checkMenu">
-                            <a class="menu_link">
-                                <label class="link_txt" for="sniInput">
-                                    <input type="checkbox" style="display: none" class="checkInput" name="checkInput" id="sniInput" value="스니커즈">
-                                    <img src="/lib/img/check_box.png" alt="체크박스 이미지" class="check_box checkImg"
-                                         name="ch_box">
-                                    스니커즈
-                                </label>
-                            </a>
-                        </li>
-
-                        <li class="menu checkMenu">
-                            <a class="menu_link">
-                                <label class="link_txt" for="clotInput">
-                                    <input type="checkbox" style="display: none" class="checkInput"  name="checkInput" id="clotInput" value="의류">
-                                    <img src="/lib/img/check_box.png" alt="체크박스 이미지" name="ch_box"
-                                         class="check_box checkImg">
-                                    의류
-                                </label>
-                            </a>
-                        </li>
-                        <li class="menu checkMenu">
-                            <a class="menu_link">
-                                <label class="link_txt" for="fasInput">
-                                    <input type="checkbox" style="display: none" class="checkInput" name="checkInput" id="fasInput" value="패션잡화">
-                                    <img src="/lib/img/check_box.png" alt="체크박스 이미지" class="check_box checkImg">
-                                    패션 잡화
-                                </label>
-                            </a>
-                        </li>
-                        <li class="menu checkMenu">
-                            <a class="menu_link">
-                                <label class="link_txt" for="techInput">
-                                    <input type="checkbox" style="display: none" class="checkInput" name="checkInput" id="techInput" value="라이프">
-                                    <img src="/lib/img/check_box.png" alt="체크박스 이미지" class="check_box checkImg"> 라이프
-                                </label>
-                            </a>
-                        </li>
-                        <li class="menu checkMenu">
-                            <a class="menu_link">
-                                <label class="link_txt" for="lifeInput">
-                                    <input type="checkbox" style="display: none" class="checkInput" name="checkInput" id="lifeInput" value="테크">
-                                    <img src="/lib/img/check_box.png" alt="체크박스 이미지" class="check_box checkImg"> 테크
-                                </label>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
             </div>
             <!-- 사이드바 2번 항목 -->
             <div class="filter_list">
@@ -499,15 +389,18 @@
                         <li class="menu checkMenuLi">
                             <a class="menu_link">
                                 <label class="link_txt" for="brandCheck1">
-                                    <input type="checkbox" style="display: none" class="searchCheck" name="searchCheck" id="brandCheck1" value="Adidas">
-                                    <img src="/lib/img/h_img/logo/check_box.png" alt="체크박스 이미지" class="check_box checkBoxImg">
+                                    <input type="checkbox" style="display: none" class="searchCheck" name="searchCheck"
+                                           id="brandCheck1" value="Adidas">
+                                    <img src="/lib/img/h_img/logo/check_box.png" alt="체크박스 이미지"
+                                         class="check_box checkBoxImg">
                                     Adidas</label>
                             </a>
                         </li>
                         <li class="menu checkMenuLi">
                             <a class="menu_link">
                                 <label class="link_txt" for="brandCheck2">
-                                    <input type="checkbox" style="display: none" class="searchCheck" name="searchCheck" id="brandCheck2" value="Asics">
+                                    <input type="checkbox" style="display: none" class="searchCheck" name="searchCheck"
+                                           id="brandCheck2" value="Asics">
                                     <img src="/lib/img/h_img/logo/check_box.png" alt="체크박스 이미지"
                                          class="check_box checkBoxImg">
                                     Asics</label>
@@ -516,55 +409,28 @@
                         <li class="menu checkMenuLi">
                             <a class="menu_link">
                                 <label class="link_txt" for="brandCheck3">
-                                    <input type="checkbox" style="display: none" class="searchCheck" name="searchCheck" id="brandCheck3" value="Balenciaga">
-                                    <img src="/lib/img/h_img/logo/check_box.png" alt="체크박스 이미지" class="check_box checkBoxImg">
+                                    <input type="checkbox" style="display: none" class="searchCheck" name="searchCheck"
+                                           id="brandCheck3" value="Balenciaga">
+                                    <img src="/lib/img/h_img/logo/check_box.png" alt="체크박스 이미지"
+                                         class="check_box checkBoxImg">
                                     Balenciaga</label>
                             </a>
                         </li>
-                        <li class="menu checkMenuLi">
-                            <a class="menu_link">
-                                <label class="link_txt" for="brandCheck4">
-                                    <input type="checkbox" style="display: none" class="searchCheck" name="searchCheck" id="brandCheck4" value="Thom Browne">
-                                    <img src="/lib/img/h_img/logo/check_box.png" alt="체크박스 이미지" class="check_box checkBoxImg">Thom Browne</label>
-                            </a>
-                        </li>
-                        <li class="menu checkMenuLi">
-                            <a class="menu_link">
-                                <label class="link_txt" for="brandCheck5">
-                                    <input type="checkbox" style="display: none" class="searchCheck" name="searchCheck" id="brandCheck5" value="Canada Goose">
-                                    <img src="/lib/img/h_img/logo/check_box.png" alt="체크박스 이미지"
-                                         class="check_box checkBoxImg">
-                                    Canada Goose</label>
-                            </a>
-                        </li>
-                        <li class="menu checkMenuLi">
-                            <a class="menu_link">
-                                <label class="link_txt" for="brandCheck6">
-                                    <input type="checkbox" style="display: none" class="searchCheck" name="searchCheck" id="brandCheck6" value="Casetify">
-                                    <img src="/lib/img/h_img/logo/check_box.png" alt="체크박스 이미지" class="check_box checkBoxImg">Casetify
-                                </label>
-                            </a>
-                        </li>
+
                         <li class="menu checkMenuLi">
                             <a class="menu_link">
                                 <label class="link_txt" for="brandCheck7">
-                                    <input type="checkbox" style="display: none" class="searchCheck" name="searchCheck" id="brandCheck7" value="Dr. Martens">
-                                    <img src="/lib/img/h_img/logo/check_box.png" alt="체크박스 이미지" class="check_box checkBoxImg">Dr. Martens</label>
-                            </a>
-                        </li>
-                        <li class="menu checkMenuLi">
-                            <a class="menu_link">
-                                <label class="link_txt" for="brandCheck8">
-                                    <input type="checkbox" style="display: none" class="searchCheck" name="searchCheck" id="brandCheck8" value="IKEA">
+                                    <input type="checkbox" style="display: none" class="searchCheck" name="searchCheck"
+                                           id="brandCheck7" value="Dr. Martens">
                                     <img src="/lib/img/h_img/logo/check_box.png" alt="체크박스 이미지"
-                                         class="check_box checkBoxImg">
-                                    IKEA</label>
+                                         class="check_box checkBoxImg">Dr. Martens</label>
                             </a>
                         </li>
                         <li class="menu checkMenuLi">
                             <a class="menu_link">
                                 <label class="link_txt" for="brandCheck9">
-                                    <input type="checkbox" style="display: none" class="searchCheck" name="searchCheck" id="brandCheck9" value="jodans">
+                                    <input type="checkbox" style="display: none" class="searchCheck" name="searchCheck"
+                                           id="brandCheck9" value="jodans">
                                     <img src="/lib/img/h_img/logo/check_box.png" alt="체크박스 이미지"
                                          class="check_box checkBoxImg">
                                     jodans</label>
@@ -572,35 +438,9 @@
                         </li>
                         <li class="menu checkMenuLi">
                             <a class="menu_link">
-                                <label class="link_txt" for="brandCheck10">
-                                    <input type="checkbox" style="display: none" class="searchCheck" name="searchCheck" id="brandCheck10" value="BAPE">
-                                    <img src="/lib/img/h_img/logo/check_box.png" alt="체크박스 이미지"
-                                         class="check_box checkBoxImg">
-                                    BAPE</label>
-                            </a>
-                        </li>
-                        <li class="menu checkMenuLi">
-                            <a class="menu_link">
-                                <label class="link_txt" for="brandCheck11">
-                                    <input type="checkbox" style="display: none" class="searchCheck" name="searchCheck" id="brandCheck11" value="Maison Kitsune">
-                                    <img src="/lib/img/h_img/logo/check_box.png" alt="체크박스 이미지"
-                                         class="check_box checkBoxImg">
-                                    Maison Kitsune</label>
-                            </a>
-                        </li>
-                        <li class="menu checkMenuLi">
-                            <a class="menu_link">
-                                <label class="link_txt" for="brandCheck12">
-                                    <input type="checkbox" style="display: none" class="searchCheck" name="searchCheck" id="brandCheck12" value="Microsoft">
-                                    <img src="/lib/img/h_img/logo/check_box.png" alt="체크박스 이미지"
-                                         class="check_box checkBoxImg">
-                                    Microsoft</label>
-                            </a>
-                        </li>
-                        <li class="menu checkMenuLi">
-                            <a class="menu_link">
                                 <label class="link_txt" for="brandCheck13">
-                                    <input type="checkbox" style="display: none" class="searchCheck" name="searchCheck" id="brandCheck13" value="New balance">
+                                    <input type="checkbox" style="display: none" class="searchCheck" name="searchCheck"
+                                           id="brandCheck13" value="New balance">
                                     <img src="/lib/img/h_img/logo/check_box.png" alt="체크박스 이미지"
                                          class="check_box checkBoxImg">
                                     New balance</label>
@@ -609,7 +449,8 @@
                         <li class="menu checkMenuLi">
                             <a class="menu_link">
                                 <label class="link_txt" for="brandCheck14">
-                                    <input type="checkbox" style="display: none" class="searchCheck" name="searchCheck" id="brandCheck14" value="Nike">
+                                    <input type="checkbox" style="display: none" class="searchCheck" name="searchCheck"
+                                           id="brandCheck14" value="Nike">
                                     <img src="/lib/img/h_img/logo/check_box.png" alt="체크박스 이미지"
                                          class="check_box checkBoxImg">
                                     Nike</label>
@@ -617,52 +458,9 @@
                         </li>
                         <li class="menu checkMenuLi">
                             <a class="menu_link">
-                                <label class="link_txt" for="brandCheck15">
-                                    <input type="checkbox" style="display: none" class="searchCheck" name="searchCheck" id="brandCheck15" value="Nintendo">
-                                    <img src="/lib/img/h_img/logo/check_box.png" alt="체크박스 이미지"
-                                         class="check_box checkBoxImg">
-                                    Nintendo</label>
-                            </a>
-                        </li>
-                        <li class="menu checkMenuLi">
-                            <a class="menu_link">
-                                <label class="link_txt" for="brandCheck16">
-                                    <input type="checkbox" style="display: none" class="searchCheck" name="searchCheck" id="brandCheck16" value="Nvidia">
-                                    <img src="/lib/img/h_img/logo/check_box.png" alt="체크박스 이미지"
-                                         class="check_box checkBoxImg">
-                                    Nvidia</label>
-                            </a>
-                        </li>
-                        <li class="menu checkMenuLi">
-                            <a class="menu_link">
-                                <label class="link_txt" for="brandCheck17">
-                                    <input type="checkbox" style="display: none" class="searchCheck" name="searchCheck" id="brandCheck17" value="Samsung">
-                                    <img src="/lib/img/h_img/logo/check_box.png" alt="체크박스 이미지"
-                                         class="check_box checkBoxImg">
-                                    Samsung</label>
-                            </a>
-                        </li>
-                        <li class="menu checkMenuLi">
-                            <a class="menu_link">
-                                <label class="link_txt" for="brandCheck18">
-                                    <input type="checkbox" style="display: none" class="searchCheck" name="searchCheck" id="brandCheck18" value="Sony">
-                                    <img src="/lib/img/h_img/logo/check_box.png" alt="체크박스 이미지"
-                                         class="check_box checkBoxImg">
-                                    Sony</label>
-                            </a>
-                        </li>
-                        <li class="menu checkMenuLi">
-                            <a class="menu_link">
-                                <label class="link_txt" for="brandCheck19">
-                                    <input type="checkbox" style="display: none" class="searchCheck" name="searchCheck" id="brandCheck19" value="Stone Island">
-                                    <img src="/lib/img/h_img/logo/check_box.png" alt="체크박스 이미지"
-                                         class="check_box checkBoxImg">
-                                    Stone Island</label>
-                            </a></li>
-                        <li class="menu checkMenuLi">
-                            <a class="menu_link">
                                 <label class="link_txt" for="brandCheck20">
-                                    <input type="checkbox" style="display: none" class="searchCheck" name="searchCheck" id="brandCheck20" value="Supreme">
+                                    <input type="checkbox" style="display: none" class="searchCheck" name="searchCheck"
+                                           id="brandCheck20" value="Supreme">
                                     <img src="/lib/img/h_img/logo/check_box.png" alt="체크박스 이미지"
                                          class="check_box checkBoxImg">
                                     Supreme</label>
@@ -673,138 +471,48 @@
                     </ul>
                 </div>
             </div>
-            <!-- 사이드바 3번 항목 -->
-            <div class="filter_list">
-                <div class="filter_title">
-                    <div class="title_box">
-                        <span class="main_title">성별</span>
-                        <span class="placeholder">모든 성별</span>
-                    </div>
-                    <div class="ico_box">
-                        <img class="side_btn" src="/lib/img/h_img/logo/side_btn1.PNG" alt="">
-                    </div>
-                </div>
-                <div class="filter_menu">
-                    <ul class="menu_list">
-                        <li class="menu checkMenuLi">
-                            <a href="#" class="menu_link" value="gender">
-                                <label class="link_txt" for="genderCheck1">
-                                    <input type="checkbox" style="display: none" class="searchCheck gender" name="searchCheck" id="genderCheck1" value="남성">
-                                    <img src="/lib/img/h_img/logo/check_box.png" alt="체크박스 이미지" class="check_box checkBoxImg">
-                                    남성</label>
-                            </a>
-                        </li>
-                        <li class="menu checkMenuLi">
-                            <a href="#" class="menu_link" value="gender">
-                                <label class="link_txt" for="genderCheck2">
-                                    <input type="checkbox" style="display: none" class="searchCheck gender" name="searchCheck" id="genderCheck2" value="여성">
-                                    <img src="/lib/img/h_img/logo/check_box.png" alt="체크박스 이미지" class="check_box checkBoxImg">
-                                    여성</label>
-                            </a>
-                        </li>
-                        <li class="menu checkMenuLi">
-                            <a href="#" class="menu_link" value="gender">
-                                <label class="link_txt" for="genderCheck3">
-                                    <input type="checkbox" style="display: none" class="searchCheck gender" name="searchCheck" id="genderCheck3" value="키즈">
-                                    <img src="/lib/img/h_img/logo/check_box.png" alt="체크박스 이미지" class="check_box checkBoxImg">
-                                    키즈</label>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
+
+
             <!-- 사이드바 4번 항목 -->
+
             <div class="filter_list">
                 <div class="filter_title">
                     <div class="title_box">
-                        <span class="main_title">컬렉션</span>
-                        <span class="placeholder">모든 컬렉션</span>
+                        <span class="main_title">가격</span>
+                        <span class="placeholder">모든 가격</span>
                     </div>
-
                     <div class="ico_box">
                         <img class="side_btn" src="/lib/img/h_img/logo/side_btn1.PNG" alt="">
                     </div>
-
                 </div>
                 <div class="filter_menu">
                     <ul class="menu_list">
-                        <li class="menu checkMenuLi">
-                            <a href="#" class="menu_link">
-                                <label class="link_txt" for="collectCheck1">
-                                    <input type="checkbox" style="display: none" class="searchCheck" name="searchCheck" id="collectCheck1" value="Adidas Yeezy">
-                                    <img src="/lib/img/h_img/logo/check_box.png" alt="체크박스 이미지" class="check_box checkBoxImg">
-                                    Adidas Yeezy</label>
-                            </a>
-                        </li>
-                        <li class="menu checkMenuLi">
-                            <a href="#" class="menu_link">
-                                <label class="link_txt" for="collectCheck2">
-                                    <input type="checkbox" style="display: none" class="searchCheck" name="searchCheck" id="collectCheck2" value="Converse Run Star">
-                                    <img src="/lib/img/h_img/logo/check_box.png" alt="체크박스 이미지" class="check_box checkBoxImg">
-                                    Converse Run Star</label>
-                            </a>
-                        </li>
-                        <li class="menu checkMenuLi">
-                            <a href="#" class="menu_link">
-                                <label class="link_txt" for="collectCheck3">
-                                    <input type="checkbox" style="display: none" class="searchCheck" name="searchCheck" id="collectCheck3" value="Jordan1">
-                                    <img src="/lib/img/h_img/logo/check_box.png" alt="체크박스 이미지" class="check_box checkBoxImg">
-                                    Jordan1</label>
-                            </a>
-                        </li>
-                        <li class="menu checkMenuLi">
-                            <a href="#" class="menu_link">
-                                <label class="link_txt" for="collectCheck4">
-                                    <input type="checkbox" style="display: none" class="searchCheck" name="searchCheck" id="collectCheck4" value="Jordan3">
-                                    <img src="/lib/img/h_img/logo/check_box.png" alt="체크박스 이미지" class="check_box checkBoxImg">
-                                    Jordan3</label>
-                            </a>
-                        </li>
-                        <li class="menu checkMenuLi">
-                            <a href="#" class="menu_link">
-                                <label class="link_txt" for="collectCheck5">
-                                    <input type="checkbox" style="display: none" class="searchCheck" name="searchCheck" id="collectCheck5" value="New Balance 327">
-                                    <img src="/lib/img/h_img/logo/check_box.png" alt="체크박스 이미지" class="check_box checkBoxImg">
-                                    New Balance 327</label>
-                            </a>
-                        </li>
-                        <li class="menu checkMenuLi">
-                            <a href="#" class="menu_link">
-                                <label class="link_txt" for="collectCheck6">
-                                    <input type="checkbox" style="display: none" class="searchCheck" name="searchCheck" id="collectCheck6" value="x Supreme">
-                                    <img src="/lib/img/h_img/logo/check_box.png" alt="체크박스 이미지" class="check_box checkBoxImg">
-                                    x Supreme</label>
-                            </a>
-                        </li>
-                        <li class="menu checkMenuLi">
-                            <a href="#" class="menu_link">
-                                <label class="link_txt" for="collectCheck6">
-                                    <input type="checkbox" style="display: none" class="searchCheck" name="searchCheck" id="collectCheck7" value="NIKE Dunk">
-                                    <img src="/lib/img/h_img/logo/check_box.png" alt="체크박스 이미지" class="check_box checkBoxImg">
-                                    NIKE Dunk</label>
-                            </a>
-                        </li><li class="menu checkMenuLi">
-                        <a href="#" class="menu_link">
-                            <label class="link_txt" for="collectCheck6">
-                                <input type="checkbox" style="display: none" class="searchCheck" name="searchCheck" id="collectCheck8" value="Nike Air Force">
-                                <img src="/lib/img/h_img/logo/check_box.png" alt="체크박스 이미지" class="check_box checkBoxImg">
-                                Nike Air Force</label>
-                        </a>
-                    </li>
-                        <li class="menu checkMenuLi">
-                            <a href="#" class="menu_link">
-                                <label class="link_txt" for="collectCheck6">
-                                    <input type="checkbox" style="display: none" class="searchCheck" name="searchCheck" id="collectCheck9" value="NIKE Dunk">
-                                    <img src="/lib/img/h_img/logo/check_box.png" alt="체크박스 이미지" class="check_box checkBoxImg">
-                                    NIKE Dunk</label>
-                            </a>
-                        </li>
-                        <li class="menu checkMenuLux">
+                        <li class="menu menu_price">
                             <a class="menu_link">
-                                <label class="link_txt" for="LuxuryCollection">
-                                    <input type="checkbox" style="display: none" class="searchCheck" name="searchCheck" id="LuxuryCollection" value="럭셔리">
-                                    <img src="/lib/img/h_img/logo/check_box.png" id="LuxC" alt="체크박스 이미지" class="check_box checkLuxImg">
-                                    Luxury Collection</label>
+                                <img src="/lib/img/h_img/logo/check_box.png" alt="체크박스 이미지"
+                                     class="check_box price_check">
+                                <span class="link_txt">10만원 이하</span>
+                            </a>
+                        </li>
+                        <li class="menu menu_price">
+                            <a class="menu_link">
+                                <img src="/lib/img/h_img/logo/check_box.png" alt="체크박스 이미지"
+                                     class="check_box price_check">
+                                <span class="link_txt">10만원 ~ 30만원 이하</span>
+                            </a>
+                        </li>
+                        <li class="menu menu_price">
+                            <a class="menu_link">
+                                <img src="/lib/img/h_img/logo/check_box.png" alt="체크박스 이미지"
+                                     class="check_box price_check">
+                                <span class="link_txt">30만원 ~ 50만원 이하</span>
+                            </a>
+                        </li>
+                        <li class="menu menu_price">
+                            <a class="menu_link">
+                                <img src="/lib/img/h_img/logo/check_box.png" alt="체크박스 이미지"
+                                     class="check_box price_check">
+                                <span class="link_txt">50만원 이상</span>
                             </a>
                         </li>
                     </ul>
@@ -826,6 +534,21 @@
                 </div>
                 <div class="filter_menu_size">
                     <ul class="menu_list_size">
+                        <li class="menu_size">
+                            <a href="#3" class="menu_link_size">
+                                <span class="link_txt_size">225</span>
+                            </a>
+                        </li>
+                        <li class="menu_size">
+                            <a href="#3" class="menu_link_size">
+                                <span class="link_txt_size">230</span>
+                            </a>
+                        </li>
+                        <li class="menu_size">
+                            <a href="#3" class="menu_link_size">
+                                <span class="link_txt_size">235</span>
+                            </a>
+                        </li>
                         <li class="menu_size">
                             <a href="#3" class="menu_link_size">
                                 <span class="link_txt_size">240</span>
@@ -856,101 +579,49 @@
                                 <span class="link_txt_size">265</span>
                             </a>
                         </li>
-
-                    </ul>
-                </div>
-            </div>
-
-            <!-- 사이드바 6번 항목 -->
-            <div class="filter_list">
-                <div class="filter_title">
-                    <div class="title_box">
-                        <span class="main_title">의류 사이즈</span>
-                        <span class="placeholder">모든 사이즈</span>
-                    </div>
-                    <div class="ico_box">
-                        <img class="side_btn" src="/lib/img/h_img/logo/side_btn1.PNG" alt="">
-                    </div>
-                </div>
-                <div class="filter_menu_size">
-                    <ul class="menu_list_size">
-
-                        <li class="menu_cloth_size">
-                            <a href="#" class="menu_link_size">
-                                <span class="link_txt_size">XS</span>
+                        <li class="menu_size">
+                            <a href="#3" class="menu_link_size">
+                                <span class="link_txt_size">270</span>
                             </a>
                         </li>
-                        <li class="menu_cloth_size">
-                            <a href="#" class="menu_link_size">
-                                <span class="link_txt_size">S</span>
+                        <li class="menu_size">
+                            <a href="#3" class="menu_link_size">
+                                <span class="link_txt_size">275</span>
                             </a>
                         </li>
-                        <li class="menu_cloth_size">
-                            <a href="#" class="menu_link_size">
-                                <span class="link_txt_size">M</span>
+                        <li class="menu_size">
+                            <a href="#3" class="menu_link_size">
+                                <span class="link_txt_size">280</span>
                             </a>
                         </li>
-                        <li class="menu_cloth_size">
-                            <a href="#" class="menu_link_size">
-                                <span class="link_txt_size">L</span>
+                        <li class="menu_size">
+                            <a href="#3" class="menu_link_size">
+                                <span class="link_txt_size">285</span>
                             </a>
                         </li>
-                        <li class="menu_cloth_size">
-                            <a href="#" class="menu_link_size">
-                                <span class="link_txt_size">XL</span>
+                        <li class="menu_size">
+                            <a href="#3" class="menu_link_size">
+                                <span class="link_txt_size">290</span>
                             </a>
                         </li>
-
-                    </ul>
-                </div>
-            </div>
-            <!-- 사이드바 7번 항목 -->
-            <div class="filter_list">
-                <div class="filter_title">
-                    <div class="title_box">
-                        <span class="main_title">가격</span>
-                        <span class="placeholder">모든 가격</span>
-                    </div>
-                    <div class="ico_box">
-                        <img class="side_btn" src="/lib/img/h_img/logo/side_btn1.PNG" alt="">
-                    </div>
-                </div>
-                <div class="filter_menu">
-                    <ul class="menu_list">
-                        <li class="menu menu_price">
-                            <a href="#3" class="menu_link">
-                                <img src="/lib/img/h_img/logo/check_box.png" alt="체크박스 이미지" class="check_box price_check">
-                                <span class="link_txt">10만원 이하</span>
-                            </a>
-                        </li>
-                        <li class="menu menu_price">
-                            <a href="#3" class="menu_link">
-                                <img src="/lib/img/h_img/logo/check_box.png" alt="체크박스 이미지" class="check_box price_check">
-                                <span class="link_txt">10만원 ~ 30만원 이하</span>
-                            </a>
-                        </li>
-                        <li class="menu menu_price">
-                            <a href="#3" class="menu_link">
-                                <img src="/lib/img/h_img/logo/check_box.png" alt="체크박스 이미지" class="check_box price_check">
-                                <span class="link_txt">30만원 ~ 50만원 이하</span>
-                            </a>
-                        </li>
-                        <li class="menu menu_price">
-                            <a href="#3" class="menu_link">
-                                <img src="/lib/img/h_img/logo/check_box.png" alt="체크박스 이미지" class="check_box price_check" >
-                                <span class="link_txt">50만원 이상</span>
+                        <li class="menu_size">
+                            <a href="#3" class="menu_link_size">
+                                <span class="link_txt_size">295</span>
                             </a>
                         </li>
                     </ul>
                 </div>
             </div>
+
+
         </div>
         <!-- content -->
         <div class="search_content">
             <div class="search_option">
                 <div class="filter_sorting">
-                    <div class="popular"> <span class="changeText">인기순</span><img src="/lib/img/h_img/logo/desc_logo_b.png" alt="desc_logo"
-                                                                                  style="width: 24px; height:24px;">
+                    <div class="popular"><span class="changeText">인기순</span><img
+                            src="/lib/img/h_img/logo/desc_logo_b.png" alt="desc_logo"
+                            style="width: 24px; height:24px;">
                     </div>
                     <div class="select_desc" id="desc_pop">
 
@@ -974,20 +645,6 @@
                                 <div class="desc_box">
                                     <p class="select_s_text">즉시 판매가순</p>
                                     <p>즉시 판매가가 높은 순서대로 정렬합니다.</p>
-                                </div>
-                                <p class="desc_check"></p>
-                            </div>
-                            <div class="s_desc">
-                                <div class="desc_box">
-                                    <p class="select_s_text">프리미엄순</p>
-                                    <p>발매가 대비 가격이 높은 순서대로 정렬합니다.</p>
-                                </div>
-                                <p class="desc_check"></p>
-                            </div>
-                            <div class="s_desc">
-                                <div class="desc_box">
-                                    <p class="select_s_text">발매일순</p>
-                                    <p>최신 상품 순서대로 정렬합니다. 아직 발매전인 상품이 노출될 수 있습니다.</p>
                                 </div>
                                 <p class="desc_check"></p>
                             </div>
@@ -1063,82 +720,68 @@
 <div th:replace="include/checkFooter :: footer"></div>
 <!-- footer 끝 -->
 
-<script src="http://code.jquery.com/jquery-1.10.2.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"
+        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 <script th:src="@{/lib/js/search.js}"></script>
 <script th:src="@{/lib/js/pop.js}"></script>
 <script th:inline="javascript">
 
-    $(function (){
+    $(function () {
         search();
     })
-function search(){
-    $.ajax({
-        type:"post",
-        url:"/api/products/search",
-        contentType:"application/json",
-        dataType:"json"
-    }).done(response=>{
-        alert("나와라잉");
-        console.log(response);
-        $('.default_list').css({"display":"none"});
+
+    function search() {
+        $.ajax({
+            type: "post",
+            url: "/api/products/search",
+            contentType: "application/json",
+            dataType: "json"
+        }).done(response => {
+            alert("나와라잉");
+            console.log(response);
+            $('.default_list').css({"display": "none"});
 
 
-        let pro_con = $(' <div class="sec_flex_box cate_list">');
-        for (let i in response) {
-            let $proBrand = response[i].brand;
-            let $proName = response[i].name;
-            let $proReleasePrice = response[i].releasePrice;
-            let $proImg = response[i].image;
-            let $pro_id = response[i].id;
+            let pro_con = $(' <div class="sec_flex_box cate_list">');
+            for (let i in response) {
+                let $proBrand = response[i].brand;
+                let $proName = response[i].name;
+                let $proReleasePrice = response[i].releasePrice;
+                let $proImg = response[i].image;
+                let $pro_id = response[i].id;
 
-            if($proReleasePrice == null){
-                price = "-"
-            }else{
-                price = priceToString($proReleasePrice);
-            }
-            function priceToString($proReleasePrice){
-                return $proReleasePrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-            }
+                if ($proReleasePrice == null) {
+                    price = "-"
+                } else {
+                    price = priceToString($proReleasePrice);
+                }
 
-            if(order_flag_js != "pricepremium"){
+                function priceToString($proReleasePrice) {
+                    return $proReleasePrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+                }
+
                 let con = $('<div  class="sec_img_box" style="cursor: pointer">').append(
-                    '<div id="reImg"><div class="sec_mark_box"><a href="#" class="a_mark"><div class="sec_marking" value="'+$pro_id+'"></div></a></div></div> '+
-                    '<div><img src="/upload/'+$proImg +'" class="sec_img"  onclick="location.href=\'/products/'+ $pro_id+'\';" id="sec2_img1" no-repeat center/cover;></div>' +
+                    '<div id="reImg"><div class="sec_mark_box"><a href="#" class="a_mark"><div class="sec_marking" value="' + $pro_id + '"></div></a></div></div> ' +
+                    '<div><img src="/upload/' + $proImg + '" class="sec_img"  onclick="location.href=\'/products/' + $pro_id + '\';" id="sec2_img1" no-repeat center/cover;></div>' +
                     '<div class="sec_brand_box"> <div class="sec_brand_line"> </div>' +
                     '<div class="sec_brand_text">' + $proBrand + '</div>' +
                     '<div class="sec_brand_s_text">' + $proName + '</div>' +
                     '<div class="sec_price">' +
                     '<div class="sec_num">' + price + '</div><div class="sec_won">원</div></div><div class="sec_price_text">즉시 구매가</div>' +
                     '</a></div>'
-
-                )
-                pro_con.append(con);
-            }else{
-                let con = $('<div  class="sec_img_box" style="cursor: pointer">').append(
-                    '<div id="reImg"><div class="sec_mark_box"><a href="#" class="a_mark"><div class="sec_marking" value="'+$pro_id+'"></div></a></div></div> '+
-                    '<div><img src="/upload/'+$proImg +'" class="sec_img"  onclick="location.href=\'/products/'+ $pro_id+'\';" id="sec2_img1" no-repeat center/cover;>' +
-                    '<div class="status_value premium_up">'+$premium_per+'</div></div> '+
-                    '<div class="sec_brand_box"> <div class="sec_brand_line"> </div>' +
-                    '<div class="sec_brand_text">' + $proBrand + '</div>' +
-                    '<div class="sec_brand_s_text">' + $proName + '</div>' +
-                    '<div class="sec_price">' +
-                    '<div class="sec_num">' + price + '</div><div class="sec_won">원</div></div><div class="sec_price_text">즉시 구매가</div>' +
-                    '</a></div>'
-
                 )
                 pro_con.append(con);
             }
+            pro_con.append('</div>');
 
-        }
-        pro_con.append('</div>');
+            $('.search_result_list').html(pro_con);
+        }).fail(error => {
+            console.log(error);
+        });
 
-        $('.search_result_list').html(pro_con);
-    }).fail(error=>{
-        console.log(error);
-        console.log("나와라잉 실패하였습니다.");
-    });
+    }
 
-}
+
 </script>
 </body>
 
