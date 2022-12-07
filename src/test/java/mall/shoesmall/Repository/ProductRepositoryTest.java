@@ -5,6 +5,7 @@ import com.querydsl.core.types.Predicate;
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.core.types.dsl.Expressions;
+import com.querydsl.core.types.dsl.ListExpression;
 import com.querydsl.core.types.dsl.StringTemplate;
 import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQuery;
@@ -159,6 +160,46 @@ class ProductRepositoryTest {
             System.out.println(s.getPrice());
         }
 
+    }
+
+    @Test
+    public void name () throws Exception {
+        StringTemplate formatDate = Expressions.stringTemplate(
+                "DATE_FORMAT({0},{1})"
+                ,sale.lastModifyDate
+                , ConstantImpl.create("%Y/%m/%d"));
+         String str = null;
+        List<ProductDto.product_size_info_list_response> fetch = queryFactory.select(Projections.bean(ProductDto.product_size_info_list_response.class,
+                sale.size.as("size")
+                , sale.price.as("price")
+                , formatDate.as("date"))).from(sale)
+                .where(sale.product.id.eq(1L)
+                     , size2Eq(str))
+                .orderBy(formatDate.asc())
+                .fetch();
+
+        for (ProductDto.product_size_info_list_response s : fetch){
+            System.out.println(s.getDate());
+            System.out.println(s.getSize());
+            System.out.println(s.getPrice());
+        }
+
+    }
+
+
+    private BooleanExpression size2Eq(String str) {
+        if(str==null){
+            return null;
+        }
+        String[] split = str.split(",");
+        String val = "";
+        for (int i = 0; i < split.length; i++) {
+            val += "{" + i + "}";
+            if(split.length-1!=i){
+                val+=",";
+            }
+        }
+        return sale.size.in(Expressions.stringTemplate("("+val+")", split));
     }
 
 

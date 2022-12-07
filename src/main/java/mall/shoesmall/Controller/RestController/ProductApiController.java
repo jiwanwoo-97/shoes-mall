@@ -10,10 +10,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -30,6 +27,16 @@ public class ProductApiController {
                 .headers(new HttpHeaders())
                 .body(response);
     }
+
+    //주소 리스트
+    @PostMapping("/api/products/search2")
+    public ResponseEntity<List<ProductDto.response>> searchList2(@RequestBody ProductDto.product_search_request request) {
+        List<ProductDto.response> response = productService.searchList();
+        return ResponseEntity.ok()
+                .headers(new HttpHeaders())
+                .body(null);
+    }
+
 
 
     // 상품 정보 호출
@@ -100,6 +107,7 @@ public class ProductApiController {
                 .headers(new HttpHeaders())
                 .body(response);
     }
+
 
 
 

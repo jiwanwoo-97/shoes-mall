@@ -491,28 +491,28 @@
                             <a class="menu_link">
                                 <img src="/lib/img/h_img/logo/check_box.png" alt="체크박스 이미지"
                                      class="check_box price_check">
-                                <span class="link_txt">10만원 이하</span>
+                                <span class="link_txt" value="10">10만원 이하</span>
                             </a>
                         </li>
                         <li class="menu menu_price">
                             <a class="menu_link">
                                 <img src="/lib/img/h_img/logo/check_box.png" alt="체크박스 이미지"
                                      class="check_box price_check">
-                                <span class="link_txt">10만원 ~ 30만원 이하</span>
+                                <span class="link_txt" value="30">10만원 ~ 30만원 이하</span>
                             </a>
                         </li>
                         <li class="menu menu_price">
                             <a class="menu_link">
                                 <img src="/lib/img/h_img/logo/check_box.png" alt="체크박스 이미지"
                                      class="check_box price_check">
-                                <span class="link_txt">30만원 ~ 50만원 이하</span>
+                                <span class="link_txt" value="50">30만원 ~ 50만원 이하</span>
                             </a>
                         </li>
                         <li class="menu menu_price">
                             <a class="menu_link">
                                 <img src="/lib/img/h_img/logo/check_box.png" alt="체크박스 이미지"
                                      class="check_box price_check">
-                                <span class="link_txt">50만원 이상</span>
+                                <span class="link_txt" value="100">50만원 이상</span>
                             </a>
                         </li>
                     </ul>
@@ -619,7 +619,7 @@
         <div class="search_content">
             <div class="search_option">
                 <div class="filter_sorting">
-                    <div class="popular"><span class="changeText">인기순</span><img
+                    <div class="popular"><span class="changeText">발매일 순</span><img
                             src="/lib/img/h_img/logo/desc_logo_b.png" alt="desc_logo"
                             style="width: 24px; height:24px;">
                     </div>
@@ -628,23 +628,23 @@
                         <div class="select_box">
                             <div class="s_desc">
                                 <div class="desc_box">
-                                    <p class="select_s_text">인기순</p>
-                                    <p>많이 판매된 순서대로 정렬합니다.</p>
+                                    <p class="select_s_text">발매일 순</p>
+                                    <p>발매일 순서대로 정렬됩니다.</p>
                                 </div>
                                 <p class="desc_check" style="display: block"></p>
                             </div>
 
                             <div class="s_desc">
                                 <div class="desc_box">
-                                    <p class="select_s_text">즉시 구매가순</p>
-                                    <p>즉시 구매가가 낮은 순서대로 정렬합니다.</p>
+                                    <p class="select_s_text">발매가 낮은순</p>
+                                    <p>발매가가 낮은 순서대로 정렬합니다.</p>
                                 </div>
                                 <p class="desc_check"></p>
                             </div>
                             <div class="s_desc">
                                 <div class="desc_box">
-                                    <p class="select_s_text">즉시 판매가순</p>
-                                    <p>즉시 판매가가 높은 순서대로 정렬합니다.</p>
+                                    <p class="select_s_text">발매가 높은순</p>
+                                    <p>발매가가 높은 순서대로 정렬합니다.</p>
                                 </div>
                                 <p class="desc_check"></p>
                             </div>
@@ -726,7 +726,11 @@
 <script th:src="@{/lib/js/pop.js}"></script>
 <script th:inline="javascript">
 
+
+
+
     $(function () {
+        send();
         search();
     })
 
@@ -767,7 +771,7 @@
                     '<div class="sec_brand_text">' + $proBrand + '</div>' +
                     '<div class="sec_brand_s_text">' + $proName + '</div>' +
                     '<div class="sec_price">' +
-                    '<div class="sec_num">' + price + '</div><div class="sec_won">원</div></div><div class="sec_price_text">즉시 구매가</div>' +
+                    '<div class="sec_num">' + price + '</div><div class="sec_won">원</div></div><div class="sec_price_text">발매가</div>' +
                     '</a></div>'
                 )
                 pro_con.append(con);

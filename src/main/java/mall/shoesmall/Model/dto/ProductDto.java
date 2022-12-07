@@ -105,6 +105,21 @@ public class ProductDto {
     @Getter
     @Setter
     @NoArgsConstructor
+    public static class product_search_request {
+
+        private String brandList;
+        private String priceItem;
+        private String sizeList;
+        private String sortItem;
+
+    }
+
+
+
+
+    @Getter
+    @Setter
+    @NoArgsConstructor
     public static class product_size_info_response {
         private Long price;
         private Long count;
