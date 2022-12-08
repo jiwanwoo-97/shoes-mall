@@ -9,9 +9,11 @@ let click_you_cancle = null;
 
 /*===사이즈 체크 1===*/
 sizebox = [];
-sizevalue = [];
+let sizeList = [];
 $(document).on('click', '.menu_size', function () {
-    alert("사이즈쳌");
+
+
+    sizeList=[];
 
     let index = $(".menu_size").index(this);
     let size=document.querySelectorAll('.menu_size')[index].innerText;
@@ -35,7 +37,10 @@ $(document).on('click', '.menu_size', function () {
         let click_size = $('.menu_size:eq(' + index + ')').children('.menu_link_size')
             .children('.link_txt_size').text();
 
+
     }
+    sizeList = sizebox.filter((val) => val != null);
+    send();
 
 
 
@@ -43,13 +48,18 @@ $(document).on('click', '.menu_size', function () {
 })
 
 
-
-
-
 pricebox = [];
+let priceItem;
 let checkImg_price = document.querySelectorAll(".menu_price");
+let checkImg = document.querySelectorAll(".price_check");
 $(document).on('click', '.menu_price', function () {
-    alert("가격쳌");
+
+    checkImg.forEach(function (event){
+       event.src= "/lib/img/check_box.png";
+       event.checked = false;
+    });
+
+
 
     let index = $(".menu_price").index(this);
 
@@ -73,6 +83,16 @@ $(document).on('click', '.menu_price', function () {
         click_you= null;
         click_you_cancle = check_for_price;
     }
+    if(index=="0"){
+        priceItem="10";
+    }else if (index=="1"){
+        priceItem="30";
+    }else if(index=="2"){
+        priceItem="50";
+    }else if(index=="3"){
+        priceItem="50+";
+    }
+    send();
 });
 
 
@@ -163,13 +183,12 @@ $('.st_clear').on('click', function () {
 //브랜드 클릭
 let brandCheck = document.querySelectorAll('.brand_img');
 $(document).on('click', '.brand_img', function () {
-    alert("브랜드쳌");
+
     let index = $(".brand_img").index(this);
     let $brand_click = brandCheck[index]
-    console.log(brandCheck)
-    console.log($brand_click);
+
     let $pick_brand = $brand_click.value;
-    console.log($pick_brand);
+
 
     click_you = $pick_brand;
 
@@ -206,11 +225,11 @@ btn_search1.onclick = function () {
 
 // 검색창 텍스트 입력 실시간 감지
 $(".in_search").on("propertychange change keyup paste input", function () {
-    console.log("감지중")
+
     let keyword = $(".in_search").val();
-    console.log("실시간확인값 = " + keyword)
+
     let keywordLower = keyword.toLowerCase();
-    console.log(keywordLower)
+
 
     $(".search_suggests").css('display', 'block');
     axios.request({
@@ -218,7 +237,7 @@ $(".in_search").on("propertychange change keyup paste input", function () {
         url: '/api/pro_searchlist/' + keywordLower,
         headers: {'Content-type': 'application/json'}
     }).then(function (response) {
-        console.log(response)
+
         if (response.data.data == null || response.data.data == '') {
             $(".suggest_area").html('<div class="result_nodataa">' +
                 '<p class="nodata_main">검색하신 결과가 없습니다.</p>' +
@@ -278,24 +297,40 @@ $(".btn_search_delete").on("click", function () {
 /*=====사이드바 체크 기능 =====*/
 let searchCheck = document.querySelectorAll('.searchCheck');
 let checkBoxImg = document.querySelectorAll(".checkBoxImg");
+
+let brandList = [];
 $(document).on('click', '.checkMenuLi', function () {
+    brandList = [];
+
+
+
 
     let index = $(".checkMenuLi").index(this);
+
+
     if (searchCheck[index].checked == false) {
         searchCheck[index].checked = true;
         checkBoxImg[index].src = "/lib/img/check_box_b.png";
+
 
     } else if (searchCheck[index].checked == true) {
         searchCheck[index].checked = false;
         checkBoxImg[index].src = "/lib/img/check_box.png";
     }
 
+    searchCheck.forEach(function (event){
+        if(event.checked == true){
+            brandList.push(event.value);
+        }
+    });
+    send();
 });
 
 
 
 
 let num = 0;
+let sortItem;
 $(document).on('click', '.filter_sorting', function () {
     const desc = document.getElementsByClassName("select_desc")[0];
     desc.style.display = "block";
@@ -315,7 +350,76 @@ $('.s_desc').click(function (e) {
     if(click_you_cancle != null){
         click_you_cancle = null;
     }
+    if(stext == "발매가 순"){
+        sortItem = "productLow"
+    }else if(stext == "판매가 순"){
+        sortItem = "saleLow"
+    }else if(stext == "구매가 순"){
+        sortItem = "purLow"
+    }
+    send();
+
 });
+
+function send() {
+    let brandStr =  brandList.join();
+    let sizeStr = sizeList.join();
+
+    $.ajax({
+        type: "post",
+        url: "/api/products/search",
+        data:
+            JSON.stringify({
+                "brand": brandStr,
+                "size": sizeStr,
+                "price": priceItem,
+                "sort": sortItem
+            }),
+
+        contentType: "application/json",
+        dataType: "json"
+    }).done(response => {
+        $('.default_list').css({"display": "none"});
+
+
+        let pro_con = $(' <div class="sec_flex_box cate_list">');
+        for (let i in response) {
+            let $proBrand = response[i].brand;
+            let $proName = response[i].name;
+            let $proReleasePrice = response[i].releasePrice;
+            let $proImg = response[i].image;
+            let $pro_id = response[i].id;
+
+            if ($proReleasePrice == null) {
+                price = "-"
+            } else {
+                price = priceToString($proReleasePrice);
+            }
+
+            function priceToString($proReleasePrice) {
+                return $proReleasePrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+            }
+
+            let con = $('<div  class="sec_img_box" style="cursor: pointer">').append(
+                '<div id="reImg"><div class="sec_mark_box"><a href="#" class="a_mark"><div class="sec_marking" value="' + $pro_id + '"></div></a></div></div> ' +
+                '<div><img src="/upload/' + $proImg + '" class="sec_img"  onclick="location.href=\'/products/' + $pro_id + '\';" id="sec2_img1" no-repeat center/cover;></div>' +
+                '<div class="sec_brand_box"> <div class="sec_brand_line"> </div>' +
+                '<div class="sec_brand_text">' + $proBrand + '</div>' +
+                '<div class="sec_brand_s_text">' + $proName + '</div>' +
+                '<div class="sec_price">' +
+                '<div class="sec_num">' + price + '</div><div class="sec_won">원</div></div><div class="sec_price_text">발매가</div>' +
+                '</a></div>'
+            )
+            pro_con.append(con);
+        }
+        pro_con.append('</div>');
+
+        $('.search_result_list').html(pro_con);
+
+    }).fail(error => {
+
+    });
+}
 
 
 

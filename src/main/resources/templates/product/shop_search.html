@@ -430,10 +430,10 @@
                             <a class="menu_link">
                                 <label class="link_txt" for="brandCheck9">
                                     <input type="checkbox" style="display: none" class="searchCheck" name="searchCheck"
-                                           id="brandCheck9" value="jodans">
+                                           id="brandCheck9" value="Jordan">
                                     <img src="/lib/img/h_img/logo/check_box.png" alt="체크박스 이미지"
                                          class="check_box checkBoxImg">
-                                    jodans</label>
+                                    Jordan</label>
                             </a>
                         </li>
                         <li class="menu checkMenuLi">
@@ -619,7 +619,7 @@
         <div class="search_content">
             <div class="search_option">
                 <div class="filter_sorting">
-                    <div class="popular"><span class="changeText">발매일 순</span><img
+                    <div class="popular"><span class="changeText">발매가 순</span><img
                             src="/lib/img/h_img/logo/desc_logo_b.png" alt="desc_logo"
                             style="width: 24px; height:24px;">
                     </div>
@@ -628,23 +628,23 @@
                         <div class="select_box">
                             <div class="s_desc">
                                 <div class="desc_box">
-                                    <p class="select_s_text">발매일 순</p>
-                                    <p>발매일 순서대로 정렬됩니다.</p>
+                                    <p class="select_s_text">발매가 순</p>
+                                    <p>발매가가 낮은 순서대로 정렬됩니다.</p>
                                 </div>
                                 <p class="desc_check" style="display: block"></p>
                             </div>
 
                             <div class="s_desc">
                                 <div class="desc_box">
-                                    <p class="select_s_text">발매가 낮은순</p>
-                                    <p>발매가가 낮은 순서대로 정렬합니다.</p>
+                                    <p class="select_s_text">입찰 판매가 순</p>
+                                    <p>판매가가 낮은 순서대로 정렬합니다.</p>
                                 </div>
                                 <p class="desc_check"></p>
                             </div>
                             <div class="s_desc">
                                 <div class="desc_box">
-                                    <p class="select_s_text">발매가 높은순</p>
-                                    <p>발매가가 높은 순서대로 정렬합니다.</p>
+                                    <p class="select_s_text" >입찰 구매가 순</p>
+                                    <p>구매가가 높은 순서대로 정렬합니다.</p>
                                 </div>
                                 <p class="desc_check"></p>
                             </div>
@@ -727,63 +727,10 @@
 <script th:inline="javascript">
 
 
-
-
     $(function () {
         send();
-        search();
     })
 
-    function search() {
-        $.ajax({
-            type: "post",
-            url: "/api/products/search",
-            contentType: "application/json",
-            dataType: "json"
-        }).done(response => {
-            alert("나와라잉");
-            console.log(response);
-            $('.default_list').css({"display": "none"});
-
-
-            let pro_con = $(' <div class="sec_flex_box cate_list">');
-            for (let i in response) {
-                let $proBrand = response[i].brand;
-                let $proName = response[i].name;
-                let $proReleasePrice = response[i].releasePrice;
-                let $proImg = response[i].image;
-                let $pro_id = response[i].id;
-
-                if ($proReleasePrice == null) {
-                    price = "-"
-                } else {
-                    price = priceToString($proReleasePrice);
-                }
-
-                function priceToString($proReleasePrice) {
-                    return $proReleasePrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-                }
-
-                let con = $('<div  class="sec_img_box" style="cursor: pointer">').append(
-                    '<div id="reImg"><div class="sec_mark_box"><a href="#" class="a_mark"><div class="sec_marking" value="' + $pro_id + '"></div></a></div></div> ' +
-                    '<div><img src="/upload/' + $proImg + '" class="sec_img"  onclick="location.href=\'/products/' + $pro_id + '\';" id="sec2_img1" no-repeat center/cover;></div>' +
-                    '<div class="sec_brand_box"> <div class="sec_brand_line"> </div>' +
-                    '<div class="sec_brand_text">' + $proBrand + '</div>' +
-                    '<div class="sec_brand_s_text">' + $proName + '</div>' +
-                    '<div class="sec_price">' +
-                    '<div class="sec_num">' + price + '</div><div class="sec_won">원</div></div><div class="sec_price_text">발매가</div>' +
-                    '</a></div>'
-                )
-                pro_con.append(con);
-            }
-            pro_con.append('</div>');
-
-            $('.search_result_list').html(pro_con);
-        }).fail(error => {
-            console.log(error);
-        });
-
-    }
 
 
 </script>

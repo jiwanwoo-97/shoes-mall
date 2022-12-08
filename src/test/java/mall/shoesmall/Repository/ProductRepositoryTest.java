@@ -1,17 +1,13 @@
 package mall.shoesmall.Repository;
 
 import com.querydsl.core.types.ConstantImpl;
-import com.querydsl.core.types.Predicate;
+import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.core.types.dsl.Expressions;
-import com.querydsl.core.types.dsl.ListExpression;
 import com.querydsl.core.types.dsl.StringTemplate;
 import com.querydsl.jpa.JPAExpressions;
-import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import mall.shoesmall.Model.Entity.Product;
-import mall.shoesmall.Model.Entity.QPurchase;
 import mall.shoesmall.Model.Entity.QSale;
 import mall.shoesmall.Model.Enum.BidStatus;
 import mall.shoesmall.Model.dto.ProductDto;
@@ -29,7 +25,6 @@ import java.util.List;
 import static mall.shoesmall.Model.Entity.QProduct.product;
 import static mall.shoesmall.Model.Entity.QPurchase.*;
 import static mall.shoesmall.Model.Entity.QSale.sale;
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @Transactional
@@ -139,7 +134,7 @@ class ProductRepositoryTest {
     }
 
     @Test
-    public void name4 () throws Exception {
+    public void product_size_info_list_response () throws Exception {
         StringTemplate formatDate = Expressions.stringTemplate(
                 "DATE_FORMAT({0},{1})"
                 ,sale.lastModifyDate
@@ -163,27 +158,76 @@ class ProductRepositoryTest {
     }
 
     @Test
-    public void name () throws Exception {
-        StringTemplate formatDate = Expressions.stringTemplate(
-                "DATE_FORMAT({0},{1})"
-                ,sale.lastModifyDate
-                , ConstantImpl.create("%Y/%m/%d"));
-         String str = null;
-        List<ProductDto.product_size_info_list_response> fetch = queryFactory.select(Projections.bean(ProductDto.product_size_info_list_response.class,
-                sale.size.as("size")
-                , sale.price.as("price")
-                , formatDate.as("date"))).from(sale)
-                .where(sale.product.id.eq(1L)
-                     , size2Eq(str))
-                .orderBy(formatDate.asc())
+    public void searchFilterList() throws Exception {
+
+        String str = null;
+        String brandStr = "Jordan,Asics,New Balance";
+        String sort = "purLow";
+        String priceStr = "50+";
+        List<ProductDto.product_search_response> fetch = queryFactory.select(Projections.bean(ProductDto.product_search_response.class,
+                product.id.as("id")
+                , product.release_price.as("releasePrice")
+                , product.brand.as("brand")
+                , product.krname.as("krname")
+                , product.name.as("name")
+                , product.image.as("image")))
+                .from(product)
+                .leftJoin(sale)
+                .on(product.id.eq(sale.product.id))
+                .fetchJoin()
+                .leftJoin(purchase)
+                .on(product.id.eq(purchase.product.id))
+                .fetchJoin()
+                .where(
+                        size2Eq(str)
+                        , brandEq(brandStr)
+                        , priceBetween(priceStr)
+                )
+                .groupBy(product.id)
+                .orderBy(sorting(sort))
                 .fetch();
 
-        for (ProductDto.product_size_info_list_response s : fetch){
-            System.out.println(s.getDate());
-            System.out.println(s.getSize());
-            System.out.println(s.getPrice());
-        }
 
+    }
+    private BooleanExpression priceBetween(String priceStr){
+        if(priceStr==null){
+            return null;
+        }
+        switch (priceStr) {
+            case "10":
+                product.release_price.between(0, 100000);
+            case "30":
+                return product.release_price.between(100000, 300000);
+            case "50":
+                return product.release_price.between(300000, 500000);
+            case "50+":
+                return product.release_price.goe(500000);
+            default:
+                return null;
+        }
+    }
+
+    private OrderSpecifier<?> sorting(String sort) {
+        switch (sort) {
+            case"productLow":
+                return product.release_price.asc();
+            case "saleLow":
+                return sale.price.asc();
+            case "purLow":
+                return purchase.price.asc();
+            default:
+                return product.id.asc();
+        }
+    }
+
+
+    private BooleanExpression brandEq(String brandStr){
+        if(brandStr==null){
+            return null;
+        }
+        String[] split = brandStr.split(",");
+        String val = returnValue(split);
+        return product.brand.in(Expressions.stringTemplate("("+val+")", split));
     }
 
 
@@ -192,15 +236,24 @@ class ProductRepositoryTest {
             return null;
         }
         String[] split = str.split(",");
-        String val = "";
-        for (int i = 0; i < split.length; i++) {
-            val += "{" + i + "}";
-            if(split.length-1!=i){
-                val+=",";
-            }
-        }
+        String val = returnValue(split);
+
         return sale.size.in(Expressions.stringTemplate("("+val+")", split));
     }
+
+
+    private String returnValue(String[] arryStr) {
+        String val = "";
+
+        for (int i = 0; i < arryStr.length; i++) {
+            val += "{" + i + "}";
+            if (arryStr.length - 1 != i) {
+                val += ",";
+            }
+        }
+        return val;
+    }
+
 
 
 }

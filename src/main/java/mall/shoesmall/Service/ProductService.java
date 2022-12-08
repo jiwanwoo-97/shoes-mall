@@ -85,6 +85,10 @@ public class ProductService {
 
         return new ProductDto.product_size_info_all_list_response(buyPrice, sellPrice, buyBidPriceList, saleBidPriceList, recentPrice, bidFinishList);
     }
+
+    public List<ProductDto.product_search_response> searchFilterList(ProductDto.product_search_request request) {
+        return productRepository.searchFilterList(request);
+    }
 }
 
 

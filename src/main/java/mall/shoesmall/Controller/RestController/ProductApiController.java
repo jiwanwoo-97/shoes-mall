@@ -19,22 +19,14 @@ import java.util.List;
 public class ProductApiController {
     private final ProductService productService;
 
+
     //주소 리스트
     @PostMapping("/api/products/search")
-    public ResponseEntity<List<ProductDto.response>> searchList() {
-        List<ProductDto.response> response = productService.searchList();
+    public ResponseEntity<List<ProductDto.product_search_response>> searchList2(@RequestBody ProductDto.product_search_request request) {
+        List<ProductDto.product_search_response> response = productService.searchFilterList(request);
         return ResponseEntity.ok()
                 .headers(new HttpHeaders())
                 .body(response);
-    }
-
-    //주소 리스트
-    @PostMapping("/api/products/search2")
-    public ResponseEntity<List<ProductDto.response>> searchList2(@RequestBody ProductDto.product_search_request request) {
-        List<ProductDto.response> response = productService.searchList();
-        return ResponseEntity.ok()
-                .headers(new HttpHeaders())
-                .body(null);
     }
 
 

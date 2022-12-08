@@ -107,10 +107,25 @@ public class ProductDto {
     @NoArgsConstructor
     public static class product_search_request {
 
-        private String brandList;
-        private String priceItem;
-        private String sizeList;
-        private String sortItem;
+        private String brand;
+        private String price;
+        private String size;
+        private String sort;
+
+    }
+
+    @Getter
+    @Setter
+    @NoArgsConstructor
+    public static class product_search_response{
+
+        private Long id;
+        private Long releasePrice;
+        private String brand;
+        private String krname;
+        private String name;
+        private String image;
+
 
     }
 

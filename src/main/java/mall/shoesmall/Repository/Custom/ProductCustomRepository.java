@@ -10,4 +10,5 @@ public interface ProductCustomRepository {
 
     List<SizeDto> findBySizeMinPrice(Long ProductId);
 
+    List<ProductDto.product_search_response> searchFilterList(ProductDto.product_search_request request);
 }
