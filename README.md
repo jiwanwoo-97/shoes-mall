@@ -37,8 +37,6 @@
 
 <br/>
 
-## Architecture
-
 
 <br/>
 
@@ -49,4 +47,7 @@
 <br/>
 
 ## DB ERD 
+
+![erd](https://user-images.githubusercontent.com/76427264/206983062-08482e2f-31ee-4ca7-8046-4d8290cd74fb.png)
+
 
