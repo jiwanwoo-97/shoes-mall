@@ -6,10 +6,7 @@
         <div class="header_top">
             <div class="top_inner">
                 <ul class="top_list">
-                    <li class="top_item"><a href="/notice" class="top_link"> 고객센터 </a></li>
-                    <li class="top_item"><a href="/my/wish" class="top_link"> 관심상품 </a></li>
                     <li class="top_item"><a href="/my" class="top_link"> 마이페이지 </a></li>
-                    <li class="top_item" sec:authorize="hasRole('ADMIN')"><a href="/pages" class="top_link">관리자</a></li>
                     <li class="top_item" sec:authorize="!isAuthenticated()"><a href="/login" class="top_link"> 로그인 </a></li>
                     <li class="top_item" sec:authorize="isAuthenticated()"><a href="/logout" class="top_link" onclick="sessionStorage.clear()"> 로그아웃 </a></li>
                 </ul>

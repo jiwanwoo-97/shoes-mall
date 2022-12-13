@@ -318,7 +318,7 @@
             endDate = document.querySelector('#datepicker2').value;
                 $.ajax({
                     type: "post",
-                    url: "/api/users/purchase_list_count/"+userId+"/"+startDate.substring(0, startDate.length)+"/"+endDate.substring(0, startDate.length),
+                    url: "/api/users/purchase-list-count/"+userId+"/"+startDate.substring(0, startDate.length)+"/"+endDate.substring(0, startDate.length),
                     contentType: "application/json",
                     dataType: "json"
                 }).done(response => {
@@ -351,8 +351,8 @@
             endDate = document.querySelector('#datepicker2').value;
 
                 $.ajax({
-                    type: "post",
-                    url: "/api/users/purchase_List/"+userId+"/"+startDate.substring(0, startDate.length)+"/"+endDate.substring(0, startDate.length)+"/"+bidStatus,
+                    type: "get",
+                    url: "/api/users/purchase-List/"+userId+"/"+startDate.substring(0, startDate.length)+"/"+endDate.substring(0, startDate.length)+"/"+bidStatus,
                     contentType: "application/json",
                     dataType: "json"
                 }).done(response => {

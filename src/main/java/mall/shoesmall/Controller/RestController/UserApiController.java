@@ -19,6 +19,8 @@ public class UserApiController {
 
     private final UserService userService;
 
+
+    //회원가입
     @PostMapping("/api/users/join")
     public ResponseEntity<UserDto.response> Join(@RequestBody UserDto.request request) throws Exception {
         HttpHeaders headers = new HttpHeaders();
@@ -31,6 +33,7 @@ public class UserApiController {
                 .headers(headers)
                 .body(response);
     }
+    //이메일찾기
     @PostMapping("/api/users/mail")
     public ResponseEntity<UserDto.response>findMail(@RequestBody UserDto.request request) throws Exception{
         String getEmail = userService.getUserEmail(request.getHp());
@@ -41,7 +44,7 @@ public class UserApiController {
                 .headers(new HttpHeaders())
                 .body(response);
     }
-
+    //패스워드 찾기
     @PostMapping("/api/users/password")
     public ResponseEntity<UserDto.response>findPw(@RequestBody UserDto.request request) throws Exception{
         userService.findByHpAndEmail(request.getHp(),request.getEmail());
@@ -51,7 +54,7 @@ public class UserApiController {
                 .headers(new HttpHeaders())
                 .body(response);
     }
-
+    //사용자 정보 수정
     @PatchMapping("/api/users/info/{id}")
     public ResponseEntity<UserDto.response>updateInfo(@PathVariable Long id,@RequestBody UserDto.request request) throws Exception{
         userService.patchUser(request,id);
@@ -61,6 +64,7 @@ public class UserApiController {
                 .headers(new HttpHeaders())
                 .body(response);
     }
+    //사용자 이미지 업로드
     @PostMapping("/api/users/image/{id}")
     public ResponseEntity<UserDto.response>updateImage(@PathVariable Long id,@RequestParam(value = "file") MultipartFile file) throws Exception{
         userService.updateImage(file,id);
@@ -71,7 +75,8 @@ public class UserApiController {
                 .body(response);
     }
 
-    @PostMapping("/api/users/purchase_List/{id}/{startDate}/{endDate}/{status}")
+    //구매 목록 리스트
+    @GetMapping("/api/users/purchase-List/{id}/{startDate}/{endDate}/{status}")
     public ResponseEntity<List<UserDto.user_purchase_response>> user_purchase_List(@PathVariable("id") Long id,
                                                                                    @PathVariable("startDate") String startDate,
                                                                                    @PathVariable("endDate") String endDate,
@@ -82,8 +87,8 @@ public class UserApiController {
                 .headers(new HttpHeaders())
                 .body(response);
     }
-
-    @PostMapping("/api/users/purchase_list_count/{id}/{startDate}/{endDate}")
+    //구매 목록 리스트 카운트
+    @PostMapping("/api/users/purchase-list-count/{id}/{startDate}/{endDate}")
     public ResponseEntity<List<UserDto.user_purchase_response>> user_purchase_list_count(@PathVariable("id") Long id,
                                                                                    @PathVariable("startDate") String startDate,
                                                                                    @PathVariable("endDate") String endDate) throws Exception {
@@ -93,8 +98,8 @@ public class UserApiController {
                 .headers(new HttpHeaders())
                 .body(response);
     }
-
-    @PostMapping("/api/users/sale_List/{id}/{startDate}/{endDate}/{status}")
+    //판매 목록 리스트
+    @GetMapping("/api/users/sale-List/{id}/{startDate}/{endDate}/{status}")
     public ResponseEntity<List<UserDto.user_sale_response>> user_sale_List(@PathVariable("id") Long id,
                                                                                    @PathVariable("startDate") String startDate,
                                                                                    @PathVariable("endDate") String endDate,
@@ -105,8 +110,8 @@ public class UserApiController {
                 .headers(new HttpHeaders())
                 .body(response);
     }
-
-    @PostMapping("/api/users/sale_list_count/{id}/{startDate}/{endDate}")
+    //판매 목록 리스트 카운트
+    @PostMapping("/api/users/sale-list-count/{id}/{startDate}/{endDate}")
     public ResponseEntity<List<UserDto.user_sale_response>> user_sale_list_count(@PathVariable("id") Long id,
                                                                                          @PathVariable("startDate") String startDate,
                                                                                          @PathVariable("endDate") String endDate) throws Exception {
