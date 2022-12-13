@@ -26,11 +26,13 @@
 <p align="left">
 <img src="https://img.shields.io/badge/Java 8-007396?style=flat&logo=Java&logoColor=white">
 <img src="https://img.shields.io/badge/Spring Boot-6DB33F?style=flat&logo=Spring Boot&logoColor=white">
+<img src="https://img.shields.io/badge/JPA-00A98F?style=flat">
+<img src="https://img.shields.io/badge/QueryDsl-40AEF0?style=flat">
+<img src="https://img.shields.io/badge/Thymeleaf-3FE669?style=flat&logo=Thymeleaf&logoColor=white">
 <img src="https://img.shields.io/badge/jQuery-0769AD?style=flat&logo=Oracle&logoColor=white">
 <img src="https://img.shields.io/badge/JavaScript-F7DF1E?style=flat&logo=JavaScript&logoColor=white">
 <img src="https://img.shields.io/badge/HTML5-E34F26?style=flat&logo=HTML5&logoColor=white">
 <img src="https://img.shields.io/badge/CSS3-1572B6?style=flat&logo=CSS3&logoColor=white">
-<img src="https://img.shields.io/badge/Thymeleaf-3FE669?style=flat&logo=Thymeleaf&logoColor=white">
 <img src="https://img.shields.io/badge/Gradle-02303A?style=flat&logo=Gradle&logoColor=white">
 <img src="https://img.shields.io/badge/MariaDB-003545?style=flat&logo=MariaDB&logoColor=white">
 </p>
@@ -42,6 +44,7 @@
 
 ## Feature
 
+![feature](https://user-images.githubusercontent.com/76427264/207240499-9226add4-bf7e-4578-8668-10bacad5ffd5.png)
 
 
 <br/>
