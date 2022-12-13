@@ -26,7 +26,7 @@ public class AccountApiController {
 
     }
     //계좌 리스트 불러오기
-    @PostMapping("/api/users/{id}/accountList")
+    @GetMapping("/api/users/{id}/accountList")
     public ResponseEntity<List<AccountDto.response>> accountList (@PathVariable Long id) {
        List<AccountDto.response>response = accountService.findByAccountList(id);
         return ResponseEntity.ok()

@@ -29,7 +29,7 @@ public class AddressApiController {
 
     }
     //주소리스트
-    @PostMapping("/api/users/{id}/addressList")
+    @GetMapping("/api/users/{id}/addressList")
     public ResponseEntity<List<AddressDto.response>> AddressList(@PathVariable Long id) {
         List<AddressDto.response> response = addressService.AddressList(id);
         return ResponseEntity.ok()
