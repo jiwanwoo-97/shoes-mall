@@ -20,7 +20,7 @@ import java.util.Optional;
 
 @RequiredArgsConstructor
 @Controller
-public class UserController {
+public class BaseController {
 
     private final UserService userService;
     private final ProductRepository productRepository;
@@ -192,7 +192,7 @@ public class UserController {
         model.addAttribute("size",size);
         return "/product/shop_buying"; }
 
-    // 상품 구매 등록 페이지
+    // 상품 구매 등록 확인 페이지
     @GetMapping("/products/buyfinal/{id}/{size}/{price}/{date}")
     public String product_buyfinal_Page(@PathVariable("id") Long id,
                                         @PathVariable("size") String size,
