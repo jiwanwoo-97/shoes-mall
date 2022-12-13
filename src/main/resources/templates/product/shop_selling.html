@@ -479,12 +479,11 @@
     let checkId;
     function cell(){
         $.ajax({
-            type:"post",
-            url:"/api/products/sell_info/"+id+"/"+size,
+            type:"get",
+            url:"/api/products/sell-info/"+id+"/"+size,
             contentType:"application/json",
             dataType:"json"
         }).done(response=>{
-            alert("주소가 등록되었습니다.");
             let pur_price = response.sellPrice;
             let sal_price = response.buyPrice;
             let size_txt = size;

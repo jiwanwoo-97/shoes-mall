@@ -304,12 +304,11 @@
 
     function getProduct() {
         $.ajax({
-            type: "post",
-            url: "/api/products/buy_final_info/" + productId + "/" + size + "/" + price + "/" + date,
+            type: "get",
+            url: "/api/products/buy-final-info/" + productId + "/" + size + "/" + price + "/" + date,
             contentType: "application/json",
             dataType: "json"
         }).done(response => {
-            alert("성공");
             console.log(response);
             let model_num = response.modelNumber;
             let title = response.name;
@@ -487,11 +486,9 @@
                 contentType: "application/json",
                 dataType: "json"
             }).done(response => {
-                alert("성공");
                location.href = "/products/buyfinish/" + productId + "/" + size + "/" + price + "/" + date;
 
             }).fail(error => {
-                alert("실패");
             });
         }
     }
@@ -516,7 +513,6 @@
                     contentType: "application/json",
                     dataType: "json"
                 }).done(response => {
-                    alert("즉시구매성공");
                     location.href = "/products/buyfinish/" + productId + "/" + size + "/" + price + "/" + date;
 
                 }).fail(error => {

@@ -31,12 +31,11 @@
 
     function getProduct() {
         $.ajax({
-            type: "post",
-            url: "/api/products/sell_final_info/"+productId+"/"+size+"/"+price+"/"+date,
+            type: "get",
+            url: "/api/products/sell-final-info/"+productId+"/"+size+"/"+price+"/"+date,
             contentType: "application/json",
             dataType: "json"
         }).done(response => {
-            alert("성공쓰");
             console.log(response);
             let size_txt = size;
             let model_number = response.modelNumber;
@@ -183,7 +182,6 @@
         const btn_confirm = document.querySelector('.btn_confirm');
         const accountId = $('#accountId').val();
         const addressId = $('#addressId').val();
-        alert("시작");
         if (btn_confirm.disabled == false) {
             $.ajax({
                 type: "post",
@@ -201,11 +199,9 @@
                 contentType: "application/json",
                 dataType: "json"
             }).done(response => {
-                alert("성공");
                 location.href = "/products/sellfinish/" + productId + "/" + size + "/" + price + "/" + date;
 
             }).fail(error => {
-                alert("실패");
             });
         }
     }
@@ -230,8 +226,7 @@
             contentType: "application/json",
             dataType: "json"
         }).done(response => {
-            alert("성공");
-
+            location.href = "/products/sellfinish/" + productId + "/" + size + "/" + price + "/0";
         }).fail(error => {
 
         });

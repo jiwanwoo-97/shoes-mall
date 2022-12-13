@@ -192,12 +192,11 @@
 
        function getProduct() {
                $.ajax({
-                   type: "post",
-                   url: "/api/products/buy_info/"+id+"/"+size,
+                   type: "get",
+                   url: "/api/products/buy-info/"+id+"/"+size,
                    contentType: "application/json",
                    dataType: "json"
                }).done(response => {
-                   alert("성공");
                    modelNumber = response.modelNumber;
                    name = response.name;
                    korName = response.krname;
