@@ -26,6 +26,13 @@ out/
 !**/src/main/**/out/
 !**/src/test/**/out/
 
+### Gradle ###
+.gradle
+build/
+*.yml
+*.xml
+*.sql
+
 ### NetBeans ###
 /nbproject/private/
 /nbbuild/
