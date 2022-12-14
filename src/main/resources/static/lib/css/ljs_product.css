@@ -2229,11 +2229,7 @@ table{
     display: none;
 }
 
-/* 관심상품등록*/
-.sg_img .img_data {
-    width: 7rem;
-    height: 7rem;
-}
+
 .interest_list_box{
     width: 100%;
     height: 31rem;
