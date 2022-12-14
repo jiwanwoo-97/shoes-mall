@@ -115,6 +115,7 @@ header #header_bottom #hb_box{
     padding: 0;
     align-items: center;
     justify-content: space-between;
+
 }
 header #header_bottom #hb_box .hb_text{
     font-size: 1.46rem;
