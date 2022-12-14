@@ -126,7 +126,6 @@ public class ProductRepositoryImpl implements ProductCustomRepository {
         return sale.size.in(Expressions.stringTemplate("("+val+")", split));
     }
 
-
     private String returnValue(String[] arryStr) {
         String val = "";
 

@@ -115,7 +115,7 @@ public class SaleRepositoryImpl implements SaleCustomRepository {
                 .join(product)
                 .fetchJoin()
                 .on(sale.product.id.eq(product.id))
-                .where(product.id.eq(id),
+                .where(sale.user.id.eq(id),
                         statusEq(status),
                         formatDate.between(startDate,endDate))
                 .orderBy(formatDate.desc())
@@ -131,7 +131,7 @@ public class SaleRepositoryImpl implements SaleCustomRepository {
                 .join(product)
                 .fetchJoin()
                 .on(sale.product.id.eq(product.id))
-                .where(product.id.eq(id),
+                .where(sale.user.id.eq(id),
                         formatDate.between(startDate,endDate))
                 .orderBy(formatDate.desc())
                 .fetch();

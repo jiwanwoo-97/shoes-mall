@@ -78,7 +78,7 @@ public class PurchaseRepositoryImpl implements PurchaseCustomRepository {
                 .join(product)
                 .fetchJoin()
                 .on(purchase.product.id.eq(product.id))
-                .where(product.id.eq(id),
+                .where(purchase.user.id.eq(id),
                         statusEq(status),
                         formatDate.between(startDate,endDate))
                 .orderBy(formatDate.desc())
@@ -94,7 +94,7 @@ public class PurchaseRepositoryImpl implements PurchaseCustomRepository {
                 .join(product)
                 .fetchJoin()
                 .on(purchase.product.id.eq(product.id))
-                .where(product.id.eq(id),
+                .where(purchase.user.id.eq(id),
                         formatDate.between(startDate,endDate))
                 .orderBy(formatDate.desc())
                 .fetch();
