@@ -58,12 +58,52 @@
 ## PLAY
 
 
-![km](https://user-images.githubusercontent.com/76427264/207838999-5de650aa-e29b-4dfd-9d18-cd95f263296f.gif)
+
+<img src="https://user-images.githubusercontent.com/76427264/207838999-5de650aa-e29b-4dfd-9d18-cd95f263296f.gif" align="center">
+
+<br/>
+
+## 마이페이지
+
+<img src="https://user-images.githubusercontent.com/76427264/207839680-c8324bd6-1922-453b-9a9e-7c3620123def.png" width="47%"  height="400" align="left">
+<img src="https://user-images.githubusercontent.com/76427264/207841491-59574e0a-1698-4eca-afd3-c2a76b7bef78.png" width="47%"  height="400" align="right">
+
+<br/>
+
+<img src="https://user-images.githubusercontent.com/76427264/207843594-49a5ca29-6459-42ab-838d-e0a7377440c6.png" width="47%"  height="400" align="left">
+<img src="https://user-images.githubusercontent.com/76427264/207844455-db677e78-139b-42cc-94d1-f69dca948cf9.png" width="47%"  height="400" align="right">
 
 
-## 구현 화면
-<img src="https://user-images.githubusercontent.com/76427264/207839680-c8324bd6-1922-453b-9a9e-7c3620123def.png" width="50%" float="right">
-<img src="https://user-images.githubusercontent.com/76427264/207841491-59574e0a-1698-4eca-afd3-c2a76b7bef78.png" width="50%">
+<br/>
+
+
+<img src="https://user-images.githubusercontent.com/76427264/207843992-719b9097-a2a8-4012-874b-baa2d9bce736.png" width="47%"  height="400" align="left">
+<img src="https://user-images.githubusercontent.com/76427264/207843793-efa3ed2d-cad2-45cb-ab81-56abdc307fdf.png" width="47%"  height="400" align="right">
+
+
+## 상품페이지
+
+<img src="https://user-images.githubusercontent.com/76427264/207844906-9db5ea9c-206c-4e77-be11-89d0cc262d5d.png" width="47%"  height="400" align="left">
+<img src="https://user-images.githubusercontent.com/76427264/207845026-b530a524-067a-46c1-94d0-b109cbb5a4f2.png" width="47%"  height="400" align="right">
+<br/>
+<img src="https://user-images.githubusercontent.com/76427264/207845080-f248d482-ef8d-4c35-8b03-cbc8189907ed.png" width="47%"  height="500" align="left">
+<img src="https://user-images.githubusercontent.com/76427264/207845121-ec01c0c7-6541-45d8-a72b-830b7cd9fda9.png" width="47%"  height="500" align="right">
+<br/>
+<img src="https://user-images.githubusercontent.com/76427264/207845198-7a5835c5-fe73-47f1-8647-391d89b34a96.png" width="47%"  height="500" align="left">
+<img src="https://user-images.githubusercontent.com/76427264/207845234-490804d8-1868-4358-91cc-0d08563ad8aa.png" width="47%"  height="500" align="right">
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
