@@ -55,3 +55,17 @@
 ![erd](https://user-images.githubusercontent.com/76427264/206983062-08482e2f-31ee-4ca7-8046-4d8290cd74fb.png)
 
 
+## PLAY
+
+
+![km](https://user-images.githubusercontent.com/76427264/207838999-5de650aa-e29b-4dfd-9d18-cd95f263296f.gif)
+
+
+## 구현 화면
+<img src="https://user-images.githubusercontent.com/76427264/207839680-c8324bd6-1922-453b-9a9e-7c3620123def.png" width="50%" float="right">
+<img src="https://user-images.githubusercontent.com/76427264/207841491-59574e0a-1698-4eca-afd3-c2a76b7bef78.png" width="50%">
+
+
+
+
+
